@@ -1,0 +1,149 @@
+version: '3.8'
+
+services:
+  # API Gateway
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: blackcross-api
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+      - POSTGRES_HOST=postgres
+      - MONGODB_URI=mongodb://mongodb:27017/blackcross
+      - REDIS_URL=redis://redis:6379
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+    depends_on:
+      - postgres
+      - mongodb
+      - redis
+      - elasticsearch
+      - rabbitmq
+    volumes:
+      - ./src:/app/src
+      - ./logs:/app/logs
+    networks:
+      - blackcross-network
+    restart: unless-stopped
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: blackcross-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8080
+    depends_on:
+      - api
+    networks:
+      - blackcross-network
+    restart: unless-stopped
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: blackcross-postgres
+    environment:
+      - POSTGRES_DB=blackcross
+      - POSTGRES_USER=blackcross
+      - POSTGRES_PASSWORD=blackcross_secure_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - blackcross-network
+    restart: unless-stopped
+
+  # MongoDB
+  mongodb:
+    image: mongo:6
+    container_name: blackcross-mongodb
+    environment:
+      - MONGO_INITDB_DATABASE=blackcross
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - blackcross-network
+    restart: unless-stopped
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: blackcross-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - blackcross-network
+    restart: unless-stopped
+
+  # Elasticsearch
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.8.0
+    container_name: blackcross-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    networks:
+      - blackcross-network
+    restart: unless-stopped
+
+  # RabbitMQ Message Queue
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: blackcross-rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=blackcross
+      - RABBITMQ_DEFAULT_PASS=blackcross_secure_password
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - blackcross-network
+    restart: unless-stopped
+
+  # NGINX Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: blackcross-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - api
+      - frontend
+    networks:
+      - blackcross-network
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  mongodb-data:
+  redis-data:
+  elasticsearch-data:
+  rabbitmq-data:
+
+networks:
+  blackcross-network:
+    driver: bridge
