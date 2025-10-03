@@ -20,7 +20,24 @@ The backend provides a RESTful API and real-time WebSocket connections for the B
 
 ## Getting Started
 
-### Prerequisites
+### Quick Setup
+
+Use the automated setup from the root directory:
+
+```bash
+cd ..  # Go to root directory
+npm run setup
+docker-compose up -d postgres
+npm run prisma:migrate
+```
+
+See [SETUP.md](../SETUP.md) for detailed instructions.
+
+### Manual Setup
+
+If you prefer to set up the backend manually:
+
+#### Prerequisites
 
 - Node.js 16+
 - PostgreSQL 13+
@@ -28,7 +45,7 @@ The backend provides a RESTful API and real-time WebSocket connections for the B
 - Redis 6+
 - Elasticsearch 8+ (optional)
 
-### Installation
+#### Installation
 
 1. **Install dependencies**
 ```bash

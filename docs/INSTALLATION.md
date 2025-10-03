@@ -1,5 +1,22 @@
 # Installation Guide
 
+## 🚀 Quick Installation
+
+For a quick local development setup, see [SETUP.md](../SETUP.md) or run:
+
+```bash
+git clone https://github.com/harborgrid-justin/black-cross.git
+cd black-cross
+npm run setup
+docker-compose up -d postgres
+npm run prisma:migrate
+npm run dev
+```
+
+This guide covers advanced installation scenarios and production deployments.
+
+---
+
 ## System Requirements
 
 ### Hardware Requirements
@@ -19,7 +36,31 @@
 
 ## Installation Methods
 
-### Method 1: Docker Compose (Recommended for Development)
+### Method 1: Automated Setup (Recommended for Development)
+
+The fastest way to get started:
+
+```bash
+# Clone repository
+git clone https://github.com/harborgrid-justin/black-cross.git
+cd black-cross
+
+# Run automated setup
+npm run setup
+
+# Start database
+docker-compose up -d postgres
+
+# Run migrations
+npm run prisma:migrate
+
+# Start application
+npm run dev
+```
+
+See [SETUP.md](../SETUP.md) for detailed instructions and troubleshooting.
+
+### Method 2: Docker Compose (All Services)
 
 1. **Clone the repository**
 ```bash
