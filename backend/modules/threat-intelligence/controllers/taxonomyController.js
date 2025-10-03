@@ -77,7 +77,7 @@ class TaxonomyController {
         is_active: req.query.is_active === 'true',
         type: req.query.type,
         is_default: req.query.is_default === 'true',
-        limit: parseInt(req.query.limit) || 100,
+        limit: parseInt(req.query.limit, 10) || 100,
       };
 
       const taxonomies = await taxonomyService.listTaxonomies(filters);

@@ -77,7 +77,7 @@ class IntegrationController {
         type: req.query.type,
         status: req.query.status,
         vendor: req.query.vendor,
-        limit: parseInt(req.query.limit) || 100,
+        limit: parseInt(req.query.limit, 10) || 100,
       };
 
       const integrations = await integrationService.listIntegrations(filters);

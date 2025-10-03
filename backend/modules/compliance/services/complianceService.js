@@ -16,7 +16,7 @@ class ComplianceService {
   }
 
   async list(filters = {}) {
-    return await ComplianceFramework.find(filters).sort('-created_at');
+    return ComplianceFramework.find(filters).sort('-created_at');
   }
 
   async update(id, updates) {

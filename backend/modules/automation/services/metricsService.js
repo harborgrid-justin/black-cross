@@ -219,7 +219,6 @@ class MetricsService {
   calculateErrorMetrics(executions) {
     let totalErrors = 0;
     const errorTypes = {};
-    const topErrors = [];
 
     for (const execution of executions) {
       if (execution.errors && execution.errors.length > 0) {

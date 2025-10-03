@@ -16,7 +16,7 @@ class FeedService {
   }
 
   async list(filters = {}) {
-    return await ThreatFeed.find(filters).sort('-created_at');
+    return ThreatFeed.find(filters).sort('-created_at');
   }
 
   async update(id, updates) {

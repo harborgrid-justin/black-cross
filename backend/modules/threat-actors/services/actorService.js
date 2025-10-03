@@ -16,7 +16,7 @@ class ActorService {
   }
 
   async list(filters = {}) {
-    return await ThreatActor.find(filters).sort('-created_at');
+    return ThreatActor.find(filters).sort('-created_at');
   }
 
   async update(id, updates) {

@@ -16,7 +16,7 @@ class CollaborationService {
   }
 
   async list(filters = {}) {
-    return await Workspace.find(filters).sort('-created_at');
+    return Workspace.find(filters).sort('-created_at');
   }
 
   async update(id, updates) {

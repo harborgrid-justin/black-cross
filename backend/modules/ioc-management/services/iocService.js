@@ -16,7 +16,7 @@ class IocService {
   }
 
   async list(filters = {}) {
-    return await IoC.find(filters).sort('-created_at');
+    return IoC.find(filters).sort('-created_at');
   }
 
   async update(id, updates) {

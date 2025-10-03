@@ -248,17 +248,17 @@ class EnrichmentService {
   }
 
   // Mock helper methods (replace with real implementations in production)
-  mockGetCountry(ip) {
+  mockGetCountry(_ip) {
     const countries = ['US', 'CN', 'RU', 'DE', 'GB', 'FR', 'JP', 'KR'];
     return countries[Math.floor(Math.random() * countries.length)];
   }
 
-  mockCalculateReputation(indicator) {
+  mockCalculateReputation(_indicator) {
     // Random reputation score (0-100, lower is worse)
     return Math.floor(Math.random() * 100);
   }
 
-  mockIndustryTargeting(threat) {
+  mockIndustryTargeting(_threat) {
     const industries = ['Financial', 'Healthcare', 'Government', 'Technology', 'Retail'];
     return industries.slice(0, Math.floor(Math.random() * 3) + 1);
   }

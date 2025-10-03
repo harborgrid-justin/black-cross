@@ -42,7 +42,7 @@ class ThreatController {
         severity: req.query.severity,
         type: req.query.type,
         since: req.query.since,
-        limit: parseInt(req.query.limit) || 100,
+        limit: parseInt(req.query.limit, 10) || 100,
       };
 
       const threats = await collectionService.streamThreats(filters);
@@ -139,7 +139,7 @@ class ThreatController {
         to_date: req.query.to_date,
         type: req.query.type,
         severity: req.query.severity,
-        limit: parseInt(req.query.limit) || 1000,
+        limit: parseInt(req.query.limit, 10) || 1000,
       };
 
       const threats = await archivalService.getHistoricalThreats(filters);

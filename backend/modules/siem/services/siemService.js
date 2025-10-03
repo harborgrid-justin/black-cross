@@ -16,7 +16,7 @@ class SiemService {
   }
 
   async list(filters = {}) {
-    return await SiemEvent.find(filters).sort('-created_at');
+    return SiemEvent.find(filters).sort('-created_at');
   }
 
   async update(id, updates) {

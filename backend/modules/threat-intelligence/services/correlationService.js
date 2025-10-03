@@ -6,7 +6,6 @@
 const Threat = require('../models/Threat');
 const ThreatCorrelation = require('../models/ThreatCorrelation');
 const logger = require('../utils/logger');
-const { calculateSimilarity } = require('../utils/deduplication');
 
 class CorrelationService {
   /**
