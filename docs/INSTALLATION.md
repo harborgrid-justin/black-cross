@@ -29,9 +29,13 @@ cd black-cross
 
 2. **Set up environment variables**
 ```bash
-cp .env.example .env
-# Edit .env with your configuration
-nano .env
+# Backend environment
+cp backend/.env.example backend/.env
+# Frontend environment  
+cp frontend/.env.example frontend/.env
+# Edit .env files with your configuration
+nano backend/.env
+nano frontend/.env
 ```
 
 3. **Start the platform**
@@ -41,13 +45,18 @@ docker-compose up -d
 
 4. **Initialize the database**
 ```bash
-docker-compose exec api npm run db:migrate
-docker-compose exec api npm run db:seed
+# Generate Prisma Client and run migrations
+docker-compose exec backend npm run prisma:generate
+docker-compose exec backend npm run prisma:migrate
+
+# (Optional) Seed database
+docker-compose exec backend npm run db:seed
 ```
 
 5. **Access the platform**
 - Web UI: http://localhost:3000
-- API: http://localhost:8080
+- Backend API: http://localhost:8080
+- Prisma Studio: Run `cd backend && npm run prisma:studio`
 - Default credentials: admin / admin (change immediately)
 
 ### Method 2: Kubernetes (Production)
