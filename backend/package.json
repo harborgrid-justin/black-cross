@@ -1,0 +1,69 @@
+{
+  "name": "black-cross-backend",
+  "version": "1.0.0",
+  "description": "Enterprise-grade cyber threat intelligence platform - Backend API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "jest --coverage",
+    "test:integration": "jest --config jest.integration.config.js",
+    "lint": "eslint **/*.js",
+    "lint:fix": "eslint **/*.js --fix",
+    "db:migrate": "node scripts/migrate.js",
+    "db:seed": "node scripts/seed.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio",
+    "build": "npm run lint && npm test",
+    "create-admin": "node scripts/create-admin.js",
+    "import": "node scripts/import-data.js"
+  },
+  "keywords": [
+    "threat-intelligence",
+    "cybersecurity",
+    "siem",
+    "soar",
+    "incident-response",
+    "vulnerability-management",
+    "security-operations"
+  ],
+  "author": "Black-Cross Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "dotenv": "^16.0.3",
+    "pg": "^8.11.0",
+    "mongoose": "^7.0.0",
+    "redis": "^4.6.5",
+    "@elastic/elasticsearch": "^8.7.0",
+    "@prisma/client": "^5.7.0",
+    "amqplib": "^0.10.3",
+    "bcrypt": "^5.1.0",
+    "jsonwebtoken": "^9.0.0",
+    "winston": "^3.8.2",
+    "axios": "^1.4.0",
+    "uuid": "^9.0.0",
+    "joi": "^17.9.2",
+    "socket.io": "^4.6.1",
+    "multer": "^1.4.5-lts.1",
+    "bull": "^4.10.4",
+    "node-cron": "^3.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "jest": "^29.5.0",
+    "supertest": "^6.3.3",
+    "eslint": "^8.40.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "@types/jest": "^29.5.1",
+    "prisma": "^5.7.0"
+  }
+}

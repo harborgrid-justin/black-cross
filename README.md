@@ -150,25 +150,101 @@ Black-Cross is a comprehensive, enterprise-grade cyber threat intelligence platf
 - 16GB RAM minimum (32GB recommended)
 - 100GB storage minimum
 
+## 📁 Project Structure
+
+The project follows Google engineering best practices with a clean separation of concerns:
+
+```
+black-cross/
+├── frontend/          # React + TypeScript frontend application
+├── backend/           # Node.js + Express backend API
+├── prisma/            # Prisma ORM schema and migrations
+├── docs/              # Documentation
+├── docker-compose.yml # Docker orchestration
+└── package.json       # Root package for workspace management
+```
+
 ## 🔧 Installation
 
-### Backend Installation
-See [INSTALLATION.md](./docs/INSTALLATION.md) for detailed backend installation instructions.
+### Quick Start with Docker (Recommended)
 
-### Frontend Installation
 ```bash
-cd client
+# Clone the repository
+git clone https://github.com/harborgrid-justin/black-cross.git
+cd black-cross
+
+# Start all services
+docker-compose up -d
+
+# Access the application
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:8080
+```
+
+### Local Development Setup
+
+#### Prerequisites
+- Node.js 16+
+- PostgreSQL 13+
+- MongoDB 4.4+ (optional, for legacy modules)
+- Redis 6+ (optional)
+
+#### Backend Setup
+```bash
+cd backend
 npm install
-npm run dev  # Development server on http://localhost:3000
+
+# Set up environment
+cp .env.example .env
+# Edit .env with your database credentials
+
+# Generate Prisma Client and run migrations
+npm run prisma:generate
+npm run prisma:migrate
+
+# Start development server
+npm run dev  # Runs on http://localhost:8080
 ```
 
-For production:
+#### Frontend Setup
 ```bash
-cd client
-npm run build  # Builds to client/dist/
+cd frontend
+npm install
+
+# Set up environment
+cp .env.example .env
+# Edit .env with your API URL
+
+# Start development server
+npm run dev  # Runs on http://localhost:3000
 ```
 
-See [client/README.md](./client/README.md) for detailed frontend documentation.
+#### Run Both (from root)
+```bash
+# Install all dependencies
+npm run install:all
+
+# Run both frontend and backend
+npm run dev
+```
+
+### Production Build
+
+```bash
+# Build frontend
+cd frontend
+npm run build
+
+# Start backend
+cd ../backend
+npm start
+```
+
+For detailed installation instructions, see:
+- [Backend README](./backend/README.md)
+- [Frontend README](./frontend/README.md)
+- [Prisma Setup](./prisma/README.md)
+- [Full Installation Guide](./docs/INSTALLATION.md)
 
 ## 📖 Documentation
 
