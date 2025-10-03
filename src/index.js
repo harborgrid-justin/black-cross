@@ -71,8 +71,8 @@ app.get('/api/v1', (req, res) => {
 });
 
 // Module routes
-// const threatIntelligence = require('./modules/threat-intelligence');
-// app.use('/api/v1/threat-intelligence', threatIntelligence);
+const threatIntelligence = require('./modules/threat-intelligence');
+app.use('/api/v1/threat-intelligence', threatIntelligence);
 
 const incidentResponse = require('./modules/incident-response');
 app.use('/api/v1', incidentResponse);
