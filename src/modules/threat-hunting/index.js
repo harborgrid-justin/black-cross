@@ -1,6 +1,6 @@
 /**
  * Threat Hunting Platform Module
- * 
+ *
  * This module provides comprehensive threat hunting capabilities:
  * - Advanced Query Builder (3.1)
  * - Custom Hunting Hypotheses Management (3.2)

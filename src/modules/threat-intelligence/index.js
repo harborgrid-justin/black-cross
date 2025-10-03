@@ -1,6 +1,6 @@
 /**
  * Threat Intelligence Management Module
- * 
+ *
  * This module handles:
  * - Real-time threat data collection and aggregation
  * - Threat categorization and tagging system
@@ -12,11 +12,12 @@
  */
 
 const express = require('express');
+
 const router = express.Router();
 
 // Placeholder route
 router.get('/health', (req, res) => {
-  res.json({ 
+  res.json({
     module: 'threat-intelligence',
     status: 'operational',
     version: '1.0.0',
@@ -27,8 +28,8 @@ router.get('/health', (req, res) => {
       'enrichment',
       'taxonomy-management',
       'correlation',
-      'context-analysis'
-    ]
+      'context-analysis',
+    ],
   });
 });
 
