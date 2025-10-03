@@ -16,7 +16,7 @@ class ReportService {
   }
 
   async list(filters = {}) {
-    return await Report.find(filters).sort('-created_at');
+    return Report.find(filters).sort('-created_at');
   }
 
   async update(id, updates) {

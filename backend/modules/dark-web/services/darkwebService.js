@@ -16,7 +16,7 @@ class DarkwebService {
   }
 
   async list(filters = {}) {
-    return await DarkWebIntel.find(filters).sort('-created_at');
+    return DarkWebIntel.find(filters).sort('-created_at');
   }
 
   async update(id, updates) {

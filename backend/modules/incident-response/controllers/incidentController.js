@@ -59,8 +59,8 @@ class IncidentController {
   async listIncidents(req, res) {
     try {
       const result = await incidentService.listIncidents(req.query, {
-        page: parseInt(req.query.page) || 1,
-        limit: parseInt(req.query.limit) || 50,
+        page: parseInt(req.query.page, 10) || 1,
+        limit: parseInt(req.query.limit, 10) || 50,
         sort: req.query.sort,
       });
       res.json(result);

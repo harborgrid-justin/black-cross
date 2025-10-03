@@ -305,7 +305,7 @@ class PlaybookService {
    */
   incrementVersion(version) {
     const parts = version.split('.');
-    parts[2] = String(parseInt(parts[2]) + 1);
+    parts[2] = String(parseInt(parts[2], 10) + 1);
     return parts.join('.');
   }
 }

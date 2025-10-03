@@ -59,7 +59,7 @@ class HuntingService {
     const query = {};
     if (filters.status) query.status = filters.status;
     if (filters.lead_hunter) query.lead_hunter = filters.lead_hunter;
-    return await HuntSession.find(query).sort('-created_at');
+    return HuntSession.find(query).sort('-created_at');
   }
 }
 

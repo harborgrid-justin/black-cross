@@ -22,7 +22,7 @@ class PlaybookController {
         category: req.query.category,
         search: req.query.search,
         tags: req.query.tags ? req.query.tags.split(',') : undefined,
-        limit: parseInt(req.query.limit) || 100,
+        limit: parseInt(req.query.limit, 10) || 100,
       };
 
       const playbooks = await libraryService.getLibrary(filters);
@@ -153,7 +153,7 @@ class PlaybookController {
         is_prebuilt: req.query.is_prebuilt !== undefined
           ? req.query.is_prebuilt === 'true' : undefined,
         search: req.query.search,
-        limit: parseInt(req.query.limit) || 100,
+        limit: parseInt(req.query.limit, 10) || 100,
       };
 
       const playbooks = await playbookService.listPlaybooks(filters);
@@ -222,7 +222,7 @@ class PlaybookController {
         status: req.query.status,
         execution_mode: req.query.execution_mode,
         from_date: req.query.from_date,
-        limit: parseInt(req.query.limit) || 100,
+        limit: parseInt(req.query.limit, 10) || 100,
       };
 
       const executions = await executionService.listExecutions(filters);
@@ -369,7 +369,7 @@ class PlaybookController {
   async getMetrics(req, res) {
     try {
       const options = {
-        days: parseInt(req.query.days) || 30,
+        days: parseInt(req.query.days, 10) || 30,
       };
 
       const metrics = await metricsService.getPlaybookMetrics(req.params.id, options);
