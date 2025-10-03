@@ -4,6 +4,13 @@
     "es2021": true,
     "jest": true
   },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 2021
+  },
+  "rules": {
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "no-console": "off"
   "extends": [
     "airbnb-base"
   ],
