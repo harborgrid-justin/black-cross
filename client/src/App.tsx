@@ -10,6 +10,14 @@ import ThreatDetails from './pages/threats/ThreatDetails';
 import IncidentList from './pages/incidents/IncidentList';
 import VulnerabilityList from './pages/vulnerabilities/VulnerabilityList';
 import RiskAssessment from './pages/risk/RiskAssessment';
+import ThreatHunting from './pages/hunting/ThreatHunting';
+import ThreatActors from './pages/actors/ThreatActors';
+import IoCManagement from './pages/iocs/IoCManagement';
+import ThreatFeeds from './pages/feeds/ThreatFeeds';
+import MalwareAnalysis from './pages/malware/MalwareAnalysis';
+import DarkWebMonitoring from './pages/darkweb/DarkWebMonitoring';
+import ComplianceManagement from './pages/compliance/ComplianceManagement';
+import AutomationPlaybooks from './pages/automation/AutomationPlaybooks';
 import PrivateRoute from './components/auth/PrivateRoute';
 
 const darkTheme = createTheme({
@@ -50,8 +58,16 @@ function App() {
                       <Route path="/threats" element={<ThreatList />} />
                       <Route path="/threats/:id" element={<ThreatDetails />} />
                       <Route path="/incidents" element={<IncidentList />} />
+                      <Route path="/hunting" element={<ThreatHunting />} />
                       <Route path="/vulnerabilities" element={<VulnerabilityList />} />
                       <Route path="/risk" element={<RiskAssessment />} />
+                      <Route path="/actors" element={<ThreatActors />} />
+                      <Route path="/iocs" element={<IoCManagement />} />
+                      <Route path="/feeds" element={<ThreatFeeds />} />
+                      <Route path="/malware" element={<MalwareAnalysis />} />
+                      <Route path="/darkweb" element={<DarkWebMonitoring />} />
+                      <Route path="/compliance" element={<ComplianceManagement />} />
+                      <Route path="/automation" element={<AutomationPlaybooks />} />
                       <Route path="*" element={<Navigate to="/dashboard" replace />} />
                     </Routes>
                   </Layout>

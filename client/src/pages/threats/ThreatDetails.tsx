@@ -102,7 +102,7 @@ export default function ThreatDetails() {
           </Typography>
           <Chip
             label={threat.severity}
-            color={getSeverityColor(threat.severity) as any}
+            color={getSeverityColor(threat.severity) as 'error' | 'warning' | 'info' | 'success' | 'default'}
             sx={{ fontWeight: 600 }}
           />
         </Box>

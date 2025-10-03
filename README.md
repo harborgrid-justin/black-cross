@@ -152,11 +152,29 @@ Black-Cross is a comprehensive, enterprise-grade cyber threat intelligence platf
 
 ## 🔧 Installation
 
-See [INSTALLATION.md](./docs/INSTALLATION.md) for detailed installation instructions.
+### Backend Installation
+See [INSTALLATION.md](./docs/INSTALLATION.md) for detailed backend installation instructions.
+
+### Frontend Installation
+```bash
+cd client
+npm install
+npm run dev  # Development server on http://localhost:3000
+```
+
+For production:
+```bash
+cd client
+npm run build  # Builds to client/dist/
+```
+
+See [client/README.md](./client/README.md) for detailed frontend documentation.
 
 ## 📖 Documentation
 
 - [Architecture Overview](./ARCHITECTURE.md)
+- [Frontend Implementation](./FRONTEND_IMPLEMENTATION.md)
+- [Threat Intelligence Implementation](./THREAT_INTELLIGENCE_IMPLEMENTATION.md)
 - [Feature Documentation](./docs/features/)
 - [API Reference](./docs/api/)
 - [User Guide](./docs/user-guide/)

@@ -202,14 +202,14 @@ export default function ThreatList() {
                     <TableCell>
                       <Chip
                         label={threat.severity}
-                        color={getSeverityColor(threat.severity) as any}
+                        color={getSeverityColor(threat.severity) as 'error' | 'warning' | 'info' | 'success' | 'default'}
                         size="small"
                       />
                     </TableCell>
                     <TableCell>
                       <Chip
                         label={threat.status}
-                        color={getStatusColor(threat.status) as any}
+                        color={getStatusColor(threat.status) as 'error' | 'success' | 'default'}
                         size="small"
                         variant="outlined"
                       />
