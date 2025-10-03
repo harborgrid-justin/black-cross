@@ -72,10 +72,12 @@ app.get('/api/v1', (req, res) => {
 
 // Module routes
 const threatIntelligence = require('./modules/threat-intelligence');
+const incidentResponse = require('./modules/incident-response');
 const riskAssessment = require('./modules/risk-assessment');
 const automation = require('./modules/automation');
 
 app.use('/api/v1/threat-intelligence', threatIntelligence);
+app.use('/api/v1/incidents', incidentResponse);
 app.use('/api/v1/risk', riskAssessment);
 app.use('/api/v1/automation', automation);
 
