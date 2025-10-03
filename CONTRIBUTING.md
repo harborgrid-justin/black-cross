@@ -69,8 +69,8 @@ By participating in this project, you agree to maintain a respectful and inclusi
 - Node.js 16+
 - Docker and Docker Compose
 - PostgreSQL 13+
-- MongoDB 4.4+
-- Redis 6+
+- MongoDB 4.4+ (optional, for specific modules)
+- Redis 6+ (optional)
 
 ### Setup Steps
 
@@ -80,30 +80,42 @@ By participating in this project, you agree to maintain a respectful and inclusi
    cd black-cross
    ```
 
-2. Install dependencies
+2. Install all dependencies (uses npm workspaces)
    ```bash
-   npm install
+   npm run install:all
    ```
 
-3. Set up environment
+3. Set up environment variables
    ```bash
-   cp .env.example .env
-   # Edit .env with your configuration
+   # Backend
+   cp backend/.env.example backend/.env
+   # Frontend
+   cp frontend/.env.example frontend/.env
+   # Edit both .env files with your configuration
    ```
 
-4. Start services
+4. Set up Prisma and database
    ```bash
-   docker-compose up -d
+   # Generate Prisma Client
+   npm run prisma:generate
+   
+   # Run migrations
+   npm run prisma:migrate
    ```
 
-5. Run migrations
+5. Start services (optional - for PostgreSQL, MongoDB, Redis)
    ```bash
-   npm run db:migrate
+   docker-compose up -d postgres mongodb redis
    ```
 
-6. Start development server
+6. Start development servers
    ```bash
+   # Start both frontend and backend
    npm run dev
+   
+   # Or start individually
+   npm run dev:backend  # Backend on http://localhost:8080
+   npm run dev:frontend # Frontend on http://localhost:3000
    ```
 
 ## Code Style Guidelines
@@ -146,14 +158,29 @@ async function enrichThreat(threat, sources) {
 ### File Structure
 
 ```
-module-name/
-├── controllers/      # Request handlers
-├── models/          # Data models
-├── services/        # Business logic
-├── routes/          # API routes
-├── validators/      # Input validation
-├── tests/           # Unit and integration tests
-└── index.js         # Module entry point
+black-cross/
+├── frontend/         # React + TypeScript frontend
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   └── store/
+│   └── package.json
+├── backend/          # Node.js + Express backend
+│   ├── modules/      # Feature modules
+│   │   ├── module-name/
+│   │   │   ├── controllers/
+│   │   │   ├── models/
+│   │   │   ├── services/
+│   │   │   ├── routes/
+│   │   │   └── validators/
+│   │   └── ...
+│   ├── index.js
+│   └── package.json
+├── prisma/           # Database schema and migrations
+│   ├── schema.prisma
+│   └── migrations/
+└── package.json      # Root workspace config
 ```
 
 ## Testing Guidelines
