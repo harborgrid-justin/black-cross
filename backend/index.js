@@ -73,12 +73,34 @@ app.get('/api/v1', (req, res) => {
 // Module routes
 const threatIntelligence = require('./modules/threat-intelligence');
 const incidentResponse = require('./modules/incident-response');
+const threatHunting = require('./modules/threat-hunting');
+const vulnerabilityManagement = require('./modules/vulnerability-management');
+const siem = require('./modules/siem');
+const threatActors = require('./modules/threat-actors');
+const iocManagement = require('./modules/ioc-management');
+const threatFeeds = require('./modules/threat-feeds');
 const riskAssessment = require('./modules/risk-assessment');
+const collaboration = require('./modules/collaboration');
+const reporting = require('./modules/reporting');
+const malwareAnalysis = require('./modules/malware-analysis');
+const darkWeb = require('./modules/dark-web');
+const compliance = require('./modules/compliance');
 const automation = require('./modules/automation');
 
 app.use('/api/v1/threat-intelligence', threatIntelligence);
 app.use('/api/v1/incidents', incidentResponse);
+app.use('/api/v1/hunting', threatHunting);
+app.use('/api/v1/vulnerabilities', vulnerabilityManagement);
+app.use('/api/v1/siem', siem);
+app.use('/api/v1/threat-actors', threatActors);
+app.use('/api/v1/iocs', iocManagement);
+app.use('/api/v1/feeds', threatFeeds);
 app.use('/api/v1/risk', riskAssessment);
+app.use('/api/v1/collaboration', collaboration);
+app.use('/api/v1/reports', reporting);
+app.use('/api/v1/malware', malwareAnalysis);
+app.use('/api/v1/darkweb', darkWeb);
+app.use('/api/v1/compliance', compliance);
 app.use('/api/v1/automation', automation);
 
 // Error handling middleware
