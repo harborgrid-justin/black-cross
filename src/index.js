@@ -1,7 +1,7 @@
 /**
  * Black-Cross Platform
  * Enterprise-grade Cyber Threat Intelligence Platform
- * 
+ *
  * Main application entry point
  */
 
@@ -73,9 +73,11 @@ app.get('/api/v1', (req, res) => {
 // Module routes
 const threatIntelligence = require('./modules/threat-intelligence');
 const vulnerabilityManagement = require('./modules/vulnerability-management');
+const feedIntegration = require('./modules/feed-integration');
 
 app.use('/api/v1/threat-intelligence', threatIntelligence);
 app.use('/api/v1/vulnerabilities', vulnerabilityManagement);
+app.use('/api/v1/feeds', feedIntegration);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
