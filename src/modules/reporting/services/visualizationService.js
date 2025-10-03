@@ -78,7 +78,7 @@ class VisualizationService {
   /**
    * Fetch data for visualization
    */
-  async fetchVisualizationData(type, dataSource, parameters) {
+  async fetchVisualizationData(type, _dataSource, _parameters) {
     // Simulate data fetching based on visualization type
     const mockDataGenerators = {
       bar_chart: () => this.generateBarChartData(),
@@ -326,6 +326,7 @@ class VisualizationService {
       const query = {};
       if (type) query.type = type;
       if (status) query.status = status;
+      // eslint-disable-next-line camelcase
       if (created_by) query.created_by = created_by;
 
       const skip = (page - 1) * limit;

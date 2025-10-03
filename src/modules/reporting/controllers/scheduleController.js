@@ -76,7 +76,7 @@ class ScheduleController {
    */
   async deleteSchedule(req, res) {
     try {
-      const result = await scheduleService.deleteSchedule(req.params.id);
+      await scheduleService.deleteSchedule(req.params.id);
 
       res.json({
         success: true,
@@ -126,13 +126,6 @@ class ScheduleController {
    */
   async getExecutions(req, res) {
     try {
-      const filters = {
-        schedule_id: req.query.schedule_id,
-        status: req.query.status,
-        page: parseInt(req.query.page, 10) || 1,
-        limit: parseInt(req.query.limit, 10) || 20,
-      };
-
       // This would fetch from a separate execution log in production
       res.json({
         success: true,

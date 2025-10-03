@@ -76,7 +76,7 @@ class MetricsController {
    */
   async deleteKPI(req, res) {
     try {
-      const result = await metricsService.deleteKPI(req.params.id);
+      await metricsService.deleteKPI(req.params.id);
 
       res.json({
         success: true,

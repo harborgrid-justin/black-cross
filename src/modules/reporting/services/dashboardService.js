@@ -87,7 +87,9 @@ class DashboardService {
         id: 'widget-1',
         type: 'kpi_card',
         title: 'Security Posture Score',
-        position: { x: 0, y: 0, width: 3, height: 2 },
+        position: {
+          x: 0, y: 0, width: 3, height: 2,
+        },
         config: {
           metric: 'security_posture_score',
           format: 'percentage',
@@ -102,7 +104,9 @@ class DashboardService {
         id: 'widget-2',
         type: 'kpi_card',
         title: 'Active Threats',
-        position: { x: 3, y: 0, width: 3, height: 2 },
+        position: {
+          x: 3, y: 0, width: 3, height: 2,
+        },
         config: {
           metric: 'active_threats',
           format: 'number',
@@ -117,7 +121,9 @@ class DashboardService {
         id: 'widget-3',
         type: 'kpi_card',
         title: 'Mean Time to Respond',
-        position: { x: 6, y: 0, width: 3, height: 2 },
+        position: {
+          x: 6, y: 0, width: 3, height: 2,
+        },
         config: {
           metric: 'mttr',
           format: 'duration',
@@ -132,7 +138,9 @@ class DashboardService {
         id: 'widget-4',
         type: 'kpi_card',
         title: 'Open Incidents',
-        position: { x: 9, y: 0, width: 3, height: 2 },
+        position: {
+          x: 9, y: 0, width: 3, height: 2,
+        },
         config: {
           metric: 'open_incidents',
           format: 'number',
@@ -147,7 +155,9 @@ class DashboardService {
         id: 'widget-5',
         type: 'line_chart',
         title: 'Threat Trend (30 days)',
-        position: { x: 0, y: 2, width: 6, height: 3 },
+        position: {
+          x: 0, y: 2, width: 6, height: 3,
+        },
         config: {
           xAxis: 'date',
           yAxis: 'count',
@@ -162,7 +172,9 @@ class DashboardService {
         id: 'widget-6',
         type: 'pie_chart',
         title: 'Threats by Severity',
-        position: { x: 6, y: 2, width: 6, height: 3 },
+        position: {
+          x: 6, y: 2, width: 6, height: 3,
+        },
         config: {
           labels: ['Critical', 'High', 'Medium', 'Low'],
         },
@@ -176,7 +188,9 @@ class DashboardService {
         id: 'widget-7',
         type: 'bar_chart',
         title: 'Top 10 Vulnerabilities',
-        position: { x: 0, y: 5, width: 12, height: 3 },
+        position: {
+          x: 0, y: 5, width: 12, height: 3,
+        },
         config: {
           orientation: 'horizontal',
         },

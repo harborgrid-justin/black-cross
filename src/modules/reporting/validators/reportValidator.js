@@ -5,7 +5,8 @@
 const Joi = require('joi');
 
 const reportSchema = Joi.object({
-  name: Joi.string().required().trim().min(1).max(200),
+  name: Joi.string().required().trim().min(1)
+    .max(200),
   description: Joi.string().trim().allow('').max(1000),
   template_id: Joi.string().uuid(),
   type: Joi.string().required().valid(

@@ -55,9 +55,9 @@ class VisualizationController {
    */
   async renderVisualization(req, res) {
     try {
-      const { visualization_id, parameters } = req.body;
+      const { visualization_id: visualizationId, parameters } = req.body;
 
-      if (!visualization_id) {
+      if (!visualizationId) {
         return res.status(400).json({
           success: false,
           error: 'visualization_id is required',
@@ -65,7 +65,7 @@ class VisualizationController {
       }
 
       const rendered = await visualizationService.renderVisualization(
-        visualization_id,
+        visualizationId,
         parameters,
       );
 
@@ -112,7 +112,7 @@ class VisualizationController {
    */
   async deleteVisualization(req, res) {
     try {
-      const result = await visualizationService.deleteVisualization(req.params.id);
+      await visualizationService.deleteVisualization(req.params.id);
 
       res.json({
         success: true,

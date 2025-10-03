@@ -204,7 +204,7 @@ class MetricsService {
 
       const { startDate, endDate, limit = 100 } = filters;
 
-      let history = kpi.history;
+      let { history } = kpi;
 
       // Filter by date range if provided
       if (startDate || endDate) {
@@ -240,7 +240,9 @@ class MetricsService {
    */
   calculateStatistics(history) {
     if (history.length === 0) {
-      return { min: 0, max: 0, avg: 0, latest: 0 };
+      return {
+        min: 0, max: 0, avg: 0, latest: 0,
+      };
     }
 
     const values = history.map((item) => item.value);
@@ -265,7 +267,9 @@ class MetricsService {
         category: 'threat_detection',
         metric_type: 'percentage',
         target_value: 95,
-        thresholds: { critical: 70, warning: 80, good: 90, excellent: 95 },
+        thresholds: {
+          critical: 70, warning: 80, good: 90, excellent: 95,
+        },
       },
       {
         name: 'Mean Time to Detect (MTTD)',
@@ -274,7 +278,9 @@ class MetricsService {
         metric_type: 'duration',
         target_value: 60,
         unit: 'minutes',
-        thresholds: { critical: 240, warning: 120, good: 90, excellent: 60 },
+        thresholds: {
+          critical: 240, warning: 120, good: 90, excellent: 60,
+        },
       },
       {
         name: 'Mean Time to Respond (MTTR)',
@@ -283,7 +289,9 @@ class MetricsService {
         metric_type: 'duration',
         target_value: 120,
         unit: 'minutes',
-        thresholds: { critical: 480, warning: 240, good: 180, excellent: 120 },
+        thresholds: {
+          critical: 480, warning: 240, good: 180, excellent: 120,
+        },
       },
       {
         name: 'False Positive Rate',
@@ -291,7 +299,9 @@ class MetricsService {
         category: 'threat_detection',
         metric_type: 'percentage',
         target_value: 5,
-        thresholds: { critical: 30, warning: 20, good: 10, excellent: 5 },
+        thresholds: {
+          critical: 30, warning: 20, good: 10, excellent: 5,
+        },
       },
       {
         name: 'Security Posture Score',
@@ -299,7 +309,9 @@ class MetricsService {
         category: 'security_posture',
         metric_type: 'score',
         target_value: 85,
-        thresholds: { critical: 50, warning: 65, good: 75, excellent: 85 },
+        thresholds: {
+          critical: 50, warning: 65, good: 75, excellent: 85,
+        },
       },
       {
         name: 'Vulnerability Remediation Rate',
@@ -307,7 +319,9 @@ class MetricsService {
         category: 'vulnerability_management',
         metric_type: 'percentage',
         target_value: 90,
-        thresholds: { critical: 60, warning: 75, good: 85, excellent: 90 },
+        thresholds: {
+          critical: 60, warning: 75, good: 85, excellent: 90,
+        },
       },
     ];
   }

@@ -11,7 +11,7 @@ const logger = winston.createLogger({
     winston.format.errors({ stack: true }),
     winston.format.json(),
   ),
-  defaultMeta: { 
+  defaultMeta: {
     service: 'reporting',
     module: 'reporting',
   },

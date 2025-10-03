@@ -192,11 +192,11 @@ class ExportService {
    */
   convertToCSV(data) {
     if (!data) return '';
-    
+
     // Simple CSV conversion
     const rows = [];
     rows.push('Metric,Value');
-    
+
     if (data.summary) {
       rows.push(`Type,${data.summary.type || 'N/A'}`);
       rows.push(`Generated,${data.summary.generated_at || 'N/A'}`);
@@ -274,9 +274,11 @@ class ExportService {
       } = filters;
 
       const query = {};
+      // eslint-disable-next-line camelcase
       if (report_id) query.report_id = report_id;
       if (status) query.status = status;
       if (format) query.format = format;
+      // eslint-disable-next-line camelcase
       if (created_by) query.created_by = created_by;
 
       const skip = (page - 1) * limit;

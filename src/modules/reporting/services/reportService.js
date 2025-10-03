@@ -30,7 +30,7 @@ class ReportService {
   async generateReport(templateId, parameters, userId) {
     try {
       const template = await ReportTemplate.findOne({ id: templateId });
-      
+
       if (!template) {
         throw new Error('Report template not found');
       }
@@ -53,13 +53,13 @@ class ReportService {
       setTimeout(async () => {
         try {
           const data = await this.collectReportData(template, parameters);
-          
+
           report.data = data;
           report.status = 'completed';
           report.generated_at = new Date();
           report.file_url = `/reports/files/${report.id}.${report.format}`;
           report.file_size = Math.floor(Math.random() * 1000000) + 100000;
-          
+
           await report.save();
           logger.info('Report generation completed', { reportId: report.id });
         } catch (err) {
@@ -107,7 +107,7 @@ class ReportService {
   /**
    * Generate mock data for report section
    */
-  generateSectionData(sectionType, parameters) {
+  generateSectionData(_sectionType, _parameters) {
     const mockData = {
       threats: [
         { name: 'Malware Campaign X', severity: 'critical', count: 45 },
@@ -163,6 +163,7 @@ class ReportService {
       const query = {};
       if (type) query.type = type;
       if (status) query.status = status;
+      // eslint-disable-next-line camelcase
       if (created_by) query.created_by = created_by;
 
       const skip = (page - 1) * limit;

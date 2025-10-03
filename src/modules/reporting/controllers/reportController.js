@@ -34,11 +34,11 @@ class ReportController {
    */
   async generateReport(req, res) {
     try {
-      const { template_id, parameters, format } = req.body;
+      const { template_id: templateId, parameters, format } = req.body;
       const userId = req.body.user_id || 'system';
 
       const report = await reportService.generateReport(
-        template_id,
+        templateId,
         { ...parameters, format },
         userId,
       );
@@ -114,7 +114,7 @@ class ReportController {
    */
   async deleteReport(req, res) {
     try {
-      const result = await reportService.deleteReport(req.params.id);
+      await reportService.deleteReport(req.params.id);
 
       res.json({
         success: true,

@@ -5,7 +5,8 @@
 const Joi = require('joi');
 
 const templateSchema = Joi.object({
-  name: Joi.string().required().trim().min(1).max(200),
+  name: Joi.string().required().trim().min(1)
+    .max(200),
   description: Joi.string().trim().allow('').max(1000),
   type: Joi.string().required().valid(
     'executive_summary',

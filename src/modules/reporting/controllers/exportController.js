@@ -123,7 +123,7 @@ class ExportController {
    */
   async deleteExport(req, res) {
     try {
-      const result = await exportService.deleteExport(req.params.id);
+      await exportService.deleteExport(req.params.id);
 
       res.json({
         success: true,

@@ -14,10 +14,10 @@ class ScheduleService {
   async createSchedule(scheduleData) {
     try {
       const schedule = new ReportSchedule(scheduleData);
-      
+
       // Calculate next execution time
       schedule.next_execution = this.calculateNextExecution(schedule.schedule, schedule.timezone);
-      
+
       await schedule.save();
 
       logger.info('Report schedule created', { scheduleId: schedule.id });
@@ -108,6 +108,7 @@ class ScheduleService {
 
       const query = {};
       if (enabled !== undefined) query.enabled = enabled;
+      // eslint-disable-next-line camelcase
       if (created_by) query.created_by = created_by;
 
       const skip = (page - 1) * limit;
@@ -147,18 +148,22 @@ class ScheduleService {
 
       logger.info(`Found ${dueSchedules.length} schedules to execute`);
 
+      // eslint-disable-next-line no-restricted-syntax
       for (const schedule of dueSchedules) {
         try {
           // Check conditions if any
           if (schedule.conditions && schedule.conditions.enabled) {
+            // eslint-disable-next-line no-await-in-loop
             const shouldExecute = await this.evaluateConditions(schedule.conditions.rules);
             if (!shouldExecute) {
               logger.info('Schedule conditions not met, skipping', { scheduleId: schedule.id });
+              // eslint-disable-next-line no-continue
               continue;
             }
           }
 
           // Generate report
+          // eslint-disable-next-line no-await-in-loop
           const report = await reportService.generateReport(
             schedule.template_id,
             schedule.parameters,
@@ -178,9 +183,11 @@ class ScheduleService {
           );
           schedule.failure_count = 0;
 
+          // eslint-disable-next-line no-await-in-loop
           await schedule.save();
 
           // Send to recipients (simulated)
+          // eslint-disable-next-line no-await-in-loop
           await this.distributeReport(report, schedule.recipients);
 
           logger.info('Scheduled report executed successfully', {
@@ -197,7 +204,7 @@ class ScheduleService {
             schedule.schedule,
             schedule.timezone,
           );
-          
+
           await schedule.save();
 
           logger.error('Failed to execute scheduled report', {
@@ -217,7 +224,7 @@ class ScheduleService {
   /**
    * Calculate next execution time based on cron expression
    */
-  calculateNextExecution(cronExpression, timezone = 'UTC') {
+  calculateNextExecution(cronExpression, _timezone = 'UTC') {
     // Simple implementation - in production use a library like node-cron
     const now = new Date();
     const nextExecution = new Date(now.getTime() + 60 * 60 * 1000); // Add 1 hour
@@ -227,7 +234,7 @@ class ScheduleService {
   /**
    * Evaluate conditions for conditional report generation
    */
-  async evaluateConditions(rules) {
+  async evaluateConditions(_rules) {
     // Simplified condition evaluation
     // In production, implement proper rule engine
     return true;
@@ -237,6 +244,7 @@ class ScheduleService {
    * Distribute report to recipients
    */
   async distributeReport(report, recipients) {
+    // eslint-disable-next-line no-restricted-syntax
     for (const recipient of recipients) {
       try {
         // Simulate distribution based on delivery method

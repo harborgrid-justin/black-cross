@@ -99,7 +99,7 @@ class DashboardController {
    */
   async deleteDashboard(req, res) {
     try {
-      const result = await dashboardService.deleteDashboard(req.params.id);
+      await dashboardService.deleteDashboard(req.params.id);
 
       res.json({
         success: true,

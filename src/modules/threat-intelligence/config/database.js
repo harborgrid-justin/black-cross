@@ -7,12 +7,12 @@ const mongoose = require('mongoose');
 const connectDatabase = async () => {
   try {
     const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/blackcross';
-    
+
     await mongoose.connect(mongoUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    
+
     console.log('✅ Threat Intelligence Database connected successfully');
     return mongoose.connection;
   } catch (error) {
@@ -23,5 +23,5 @@ const connectDatabase = async () => {
 
 module.exports = {
   connectDatabase,
-  mongoose
+  mongoose,
 };

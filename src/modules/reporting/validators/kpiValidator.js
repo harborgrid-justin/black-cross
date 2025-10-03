@@ -5,7 +5,8 @@
 const Joi = require('joi');
 
 const kpiSchema = Joi.object({
-  name: Joi.string().required().trim().min(1).max(200),
+  name: Joi.string().required().trim().min(1)
+    .max(200),
   description: Joi.string().trim().allow('').max(1000),
   category: Joi.string().required().valid(
     'threat_detection',

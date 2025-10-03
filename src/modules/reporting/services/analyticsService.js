@@ -32,7 +32,7 @@ class AnalyticsService {
   /**
    * Generate mock trend data
    */
-  generateTrendData(period, groupBy, threatType, severity) {
+  generateTrendData(period, groupBy, _threatType, _severity) {
     const periodMap = {
       '7d': 7,
       '30d': 30,
@@ -279,13 +279,27 @@ class AnalyticsService {
 
       // Simulate geographic distribution data
       const distribution = [
-        { country: 'USA', code: 'US', count: 450, percentage: 25 },
-        { country: 'China', code: 'CN', count: 380, percentage: 21 },
-        { country: 'Russia', code: 'RU', count: 320, percentage: 18 },
-        { country: 'Germany', code: 'DE', count: 200, percentage: 11 },
-        { country: 'UK', code: 'GB', count: 180, percentage: 10 },
-        { country: 'India', code: 'IN', count: 150, percentage: 8 },
-        { country: 'Others', code: 'XX', count: 120, percentage: 7 },
+        {
+          country: 'USA', code: 'US', count: 450, percentage: 25,
+        },
+        {
+          country: 'China', code: 'CN', count: 380, percentage: 21,
+        },
+        {
+          country: 'Russia', code: 'RU', count: 320, percentage: 18,
+        },
+        {
+          country: 'Germany', code: 'DE', count: 200, percentage: 11,
+        },
+        {
+          country: 'UK', code: 'GB', count: 180, percentage: 10,
+        },
+        {
+          country: 'India', code: 'IN', count: 150, percentage: 8,
+        },
+        {
+          country: 'Others', code: 'XX', count: 120, percentage: 7,
+        },
       ];
 
       logger.info('Geographic distribution retrieved', { period, threatType });

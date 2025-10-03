@@ -99,6 +99,7 @@ class TemplateService {
       const query = {};
       if (type) query.type = type;
       if (status) query.status = status;
+      // eslint-disable-next-line camelcase
       if (created_by) query.created_by = created_by;
 
       const skip = (page - 1) * limit;
@@ -131,7 +132,7 @@ class TemplateService {
   async cloneTemplate(templateId, newName, userId) {
     try {
       const original = await this.getTemplate(templateId);
-      
+
       const clonedData = {
         name: newName,
         description: `Cloned from ${original.name}`,

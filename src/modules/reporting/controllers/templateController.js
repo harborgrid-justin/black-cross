@@ -76,7 +76,7 @@ class TemplateController {
    */
   async deleteTemplate(req, res) {
     try {
-      const result = await templateService.deleteTemplate(req.params.id);
+      await templateService.deleteTemplate(req.params.id);
 
       res.json({
         success: true,
