@@ -79,6 +79,17 @@ app.use('/api/v1/compliance', compliance);
 
 // Error handling middleware
 app.use((err, req, res) => {
+const reporting = require('./modules/reporting');
+
+app.use('/api/v1/threat-intelligence', threatIntelligence);
+app.use('/api/v1/reports', reporting);
+const collaboration = require('./modules/collaboration');
+
+app.use('/api/v1/threat-intelligence', threatIntelligence);
+app.use('/api/v1/collaboration', collaboration);
+
+// Error handling middleware
+app.use((err, req, res, _next) => {
   console.error(err.stack);
   res.status(500).json({
     error: 'Internal Server Error',
