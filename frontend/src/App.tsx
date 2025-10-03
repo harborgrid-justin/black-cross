@@ -18,6 +18,9 @@ import MalwareAnalysis from './pages/malware/MalwareAnalysis';
 import DarkWebMonitoring from './pages/darkweb/DarkWebMonitoring';
 import ComplianceManagement from './pages/compliance/ComplianceManagement';
 import AutomationPlaybooks from './pages/automation/AutomationPlaybooks';
+import SIEMDashboard from './pages/siem/SIEMDashboard';
+import CollaborationHub from './pages/collaboration/CollaborationHub';
+import ReportingAnalytics from './pages/reporting/ReportingAnalytics';
 import PrivateRoute from './components/auth/PrivateRoute';
 
 const darkTheme = createTheme({
@@ -64,6 +67,9 @@ function App() {
                       <Route path="/actors" element={<ThreatActors />} />
                       <Route path="/iocs" element={<IoCManagement />} />
                       <Route path="/feeds" element={<ThreatFeeds />} />
+                      <Route path="/siem" element={<SIEMDashboard />} />
+                      <Route path="/collaboration" element={<CollaborationHub />} />
+                      <Route path="/reporting" element={<ReportingAnalytics />} />
                       <Route path="/malware" element={<MalwareAnalysis />} />
                       <Route path="/darkweb" element={<DarkWebMonitoring />} />
                       <Route path="/compliance" element={<ComplianceManagement />} />
