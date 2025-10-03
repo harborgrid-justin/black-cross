@@ -73,9 +73,11 @@ app.get('/api/v1', (req, res) => {
 // Module routes
 const threatIntelligence = require('./modules/threat-intelligence');
 const vulnerabilityManagement = require('./modules/vulnerability-management');
+const threatActorProfiling = require('./modules/threat-actor-profiling');
 
 app.use('/api/v1/threat-intelligence', threatIntelligence);
 app.use('/api/v1/vulnerabilities', vulnerabilityManagement);
+app.use('/api/v1/threat-actors', threatActorProfiling);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
