@@ -90,18 +90,24 @@ export default function Layout({ children }: LayoutProps) {
   };
 
   const drawer = (
-    <Box>
+    <Box role="navigation" aria-label="main navigation">
       <Toolbar sx={{ background: 'linear-gradient(135deg, #1976d2 0%, #1565c0 100%)' }}>
         <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 700 }}>
           BLACK-CROSS
         </Typography>
       </Toolbar>
       <Divider />
-      <List>
+      <List component="nav" aria-label="main navigation menu">
         {menuItems.map((item) => (
           <ListItem key={item.text} disablePadding>
-            <ListItemButton onClick={() => navigate(item.path)}>
-              <ListItemIcon sx={{ color: 'primary.main' }}>{item.icon}</ListItemIcon>
+            <ListItemButton 
+              onClick={() => navigate(item.path)}
+              aria-label={`Navigate to ${item.text}`}
+              role="menuitem"
+            >
+              <ListItemIcon sx={{ color: 'primary.main' }} aria-hidden="true">
+                {item.icon}
+              </ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
@@ -118,10 +124,12 @@ export default function Layout({ children }: LayoutProps) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}
+        role="banner"
       >
         <Toolbar>
           <IconButton
             color="inherit"
+            aria-label="open navigation drawer"
             edge="start"
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: 'none' } }}
@@ -131,31 +139,50 @@ export default function Layout({ children }: LayoutProps) {
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             Cyber Threat Intelligence Platform
           </Typography>
-          <IconButton onClick={handleMenuOpen} color="inherit">
-            <Avatar sx={{ width: 32, height: 32 }}>
+          <IconButton 
+            onClick={handleMenuOpen} 
+            color="inherit"
+            aria-label="user account menu"
+            aria-controls="user-menu"
+            aria-haspopup="true"
+          >
+            <Avatar sx={{ width: 32, height: 32 }} alt={user?.name || 'User profile'}>
               <AccountCircle />
             </Avatar>
           </IconButton>
-          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+          <Menu 
+            id="user-menu"
+            anchorEl={anchorEl} 
+            open={Boolean(anchorEl)} 
+            onClose={handleMenuClose}
+            MenuListProps={{
+              'aria-labelledby': 'user-account-button',
+              role: 'menu',
+            }}
+          >
             <MenuItem disabled>
               <Typography variant="body2">
                 {user?.name || user?.email || 'User'}
               </Typography>
             </MenuItem>
             <Divider />
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            <MenuItem onClick={handleLogout} role="menuitem">Logout</MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        aria-label="navigation drawer"
       >
         <Drawer
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
-          ModalProps={{ keepMounted: true }}
+          ModalProps={{ 
+            keepMounted: true,
+            'aria-label': 'mobile navigation drawer',
+          }}
           sx={{
             display: { xs: 'block', sm: 'none' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
@@ -170,6 +197,7 @@ export default function Layout({ children }: LayoutProps) {
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
           open
+          aria-label="desktop navigation drawer"
         >
           {drawer}
         </Drawer>
@@ -183,6 +211,8 @@ export default function Layout({ children }: LayoutProps) {
           minHeight: '100vh',
           background: '#0a1929',
         }}
+        role="main"
+        aria-label="main content"
       >
         <Toolbar />
         {children}
