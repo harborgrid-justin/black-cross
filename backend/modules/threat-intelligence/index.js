@@ -1,6 +1,6 @@
 /**
  * Threat Intelligence Management Module
- * 
+ *
  * This module handles:
  * - Real-time threat data collection and aggregation
  * - Threat categorization and tagging system
@@ -12,6 +12,7 @@
  */
 
 const express = require('express');
+
 const router = express.Router();
 const { connectDatabase } = require('./config/database');
 const threatRoutes = require('./routes/threatRoutes');
@@ -34,7 +35,7 @@ const initializeDatabase = async () => {
 
 // Health check route
 router.get('/health', (req, res) => {
-  res.json({ 
+  res.json({
     module: 'threat-intelligence',
     status: 'operational',
     version: '1.0.0',
@@ -46,8 +47,8 @@ router.get('/health', (req, res) => {
       'enrichment',
       'taxonomy-management',
       'correlation',
-      'context-analysis'
-    ]
+      'context-analysis',
+    ],
   });
 });
 
@@ -56,7 +57,7 @@ router.use('/', threatRoutes);
 router.use('/', taxonomyRoutes);
 
 // Initialize database on module load
-initializeDatabase().catch(err => {
+initializeDatabase().catch((err) => {
   logger.error('Database initialization failed on module load', { error: err.message });
 });
 
