@@ -72,6 +72,13 @@ app.get('/api/v1', (req, res) => {
 
 // Module routes
 const threatIntelligence = require('./modules/threat-intelligence');
+const compliance = require('./modules/compliance');
+
+app.use('/api/v1/threat-intelligence', threatIntelligence);
+app.use('/api/v1/compliance', compliance);
+
+// Error handling middleware
+app.use((err, req, res) => {
 const reporting = require('./modules/reporting');
 
 app.use('/api/v1/threat-intelligence', threatIntelligence);
