@@ -70,9 +70,12 @@ app.get('/api/v1', (req, res) => {
   });
 });
 
-// Module routes (placeholder - will be implemented)
-// const threatIntelligence = require('./modules/threat-intelligence');
-// app.use('/api/v1/threat-intelligence', threatIntelligence);
+// Module routes
+const threatIntelligence = require('./modules/threat-intelligence');
+const vulnerabilityManagement = require('./modules/vulnerability-management');
+
+app.use('/api/v1/threat-intelligence', threatIntelligence);
+app.use('/api/v1/vulnerabilities', vulnerabilityManagement);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
