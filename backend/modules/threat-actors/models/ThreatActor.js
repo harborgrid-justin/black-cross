@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
 
 const ThreatActorSchema = new mongoose.Schema({
-  id: { type: String, default: uuidv4, unique: true, index: true },
+  id: {
+    type: String, default: uuidv4, unique: true, index: true,
+  },
   name: { type: String, required: true, index: true },
   aliases: [String],
   description: String,

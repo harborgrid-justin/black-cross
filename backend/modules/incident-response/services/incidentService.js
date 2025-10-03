@@ -46,10 +46,10 @@ class IncidentService {
    */
   async getIncident(identifier) {
     try {
-      const query = identifier.startsWith('INC-') 
+      const query = identifier.startsWith('INC-')
         ? { ticket_number: identifier }
         : { id: identifier };
-      
+
       const incident = await Incident.findOne(query);
       if (!incident) {
         throw new Error('Incident not found');
@@ -69,9 +69,7 @@ class IncidentService {
       const incident = await this.getIncident(identifier);
 
       // Track changes in timeline
-      const changedFields = Object.keys(updates).filter(key => 
-        incident[key] !== updates[key]
-      );
+      const changedFields = Object.keys(updates).filter((key) => incident[key] !== updates[key]);
 
       if (changedFields.length > 0) {
         incident.timeline.push({
@@ -108,7 +106,7 @@ class IncidentService {
   async assignIncident(identifier, assigneeId, assignedBy) {
     try {
       const incident = await this.getIncident(identifier);
-      
+
       incident.assigned_to = assigneeId;
       incident.timeline.push({
         event_type: 'assigned',
@@ -131,7 +129,7 @@ class IncidentService {
   async addEvidence(identifier, evidenceData) {
     try {
       const incident = await this.getIncident(identifier);
-      
+
       incident.evidence.push({
         ...evidenceData,
         chain_of_custody: [{
@@ -162,12 +160,12 @@ class IncidentService {
   async getEvidence(incidentId, evidenceId) {
     try {
       const incident = await this.getIncident(incidentId);
-      const evidence = incident.evidence.find(e => e.id === evidenceId);
-      
+      const evidence = incident.evidence.find((e) => e.id === evidenceId);
+
       if (!evidence) {
         throw new Error('Evidence not found');
       }
-      
+
       return evidence;
     } catch (error) {
       logger.error('Error fetching evidence:', error);
@@ -194,7 +192,7 @@ class IncidentService {
   async addTimelineEvent(identifier, eventData) {
     try {
       const incident = await this.getIncident(identifier);
-      
+
       incident.timeline.push({
         ...eventData,
         timestamp: new Date(),
@@ -237,7 +235,7 @@ class IncidentService {
       if (category) query.category = Array.isArray(category) ? { $in: category } : category;
       if (assigned_to) query.assigned_to = assigned_to;
       if (reported_by) query.reported_by = reported_by;
-      
+
       if (from_date || to_date) {
         query.created_at = {};
         if (from_date) query.created_at.$gte = new Date(from_date);

@@ -1,6 +1,6 @@
 /**
  * Automated Response & Playbooks Module
- * 
+ *
  * This module handles:
  * - Pre-built response playbooks (Sub-Feature 15.1)
  * - Custom playbook creation (Sub-Feature 15.2)
@@ -12,6 +12,7 @@
  */
 
 const express = require('express');
+
 const router = express.Router();
 const { connectDatabase } = require('./config/database');
 const playbookRoutes = require('./routes/playbookRoutes');
@@ -34,7 +35,7 @@ const initializeDatabase = async () => {
 
 // Health check route
 router.get('/health', (req, res) => {
-  res.json({ 
+  res.json({
     module: 'automation',
     status: 'operational',
     version: '1.0.0',
@@ -46,8 +47,8 @@ router.get('/health', (req, res) => {
       'security-tool-integration',
       'decision-trees',
       'playbook-testing',
-      'effectiveness-metrics'
-    ]
+      'effectiveness-metrics',
+    ],
   });
 });
 
@@ -56,7 +57,7 @@ router.use('/playbooks', playbookRoutes);
 router.use('/integrations', integrationRoutes);
 
 // Initialize database on module load
-initializeDatabase().catch(err => {
+initializeDatabase().catch((err) => {
   logger.error('Database initialization failed on module load', { error: err.message });
 });
 

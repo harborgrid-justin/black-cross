@@ -69,8 +69,8 @@ class PostMortemService {
           created: incident.created_at,
           resolved: incident.resolved_at,
           closed: incident.closed_at,
-          duration: incident.resolved_at 
-            ? (incident.resolved_at - incident.created_at) / (1000 * 60 * 60) 
+          duration: incident.resolved_at
+            ? (incident.resolved_at - incident.created_at) / (1000 * 60 * 60)
             : null,
         },
         metrics: {
@@ -119,7 +119,7 @@ class PostMortemService {
       const allLessons = [];
       const allRecommendations = [];
 
-      incidents.forEach(incident => {
+      incidents.forEach((incident) => {
         if (incident.post_mortem.lessons_learned) {
           allLessons.push(...incident.post_mortem.lessons_learned);
         }
@@ -145,7 +145,7 @@ class PostMortemService {
    */
   _groupByCategory(incidents) {
     const grouped = {};
-    incidents.forEach(incident => {
+    incidents.forEach((incident) => {
       if (!grouped[incident.category]) {
         grouped[incident.category] = [];
       }

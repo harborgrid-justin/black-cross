@@ -74,5 +74,5 @@ function isConnected() {
 module.exports = {
   connectDatabase,
   disconnectDatabase,
-  isConnected
+  isConnected,
 };

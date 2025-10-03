@@ -32,7 +32,7 @@ class ContextService {
         impact_assessment: this.assessImpact(threat),
         confidence_analysis: this.analyzeConfidence(threat),
         related_threats: await this.getRelatedThreatsContext(threatId),
-        recommendations: this.generateRecommendations(threat)
+        recommendations: this.generateRecommendations(threat),
       };
 
       logger.info('Threat context generated', { threatId });
@@ -60,7 +60,7 @@ class ContextService {
       age_days: Math.floor((Date.now() - threat.first_seen) / (1000 * 60 * 60 * 24)),
       indicators_count: threat.indicators?.length || 0,
       categories: threat.categories,
-      tags: threat.tags
+      tags: threat.tags,
     };
   }
 
@@ -75,53 +75,53 @@ class ContextService {
         kill_chain_phases: [],
         mitre_tactics: threat.mitre_attack?.tactics || [],
         mitre_techniques: threat.mitre_attack?.techniques || [],
-        stages: []
+        stages: [],
       };
 
       // Map MITRE tactics to kill chain phases
       const tacticToPhase = {
-        'reconnaissance': 'Reconnaissance',
+        reconnaissance: 'Reconnaissance',
         'resource-development': 'Weaponization',
         'initial-access': 'Delivery',
-        'execution': 'Exploitation',
-        'persistence': 'Installation',
+        execution: 'Exploitation',
+        persistence: 'Installation',
         'privilege-escalation': 'Installation',
         'defense-evasion': 'Command & Control',
         'credential-access': 'Actions on Objectives',
-        'discovery': 'Actions on Objectives',
+        discovery: 'Actions on Objectives',
         'lateral-movement': 'Actions on Objectives',
-        'collection': 'Actions on Objectives',
+        collection: 'Actions on Objectives',
         'command-and-control': 'Command & Control',
-        'exfiltration': 'Actions on Objectives',
-        'impact': 'Actions on Objectives'
+        exfiltration: 'Actions on Objectives',
+        impact: 'Actions on Objectives',
       };
 
       chain.kill_chain_phases = [...new Set(
-        (threat.mitre_attack?.tactics || []).map(t => tacticToPhase[t.toLowerCase()] || 'Unknown')
+        (threat.mitre_attack?.tactics || []).map((t) => tacticToPhase[t.toLowerCase()] || 'Unknown'),
       )];
 
       // Reconstruct stages based on indicators and behavior
-      if (threat.indicators?.some(i => i.type === 'email')) {
+      if (threat.indicators?.some((i) => i.type === 'email')) {
         chain.stages.push({
           phase: 'Initial Access',
           method: 'Phishing/Email',
-          indicators: threat.indicators.filter(i => i.type === 'email')
+          indicators: threat.indicators.filter((i) => i.type === 'email'),
         });
       }
 
-      if (threat.indicators?.some(i => i.type === 'url' || i.type === 'domain')) {
+      if (threat.indicators?.some((i) => i.type === 'url' || i.type === 'domain')) {
         chain.stages.push({
           phase: 'Command & Control',
           method: 'Network Communication',
-          indicators: threat.indicators.filter(i => i.type === 'url' || i.type === 'domain' || i.type === 'ip')
+          indicators: threat.indicators.filter((i) => i.type === 'url' || i.type === 'domain' || i.type === 'ip'),
         });
       }
 
-      if (threat.indicators?.some(i => i.type === 'hash' || i.type === 'filename')) {
+      if (threat.indicators?.some((i) => i.type === 'hash' || i.type === 'filename')) {
         chain.stages.push({
           phase: 'Execution',
           method: 'Malware Execution',
-          indicators: threat.indicators.filter(i => i.type === 'hash' || i.type === 'filename')
+          indicators: threat.indicators.filter((i) => i.type === 'hash' || i.type === 'filename'),
         });
       }
 
@@ -143,7 +143,7 @@ class ContextService {
       return {
         targeted_industries: threat.enrichment_data.osint.industry_targeting,
         source: 'osint',
-        confidence: 'medium'
+        confidence: 'medium',
       };
     }
 
@@ -170,7 +170,7 @@ class ContextService {
     return {
       targeted_industries: industries.length > 0 ? industries : ['Unknown'],
       source: 'inferred',
-      confidence: 'low'
+      confidence: 'low',
     };
   }
 
@@ -183,15 +183,15 @@ class ContextService {
     const distribution = {
       countries: [],
       regions: [],
-      source: 'geolocation'
+      source: 'geolocation',
     };
 
     // Use enrichment data if available
     if (threat.enrichment_data?.geolocation) {
       const geo = threat.enrichment_data.geolocation;
-      
+
       if (geo.locations) {
-        distribution.countries = [...new Set(geo.locations.map(l => l.country))];
+        distribution.countries = [...new Set(geo.locations.map((l) => l.country))];
       } else if (geo.country) {
         distribution.countries = [geo.country];
       }
@@ -214,7 +214,7 @@ class ContextService {
         first_seen: threat.first_seen,
         last_seen: threat.last_seen,
         active_period_days: Math.floor((threat.last_seen - threat.first_seen) / (1000 * 60 * 60 * 24)),
-        pattern: 'unknown'
+        pattern: 'unknown',
       };
 
       // Determine pattern
@@ -233,8 +233,8 @@ class ContextService {
         type: threat.type,
         first_seen: {
           $gte: new Date(threat.first_seen.getTime() - 7 * 24 * 60 * 60 * 1000),
-          $lte: new Date(threat.first_seen.getTime() + 7 * 24 * 60 * 60 * 1000)
-        }
+          $lte: new Date(threat.first_seen.getTime() + 7 * 24 * 60 * 60 * 1000),
+        },
       });
 
       analysis.concurrent_threats = similarThreats - 1;
@@ -256,7 +256,7 @@ class ContextService {
       severity_level: threat.severity,
       potential_impact: [],
       affected_assets: 'unknown',
-      business_impact: 'unknown'
+      business_impact: 'unknown',
     };
 
     // Determine potential impacts based on threat type
@@ -292,14 +292,14 @@ class ContextService {
    */
   analyzeConfidence(threat) {
     const factors = [];
-    let totalScore = threat.confidence;
+    const totalScore = threat.confidence;
 
     // Source reliability
     if (threat.source?.reliability) {
       factors.push({
         factor: 'Source Reliability',
         score: threat.source.reliability,
-        weight: 0.3
+        weight: 0.3,
       });
     }
 
@@ -309,7 +309,7 @@ class ContextService {
     factors.push({
       factor: 'Indicator Count',
       score: indicatorScore,
-      weight: 0.2
+      weight: 0.2,
     });
 
     // Enrichment completeness
@@ -317,7 +317,7 @@ class ContextService {
     factors.push({
       factor: 'Enrichment Completeness',
       score: enrichmentScore,
-      weight: 0.2
+      weight: 0.2,
     });
 
     // Age factor (newer threats have higher uncertainty)
@@ -326,13 +326,13 @@ class ContextService {
     factors.push({
       factor: 'Data Maturity',
       score: ageScore,
-      weight: 0.3
+      weight: 0.3,
     });
 
     return {
       overall_confidence: threat.confidence,
       factors,
-      recommendation: threat.confidence >= 70 ? 'high' : threat.confidence >= 50 ? 'medium' : 'low'
+      recommendation: threat.confidence >= 70 ? 'high' : threat.confidence >= 50 ? 'medium' : 'low',
     };
   }
 
@@ -346,16 +346,16 @@ class ContextService {
       const correlations = await ThreatCorrelation.find({
         $or: [
           { threat_id_1: threatId },
-          { threat_id_2: threatId }
+          { threat_id_2: threatId },
         ],
-        status: { $ne: 'rejected' }
+        status: { $ne: 'rejected' },
       }).limit(10).sort({ similarity_score: -1 });
 
-      return correlations.map(c => ({
+      return correlations.map((c) => ({
         threat_id: c.threat_id_1 === threatId ? c.threat_id_2 : c.threat_id_1,
         correlation_type: c.correlation_type,
         similarity_score: c.similarity_score,
-        relationship: this.determineRelationship(c.correlation_type)
+        relationship: this.determineRelationship(c.correlation_type),
       }));
     } catch (error) {
       logger.error('Error getting related threats context', { error: error.message });
@@ -376,7 +376,7 @@ class ContextService {
       recommendations.push({
         priority: 'high',
         action: 'Immediate Investigation',
-        description: 'This threat requires immediate security team attention'
+        description: 'This threat requires immediate security team attention',
       });
     }
 
@@ -385,7 +385,7 @@ class ContextService {
       recommendations.push({
         priority: 'high',
         action: 'Backup Verification',
-        description: 'Verify all backups are current and offline copies exist'
+        description: 'Verify all backups are current and offline copies exist',
       });
     }
 
@@ -393,7 +393,7 @@ class ContextService {
       recommendations.push({
         priority: 'medium',
         action: 'User Awareness',
-        description: 'Distribute phishing awareness notification to users'
+        description: 'Distribute phishing awareness notification to users',
       });
     }
 
@@ -402,7 +402,7 @@ class ContextService {
       recommendations.push({
         priority: 'high',
         action: 'IOC Blocking',
-        description: 'Block identified IOCs at network and endpoint level'
+        description: 'Block identified IOCs at network and endpoint level',
       });
     }
 
@@ -416,19 +416,19 @@ class ContextService {
    */
   mapCountriesToRegions(countries) {
     const regionMap = {
-      'US': 'North America',
-      'CA': 'North America',
-      'GB': 'Europe',
-      'DE': 'Europe',
-      'FR': 'Europe',
-      'CN': 'Asia Pacific',
-      'JP': 'Asia Pacific',
-      'KR': 'Asia Pacific',
-      'RU': 'Eastern Europe',
-      'IN': 'Asia Pacific'
+      US: 'North America',
+      CA: 'North America',
+      GB: 'Europe',
+      DE: 'Europe',
+      FR: 'Europe',
+      CN: 'Asia Pacific',
+      JP: 'Asia Pacific',
+      KR: 'Asia Pacific',
+      RU: 'Eastern Europe',
+      IN: 'Asia Pacific',
     };
 
-    return [...new Set(countries.map(c => regionMap[c] || 'Other'))];
+    return [...new Set(countries.map((c) => regionMap[c] || 'Other'))];
   }
 
   /**
@@ -438,11 +438,11 @@ class ContextService {
    */
   determineRelationship(correlationType) {
     const relationships = {
-      'ioc_overlap': 'Shares indicators',
-      'temporal': 'Occurred at similar time',
-      'infrastructure': 'Uses shared infrastructure',
-      'campaign': 'Part of same campaign',
-      'behavioral': 'Similar behavior pattern'
+      ioc_overlap: 'Shares indicators',
+      temporal: 'Occurred at similar time',
+      infrastructure: 'Uses shared infrastructure',
+      campaign: 'Part of same campaign',
+      behavioral: 'Similar behavior pattern',
     };
 
     return relationships[correlationType] || 'Related';
@@ -466,7 +466,7 @@ class ContextService {
         common_tactics: this.findCommonTactics(threats),
         common_targets: this.findCommonTargets(threats),
         temporal_clustering: this.analyzeTemporalClustering(threats),
-        geographic_clustering: this.analyzeGeographicClustering(threats)
+        geographic_clustering: this.analyzeGeographicClustering(threats),
       };
 
       return analysis;
@@ -486,25 +486,23 @@ class ContextService {
   }
 
   findCommonTactics(threats) {
-    const allTactics = threats.flatMap(t => t.mitre_attack?.tactics || []);
-    return this.groupBy(allTactics.map(t => ({ mitre_attack: { tactics: t } })), 'mitre_attack.tactics');
+    const allTactics = threats.flatMap((t) => t.mitre_attack?.tactics || []);
+    return this.groupBy(allTactics.map((t) => ({ mitre_attack: { tactics: t } })), 'mitre_attack.tactics');
   }
 
   findCommonTargets(threats) {
-    const allIndustries = threats.flatMap(t => 
-      t.enrichment_data?.osint?.industry_targeting || []
-    );
+    const allIndustries = threats.flatMap((t) => t.enrichment_data?.osint?.industry_targeting || []);
     return [...new Set(allIndustries)];
   }
 
   analyzeTemporalClustering(threats) {
-    const timestamps = threats.map(t => t.first_seen.getTime()).sort();
+    const timestamps = threats.map((t) => t.first_seen.getTime()).sort();
     // Simple clustering: group threats within 7 days
     const clusters = [];
     let currentCluster = [timestamps[0]];
 
     for (let i = 1; i < timestamps.length; i++) {
-      if (timestamps[i] - timestamps[i-1] <= 7 * 24 * 60 * 60 * 1000) {
+      if (timestamps[i] - timestamps[i - 1] <= 7 * 24 * 60 * 60 * 1000) {
         currentCluster.push(timestamps[i]);
       } else {
         clusters.push(currentCluster.length);
@@ -515,15 +513,13 @@ class ContextService {
 
     return {
       clusters: clusters.length,
-      largest_cluster: Math.max(...clusters)
+      largest_cluster: Math.max(...clusters),
     };
   }
 
   analyzeGeographicClustering(threats) {
-    const countries = threats.flatMap(t => 
-      t.enrichment_data?.geolocation?.locations?.map(l => l.country) || []
-    );
-    return this.groupBy(countries.map(c => ({ country: c })), 'country');
+    const countries = threats.flatMap((t) => t.enrichment_data?.geolocation?.locations?.map((l) => l.country) || []);
+    return this.groupBy(countries.map((c) => ({ country: c })), 'country');
   }
 }
 

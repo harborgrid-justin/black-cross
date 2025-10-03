@@ -14,7 +14,7 @@ class IncidentController {
   async createIncident(req, res) {
     try {
       const incident = await incidentService.createIncident(req.body);
-      
+
       // Auto-prioritize if requested
       if (req.body.auto_prioritize) {
         await prioritizationService.prioritizeIncident(incident.id);
@@ -47,7 +47,7 @@ class IncidentController {
       const incident = await incidentService.updateIncident(
         req.params.id,
         req.body,
-        req.user?.id || 'system'
+        req.user?.id || 'system',
       );
       res.json(incident);
     } catch (error) {
@@ -95,7 +95,7 @@ class IncidentController {
       const result = await workflowService.executeWorkflow(
         req.params.id,
         req.body.workflow_id,
-        req.user?.id || 'system'
+        req.user?.id || 'system',
       );
       res.json(result);
     } catch (error) {
@@ -119,7 +119,7 @@ class IncidentController {
       const postMortem = await postMortemService.createPostMortem(
         req.params.id,
         req.body,
-        req.user?.id || 'system'
+        req.user?.id || 'system',
       );
       res.json(postMortem);
     } catch (error) {
@@ -172,7 +172,7 @@ class IncidentController {
     try {
       const evidence = await incidentService.getEvidence(
         req.params.id,
-        req.params.evidence_id
+        req.params.evidence_id,
       );
       res.json(evidence);
     } catch (error) {
@@ -186,7 +186,7 @@ class IncidentController {
       const notification = await notificationService.sendNotification(
         req.params.id,
         req.body,
-        req.user?.id || 'system'
+        req.user?.id || 'system',
       );
       res.json(notification);
     } catch (error) {

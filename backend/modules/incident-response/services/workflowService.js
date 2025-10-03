@@ -79,9 +79,7 @@ class WorkflowService {
       // Execute actions based on workflow configuration
       if (workflow.parallel_execution) {
         // Execute all actions in parallel
-        const promises = workflow.actions.map(action => 
-          this._executeAction(incident, action, userId)
-        );
+        const promises = workflow.actions.map((action) => this._executeAction(incident, action, userId));
         const results = await Promise.allSettled(promises);
         executionResults.push(...results.map((r, i) => ({
           action: workflow.actions[i].name,
@@ -102,13 +100,13 @@ class WorkflowService {
             // Handle conditional logic
             if (action.conditional_logic?.enabled) {
               const condition = this._evaluateCondition(incident, action.conditional_logic.condition);
-              const nextActionId = condition 
-                ? action.conditional_logic.on_true 
+              const nextActionId = condition
+                ? action.conditional_logic.on_true
                 : action.conditional_logic.on_false;
-              
+
               if (nextActionId) {
                 // Find and execute next action
-                const nextAction = workflow.actions.find(a => a.action_id === nextActionId);
+                const nextAction = workflow.actions.find((a) => a.action_id === nextActionId);
                 if (nextAction) {
                   const nextResult = await this._executeAction(incident, nextAction, userId);
                   executionResults.push({
@@ -137,7 +135,7 @@ class WorkflowService {
 
       // Update workflow statistics
       workflow.execution_count += 1;
-      const successCount = executionResults.filter(r => r.status === 'success').length;
+      const successCount = executionResults.filter((r) => r.status === 'success').length;
       if (successCount === executionResults.length) {
         workflow.success_count += 1;
       } else {
@@ -311,9 +309,7 @@ class WorkflowService {
         'trigger_conditions.auto_trigger': true,
       });
 
-      const matchingWorkflows = workflows.filter(workflow => 
-        this._matchesTriggerConditions(incident, workflow.trigger_conditions)
-      );
+      const matchingWorkflows = workflows.filter((workflow) => this._matchesTriggerConditions(incident, workflow.trigger_conditions));
 
       logger.info(`Found ${matchingWorkflows.length} auto-trigger workflows for incident ${incident.ticket_number}`);
 

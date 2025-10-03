@@ -17,9 +17,9 @@ class ExecutionService {
    */
   async executePlaybook(playbookId, executionData) {
     try {
-      logger.info('Starting playbook execution', { 
+      logger.info('Starting playbook execution', {
         playbook_id: playbookId,
-        mode: executionData.execution_mode 
+        mode: executionData.execution_mode,
       });
 
       const playbook = await Playbook.findOne({ id: playbookId });
@@ -43,7 +43,7 @@ class ExecutionService {
         total_actions: playbook.actions.length,
         incident_id: executionData.incident_id,
         alert_id: executionData.alert_id,
-        metadata: executionData.metadata
+        metadata: executionData.metadata,
       });
 
       await execution.save();
@@ -52,7 +52,7 @@ class ExecutionService {
       if (playbook.approvals_required && executionData.execution_mode === 'live') {
         execution.status = 'awaiting_approval';
         execution.approval_status = {
-          required: true
+          required: true,
         };
         await execution.save();
 
@@ -82,7 +82,7 @@ class ExecutionService {
         execution_mode: execution.execution_mode,
         playbook_id: playbook.id,
         execution_id: execution.id,
-        ...variables
+        ...variables,
       };
 
       const sortedActions = playbook.actions.sort((a, b) => a.order - b.order);
@@ -91,7 +91,7 @@ class ExecutionService {
         // Check if action should be executed based on condition
         if (action.condition && !actionExecutor.evaluateCondition(action.condition, context)) {
           logger.info('Action skipped due to condition', { action_id: action.id });
-          
+
           execution.actions_executed.push({
             action_id: action.id,
             action_name: action.name,
@@ -99,7 +99,7 @@ class ExecutionService {
             status: 'skipped',
             start_time: new Date(),
             end_time: new Date(),
-            duration: 0
+            duration: 0,
           });
           execution.skipped_actions++;
           continue;
@@ -119,12 +119,12 @@ class ExecutionService {
           duration: actionResult.duration,
           output: actionResult.output,
           error: actionResult.error,
-          retry_count: actionResult.retry_count || 0
+          retry_count: actionResult.retry_count || 0,
         });
 
         if (actionResult.success) {
           execution.successful_actions++;
-          
+
           // Update context with action output
           if (actionResult.output) {
             context[`action_${action.id}_output`] = actionResult.output;
@@ -134,19 +134,19 @@ class ExecutionService {
           execution.errors.push({
             action_id: action.id,
             error_message: actionResult.error,
-            timestamp: new Date()
+            timestamp: new Date(),
           });
 
           // Handle error based on action configuration
           if (action.on_error === 'fail') {
-            logger.error('Action failed, stopping execution', { 
+            logger.error('Action failed, stopping execution', {
               action_id: action.id,
-              error: actionResult.error 
+              error: actionResult.error,
             });
             break;
           } else if (action.on_error === 'skip') {
-            logger.warn('Action failed, skipping remaining actions', { 
-              action_id: action.id 
+            logger.warn('Action failed, skipping remaining actions', {
+              action_id: action.id,
             });
             break;
           }
@@ -158,29 +158,29 @@ class ExecutionService {
 
       // Finalize execution
       execution.end_time = new Date();
-      execution.status = execution.failed_actions > 0 && 
-                        execution.successful_actions === 0 ? 'failed' : 'completed';
+      execution.status = execution.failed_actions > 0
+                        && execution.successful_actions === 0 ? 'failed' : 'completed';
 
       await execution.save();
 
       // Update playbook statistics
       await this.updatePlaybookStats(playbook, execution);
 
-      logger.info('Playbook execution completed', { 
+      logger.info('Playbook execution completed', {
         execution_id: execution.id,
         status: execution.status,
         successful: execution.successful_actions,
-        failed: execution.failed_actions
+        failed: execution.failed_actions,
       });
     } catch (error) {
       execution.status = 'failed';
       execution.end_time = new Date();
       execution.errors.push({
         error_message: error.message,
-        timestamp: new Date()
+        timestamp: new Date(),
       });
       await execution.save();
-      
+
       logger.error('Error in action execution', { error: error.message });
       throw error;
     }
@@ -204,23 +204,23 @@ class ExecutionService {
       }
 
       retryCount++;
-      
+
       if (retryCount < maxRetries) {
         const delay = action.retry?.delay || 5;
-        logger.info('Retrying action', { 
-          action_id: action.id, 
+        logger.info('Retrying action', {
+          action_id: action.id,
           attempt: retryCount + 1,
-          delay 
+          delay,
         });
-        await new Promise(resolve => setTimeout(resolve, delay * 1000));
+        await new Promise((resolve) => setTimeout(resolve, delay * 1000));
       }
     }
 
     // All retries failed
-    return { 
-      success: false, 
+    return {
+      success: false,
       error: 'Action failed after all retry attempts',
-      retry_count: retryCount 
+      retry_count: retryCount,
     };
   }
 
@@ -365,7 +365,7 @@ class ExecutionService {
   async updatePlaybookStats(playbook, execution) {
     try {
       playbook.execution_count++;
-      
+
       if (execution.status === 'completed') {
         playbook.success_count++;
       } else if (execution.status === 'failed') {
@@ -376,7 +376,7 @@ class ExecutionService {
       if (execution.duration) {
         const totalTime = playbook.average_execution_time * (playbook.execution_count - 1);
         playbook.average_execution_time = Math.round(
-          (totalTime + execution.duration) / playbook.execution_count
+          (totalTime + execution.duration) / playbook.execution_count,
         );
       }
 

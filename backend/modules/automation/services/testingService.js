@@ -17,9 +17,9 @@ class TestingService {
    */
   async testPlaybook(playbookId, testData) {
     try {
-      logger.info('Starting playbook test', { 
+      logger.info('Starting playbook test', {
         playbook_id: playbookId,
-        test_type: testData.test_type 
+        test_type: testData.test_type,
       });
 
       const playbook = await Playbook.findOne({ id: playbookId });
@@ -35,7 +35,7 @@ class TestingService {
         test_type: testData.test_type,
         status: 'running',
         test_environment: testData.test_environment || 'sandbox',
-        test_data: testData.test_data
+        test_data: testData.test_data,
       });
 
       await test.save();
@@ -67,9 +67,9 @@ class TestingService {
 
       await test.save();
 
-      logger.info('Playbook test completed', { 
+      logger.info('Playbook test completed', {
         test_id: test.id,
-        success_rate: test.summary.success_rate 
+        success_rate: test.summary.success_rate,
       });
 
       return test;
@@ -93,7 +93,7 @@ class TestingService {
       status: playbook.actions.length > 0 ? 'passed' : 'failed',
       message: `Playbook has ${playbook.actions.length} actions`,
       expected: 'At least 1 action',
-      actual: playbook.actions.length
+      actual: playbook.actions.length,
     });
 
     results.push({
@@ -101,7 +101,7 @@ class TestingService {
       status: this.validateActionOrder(playbook.actions) ? 'passed' : 'failed',
       message: 'Action order is valid',
       expected: 'Sequential order',
-      actual: playbook.actions.map(a => a.order).join(', ')
+      actual: playbook.actions.map((a) => a.order).join(', '),
     });
 
     results.push({
@@ -109,7 +109,7 @@ class TestingService {
       status: this.validateRequiredFields(playbook) ? 'passed' : 'failed',
       message: 'All required fields are present',
       expected: 'name, description, category, actions',
-      actual: 'All present'
+      actual: 'All present',
     });
 
     return results;
@@ -131,9 +131,9 @@ class TestingService {
         execution_mode: 'simulation',
         triggered_by: {
           type: 'api',
-          source: 'testing_service'
+          source: 'testing_service',
         },
-        variables: testData
+        variables: testData,
       });
 
       results.push({
@@ -141,7 +141,7 @@ class TestingService {
         status: execution.status === 'completed' ? 'passed' : 'failed',
         message: `Playbook executed with status: ${execution.status}`,
         expected: 'completed',
-        actual: execution.status
+        actual: execution.status,
       });
 
       results.push({
@@ -149,7 +149,7 @@ class TestingService {
         status: execution.successful_actions >= execution.total_actions * 0.8 ? 'passed' : 'failed',
         message: `${execution.successful_actions}/${execution.total_actions} actions succeeded`,
         expected: '80% success rate',
-        actual: `${Math.round((execution.successful_actions / execution.total_actions) * 100)}%`
+        actual: `${Math.round((execution.successful_actions / execution.total_actions) * 100)}%`,
       });
 
       results.push({
@@ -157,7 +157,7 @@ class TestingService {
         status: execution.errors.length === 0 ? 'passed' : 'failed',
         message: `${execution.errors.length} errors encountered`,
         expected: 'No errors',
-        actual: execution.errors.length
+        actual: execution.errors.length,
       });
     } catch (error) {
       results.push({
@@ -165,7 +165,7 @@ class TestingService {
         status: 'failed',
         message: `Execution failed: ${error.message}`,
         expected: 'Successful execution',
-        actual: error.message
+        actual: error.message,
       });
     }
 
@@ -185,26 +185,26 @@ class TestingService {
     // Validate playbook structure
     validations.push({
       name: 'Structure Validation',
-      check: () => playbook.name && playbook.description && playbook.category
+      check: () => playbook.name && playbook.description && playbook.category,
     });
 
     // Validate actions
     validations.push({
       name: 'Actions Validation',
-      check: () => Array.isArray(playbook.actions) && playbook.actions.length > 0
+      check: () => Array.isArray(playbook.actions) && playbook.actions.length > 0,
     });
 
     // Validate action parameters
     validations.push({
       name: 'Action Parameters',
-      check: () => playbook.actions.every(a => a.type && a.name && typeof a.order === 'number')
+      check: () => playbook.actions.every((a) => a.type && a.name && typeof a.order === 'number'),
     });
 
     // Validate trigger conditions
     if (playbook.trigger_conditions) {
       validations.push({
         name: 'Trigger Conditions',
-        check: () => playbook.trigger_conditions.type !== undefined
+        check: () => playbook.trigger_conditions.type !== undefined,
       });
     }
 
@@ -215,19 +215,19 @@ class TestingService {
         results.push({
           test_name: validation.name,
           status: passed ? 'passed' : 'failed',
-          message: passed ? `${validation.name} passed` : `${validation.name} failed`
+          message: passed ? `${validation.name} passed` : `${validation.name} failed`,
         });
 
         test.validation_checks.push({
           check_name: validation.name,
           passed,
-          message: passed ? 'Valid' : 'Invalid'
+          message: passed ? 'Valid' : 'Invalid',
         });
       } catch (error) {
         results.push({
           test_name: validation.name,
           status: 'failed',
-          message: `Validation error: ${error.message}`
+          message: `Validation error: ${error.message}`,
         });
       }
     }
@@ -247,7 +247,7 @@ class TestingService {
     // Estimate execution time
     const estimatedTime = this.estimateExecutionTime(playbook);
     test.performance_metrics = {
-      estimated_execution_time: estimatedTime
+      estimated_execution_time: estimatedTime,
     };
 
     results.push({
@@ -255,7 +255,7 @@ class TestingService {
       status: estimatedTime < 300 ? 'passed' : 'failed',
       message: `Estimated time: ${estimatedTime} seconds`,
       expected: 'Less than 300 seconds',
-      actual: estimatedTime
+      actual: estimatedTime,
     });
 
     // Check for potential bottlenecks
@@ -267,7 +267,7 @@ class TestingService {
       status: bottlenecks.length === 0 ? 'passed' : 'failed',
       message: `${bottlenecks.length} potential bottlenecks identified`,
       expected: 'No bottlenecks',
-      actual: bottlenecks.length
+      actual: bottlenecks.length,
     });
 
     // Analyze action complexity
@@ -278,7 +278,7 @@ class TestingService {
       status: complexity.score < 50 ? 'passed' : 'failed',
       message: `Complexity score: ${complexity.score}`,
       expected: 'Score less than 50',
-      actual: complexity.score
+      actual: complexity.score,
     });
 
     return results;
@@ -334,16 +334,16 @@ class TestingService {
    */
   calculateTestSummary(results) {
     const total = results.length;
-    const passed = results.filter(r => r.status === 'passed').length;
-    const failed = results.filter(r => r.status === 'failed').length;
-    const skipped = results.filter(r => r.status === 'skipped').length;
+    const passed = results.filter((r) => r.status === 'passed').length;
+    const failed = results.filter((r) => r.status === 'failed').length;
+    const skipped = results.filter((r) => r.status === 'skipped').length;
 
     return {
       total_tests: total,
       passed,
       failed,
       skipped,
-      success_rate: total > 0 ? Math.round((passed / total) * 100) : 0
+      success_rate: total > 0 ? Math.round((passed / total) * 100) : 0,
     };
   }
 
@@ -354,8 +354,8 @@ class TestingService {
    */
   validateActionOrder(actions) {
     if (!actions || actions.length === 0) return false;
-    
-    const orders = actions.map(a => a.order).sort((a, b) => a - b);
+
+    const orders = actions.map((a) => a.order).sort((a, b) => a - b);
     for (let i = 0; i < orders.length; i++) {
       if (orders[i] !== i) return false;
     }
@@ -368,9 +368,9 @@ class TestingService {
    * @returns {boolean} Valid or not
    */
   validateRequiredFields(playbook) {
-    return !!(playbook.name && playbook.description && 
-              playbook.category && playbook.actions && 
-              playbook.actions.length > 0);
+    return !!(playbook.name && playbook.description
+              && playbook.category && playbook.actions
+              && playbook.actions.length > 0);
   }
 
   /**
@@ -380,22 +380,22 @@ class TestingService {
    */
   estimateExecutionTime(playbook) {
     let total = 0;
-    
+
     for (const action of playbook.actions) {
       // Base time per action
       total += 10;
-      
+
       // Add timeout if specified
       if (action.timeout) {
         total += action.timeout / 10;
       }
-      
+
       // Add retry time if enabled
       if (action.retry?.enabled) {
         total += (action.retry.max_attempts * action.retry.delay);
       }
     }
-    
+
     return Math.round(total);
   }
 
@@ -406,17 +406,17 @@ class TestingService {
    */
   identifyBottlenecks(playbook) {
     const bottlenecks = [];
-    
+
     for (const action of playbook.actions) {
       if (action.timeout && action.timeout > 300) {
         bottlenecks.push(`Action "${action.name}" has high timeout (${action.timeout}s)`);
       }
-      
+
       if (action.retry?.enabled && action.retry.max_attempts > 5) {
         bottlenecks.push(`Action "${action.name}" has high retry count`);
       }
     }
-    
+
     return bottlenecks;
   }
 
@@ -427,26 +427,26 @@ class TestingService {
    */
   analyzeComplexity(playbook) {
     let score = 0;
-    
+
     // Base score from action count
     score += playbook.actions.length * 2;
-    
+
     // Add score for conditionals
-    const conditionCount = playbook.actions.filter(a => a.condition).length;
+    const conditionCount = playbook.actions.filter((a) => a.condition).length;
     score += conditionCount * 5;
-    
+
     // Add score for retries
-    const retryCount = playbook.actions.filter(a => a.retry?.enabled).length;
+    const retryCount = playbook.actions.filter((a) => a.retry?.enabled).length;
     score += retryCount * 3;
-    
+
     // Add score for approvals
     if (playbook.approvals_required) {
       score += 10;
     }
-    
+
     return {
       score,
-      level: score < 20 ? 'low' : score < 50 ? 'medium' : 'high'
+      level: score < 20 ? 'low' : score < 50 ? 'medium' : 'high',
     };
   }
 }

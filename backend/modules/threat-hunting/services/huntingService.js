@@ -38,8 +38,8 @@ class HuntingService {
 
   async detectAnomalies(data) {
     // Simulated anomaly detection
-    const anomalies = data.filter(item => item.score > 80);
-    return anomalies.map(a => ({
+    const anomalies = data.filter((item) => item.score > 80);
+    return anomalies.map((a) => ({
       type: 'behavioral_anomaly',
       description: a.description,
       score: a.score,

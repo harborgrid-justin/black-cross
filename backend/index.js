@@ -1,7 +1,7 @@
 /**
  * Black-Cross Platform
  * Enterprise-grade Cyber Threat Intelligence Platform
- * 
+ *
  * Main application entry point
  */
 
@@ -40,8 +40,8 @@ app.get('/health', (req, res) => {
       malwareAnalysis: 'operational',
       darkWeb: 'operational',
       compliance: 'operational',
-      automation: 'operational'
-    }
+      automation: 'operational',
+    },
   });
 });
 
@@ -65,8 +65,8 @@ app.get('/api/v1', (req, res) => {
       'Malware Analysis & Sandbox',
       'Dark Web Monitoring',
       'Compliance & Audit Management',
-      'Automated Response & Playbooks'
-    ]
+      'Automated Response & Playbooks',
+    ],
   });
 });
 
@@ -108,7 +108,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
     error: 'Internal Server Error',
-    message: process.env.NODE_ENV === 'development' ? err.message : undefined
+    message: process.env.NODE_ENV === 'development' ? err.message : undefined,
   });
 });
 
@@ -116,7 +116,7 @@ app.use((err, req, res, next) => {
 app.use((req, res) => {
   res.status(404).json({
     error: 'Not Found',
-    message: 'The requested resource was not found'
+    message: 'The requested resource was not found',
   });
 });
 

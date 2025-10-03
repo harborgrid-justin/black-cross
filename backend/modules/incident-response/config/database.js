@@ -7,12 +7,12 @@ const mongoose = require('mongoose');
 const connectDB = async () => {
   try {
     const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/black-cross';
-    
+
     await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    
+
     console.log('[INCIDENT-RESPONSE] MongoDB connected successfully');
   } catch (error) {
     console.error('[INCIDENT-RESPONSE] MongoDB connection error:', error);

@@ -22,20 +22,20 @@ class PlaybookController {
         category: req.query.category,
         search: req.query.search,
         tags: req.query.tags ? req.query.tags.split(',') : undefined,
-        limit: parseInt(req.query.limit) || 100
+        limit: parseInt(req.query.limit) || 100,
       };
 
       const playbooks = await libraryService.getLibrary(filters);
       res.json({
         success: true,
         data: playbooks,
-        count: playbooks.length
+        count: playbooks.length,
       });
     } catch (error) {
       logger.error('Error in getLibrary controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -49,13 +49,13 @@ class PlaybookController {
       const playbook = await libraryService.getPlaybook(req.params.id);
       res.json({
         success: true,
-        data: playbook
+        data: playbook,
       });
     } catch (error) {
       logger.error('Error in getPlaybook controller', { error: error.message });
       res.status(404).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -69,13 +69,13 @@ class PlaybookController {
       const playbook = await playbookService.createPlaybook(req.body);
       res.status(201).json({
         success: true,
-        data: playbook
+        data: playbook,
       });
     } catch (error) {
       logger.error('Error in createPlaybook controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -89,13 +89,13 @@ class PlaybookController {
       const playbook = await playbookService.updatePlaybook(req.params.id, req.body);
       res.json({
         success: true,
-        data: playbook
+        data: playbook,
       });
     } catch (error) {
       logger.error('Error in updatePlaybook controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -109,13 +109,13 @@ class PlaybookController {
       const result = await playbookService.deletePlaybook(req.params.id);
       res.json({
         success: true,
-        data: result
+        data: result,
       });
     } catch (error) {
       logger.error('Error in deletePlaybook controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -129,13 +129,13 @@ class PlaybookController {
       const playbook = await playbookService.clonePlaybook(req.params.id, req.body);
       res.status(201).json({
         success: true,
-        data: playbook
+        data: playbook,
       });
     } catch (error) {
       logger.error('Error in clonePlaybook controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -150,23 +150,23 @@ class PlaybookController {
         author: req.query.author,
         status: req.query.status,
         category: req.query.category,
-        is_prebuilt: req.query.is_prebuilt !== undefined ? 
-          req.query.is_prebuilt === 'true' : undefined,
+        is_prebuilt: req.query.is_prebuilt !== undefined
+          ? req.query.is_prebuilt === 'true' : undefined,
         search: req.query.search,
-        limit: parseInt(req.query.limit) || 100
+        limit: parseInt(req.query.limit) || 100,
       };
 
       const playbooks = await playbookService.listPlaybooks(filters);
       res.json({
         success: true,
         data: playbooks,
-        count: playbooks.length
+        count: playbooks.length,
       });
     } catch (error) {
       logger.error('Error in listPlaybooks controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -180,13 +180,13 @@ class PlaybookController {
       const execution = await executionService.executePlaybook(req.params.id, req.body);
       res.status(201).json({
         success: true,
-        data: execution
+        data: execution,
       });
     } catch (error) {
       logger.error('Error in executePlaybook controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -200,13 +200,13 @@ class PlaybookController {
       const execution = await executionService.getExecution(req.params.id);
       res.json({
         success: true,
-        data: execution
+        data: execution,
       });
     } catch (error) {
       logger.error('Error in getExecution controller', { error: error.message });
       res.status(404).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -222,20 +222,20 @@ class PlaybookController {
         status: req.query.status,
         execution_mode: req.query.execution_mode,
         from_date: req.query.from_date,
-        limit: parseInt(req.query.limit) || 100
+        limit: parseInt(req.query.limit) || 100,
       };
 
       const executions = await executionService.listExecutions(filters);
       res.json({
         success: true,
         data: executions,
-        count: executions.length
+        count: executions.length,
       });
     } catch (error) {
       logger.error('Error in listExecutions controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -249,13 +249,13 @@ class PlaybookController {
       const execution = await executionService.cancelExecution(req.params.id);
       res.json({
         success: true,
-        data: execution
+        data: execution,
       });
     } catch (error) {
       logger.error('Error in cancelExecution controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -269,13 +269,13 @@ class PlaybookController {
       const execution = await executionService.approveExecution(req.params.id, req.body);
       res.json({
         success: true,
-        data: execution
+        data: execution,
       });
     } catch (error) {
       logger.error('Error in approveExecution controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -289,13 +289,13 @@ class PlaybookController {
       const playbook = await decisionService.addDecision(req.params.id, req.body);
       res.json({
         success: true,
-        data: playbook
+        data: playbook,
       });
     } catch (error) {
       logger.error('Error in addDecision controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -310,13 +310,13 @@ class PlaybookController {
       const paths = await decisionService.getExecutionPaths(req.params.id, context);
       res.json({
         success: true,
-        data: paths
+        data: paths,
       });
     } catch (error) {
       logger.error('Error in getExecutionPaths controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -330,13 +330,13 @@ class PlaybookController {
       const test = await testingService.testPlaybook(req.params.id, req.body);
       res.status(201).json({
         success: true,
-        data: test
+        data: test,
       });
     } catch (error) {
       logger.error('Error in testPlaybook controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -351,13 +351,13 @@ class PlaybookController {
       res.json({
         success: true,
         data: tests,
-        count: tests.length
+        count: tests.length,
       });
     } catch (error) {
       logger.error('Error in getTestResults controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -369,19 +369,19 @@ class PlaybookController {
   async getMetrics(req, res) {
     try {
       const options = {
-        days: parseInt(req.query.days) || 30
+        days: parseInt(req.query.days) || 30,
       };
 
       const metrics = await metricsService.getPlaybookMetrics(req.params.id, options);
       res.json({
         success: true,
-        data: metrics
+        data: metrics,
       });
     } catch (error) {
       logger.error('Error in getMetrics controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -394,19 +394,19 @@ class PlaybookController {
     try {
       const filters = {
         category: req.query.category,
-        status: req.query.status
+        status: req.query.status,
       };
 
       const analytics = await metricsService.getAnalytics(filters);
       res.json({
         success: true,
-        data: analytics
+        data: analytics,
       });
     } catch (error) {
       logger.error('Error in getAnalytics controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -419,19 +419,19 @@ class PlaybookController {
     try {
       const options = {
         author: req.body.author,
-        overwrite: req.body.overwrite
+        overwrite: req.body.overwrite,
       };
 
       const playbook = await playbookService.importPlaybook(req.body.playbook, options);
       res.status(201).json({
         success: true,
-        data: playbook
+        data: playbook,
       });
     } catch (error) {
       logger.error('Error in importPlaybook controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -445,13 +445,13 @@ class PlaybookController {
       const playbookData = await playbookService.exportPlaybook(req.params.id);
       res.json({
         success: true,
-        data: playbookData
+        data: playbookData,
       });
     } catch (error) {
       logger.error('Error in exportPlaybook controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -465,13 +465,13 @@ class PlaybookController {
       const categories = await libraryService.getCategories();
       res.json({
         success: true,
-        data: categories
+        data: categories,
       });
     } catch (error) {
       logger.error('Error in getCategories controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }

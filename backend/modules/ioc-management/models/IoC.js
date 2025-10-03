@@ -2,17 +2,23 @@ const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
 
 const IoCSchema = new mongoose.Schema({
-  id: { type: String, default: uuidv4, unique: true, index: true },
+  id: {
+    type: String, default: uuidv4, unique: true, index: true,
+  },
   value: { type: String, required: true, index: true },
-  type: { 
-    type: String, 
+  type: {
+    type: String,
     enum: ['ip', 'domain', 'url', 'hash_md5', 'hash_sha1', 'hash_sha256', 'email', 'file_name', 'registry_key', 'mutex'],
     required: true,
     index: true,
   },
-  confidence: { type: Number, min: 0, max: 100, default: 50 },
+  confidence: {
+    type: Number, min: 0, max: 100, default: 50,
+  },
   severity: { type: String, enum: ['low', 'medium', 'high', 'critical'], default: 'medium' },
-  status: { type: String, enum: ['active', 'expired', 'whitelisted', 'false_positive'], default: 'active', index: true },
+  status: {
+    type: String, enum: ['active', 'expired', 'whitelisted', 'false_positive'], default: 'active', index: true,
+  },
   source: { type: String, required: true },
   first_seen: { type: Date, default: Date.now },
   last_seen: Date,

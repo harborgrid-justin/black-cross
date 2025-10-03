@@ -17,9 +17,9 @@ const WorkflowActionSchema = new mongoose.Schema({
   },
   action_type: {
     type: String,
-    enum: ['isolate_asset', 'block_ip', 'block_domain', 'disable_account', 'reset_password', 
-           'collect_logs', 'snapshot_system', 'send_notification', 'create_ticket', 
-           'escalate', 'run_script', 'custom'],
+    enum: ['isolate_asset', 'block_ip', 'block_domain', 'disable_account', 'reset_password',
+      'collect_logs', 'snapshot_system', 'send_notification', 'create_ticket',
+      'escalate', 'run_script', 'custom'],
     required: true,
   },
   name: String,
