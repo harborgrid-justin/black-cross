@@ -78,6 +78,11 @@ const feedIntegration = require('./modules/feed-integration');
 app.use('/api/v1/threat-intelligence', threatIntelligence);
 app.use('/api/v1/vulnerabilities', vulnerabilityManagement);
 app.use('/api/v1/feeds', feedIntegration);
+const iocManagement = require('./modules/ioc-management');
+
+app.use('/api/v1/threat-intelligence', threatIntelligence);
+app.use('/api/v1/vulnerabilities', vulnerabilityManagement);
+app.use('/api/v1/iocs', iocManagement);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
