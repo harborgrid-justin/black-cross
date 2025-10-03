@@ -94,9 +94,10 @@ app.use((req, res) => {
   });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`
+// Start server only if this file is run directly
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`
 ╔══════════════════════════════════════════════════════════════╗
 ║                                                              ║
 ║                      BLACK-CROSS                             ║
@@ -112,7 +113,8 @@ app.listen(PORT, () => {
 Features: 15 Primary | 105+ Sub-Features
 Status: Operational
 Environment: ${process.env.NODE_ENV || 'development'}
-  `);
-});
+    `);
+  });
+}
 
 module.exports = app;
