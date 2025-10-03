@@ -24,7 +24,6 @@ import {
   Group as GroupIcon,
   Assignment as TaskIcon,
   Chat as ChatIcon,
-  Notifications as NotificationIcon,
   Send as SendIcon,
   CheckCircle as CheckCircleIcon,
   Schedule as ScheduleIcon,
