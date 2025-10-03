@@ -76,6 +76,10 @@ const reporting = require('./modules/reporting');
 
 app.use('/api/v1/threat-intelligence', threatIntelligence);
 app.use('/api/v1/reports', reporting);
+const collaboration = require('./modules/collaboration');
+
+app.use('/api/v1/threat-intelligence', threatIntelligence);
+app.use('/api/v1/collaboration', collaboration);
 
 // Error handling middleware
 app.use((err, req, res, _next) => {
