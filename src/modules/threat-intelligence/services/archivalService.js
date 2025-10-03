@@ -40,18 +40,18 @@ class ArchivalService {
         {
           $set: {
             status: 'archived',
-            archived_at: new Date()
-          }
-        }
+            archived_at: new Date(),
+          },
+        },
       );
 
-      logger.info('Threats archived successfully', { 
-        count: result.modifiedCount 
+      logger.info('Threats archived successfully', {
+        count: result.modifiedCount,
       });
 
       return {
         archived_count: result.modifiedCount,
-        criteria
+        criteria,
       };
     } catch (error) {
       logger.error('Error archiving threats', { error: error.message });
@@ -111,17 +111,17 @@ class ArchivalService {
         {
           $set: {
             status: 'active',
-            archived_at: null
-          }
-        }
+            archived_at: null,
+          },
+        },
       );
 
-      logger.info('Threats restored successfully', { 
-        count: result.modifiedCount 
+      logger.info('Threats restored successfully', {
+        count: result.modifiedCount,
       });
 
       return {
-        restored_count: result.modifiedCount
+        restored_count: result.modifiedCount,
       };
     } catch (error) {
       logger.error('Error restoring threats', { error: error.message });
@@ -152,7 +152,7 @@ class ArchivalService {
       logger.info('Archived threats deleted', { count: result.deletedCount });
 
       return {
-        deleted_count: result.deletedCount
+        deleted_count: result.deletedCount,
       };
     } catch (error) {
       logger.error('Error deleting archived threats', { error: error.message });
@@ -172,9 +172,9 @@ class ArchivalService {
             _id: '$status',
             count: { $sum: 1 },
             oldest: { $min: '$archived_at' },
-            newest: { $max: '$archived_at' }
-          }
-        }
+            newest: { $max: '$archived_at' },
+          },
+        },
       ]);
 
       const totalActive = await Threat.countDocuments({ status: 'active' });
@@ -186,7 +186,7 @@ class ArchivalService {
         archived: totalArchived,
         inactive: totalInactive,
         total: totalActive + totalArchived + totalInactive,
-        details: stats
+        details: stats,
       };
     } catch (error) {
       logger.error('Error getting archival stats', { error: error.message });
@@ -205,14 +205,14 @@ class ArchivalService {
 
       const results = {
         archived: 0,
-        deleted: 0
+        deleted: 0,
       };
 
       // Archive old active threats
       if (policy.archive_after_days) {
         const archiveResult = await this.archiveThreats({
           older_than_days: policy.archive_after_days,
-          status: 'active'
+          status: 'active',
         });
         results.archived = archiveResult.archived_count;
       }
@@ -220,7 +220,7 @@ class ArchivalService {
       // Delete old archived threats
       if (policy.delete_after_days) {
         const deleteResult = await this.deleteArchivedThreats({
-          archived_before_days: policy.delete_after_days
+          archived_before_days: policy.delete_after_days,
         });
         results.deleted = deleteResult.deleted_count;
       }

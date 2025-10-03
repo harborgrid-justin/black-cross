@@ -3,22 +3,21 @@
  */
 
 const express = require('express');
+
 const router = express.Router();
 const taxonomyController = require('../controllers/taxonomyController');
 const { taxonomySchema, taxonomyUpdateSchema } = require('../validators/taxonomyValidator');
 
 // Validation middleware
-const validate = (schema) => {
-  return (req, res, next) => {
-    const { error } = schema.validate(req.body);
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        error: error.details[0].message
-      });
-    }
-    next();
-  };
+const validate = (schema) => (req, res, next) => {
+  const { error } = schema.validate(req.body);
+  if (error) {
+    return res.status(400).json({
+      success: false,
+      error: error.details[0].message,
+    });
+  }
+  next();
 };
 
 // Taxonomy CRUD routes

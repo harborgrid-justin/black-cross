@@ -1,5 +1,5 @@
 /**
- * Logger utility for Threat Intelligence module
+ * Logger utility for Compliance module
  */
 
 const winston = require('winston');
@@ -11,7 +11,7 @@ const logger = winston.createLogger({
     winston.format.errors({ stack: true }),
     winston.format.json(),
   ),
-  defaultMeta: { module: 'threat-intelligence' },
+  defaultMeta: { module: 'compliance' },
   transports: [
     new winston.transports.Console({
       format: winston.format.combine(

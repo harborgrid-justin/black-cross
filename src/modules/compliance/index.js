@@ -1,22 +1,21 @@
 /**
- * Threat Intelligence Management Module
+ * Compliance & Audit Management Module
  *
  * This module handles:
- * - Real-time threat data collection and aggregation
- * - Threat categorization and tagging system
- * - Historical threat data archival
- * - Threat intelligence enrichment
- * - Custom threat taxonomy management
- * - Automated threat correlation
- * - Threat context analysis
+ * - Compliance framework mapping (NIST, ISO, PCI-DSS, HIPAA, GDPR, etc.)
+ * - Audit trail and logging
+ * - Compliance gap analysis
+ * - Policy management and enforcement
+ * - Automated compliance reporting
+ * - Evidence collection for audits
+ * - Regulatory requirement tracking
  */
 
 const express = require('express');
 
 const router = express.Router();
 const { connectDatabase } = require('./config/database');
-const threatRoutes = require('./routes/threatRoutes');
-const taxonomyRoutes = require('./routes/taxonomyRoutes');
+const complianceRoutes = require('./routes/complianceRoutes');
 const logger = require('./utils/logger');
 
 // Initialize database connection
@@ -26,7 +25,7 @@ const initializeDatabase = async () => {
     try {
       await connectDatabase();
       dbInitialized = true;
-      logger.info('Threat Intelligence module database initialized');
+      logger.info('Compliance module database initialized');
     } catch (error) {
       logger.error('Failed to initialize database', { error: error.message });
     }
@@ -36,25 +35,24 @@ const initializeDatabase = async () => {
 // Health check route
 router.get('/health', (req, res) => {
   res.json({
-    module: 'threat-intelligence',
+    module: 'compliance',
     status: 'operational',
     version: '1.0.0',
     database: dbInitialized ? 'connected' : 'disconnected',
     subFeatures: [
-      'real-time-collection',
-      'categorization',
-      'archival',
-      'enrichment',
-      'taxonomy-management',
-      'correlation',
-      'context-analysis',
+      'compliance-framework-mapping',
+      'audit-trail-logging',
+      'gap-analysis',
+      'policy-management',
+      'automated-reporting',
+      'evidence-collection',
+      'regulatory-requirement-tracking',
     ],
   });
 });
 
 // Mount routes
-router.use('/', threatRoutes);
-router.use('/', taxonomyRoutes);
+router.use('/', complianceRoutes);
 
 // Initialize database on module load
 initializeDatabase().catch((err) => {
