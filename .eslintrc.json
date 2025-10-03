@@ -11,5 +11,18 @@
   "rules": {
     "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
     "no-console": "off"
+  "extends": [
+    "airbnb-base"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 12
+  },
+  "rules": {
+    "no-console": "off",
+    "no-underscore-dangle": "off",
+    "consistent-return": "off",
+    "class-methods-use-this": "off",
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "max-len": ["error", { "code": 120, "ignoreComments": true }]
   }
 }
