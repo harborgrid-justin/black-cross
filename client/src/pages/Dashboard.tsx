@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   Box,
   Grid,
@@ -6,6 +7,8 @@ import {
   Card,
   CardContent,
   LinearProgress,
+  CircularProgress,
+  Alert,
 } from '@mui/material';
 import {
   TrendingUp,
@@ -13,6 +16,7 @@ import {
   Security,
   BugReport,
 } from '@mui/icons-material';
+import { dashboardService } from '@/services/dashboardService';
 
 const StatCard = ({
   title,
@@ -59,43 +63,120 @@ const StatCard = ({
 );
 
 export default function Dashboard() {
-  const stats = [
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [stats, setStats] = useState([
     {
       title: 'Active Threats',
-      value: 247,
+      value: 0,
       icon: <BugReport />,
       color: '#f44336',
       trend: '+12% from last week',
     },
     {
       title: 'Open Incidents',
-      value: 18,
+      value: 0,
       icon: <Warning />,
       color: '#ff9800',
       trend: '-5% from last week',
     },
     {
       title: 'Vulnerabilities',
-      value: 156,
+      value: 0,
       icon: <Security />,
       color: '#2196f3',
       trend: '+8% from last week',
     },
     {
       title: 'Risk Score',
-      value: '7.2/10',
+      value: '0/10',
       icon: <TrendingUp />,
       color: '#4caf50',
       trend: 'Stable',
     },
-  ];
+  ]);
+  const [recentThreats, setRecentThreats] = useState<Array<{ name: string; severity: string; time: string }>>([]);
+  const [systemHealth, setSystemHealth] = useState([
+    { name: 'Threat Intelligence', value: 98 },
+    { name: 'SIEM Integration', value: 95 },
+    { name: 'Incident Response', value: 100 },
+    { name: 'Vulnerability Scanning', value: 87 },
+  ]);
 
-  const recentThreats = [
-    { name: 'Phishing Campaign #2847', severity: 'high', time: '5 minutes ago' },
-    { name: 'Malware: TrojanX.v2', severity: 'critical', time: '12 minutes ago' },
-    { name: 'DDoS Attack Detected', severity: 'medium', time: '45 minutes ago' },
-    { name: 'Ransomware: CryptoLocker', severity: 'critical', time: '1 hour ago' },
-  ];
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Fetch dashboard stats
+        const statsResponse = await dashboardService.getStats();
+        if (statsResponse.success && statsResponse.data) {
+          setStats([
+            {
+              title: 'Active Threats',
+              value: statsResponse.data.activeThreats,
+              icon: <BugReport />,
+              color: '#f44336',
+              trend: `${statsResponse.data.threatTrend > 0 ? '+' : ''}${statsResponse.data.threatTrend}% from last week`,
+            },
+            {
+              title: 'Open Incidents',
+              value: statsResponse.data.openIncidents,
+              icon: <Warning />,
+              color: '#ff9800',
+              trend: `${statsResponse.data.incidentTrend > 0 ? '+' : ''}${statsResponse.data.incidentTrend}% from last week`,
+            },
+            {
+              title: 'Vulnerabilities',
+              value: statsResponse.data.vulnerabilities,
+              icon: <Security />,
+              color: '#2196f3',
+              trend: `${statsResponse.data.vulnTrend > 0 ? '+' : ''}${statsResponse.data.vulnTrend}% from last week`,
+            },
+            {
+              title: 'Risk Score',
+              value: `${statsResponse.data.riskScore}/10`,
+              icon: <TrendingUp />,
+              color: '#4caf50',
+              trend: 'Stable',
+            },
+          ]);
+        }
+
+        // Fetch recent threats
+        const threatsResponse = await dashboardService.getRecentThreats(4);
+        if (threatsResponse.success && threatsResponse.data) {
+          setRecentThreats(threatsResponse.data);
+        }
+
+        // Fetch system health
+        const healthResponse = await dashboardService.getSystemHealth();
+        if (healthResponse.success && healthResponse.data) {
+          setSystemHealth([
+            { name: 'Threat Intelligence', value: healthResponse.data.threatIntelligence },
+            { name: 'SIEM Integration', value: healthResponse.data.siemIntegration },
+            { name: 'Incident Response', value: healthResponse.data.incidentResponse },
+            { name: 'Vulnerability Scanning', value: healthResponse.data.vulnerabilityScanning },
+          ]);
+        }
+      } catch (err) {
+        console.error('Error fetching dashboard data:', err);
+        setError('Failed to load dashboard data. Using mock data.');
+        // Keep mock data if API fails
+        setRecentThreats([
+          { name: 'Phishing Campaign #2847', severity: 'high', time: '5 minutes ago' },
+          { name: 'Malware: TrojanX.v2', severity: 'critical', time: '12 minutes ago' },
+          { name: 'DDoS Attack Detected', severity: 'medium', time: '45 minutes ago' },
+          { name: 'Ransomware: CryptoLocker', severity: 'critical', time: '1 hour ago' },
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -112,11 +193,25 @@ export default function Dashboard() {
     }
   };
 
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
     <Box>
       <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
         Dashboard
       </Typography>
+
+      {error && (
+        <Alert severity="info" sx={{ mb: 3 }}>
+          {error}
+        </Alert>
+      )}
 
       <Grid container spacing={3}>
         {stats.map((stat) => (
@@ -182,12 +277,7 @@ export default function Dashboard() {
               System Health
             </Typography>
             <Box sx={{ mt: 3 }}>
-              {[
-                { name: 'Threat Intelligence', value: 98 },
-                { name: 'SIEM Integration', value: 95 },
-                { name: 'Incident Response', value: 100 },
-                { name: 'Vulnerability Scanning', value: 87 },
-              ].map((system) => (
+              {systemHealth.map((system) => (
                 <Box key={system.name} sx={{ mb: 2 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
                     <Typography variant="body2">{system.name}</Typography>
