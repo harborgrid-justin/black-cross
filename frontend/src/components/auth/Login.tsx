@@ -41,9 +41,15 @@ export default function Login() {
         justifyContent: 'center',
         background: 'linear-gradient(135deg, #0a1929 0%, #132f4c 100%)',
       }}
+      role="main"
     >
       <Container maxWidth="sm">
-        <Paper elevation={24} sx={{ p: 4, borderRadius: 2 }}>
+        <Paper 
+          elevation={24} 
+          sx={{ p: 4, borderRadius: 2 }}
+          role="region"
+          aria-label="login form"
+        >
           <Box sx={{ mb: 4, textAlign: 'center' }}>
             <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 700 }}>
               BLACK-CROSS
@@ -54,14 +60,15 @@ export default function Login() {
           </Box>
 
           {error && (
-            <Alert severity="error" sx={{ mb: 2 }}>
+            <Alert severity="error" sx={{ mb: 2 }} role="alert" aria-live="assertive">
               {error}
             </Alert>
           )}
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} aria-label="Login form">
             <TextField
               fullWidth
+              id="email-input"
               label="Email"
               type="email"
               value={email}
@@ -70,9 +77,14 @@ export default function Login() {
               required
               autoComplete="email"
               autoFocus
+              inputProps={{
+                'aria-label': 'Email address',
+                'aria-required': 'true',
+              }}
             />
             <TextField
               fullWidth
+              id="password-input"
               label="Password"
               type="password"
               value={password}
@@ -80,6 +92,10 @@ export default function Login() {
               margin="normal"
               required
               autoComplete="current-password"
+              inputProps={{
+                'aria-label': 'Password',
+                'aria-required': 'true',
+              }}
             />
             <Button
               fullWidth
@@ -88,6 +104,7 @@ export default function Login() {
               size="large"
               disabled={loading}
               sx={{ mt: 3, mb: 2 }}
+              aria-label={loading ? 'Signing in, please wait' : 'Sign in to your account'}
             >
               {loading ? 'Signing in...' : 'Sign In'}
             </Button>

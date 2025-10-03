@@ -22,5 +22,19 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: true,
+    // Performance optimization: code splitting
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Vendor chunks for better caching
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'mui-vendor': ['@mui/material', '@mui/icons-material'],
+          'redux-vendor': ['@reduxjs/toolkit', 'react-redux'],
+          'chart-vendor': ['recharts'],
+        },
+      },
+    },
+    // Increase chunk size warning limit
+    chunkSizeWarningLimit: 1000,
   },
 })
