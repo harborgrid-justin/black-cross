@@ -47,7 +47,7 @@ class HuntingService {
     }));
   }
 
-  _simulateQueryExecution(query) {
+  _simulateQueryExecution(_query) {
     return {
       matches: Math.floor(Math.random() * 100),
       execution_time: Math.random() * 5,

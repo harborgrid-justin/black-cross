@@ -146,10 +146,10 @@ class IntegrationService {
   /**
    * Test integration
    * @param {string} integrationId - Integration ID
-   * @param {Object} testData - Test data
+   * @param {Object} _testData - Test data
    * @returns {Promise<Object>} Test result
    */
-  async testIntegration(integrationId, testData = {}) {
+  async testIntegration(integrationId, _testData = {}) {
     try {
       logger.info('Testing integration', { integration_id: integrationId });
 

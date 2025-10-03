@@ -292,7 +292,6 @@ class ContextService {
    */
   analyzeConfidence(threat) {
     const factors = [];
-    const totalScore = threat.confidence;
 
     // Source reliability
     if (threat.source?.reliability) {

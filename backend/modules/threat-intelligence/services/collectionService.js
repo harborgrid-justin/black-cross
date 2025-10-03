@@ -18,7 +18,7 @@ class CollectionService {
       logger.info('Collecting new threat', { name: threatData.name });
 
       // Generate hash for deduplication
-      const hash = generateThreatHash(threatData);
+      generateThreatHash(threatData);
 
       // Check for existing threat with same hash
       const existingThreats = await Threat.find({

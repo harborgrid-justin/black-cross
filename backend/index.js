@@ -104,7 +104,7 @@ app.use('/api/v1/compliance', compliance);
 app.use('/api/v1/automation', automation);
 
 // Error handling middleware
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   console.error(err.stack);
   res.status(500).json({
     error: 'Internal Server Error',

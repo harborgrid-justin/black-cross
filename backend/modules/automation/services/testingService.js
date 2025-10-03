@@ -82,10 +82,10 @@ class TestingService {
   /**
    * Perform dry run
    * @param {Object} playbook - Playbook object
-   * @param {Object} test - Test object
+   * @param {Object} _test - Test object
    * @returns {Promise<Array>} Test results
    */
-  async performDryRun(playbook, test) {
+  async performDryRun(playbook, _test) {
     const results = [];
 
     results.push({
