@@ -54,11 +54,11 @@ class CategorizationService {
       // Rule-based categorization
       if (threat.type === 'malware') {
         suggestedCategories.push('malware');
-        
+
         // Check for specific malware types
         const name = threat.name.toLowerCase();
         const desc = threat.description.toLowerCase();
-        
+
         if (name.includes('ransom') || desc.includes('ransom')) {
           suggestedCategories.push('ransomware', 'extortion');
         }
@@ -72,7 +72,7 @@ class CategorizationService {
 
       if (threat.type === 'phishing') {
         suggestedCategories.push('phishing', 'social-engineering');
-        
+
         const desc = threat.description.toLowerCase();
         if (desc.includes('credential') || desc.includes('login')) {
           suggestedCategories.push('credential-theft');
@@ -81,7 +81,7 @@ class CategorizationService {
 
       // MITRE ATT&CK categorization
       if (threat.mitre_attack?.tactics?.length) {
-        suggestedCategories.push(...threat.mitre_attack.tactics.map(t => `mitre-${t.toLowerCase()}`));
+        suggestedCategories.push(...threat.mitre_attack.tactics.map((t) => `mitre-${t.toLowerCase()}`));
       }
 
       // Severity-based categorization
@@ -142,7 +142,7 @@ class CategorizationService {
         throw new Error('Threat not found');
       }
 
-      threat.tags = threat.tags.filter(tag => !tags.includes(tag));
+      threat.tags = threat.tags.filter((tag) => !tags.includes(tag));
       await threat.save();
 
       logger.info('Tags removed successfully', { threatId });
@@ -169,7 +169,7 @@ class CategorizationService {
             taxonomy: taxonomy.name,
             category: category.name,
             description: category.description,
-            level: category.level
+            level: category.level,
           });
         }
       }
@@ -178,13 +178,13 @@ class CategorizationService {
       const defaultCategories = [
         'malware', 'phishing', 'ransomware', 'apt', 'botnet',
         'ddos', 'vulnerability', 'exploit', 'high-priority',
-        'credential-theft', 'social-engineering', 'data-exfiltration'
+        'credential-theft', 'social-engineering', 'data-exfiltration',
       ];
 
       return {
         taxonomies: allCategories,
         defaults: defaultCategories,
-        total: allCategories.length + defaultCategories.length
+        total: allCategories.length + defaultCategories.length,
       };
     } catch (error) {
       logger.error('Error getting categories', { error: error.message });

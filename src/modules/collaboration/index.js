@@ -1,22 +1,23 @@
 /**
- * Threat Intelligence Management Module
+ * Collaboration & Workflow Module
  *
  * This module handles:
- * - Real-time threat data collection and aggregation
- * - Threat categorization and tagging system
- * - Historical threat data archival
- * - Threat intelligence enrichment
- * - Custom threat taxonomy management
- * - Automated threat correlation
- * - Threat context analysis
+ * - Team workspace and project management
+ * - Role-based access control (RBAC)
+ * - Real-time collaboration tools
+ * - Task assignment and tracking
+ * - Knowledge base and wiki
+ * - Secure chat and messaging
+ * - Activity feeds and notifications
  */
 
 const express = require('express');
 
 const router = express.Router();
 const { connectDatabase } = require('./config/database');
-const threatRoutes = require('./routes/threatRoutes');
-const taxonomyRoutes = require('./routes/taxonomyRoutes');
+const workspaceRoutes = require('./routes/workspaceRoutes');
+const taskRoutes = require('./routes/taskRoutes');
+const collaborationRoutes = require('./routes/collaborationRoutes');
 const logger = require('./utils/logger');
 
 // Initialize database connection
@@ -26,7 +27,7 @@ const initializeDatabase = async () => {
     try {
       await connectDatabase();
       dbInitialized = true;
-      logger.info('Threat Intelligence module database initialized');
+      logger.info('Collaboration module database initialized');
     } catch (error) {
       logger.error('Failed to initialize database', { error: error.message });
     }
@@ -36,25 +37,26 @@ const initializeDatabase = async () => {
 // Health check route
 router.get('/health', (req, res) => {
   res.json({
-    module: 'threat-intelligence',
+    module: 'collaboration',
     status: 'operational',
     version: '1.0.0',
     database: dbInitialized ? 'connected' : 'disconnected',
     subFeatures: [
-      'real-time-collection',
-      'categorization',
-      'archival',
-      'enrichment',
-      'taxonomy-management',
-      'correlation',
-      'context-analysis',
+      'workspace-management',
+      'rbac',
+      'real-time-collaboration',
+      'task-management',
+      'knowledge-base',
+      'secure-messaging',
+      'activity-notifications',
     ],
   });
 });
 
 // Mount routes
-router.use('/', threatRoutes);
-router.use('/', taxonomyRoutes);
+router.use('/', workspaceRoutes);
+router.use('/', taskRoutes);
+router.use('/', collaborationRoutes);
 
 // Initialize database on module load
 initializeDatabase().catch((err) => {

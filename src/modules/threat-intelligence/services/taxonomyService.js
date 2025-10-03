@@ -49,7 +49,7 @@ class TaxonomyService {
       }
 
       // Update fields
-      Object.keys(updateData).forEach(key => {
+      Object.keys(updateData).forEach((key) => {
         if (updateData[key] !== undefined && key !== 'id') {
           taxonomy[key] = updateData[key];
         }
@@ -191,7 +191,7 @@ class TaxonomyService {
       }
 
       taxonomy.categories = taxonomy.categories.filter(
-        cat => cat.id !== categoryId
+        (cat) => cat.id !== categoryId,
       );
       await taxonomy.save();
 
