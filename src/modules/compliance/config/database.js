@@ -1,5 +1,5 @@
 /**
- * Database Configuration for Threat Intelligence Module
+ * Database Configuration for Compliance Module
  */
 
 const mongoose = require('mongoose');
@@ -13,10 +13,10 @@ const connectDatabase = async () => {
       useUnifiedTopology: true,
     });
 
-    console.log('✅ Threat Intelligence Database connected successfully');
+    console.log('✅ Compliance Module Database connected successfully');
     return mongoose.connection;
   } catch (error) {
-    console.error('❌ Threat Intelligence Database connection error:', error);
+    console.error('❌ Compliance Module Database connection error:', error);
     throw error;
   }
 };

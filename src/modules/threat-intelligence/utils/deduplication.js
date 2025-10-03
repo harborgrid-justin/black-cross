@@ -14,7 +14,7 @@ const generateThreatHash = (threat) => {
     threat.name?.toLowerCase().trim(),
     threat.type,
     threat.description?.toLowerCase().trim().substring(0, 100),
-    threat.indicators?.map(i => i.value).sort().join(',')
+    threat.indicators?.map((i) => i.value).sort().join(','),
   ].filter(Boolean);
 
   const hashInput = components.join('|');
@@ -61,9 +61,9 @@ const calculateSimilarity = (threat1, threat2) => {
   // Indicator overlap
   if (threat1.indicators?.length && threat2.indicators?.length) {
     checks++;
-    const indicators1 = new Set(threat1.indicators.map(i => i.value));
-    const indicators2 = new Set(threat2.indicators.map(i => i.value));
-    const intersection = new Set([...indicators1].filter(x => indicators2.has(x)));
+    const indicators1 = new Set(threat1.indicators.map((i) => i.value));
+    const indicators2 = new Set(threat2.indicators.map((i) => i.value));
+    const intersection = new Set([...indicators1].filter((x) => indicators2.has(x)));
     const union = new Set([...indicators1, ...indicators2]);
     const overlap = (intersection.size / union.size) * 50;
     score += overlap;
@@ -75,5 +75,5 @@ const calculateSimilarity = (threat1, threat2) => {
 module.exports = {
   generateThreatHash,
   isDuplicate,
-  calculateSimilarity
+  calculateSimilarity,
 };

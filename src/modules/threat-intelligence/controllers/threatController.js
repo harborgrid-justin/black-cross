@@ -21,13 +21,13 @@ class ThreatController {
       const threat = await collectionService.collectThreat(req.body);
       res.status(201).json({
         success: true,
-        data: threat
+        data: threat,
       });
     } catch (error) {
       logger.error('Error in collectThreat controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -42,20 +42,20 @@ class ThreatController {
         severity: req.query.severity,
         type: req.query.type,
         since: req.query.since,
-        limit: parseInt(req.query.limit) || 100
+        limit: parseInt(req.query.limit) || 100,
       };
 
       const threats = await collectionService.streamThreats(filters);
       res.json({
         success: true,
         data: threats,
-        count: threats.length
+        count: threats.length,
       });
     } catch (error) {
       logger.error('Error in streamThreats controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -77,13 +77,13 @@ class ThreatController {
 
       res.json({
         success: true,
-        data: threat
+        data: threat,
       });
     } catch (error) {
       logger.error('Error in categorizeThreat controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -97,13 +97,13 @@ class ThreatController {
       const categories = await categorizationService.getCategories();
       res.json({
         success: true,
-        data: categories
+        data: categories,
       });
     } catch (error) {
       logger.error('Error in getCategories controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -117,13 +117,13 @@ class ThreatController {
       const result = await archivalService.archiveThreats(req.body);
       res.json({
         success: true,
-        data: result
+        data: result,
       });
     } catch (error) {
       logger.error('Error in archiveThreats controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -139,20 +139,20 @@ class ThreatController {
         to_date: req.query.to_date,
         type: req.query.type,
         severity: req.query.severity,
-        limit: parseInt(req.query.limit) || 1000
+        limit: parseInt(req.query.limit) || 1000,
       };
 
       const threats = await archivalService.getHistoricalThreats(filters);
       res.json({
         success: true,
         data: threats,
-        count: threats.length
+        count: threats.length,
       });
     } catch (error) {
       logger.error('Error in getHistory controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -167,13 +167,13 @@ class ThreatController {
       const threat = await enrichmentService.enrichThreat(threat_id, sources);
       res.json({
         success: true,
-        data: threat
+        data: threat,
       });
     } catch (error) {
       logger.error('Error in enrichThreat controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -187,13 +187,13 @@ class ThreatController {
       const threat = await enrichmentService.getEnrichedThreat(req.params.id);
       res.json({
         success: true,
-        data: threat
+        data: threat,
       });
     } catch (error) {
       logger.error('Error in getEnrichedThreat controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -207,20 +207,20 @@ class ThreatController {
       const { threat_id, min_similarity, correlation_types } = req.body;
       const options = {
         min_similarity,
-        correlation_types
+        correlation_types,
       };
 
       const correlations = await correlationService.correlateThreats(threat_id, options);
       res.json({
         success: true,
         data: correlations,
-        count: correlations.length
+        count: correlations.length,
       });
     } catch (error) {
       logger.error('Error in correlateThreats controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -235,13 +235,13 @@ class ThreatController {
       res.json({
         success: true,
         data: threats,
-        count: threats.length
+        count: threats.length,
       });
     } catch (error) {
       logger.error('Error in getRelatedThreats controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -255,13 +255,13 @@ class ThreatController {
       const context = await contextService.getThreatContext(req.params.id);
       res.json({
         success: true,
-        data: context
+        data: context,
       });
     } catch (error) {
       logger.error('Error in getThreatContext controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -276,13 +276,13 @@ class ThreatController {
       const analysis = await contextService.analyzePatterns(threat_ids);
       res.json({
         success: true,
-        data: analysis
+        data: analysis,
       });
     } catch (error) {
       logger.error('Error in analyzeThreats controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
