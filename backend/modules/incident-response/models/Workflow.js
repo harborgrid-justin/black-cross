@@ -62,7 +62,10 @@ const WorkflowSchema = new mongoose.Schema({
   description: String,
   category: {
     type: String,
-    enum: ['malware', 'phishing', 'data_breach', 'ddos', 'unauthorized_access', 'insider_threat', 'ransomware', 'generic'],
+    enum: [
+      'malware', 'phishing', 'data_breach', 'ddos',
+      'unauthorized_access', 'insider_threat', 'ransomware', 'generic',
+    ],
     required: true,
   },
   trigger_conditions: {

@@ -142,7 +142,8 @@ class LibraryService {
     return [
       {
         name: 'Phishing Email Response',
-        description: 'Automated response to phishing email alerts including email analysis, IOC extraction, and user notification',
+        description: 'Automated response to phishing email alerts including '
+          + 'email analysis, IOC extraction, and user notification',
         category: 'phishing_response',
         author: 'Black-Cross Security Team',
         status: 'active',

@@ -8,7 +8,10 @@ const IoCSchema = new mongoose.Schema({
   value: { type: String, required: true, index: true },
   type: {
     type: String,
-    enum: ['ip', 'domain', 'url', 'hash_md5', 'hash_sha1', 'hash_sha256', 'email', 'file_name', 'registry_key', 'mutex'],
+    enum: [
+      'ip', 'domain', 'url', 'hash_md5', 'hash_sha1', 'hash_sha256',
+      'email', 'file_name', 'registry_key', 'mutex',
+    ],
     required: true,
     index: true,
   },

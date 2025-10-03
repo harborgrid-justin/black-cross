@@ -252,7 +252,11 @@ class IntegrationService {
       { type: 'siem', name: 'SIEM', examples: ['Splunk', 'QRadar', 'ArcSight'] },
       { type: 'email_gateway', name: 'Email Gateway', examples: ['Proofpoint', 'Mimecast'] },
       { type: 'identity', name: 'Identity Management', examples: ['Active Directory', 'Okta', 'Ping'] },
-      { type: 'cloud', name: 'Cloud Security', examples: ['AWS Security Hub', 'Azure Security Center', 'GCP Security Command Center'] },
+      {
+        type: 'cloud',
+        name: 'Cloud Security',
+        examples: ['AWS Security Hub', 'Azure Security Center', 'GCP Security Command Center'],
+      },
       { type: 'network', name: 'Network Devices', examples: ['Cisco Switches', 'Network Controllers'] },
       { type: 'ticketing', name: 'Ticketing Systems', examples: ['Jira', 'ServiceNow'] },
       { type: 'communication', name: 'Communication Platforms', examples: ['Slack', 'Teams', 'Email'] },

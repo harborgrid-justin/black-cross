@@ -13,7 +13,10 @@ const TimelineEventSchema = new mongoose.Schema({
   },
   event_type: {
     type: String,
-    enum: ['created', 'updated', 'assigned', 'escalated', 'resolved', 'closed', 'reopened', 'comment', 'evidence_added', 'workflow_executed'],
+    enum: [
+      'created', 'updated', 'assigned', 'escalated', 'resolved', 'closed',
+      'reopened', 'comment', 'evidence_added', 'workflow_executed',
+    ],
     required: true,
   },
   description: String,
