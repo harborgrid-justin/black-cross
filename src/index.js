@@ -72,6 +72,12 @@ app.get('/api/v1', (req, res) => {
 
 // Module routes
 const threatIntelligence = require('./modules/threat-intelligence');
+const vulnerabilityManagement = require('./modules/vulnerability-management');
+const siem = require('./modules/siem');
+
+app.use('/api/v1/threat-intelligence', threatIntelligence);
+app.use('/api/v1/vulnerabilities', vulnerabilityManagement);
+app.use('/api/v1/siem', siem);
 app.use('/api/v1/threat-intelligence', threatIntelligence);
 
 const incidentResponse = require('./modules/incident-response');
