@@ -74,6 +74,9 @@ app.get('/api/v1', (req, res) => {
 const threatIntelligence = require('./modules/threat-intelligence');
 app.use('/api/v1/threat-intelligence', threatIntelligence);
 
+const incidentResponse = require('./modules/incident-response');
+app.use('/api/v1', incidentResponse);
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
