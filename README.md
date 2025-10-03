@@ -248,6 +248,7 @@ npm start
 
 For detailed installation instructions, see:
 - **[SETUP.md](./SETUP.md)** - Complete setup guide with troubleshooting
+- **[QUICK_REFERENCE.md](./QUICK_REFERENCE.md)** - Quick command reference
 - [GETTING_STARTED.md](./GETTING_STARTED.md) - Quick start guide
 - [Backend README](./backend/README.md)
 - [Frontend README](./frontend/README.md)

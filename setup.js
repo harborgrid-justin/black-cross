@@ -3,6 +3,16 @@
 /**
  * Black-Cross Setup Script
  * Automated setup for complete installation
+ * 
+ * This script automates the following tasks:
+ * 1. Checks system prerequisites (Node.js, npm, git, etc.)
+ * 2. Installs all npm dependencies (root, backend, frontend)
+ * 3. Creates environment files from .env.example templates
+ * 4. Generates Prisma Client
+ * 5. Verifies the setup
+ * 6. Provides clear next steps
+ * 
+ * Usage: npm run setup
  */
 
 const { execSync } = require('child_process');
