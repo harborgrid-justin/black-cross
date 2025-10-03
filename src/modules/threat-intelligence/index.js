@@ -1,6 +1,6 @@
 /**
  * Threat Intelligence Management Module
- * 
+ *
  * This module handles:
  * - Real-time threat data collection and aggregation
  * - Threat categorization and tagging system
@@ -12,14 +12,34 @@
  */
 
 const express = require('express');
-const router = express.Router();
 
-// Placeholder route
+const router = express.Router();
+const { connectDatabase } = require('./config/database');
+const threatRoutes = require('./routes/threatRoutes');
+const taxonomyRoutes = require('./routes/taxonomyRoutes');
+const logger = require('./utils/logger');
+
+// Initialize database connection
+let dbInitialized = false;
+const initializeDatabase = async () => {
+  if (!dbInitialized) {
+    try {
+      await connectDatabase();
+      dbInitialized = true;
+      logger.info('Threat Intelligence module database initialized');
+    } catch (error) {
+      logger.error('Failed to initialize database', { error: error.message });
+    }
+  }
+};
+
+// Health check route
 router.get('/health', (req, res) => {
-  res.json({ 
+  res.json({
     module: 'threat-intelligence',
     status: 'operational',
     version: '1.0.0',
+    database: dbInitialized ? 'connected' : 'disconnected',
     subFeatures: [
       'real-time-collection',
       'categorization',
@@ -27,9 +47,18 @@ router.get('/health', (req, res) => {
       'enrichment',
       'taxonomy-management',
       'correlation',
-      'context-analysis'
-    ]
+      'context-analysis',
+    ],
   });
+});
+
+// Mount routes
+router.use('/', threatRoutes);
+router.use('/', taxonomyRoutes);
+
+// Initialize database on module load
+initializeDatabase().catch(err => {
+  logger.error('Database initialization failed on module load', { error: err.message });
 });
 
 module.exports = router;
