@@ -106,10 +106,19 @@ class LogCollectionService {
   parseSyslog(logData, normalized) {
     // Simple syslog parsing
     normalized.event_type = logData.event_type || 'system_event';
-    normalized.severity = this.mapSyslogSeverity(logData.severity || logData.priority);
+    
+    // If severity is already in standard format, use it directly
+    if (['critical', 'high', 'medium', 'low', 'info'].includes(logData.severity)) {
+      normalized.severity = logData.severity;
+    } else {
+      normalized.severity = this.mapSyslogSeverity(logData.severity || logData.priority);
+    }
+    
     normalized.source_ip = logData.host || logData.source_ip;
+    normalized.destination_ip = logData.destination_ip;
     normalized.user = logData.user;
     normalized.action = logData.action || logData.message;
+    normalized.outcome = logData.outcome;
     
     return normalized;
   }

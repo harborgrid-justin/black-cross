@@ -87,6 +87,23 @@ router.post('/logs/ingest/batch', async (req, res) => {
 });
 
 /**
+ * Get ingestion statistics
+ * GET /api/v1/siem/logs/statistics
+ */
+router.get('/logs/statistics', async (req, res) => {
+  try {
+    const stats = await services.logCollectionService.getStatistics(req.query.time_range);
+
+    res.json({
+      success: true,
+      data: stats
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
  * Get log sources
  * GET /api/v1/siem/logs/sources
  */
@@ -127,23 +144,6 @@ router.post('/logs/sources', async (req, res) => {
   }
 });
 
-/**
- * Get ingestion statistics
- * GET /api/v1/siem/logs/statistics
- */
-router.get('/logs/statistics', async (req, res) => {
-  try {
-    const stats = await services.logCollectionService.getStatistics(req.query.time_range);
-
-    res.json({
-      success: true,
-      data: stats
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
 // ==================== Event Correlation Endpoints ====================
 
 /**
@@ -169,6 +169,23 @@ router.post('/correlate', async (req, res) => {
     res.json({
       success: true,
       data: correlations
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * Get correlation statistics
+ * GET /api/v1/siem/correlation-rules/statistics
+ */
+router.get('/correlation-rules/statistics', async (req, res) => {
+  try {
+    const stats = await services.eventCorrelationService.getStatistics();
+
+    res.json({
+      success: true,
+      data: stats
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -214,13 +231,15 @@ router.post('/correlation-rules', async (req, res) => {
   }
 });
 
+// ==================== Detection Rules Endpoints ====================
+
 /**
- * Get correlation statistics
- * GET /api/v1/siem/correlation-rules/statistics
+ * Get rule statistics
+ * GET /api/v1/siem/rules/statistics
  */
-router.get('/correlation-rules/statistics', async (req, res) => {
+router.get('/rules/statistics', async (req, res) => {
   try {
-    const stats = await services.eventCorrelationService.getStatistics();
+    const stats = await services.ruleEngineService.getStatistics();
 
     res.json({
       success: true,
@@ -231,7 +250,27 @@ router.get('/correlation-rules/statistics', async (req, res) => {
   }
 });
 
-// ==================== Detection Rules Endpoints ====================
+/**
+ * Test detection rule
+ * POST /api/v1/siem/rules/test
+ */
+router.post('/rules/test', async (req, res) => {
+  try {
+    const { rule, event } = req.body;
+    if (!rule || !event) {
+      return res.status(400).json({ error: 'Rule and event are required' });
+    }
+
+    const result = await services.ruleEngineService.testRule(rule, event);
+
+    res.json({
+      success: true,
+      data: result
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 /**
  * Get detection rules
@@ -316,35 +355,15 @@ router.put('/rules/:id', async (req, res) => {
   }
 });
 
-/**
- * Test detection rule
- * POST /api/v1/siem/rules/test
- */
-router.post('/rules/test', async (req, res) => {
-  try {
-    const { rule, event } = req.body;
-    if (!rule || !event) {
-      return res.status(400).json({ error: 'Rule and event are required' });
-    }
-
-    const result = await services.ruleEngineService.testRule(rule, event);
-
-    res.json({
-      success: true,
-      data: result
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+// ==================== Alert Management Endpoints ====================
 
 /**
- * Get rule statistics
- * GET /api/v1/siem/rules/statistics
+ * Get alert statistics
+ * GET /api/v1/siem/alerts/statistics
  */
-router.get('/rules/statistics', async (req, res) => {
+router.get('/alerts/statistics', async (req, res) => {
   try {
-    const stats = await services.ruleEngineService.getStatistics();
+    const stats = await services.alertManagementService.getStatistics();
 
     res.json({
       success: true,
@@ -354,8 +373,6 @@ router.get('/rules/statistics', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
-// ==================== Alert Management Endpoints ====================
 
 /**
  * Get alerts
@@ -462,23 +479,6 @@ router.post('/alerts/:id/suppress', async (req, res) => {
     res.json({
       success: true,
       data: alert.toJSON()
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-/**
- * Get alert statistics
- * GET /api/v1/siem/alerts/statistics
- */
-router.get('/alerts/statistics', async (req, res) => {
-  try {
-    const stats = await services.alertManagementService.getStatistics();
-
-    res.json({
-      success: true,
-      data: stats
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
