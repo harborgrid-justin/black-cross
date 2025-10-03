@@ -16,13 +16,13 @@ class IntegrationController {
       const integration = await integrationService.createIntegration(req.body);
       res.status(201).json({
         success: true,
-        data: integration
+        data: integration,
       });
     } catch (error) {
       logger.error('Error in createIntegration controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -36,13 +36,13 @@ class IntegrationController {
       const integration = await integrationService.updateIntegration(req.params.id, req.body);
       res.json({
         success: true,
-        data: integration
+        data: integration,
       });
     } catch (error) {
       logger.error('Error in updateIntegration controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -56,13 +56,13 @@ class IntegrationController {
       const result = await integrationService.deleteIntegration(req.params.id);
       res.json({
         success: true,
-        data: result
+        data: result,
       });
     } catch (error) {
       logger.error('Error in deleteIntegration controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -77,20 +77,20 @@ class IntegrationController {
         type: req.query.type,
         status: req.query.status,
         vendor: req.query.vendor,
-        limit: parseInt(req.query.limit) || 100
+        limit: parseInt(req.query.limit) || 100,
       };
 
       const integrations = await integrationService.listIntegrations(filters);
       res.json({
         success: true,
         data: integrations,
-        count: integrations.length
+        count: integrations.length,
       });
     } catch (error) {
       logger.error('Error in listIntegrations controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -104,13 +104,13 @@ class IntegrationController {
       const integration = await integrationService.getIntegration(req.params.id);
       res.json({
         success: true,
-        data: integration
+        data: integration,
       });
     } catch (error) {
       logger.error('Error in getIntegration controller', { error: error.message });
       res.status(404).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -124,13 +124,13 @@ class IntegrationController {
       const result = await integrationService.testIntegration(req.params.id, req.body);
       res.json({
         success: true,
-        data: result
+        data: result,
       });
     } catch (error) {
       logger.error('Error in testIntegration controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -144,13 +144,13 @@ class IntegrationController {
       const types = integrationService.getIntegrationTypes();
       res.json({
         success: true,
-        data: types
+        data: types,
       });
     } catch (error) {
       logger.error('Error in getIntegrationTypes controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -164,13 +164,13 @@ class IntegrationController {
       const statistics = await integrationService.getStatistics();
       res.json({
         success: true,
-        data: statistics
+        data: statistics,
       });
     } catch (error) {
       logger.error('Error in getStatistics controller', { error: error.message });
       res.status(400).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   }

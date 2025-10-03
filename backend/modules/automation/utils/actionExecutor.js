@@ -13,14 +13,14 @@ class ActionExecutor {
    * @returns {Promise<Object>} Action result
    */
   async executeAction(action, context = {}) {
-    logger.info('Executing action', { 
-      action_id: action.id, 
+    logger.info('Executing action', {
+      action_id: action.id,
       action_type: action.type,
-      mode: context.execution_mode 
+      mode: context.execution_mode,
     });
 
     const startTime = Date.now();
-    
+
     try {
       // In simulation/test mode, return mock results
       if (context.execution_mode === 'simulation' || context.execution_mode === 'test') {
@@ -74,30 +74,30 @@ class ActionExecutor {
       }
 
       const duration = Date.now() - startTime;
-      
-      logger.info('Action executed successfully', { 
+
+      logger.info('Action executed successfully', {
         action_id: action.id,
-        duration 
+        duration,
       });
 
       return {
         success: true,
         output: result,
-        duration
+        duration,
       };
     } catch (error) {
       const duration = Date.now() - startTime;
-      
-      logger.error('Action execution failed', { 
+
+      logger.error('Action execution failed', {
         action_id: action.id,
         error: error.message,
-        duration
+        duration,
       });
 
       return {
         success: false,
         error: error.message,
-        duration
+        duration,
       };
     }
   }
@@ -109,16 +109,16 @@ class ActionExecutor {
    */
   simulateAction(action) {
     logger.info('Simulating action', { action_id: action.id });
-    
+
     return {
       success: true,
       output: {
         simulated: true,
         action_type: action.type,
         parameters: action.parameters,
-        message: `Action ${action.name} simulated successfully`
+        message: `Action ${action.name} simulated successfully`,
       },
-      duration: Math.floor(Math.random() * 100) + 50
+      duration: Math.floor(Math.random() * 100) + 50,
     };
   }
 
@@ -132,7 +132,7 @@ class ActionExecutor {
       action: 'block_ip',
       ip_address: params.ip_address,
       blocked: true,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -146,7 +146,7 @@ class ActionExecutor {
       action: 'isolate_endpoint',
       endpoint_id: params.endpoint_id,
       isolated: true,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -161,7 +161,7 @@ class ActionExecutor {
       user_id: params.user_id,
       reset: true,
       temporary_password_sent: true,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -176,7 +176,7 @@ class ActionExecutor {
       recipients: params.recipients,
       channel: params.channel,
       sent: true,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -191,7 +191,7 @@ class ActionExecutor {
       ticket_id: `TICKET-${Date.now()}`,
       title: params.title,
       created: true,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -204,7 +204,7 @@ class ActionExecutor {
       action: 'collect_evidence',
       evidence_id: `EVIDENCE-${Date.now()}`,
       collected: true,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -218,7 +218,7 @@ class ActionExecutor {
       scan_id: `SCAN-${Date.now()}`,
       target: params.target,
       initiated: true,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -231,7 +231,7 @@ class ActionExecutor {
       action: 'update_firewall',
       rule_id: `RULE-${Date.now()}`,
       updated: true,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -244,7 +244,7 @@ class ActionExecutor {
       action: 'query_siem',
       query: params.query,
       results: [],
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -257,7 +257,7 @@ class ActionExecutor {
       action: 'enrich_ioc',
       ioc: params.ioc,
       enriched: true,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -270,7 +270,7 @@ class ActionExecutor {
       action: 'custom_api',
       endpoint: params.endpoint,
       called: true,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -280,11 +280,11 @@ class ActionExecutor {
   async wait(params) {
     const duration = params.duration || 5;
     logger.info('Waiting', { duration });
-    await new Promise(resolve => setTimeout(resolve, duration * 1000));
+    await new Promise((resolve) => setTimeout(resolve, duration * 1000));
     return {
       action: 'wait',
       waited: duration,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -298,7 +298,7 @@ class ActionExecutor {
       action: 'approval',
       status: 'awaiting_approval',
       approvers: params.approvers,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -315,14 +315,14 @@ class ActionExecutor {
       // Simple condition evaluation
       if (condition.type === 'equals') {
         return context[condition.variable] === condition.value;
-      } else if (condition.type === 'greater_than') {
+      } if (condition.type === 'greater_than') {
         return context[condition.variable] > condition.value;
-      } else if (condition.type === 'less_than') {
+      } if (condition.type === 'less_than') {
         return context[condition.variable] < condition.value;
-      } else if (condition.type === 'contains') {
+      } if (condition.type === 'contains') {
         return String(context[condition.variable]).includes(condition.value);
       }
-      
+
       return true;
     } catch (error) {
       logger.error('Error evaluating condition', { error: error.message });

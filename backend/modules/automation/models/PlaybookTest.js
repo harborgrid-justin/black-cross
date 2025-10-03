@@ -9,15 +9,15 @@ const TestResultSchema = new mongoose.Schema({
   test_name: String,
   status: {
     type: String,
-    enum: ['passed', 'failed', 'skipped']
+    enum: ['passed', 'failed', 'skipped'],
   },
   message: String,
   expected: mongoose.Schema.Types.Mixed,
   actual: mongoose.Schema.Types.Mixed,
   timestamp: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 }, { _id: false });
 
 const PlaybookTestSchema = new mongoose.Schema({
@@ -25,78 +25,78 @@ const PlaybookTestSchema = new mongoose.Schema({
     type: String,
     default: uuidv4,
     unique: true,
-    index: true
+    index: true,
   },
   playbook_id: {
     type: String,
     required: true,
-    index: true
+    index: true,
   },
   playbook_name: String,
   test_type: {
     type: String,
     enum: ['dry_run', 'simulation', 'validation', 'performance'],
     required: true,
-    index: true
+    index: true,
   },
   status: {
     type: String,
     enum: ['pending', 'running', 'completed', 'failed'],
     default: 'pending',
-    index: true
+    index: true,
   },
   start_time: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   end_time: Date,
   duration: Number,
   test_environment: {
     type: String,
-    default: 'sandbox'
+    default: 'sandbox',
   },
   test_data: mongoose.Schema.Types.Mixed,
   results: [TestResultSchema],
   summary: {
     total_tests: {
       type: Number,
-      default: 0
+      default: 0,
     },
     passed: {
       type: Number,
-      default: 0
+      default: 0,
     },
     failed: {
       type: Number,
-      default: 0
+      default: 0,
     },
     skipped: {
       type: Number,
-      default: 0
+      default: 0,
     },
     success_rate: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   validation_checks: [{
     check_name: String,
     passed: Boolean,
-    message: String
+    message: String,
   }],
   performance_metrics: {
     estimated_execution_time: Number,
     resource_usage: mongoose.Schema.Types.Mixed,
-    bottlenecks: [String]
+    bottlenecks: [String],
   },
   recommendations: [String],
   errors: [String],
-  metadata: mongoose.Schema.Types.Mixed
+  metadata: mongoose.Schema.Types.Mixed,
 }, {
   timestamps: {
     createdAt: 'created_at',
-    updatedAt: 'updated_at'
-  }
+    updatedAt: 'updated_at',
+  },
 });
 
 // Indexes for performance
@@ -105,17 +105,17 @@ PlaybookTestSchema.index({ status: 1 });
 PlaybookTestSchema.index({ test_type: 1 });
 
 // Calculate duration and success rate before save
-PlaybookTestSchema.pre('save', function(next) {
+PlaybookTestSchema.pre('save', function (next) {
   if (this.end_time && this.start_time) {
     this.duration = Math.round((this.end_time - this.start_time) / 1000);
   }
-  
+
   if (this.summary && this.summary.total_tests > 0) {
     this.summary.success_rate = Math.round(
-      (this.summary.passed / this.summary.total_tests) * 100
+      (this.summary.passed / this.summary.total_tests) * 100,
     );
   }
-  
+
   next();
 });
 

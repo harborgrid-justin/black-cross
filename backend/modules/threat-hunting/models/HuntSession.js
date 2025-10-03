@@ -17,7 +17,9 @@ const FindingSchema = new mongoose.Schema({
 });
 
 const HuntSessionSchema = new mongoose.Schema({
-  id: { type: String, default: uuidv4, unique: true, index: true },
+  id: {
+    type: String, default: uuidv4, unique: true, index: true,
+  },
   name: { type: String, required: true },
   hypothesis: { type: String, required: true },
   description: String,

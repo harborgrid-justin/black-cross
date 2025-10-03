@@ -21,7 +21,7 @@ class CorrelationService {
 
       const minSimilarity = options.min_similarity || 70;
       const correlationTypes = options.correlation_types || [
-        'ioc_overlap', 'temporal', 'infrastructure', 'behavioral'
+        'ioc_overlap', 'temporal', 'infrastructure', 'behavioral',
       ];
 
       let threats;
@@ -41,7 +41,7 @@ class CorrelationService {
         const relatedThreats = await this.findRelatedThreats(
           threat,
           minSimilarity,
-          correlationTypes
+          correlationTypes,
         );
         correlations.push(...relatedThreats);
       }
@@ -69,7 +69,7 @@ class CorrelationService {
       const candidates = await Threat.find({
         id: { $ne: threat.id },
         status: 'active',
-        type: threat.type // Start with same type
+        type: threat.type, // Start with same type
       }).limit(100);
 
       for (const candidate of candidates) {
@@ -113,7 +113,7 @@ class CorrelationService {
             await this.storeCorrelation(threat.id, candidate.id, correlation);
             related.push({
               threat_id: candidate.id,
-              correlation
+              correlation,
             });
           }
         }
@@ -133,10 +133,10 @@ class CorrelationService {
    * @returns {Object} Correlation result
    */
   calculateIOCOverlap(threat1, threat2) {
-    const indicators1 = new Set(threat1.indicators?.map(i => i.value) || []);
-    const indicators2 = new Set(threat2.indicators?.map(i => i.value) || []);
+    const indicators1 = new Set(threat1.indicators?.map((i) => i.value) || []);
+    const indicators2 = new Set(threat2.indicators?.map((i) => i.value) || []);
 
-    const intersection = new Set([...indicators1].filter(x => indicators2.has(x)));
+    const intersection = new Set([...indicators1].filter((x) => indicators2.has(x)));
     const union = new Set([...indicators1, ...indicators2]);
 
     const score = union.size > 0 ? (intersection.size / union.size) * 100 : 0;
@@ -148,8 +148,8 @@ class CorrelationService {
         type: 'shared_ioc',
         description: `${intersection.size} shared IOCs out of ${union.size} total`,
         weight: 1.0,
-        data: { shared: Array.from(intersection) }
-      }]
+        data: { shared: Array.from(intersection) },
+      }],
     };
   }
 
@@ -179,8 +179,8 @@ class CorrelationService {
         type: 'timing_pattern',
         description: `Threats appeared within ${Math.round(daysDiff)} days`,
         weight: 0.8,
-        data: { days_apart: daysDiff }
-      }]
+        data: { days_apart: daysDiff },
+      }],
     };
   }
 
@@ -193,15 +193,15 @@ class CorrelationService {
   calculateInfrastructureCorrelation(threat1, threat2) {
     // Check for shared infrastructure (IPs, domains, ASNs)
     const infra1 = new Set([
-      ...(threat1.indicators?.filter(i => i.type === 'ip' || i.type === 'domain').map(i => i.value) || [])
+      ...(threat1.indicators?.filter((i) => i.type === 'ip' || i.type === 'domain').map((i) => i.value) || []),
     ]);
     const infra2 = new Set([
-      ...(threat2.indicators?.filter(i => i.type === 'ip' || i.type === 'domain').map(i => i.value) || [])
+      ...(threat2.indicators?.filter((i) => i.type === 'ip' || i.type === 'domain').map((i) => i.value) || []),
     ]);
 
-    const sharedInfra = new Set([...infra1].filter(x => infra2.has(x)));
-    const score = infra1.size > 0 && infra2.size > 0 
-      ? (sharedInfra.size / Math.min(infra1.size, infra2.size)) * 100 
+    const sharedInfra = new Set([...infra1].filter((x) => infra2.has(x)));
+    const score = infra1.size > 0 && infra2.size > 0
+      ? (sharedInfra.size / Math.min(infra1.size, infra2.size)) * 100
       : 0;
 
     return {
@@ -211,8 +211,8 @@ class CorrelationService {
         type: 'infrastructure_overlap',
         description: `${sharedInfra.size} shared infrastructure elements`,
         weight: 1.0,
-        data: { shared: Array.from(sharedInfra) }
-      }]
+        data: { shared: Array.from(sharedInfra) },
+      }],
     };
   }
 
@@ -229,14 +229,14 @@ class CorrelationService {
     const techniques1 = new Set(threat1.mitre_attack?.techniques || []);
     const techniques2 = new Set(threat2.mitre_attack?.techniques || []);
 
-    const sharedTactics = new Set([...tactics1].filter(x => tactics2.has(x)));
-    const sharedTechniques = new Set([...techniques1].filter(x => techniques2.has(x)));
+    const sharedTactics = new Set([...tactics1].filter((x) => tactics2.has(x)));
+    const sharedTechniques = new Set([...techniques1].filter((x) => techniques2.has(x)));
 
-    const tacticScore = tactics1.size > 0 && tactics2.size > 0 
-      ? (sharedTactics.size / Math.max(tactics1.size, tactics2.size)) * 100 
+    const tacticScore = tactics1.size > 0 && tactics2.size > 0
+      ? (sharedTactics.size / Math.max(tactics1.size, tactics2.size)) * 100
       : 0;
-    const techniqueScore = techniques1.size > 0 && techniques2.size > 0 
-      ? (sharedTechniques.size / Math.max(techniques1.size, techniques2.size)) * 100 
+    const techniqueScore = techniques1.size > 0 && techniques2.size > 0
+      ? (sharedTechniques.size / Math.max(techniques1.size, techniques2.size)) * 100
       : 0;
 
     const score = Math.round((tacticScore + techniqueScore) / 2);
@@ -250,9 +250,9 @@ class CorrelationService {
         weight: 0.9,
         data: {
           tactics: Array.from(sharedTactics),
-          techniques: Array.from(sharedTechniques)
-        }
-      }]
+          techniques: Array.from(sharedTechniques),
+        },
+      }],
     };
   }
 
@@ -269,8 +269,8 @@ class CorrelationService {
       const existing = await ThreatCorrelation.findOne({
         $or: [
           { threat_id_1: threatId1, threat_id_2: threatId2 },
-          { threat_id_1: threatId2, threat_id_2: threatId1 }
-        ]
+          { threat_id_1: threatId2, threat_id_2: threatId1 },
+        ],
       });
 
       if (existing) {
@@ -292,8 +292,8 @@ class CorrelationService {
         algorithm: {
           name: 'BlackCross-CorrelationEngine',
           version: '1.0.0',
-          parameters: { min_similarity: 70 }
-        }
+          parameters: { min_similarity: 70 },
+        },
       });
 
       await correlation.save();
@@ -314,28 +314,24 @@ class CorrelationService {
       const correlations = await ThreatCorrelation.find({
         $or: [
           { threat_id_1: threatId },
-          { threat_id_2: threatId }
+          { threat_id_2: threatId },
         ],
-        status: { $ne: 'rejected' }
+        status: { $ne: 'rejected' },
       }).sort({ similarity_score: -1 });
 
-      const relatedIds = correlations.map(c => 
-        c.threat_id_1 === threatId ? c.threat_id_2 : c.threat_id_1
-      );
+      const relatedIds = correlations.map((c) => (c.threat_id_1 === threatId ? c.threat_id_2 : c.threat_id_1));
 
       const threats = await Threat.find({ id: { $in: relatedIds } });
 
-      return threats.map(threat => {
-        const correlation = correlations.find(c => 
-          c.threat_id_1 === threat.id || c.threat_id_2 === threat.id
-        );
+      return threats.map((threat) => {
+        const correlation = correlations.find((c) => c.threat_id_1 === threat.id || c.threat_id_2 === threat.id);
         return {
           ...threat.toObject(),
           correlation: {
             type: correlation.correlation_type,
             similarity_score: correlation.similarity_score,
-            confidence: correlation.confidence
-          }
+            confidence: correlation.confidence,
+          },
         };
       });
     } catch (error) {

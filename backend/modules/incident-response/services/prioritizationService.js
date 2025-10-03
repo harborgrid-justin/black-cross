@@ -19,7 +19,7 @@ class PrioritizationService {
 
       // Calculate priority score based on multiple factors
       const score = this._calculatePriorityScore(incident);
-      
+
       // Determine priority level
       const priority = this._determinePriority(score);
 
@@ -34,7 +34,7 @@ class PrioritizationService {
 
       await incident.save();
       logger.info(`Incident ${incident.ticket_number} prioritized as ${priority} (score: ${score})`);
-      
+
       return {
         incident,
         priority,
@@ -133,14 +133,14 @@ class PrioritizationService {
 
     const breakdown = {
       severity: severityScores[incident.severity] || 20,
-      asset_criticality: incident.affected_assets 
-        ? this._calculateAssetScore(incident.affected_assets) 
+      asset_criticality: incident.affected_assets
+        ? this._calculateAssetScore(incident.affected_assets)
         : 0,
-      threat_association: incident.related_threats 
-        ? Math.min(15, incident.related_threats.length * 3) 
+      threat_association: incident.related_threats
+        ? Math.min(15, incident.related_threats.length * 3)
         : 0,
-      ioc_count: incident.related_iocs 
-        ? Math.min(10, incident.related_iocs.length * 2) 
+      ioc_count: incident.related_iocs
+        ? Math.min(10, incident.related_iocs.length * 2)
         : 0,
       age_factor: 0,
     };

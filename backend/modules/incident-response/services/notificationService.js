@@ -56,7 +56,7 @@ class NotificationService {
           const notification = await this.sendNotification(
             incidentId,
             { recipient, message, channel },
-            userId
+            userId,
           );
           results.push({ recipient, status: 'sent', notification });
         } catch (error) {
@@ -77,7 +77,7 @@ class NotificationService {
     try {
       const incident = await Incident.findOne({ $or: [{ id: incidentId }, { ticket_number: incidentId }] })
         .select('communications');
-      
+
       if (!incident) {
         throw new Error('Incident not found');
       }
@@ -117,9 +117,9 @@ This is an automated notification from the Black-Cross Incident Response System.
     // - Microsoft Teams
     // - PagerDuty
     // - SMS service
-    
+
     logger.info(`Delivering ${notification.channel} notification to ${notification.recipient}`);
-    
+
     // Simulated delivery
     return {
       delivered: true,
@@ -146,11 +146,11 @@ This is an automated notification from the Black-Cross Incident Response System.
               channel: rule.channel,
               message: rule.message,
             },
-            'system'
+            'system',
           );
           results.push(notification);
         } catch (error) {
-          logger.error(`Error sending auto-notification:`, error);
+          logger.error('Error sending auto-notification:', error);
         }
       }
 

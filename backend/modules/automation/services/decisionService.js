@@ -16,9 +16,9 @@ class DecisionService {
    */
   async addDecision(playbookId, decisionData) {
     try {
-      logger.info('Adding decision to playbook', { 
+      logger.info('Adding decision to playbook', {
         playbook_id: playbookId,
-        decision_point: decisionData.decision_point 
+        decision_point: decisionData.decision_point,
       });
 
       const playbook = await Playbook.findOne({ id: playbookId });
@@ -39,7 +39,7 @@ class DecisionService {
       playbook.metadata.decisions.push({
         id: `decision_${Date.now()}`,
         ...decisionData,
-        created_at: new Date()
+        created_at: new Date(),
       });
 
       await playbook.save();
@@ -70,9 +70,9 @@ class DecisionService {
       // Handle different condition types
       if (condition.type === 'simple') {
         return this.evaluateSimpleCondition(condition, context);
-      } else if (condition.type === 'compound') {
+      } if (condition.type === 'compound') {
         return this.evaluateCompoundCondition(condition, context);
-      } else if (condition.type === 'risk_based') {
+      } if (condition.type === 'risk_based') {
         return this.evaluateRiskBasedCondition(condition, context);
       }
 
@@ -133,9 +133,9 @@ class DecisionService {
     }
 
     if (logic === 'AND') {
-      return conditions.every(c => this.evaluateDecision(c, context));
-    } else if (logic === 'OR') {
-      return conditions.some(c => this.evaluateDecision(c, context));
+      return conditions.every((c) => this.evaluateDecision(c, context));
+    } if (logic === 'OR') {
+      return conditions.some((c) => this.evaluateDecision(c, context));
     }
 
     return false;
@@ -189,21 +189,21 @@ class DecisionService {
       // Build decision tree
       for (const decision of decisions) {
         const evaluationResult = this.evaluateDecision(decision.condition, context);
-        
+
         paths.push({
           decision_id: decision.id,
           decision_point: decision.decision_point,
           evaluated: evaluationResult,
           true_path: decision.true_path,
           false_path: decision.false_path,
-          selected_path: evaluationResult ? decision.true_path : decision.false_path
+          selected_path: evaluationResult ? decision.true_path : decision.false_path,
         });
       }
 
       return {
         playbook_id: playbookId,
         paths,
-        total_decisions: decisions.length
+        total_decisions: decisions.length,
       };
     } catch (error) {
       logger.error('Error getting execution paths', { error: error.message });
@@ -220,15 +220,15 @@ class DecisionService {
     try {
       logger.info('Analyzing decisions', { playbook_id: playbookId });
 
-      const executions = await PlaybookExecution.find({ 
+      const executions = await PlaybookExecution.find({
         playbook_id: playbookId,
-        status: { $in: ['completed', 'failed'] }
+        status: { $in: ['completed', 'failed'] },
       }).limit(100);
 
       const analysis = {
         total_executions: executions.length,
         paths_taken: {},
-        decision_impact: {}
+        decision_impact: {},
       };
 
       for (const execution of executions) {
@@ -282,7 +282,7 @@ class DecisionService {
 
     return {
       valid: errors.length === 0,
-      errors
+      errors,
     };
   }
 }

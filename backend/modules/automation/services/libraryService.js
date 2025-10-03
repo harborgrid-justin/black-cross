@@ -74,20 +74,20 @@ class LibraryService {
     try {
       logger.info('Fetching playbook categories');
 
-      const categories = await Playbook.distinct('category', { 
+      const categories = await Playbook.distinct('category', {
         is_prebuilt: true,
-        status: 'active' 
+        status: 'active',
       });
 
       const categoriesWithCount = await Promise.all(
         categories.map(async (category) => {
-          const count = await Playbook.countDocuments({ 
+          const count = await Playbook.countDocuments({
             category,
             is_prebuilt: true,
-            status: 'active' 
+            status: 'active',
           });
           return { category, count };
-        })
+        }),
       );
 
       return categoriesWithCount;
@@ -109,13 +109,13 @@ class LibraryService {
       const results = {
         created: 0,
         skipped: 0,
-        total: prebuiltPlaybooks.length
+        total: prebuiltPlaybooks.length,
       };
 
       for (const playbookData of prebuiltPlaybooks) {
-        const existing = await Playbook.findOne({ 
+        const existing = await Playbook.findOne({
           name: playbookData.name,
-          is_prebuilt: true 
+          is_prebuilt: true,
         });
 
         if (!existing) {
@@ -149,7 +149,7 @@ class LibraryService {
         is_prebuilt: true,
         trigger_conditions: {
           type: 'event',
-          event_type: 'phishing_alert'
+          event_type: 'phishing_alert',
         },
         actions: [
           {
@@ -157,14 +157,14 @@ class LibraryService {
             name: 'Collect Email Evidence',
             description: 'Collect email headers and content',
             parameters: { evidence_type: 'email' },
-            order: 0
+            order: 0,
           },
           {
             type: 'enrich_ioc',
             name: 'Enrich IOCs',
             description: 'Enrich URLs and sender information',
             parameters: { ioc_types: ['url', 'email'] },
-            order: 1
+            order: 1,
           },
           {
             type: 'block_ip',
@@ -172,28 +172,28 @@ class LibraryService {
             description: 'Block identified malicious IP addresses',
             parameters: {},
             order: 2,
-            condition: { type: 'equals', variable: 'threat_level', value: 'high' }
+            condition: { type: 'equals', variable: 'threat_level', value: 'high' },
           },
           {
             type: 'send_notification',
             name: 'Notify Security Team',
             description: 'Send alert to security team',
             parameters: { channel: 'email', recipients: ['security@company.com'] },
-            order: 3
+            order: 3,
           },
           {
             type: 'create_ticket',
             name: 'Create Incident Ticket',
             description: 'Create incident ticket for tracking',
             parameters: { priority: 'high' },
-            order: 4
-          }
+            order: 4,
+          },
         ],
         tags: ['phishing', 'email', 'automated'],
         mitre_attack: {
           tactics: ['Initial Access'],
-          techniques: ['T1566']
-        }
+          techniques: ['T1566'],
+        },
       },
       {
         name: 'Malware Containment',
@@ -204,7 +204,7 @@ class LibraryService {
         is_prebuilt: true,
         trigger_conditions: {
           type: 'event',
-          event_type: 'malware_detected'
+          event_type: 'malware_detected',
         },
         actions: [
           {
@@ -212,42 +212,42 @@ class LibraryService {
             name: 'Isolate Infected Endpoint',
             description: 'Immediately isolate the infected endpoint',
             parameters: {},
-            order: 0
+            order: 0,
           },
           {
             type: 'collect_evidence',
             name: 'Collect Forensic Evidence',
             description: 'Collect memory dump and process information',
             parameters: { evidence_type: 'forensic' },
-            order: 1
+            order: 1,
           },
           {
             type: 'run_scan',
             name: 'Full System Scan',
             description: 'Run comprehensive malware scan',
             parameters: { scan_type: 'full' },
-            order: 2
+            order: 2,
           },
           {
             type: 'send_notification',
             name: 'Alert Security Operations',
             description: 'Notify SOC team immediately',
             parameters: { channel: 'slack', priority: 'critical' },
-            order: 3
+            order: 3,
           },
           {
             type: 'create_ticket',
             name: 'Create Incident',
             description: 'Create high-priority incident ticket',
             parameters: { priority: 'critical' },
-            order: 4
-          }
+            order: 4,
+          },
         ],
         tags: ['malware', 'containment', 'endpoint'],
         mitre_attack: {
           tactics: ['Execution', 'Persistence'],
-          techniques: ['T1204', 'T1543']
-        }
+          techniques: ['T1204', 'T1543'],
+        },
       },
       {
         name: 'Ransomware Response',
@@ -260,7 +260,7 @@ class LibraryService {
         approval_roles: ['security_manager', 'incident_commander'],
         trigger_conditions: {
           type: 'event',
-          event_type: 'ransomware_detected'
+          event_type: 'ransomware_detected',
         },
         actions: [
           {
@@ -268,53 +268,53 @@ class LibraryService {
             name: 'Emergency Isolation',
             description: 'Immediately isolate all affected endpoints',
             parameters: {},
-            order: 0
+            order: 0,
           },
           {
             type: 'update_firewall',
             name: 'Block C2 Communications',
             description: 'Block command and control servers',
             parameters: {},
-            order: 1
+            order: 1,
           },
           {
             type: 'collect_evidence',
             name: 'Preserve Evidence',
             description: 'Collect ransomware samples and logs',
             parameters: { evidence_type: 'ransomware' },
-            order: 2
+            order: 2,
           },
           {
             type: 'send_notification',
             name: 'Emergency Alert',
             description: 'Send emergency notification to leadership',
-            parameters: { 
+            parameters: {
               channel: 'multiple',
               recipients: ['security@company.com', 'ciso@company.com'],
-              priority: 'emergency'
+              priority: 'emergency',
             },
-            order: 3
+            order: 3,
           },
           {
             type: 'approval',
             name: 'Approval for Recovery',
             description: 'Wait for approval before recovery actions',
             parameters: { approvers: ['security_manager'] },
-            order: 4
+            order: 4,
           },
           {
             type: 'create_ticket',
             name: 'Create Critical Incident',
             description: 'Create critical incident for tracking',
             parameters: { priority: 'critical', type: 'ransomware' },
-            order: 5
-          }
+            order: 5,
+          },
         ],
         tags: ['ransomware', 'critical', 'emergency'],
         mitre_attack: {
           tactics: ['Impact'],
-          techniques: ['T1486']
-        }
+          techniques: ['T1486'],
+        },
       },
       {
         name: 'Account Compromise Response',
@@ -325,7 +325,7 @@ class LibraryService {
         is_prebuilt: true,
         trigger_conditions: {
           type: 'event',
-          event_type: 'account_compromise'
+          event_type: 'account_compromise',
         },
         actions: [
           {
@@ -333,42 +333,42 @@ class LibraryService {
             name: 'Force Password Reset',
             description: 'Reset compromised user credentials',
             parameters: {},
-            order: 0
+            order: 0,
           },
           {
             type: 'custom_api',
             name: 'Terminate Active Sessions',
             description: 'Terminate all active user sessions',
             parameters: { action: 'terminate_sessions' },
-            order: 1
+            order: 1,
           },
           {
             type: 'collect_evidence',
             name: 'Collect Access Logs',
             description: 'Collect authentication and access logs',
             parameters: { evidence_type: 'access_logs' },
-            order: 2
+            order: 2,
           },
           {
             type: 'send_notification',
             name: 'Notify User',
             description: 'Send notification to affected user',
             parameters: { channel: 'email' },
-            order: 3
+            order: 3,
           },
           {
             type: 'create_ticket',
             name: 'Create Investigation Ticket',
             description: 'Create ticket for further investigation',
             parameters: { priority: 'high', type: 'account_compromise' },
-            order: 4
-          }
+            order: 4,
+          },
         ],
         tags: ['account', 'credentials', 'identity'],
         mitre_attack: {
           tactics: ['Credential Access', 'Initial Access'],
-          techniques: ['T1078', 'T1110']
-        }
+          techniques: ['T1078', 'T1110'],
+        },
       },
       {
         name: 'DDoS Mitigation',
@@ -379,7 +379,7 @@ class LibraryService {
         is_prebuilt: true,
         trigger_conditions: {
           type: 'event',
-          event_type: 'ddos_detected'
+          event_type: 'ddos_detected',
         },
         actions: [
           {
@@ -387,43 +387,43 @@ class LibraryService {
             name: 'Analyze Traffic Patterns',
             description: 'Query SIEM for traffic analysis',
             parameters: { query: 'ddos_traffic_analysis' },
-            order: 0
+            order: 0,
           },
           {
             type: 'update_firewall',
             name: 'Apply Rate Limiting',
             description: 'Apply rate limiting rules',
             parameters: { action: 'rate_limit' },
-            order: 1
+            order: 1,
           },
           {
             type: 'block_ip',
             name: 'Block Attack Sources',
             description: 'Block identified attack source IPs',
             parameters: {},
-            order: 2
+            order: 2,
           },
           {
             type: 'send_notification',
             name: 'Alert Network Team',
             description: 'Notify network operations team',
             parameters: { channel: 'slack', team: 'network_ops' },
-            order: 3
+            order: 3,
           },
           {
             type: 'create_ticket',
             name: 'Create DDoS Incident',
             description: 'Create incident ticket',
             parameters: { priority: 'high', type: 'ddos' },
-            order: 4
-          }
+            order: 4,
+          },
         ],
         tags: ['ddos', 'network', 'availability'],
         mitre_attack: {
           tactics: ['Impact'],
-          techniques: ['T1498', 'T1499']
-        }
-      }
+          techniques: ['T1498', 'T1499'],
+        },
+      },
     ];
   }
 }

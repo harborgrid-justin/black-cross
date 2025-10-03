@@ -14,9 +14,9 @@ class IntegrationService {
    */
   async createIntegration(integrationData) {
     try {
-      logger.info('Creating integration', { 
+      logger.info('Creating integration', {
         name: integrationData.name,
-        type: integrationData.type 
+        type: integrationData.type,
       });
 
       const integration = new Integration(integrationData);
@@ -182,27 +182,27 @@ class IntegrationService {
       }
 
       // Update average response time
-      const totalTime = integration.usage_stats.average_response_time * 
-                       (integration.usage_stats.total_calls - 1);
+      const totalTime = integration.usage_stats.average_response_time
+                       * (integration.usage_stats.total_calls - 1);
       integration.usage_stats.average_response_time = Math.round(
-        (totalTime + responseTime) / integration.usage_stats.total_calls
+        (totalTime + responseTime) / integration.usage_stats.total_calls,
       );
 
       integration.usage_stats.last_used = new Date();
 
       await integration.save();
 
-      logger.info('Integration tested', { 
+      logger.info('Integration tested', {
         integration_id: integrationId,
         success: testResult.success,
-        response_time: responseTime
+        response_time: responseTime,
       });
 
       return {
         success: testResult.success,
         message: testResult.message,
         response_time: responseTime,
-        status: integration.health_check.status
+        status: integration.health_check.status,
       };
     } catch (error) {
       logger.error('Error testing integration', { error: error.message });
@@ -219,10 +219,10 @@ class IntegrationService {
     try {
       // Simulate health check
       // In production, this would make actual API calls
-      
-      logger.info('Performing health check', { 
+
+      logger.info('Performing health check', {
         integration_id: integration.id,
-        endpoint: integration.configuration.endpoint 
+        endpoint: integration.configuration.endpoint,
       });
 
       // Simulate success/failure
@@ -230,12 +230,12 @@ class IntegrationService {
 
       return {
         success: isHealthy,
-        message: isHealthy ? 'Integration is healthy' : 'Integration health check failed'
+        message: isHealthy ? 'Integration is healthy' : 'Integration health check failed',
       };
     } catch (error) {
       return {
         success: false,
-        message: `Health check error: ${error.message}`
+        message: `Health check error: ${error.message}`,
       };
     }
   }
@@ -256,7 +256,7 @@ class IntegrationService {
       { type: 'network', name: 'Network Devices', examples: ['Cisco Switches', 'Network Controllers'] },
       { type: 'ticketing', name: 'Ticketing Systems', examples: ['Jira', 'ServiceNow'] },
       { type: 'communication', name: 'Communication Platforms', examples: ['Slack', 'Teams', 'Email'] },
-      { type: 'custom', name: 'Custom Integration', examples: ['Custom API'] }
+      { type: 'custom', name: 'Custom Integration', examples: ['Custom API'] },
     ];
   }
 
@@ -275,15 +275,15 @@ class IntegrationService {
         {
           $group: {
             _id: '$type',
-            count: { $sum: 1 }
-          }
-        }
+            count: { $sum: 1 },
+          },
+        },
       ]);
 
       return {
         total,
         by_status: { active, inactive, error },
-        by_type: byType.map(item => ({ type: item._id, count: item.count }))
+        by_type: byType.map((item) => ({ type: item._id, count: item.count })),
       };
     } catch (error) {
       logger.error('Error getting statistics', { error: error.message });

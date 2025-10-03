@@ -11,8 +11,14 @@ const incidentValidator = {
     description: Joi.string().required().min(10),
     severity: Joi.string().valid('low', 'medium', 'high', 'critical').required(),
     category: Joi.string().valid(
-      'malware', 'phishing', 'data_breach', 'ddos', 
-      'unauthorized_access', 'insider_threat', 'ransomware', 'other'
+      'malware',
+      'phishing',
+      'data_breach',
+      'ddos',
+      'unauthorized_access',
+      'insider_threat',
+      'ransomware',
+      'other',
     ).required(),
     priority: Joi.string().valid('low', 'medium', 'high', 'critical'),
     reported_by: Joi.string().required(),
@@ -37,8 +43,13 @@ const incidentValidator = {
     title: Joi.string().min(5).max(200),
     description: Joi.string().min(10),
     status: Joi.string().valid(
-      'new', 'investigating', 'contained', 'eradicated', 
-      'recovering', 'resolved', 'closed'
+      'new',
+      'investigating',
+      'contained',
+      'eradicated',
+      'recovering',
+      'resolved',
+      'closed',
     ),
     priority: Joi.string().valid('low', 'medium', 'high', 'critical'),
     severity: Joi.string().valid('low', 'medium', 'high', 'critical'),
@@ -48,8 +59,14 @@ const incidentValidator = {
 
   addEvidence: Joi.object({
     type: Joi.string().valid(
-      'file', 'log', 'screenshot', 'pcap', 'memory_dump', 
-      'disk_image', 'network_traffic', 'other'
+      'file',
+      'log',
+      'screenshot',
+      'pcap',
+      'memory_dump',
+      'disk_image',
+      'network_traffic',
+      'other',
     ).required(),
     file_path: Joi.string(),
     file_size: Joi.number(),

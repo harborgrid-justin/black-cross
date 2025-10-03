@@ -3,26 +3,25 @@
  */
 
 const express = require('express');
+
 const router = express.Router();
 const integrationController = require('../controllers/integrationController');
-const { 
-  integrationSchema, 
+const {
+  integrationSchema,
   integrationUpdateSchema,
-  testIntegrationSchema
+  testIntegrationSchema,
 } = require('../validators/integrationValidator');
 
 // Validation middleware
-const validate = (schema) => {
-  return (req, res, next) => {
-    const { error } = schema.validate(req.body);
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        error: error.details[0].message
-      });
-    }
-    next();
-  };
+const validate = (schema) => (req, res, next) => {
+  const { error } = schema.validate(req.body);
+  if (error) {
+    return res.status(400).json({
+      success: false,
+      error: error.details[0].message,
+    });
+  }
+  next();
 };
 
 // Integration types and statistics (must come before /:id routes)

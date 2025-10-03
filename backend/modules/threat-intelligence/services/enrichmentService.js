@@ -61,25 +61,25 @@ class EnrichmentService {
   async enrichGeolocation(threat) {
     try {
       // Extract IP addresses from indicators
-      const ipIndicators = threat.indicators?.filter(i => i.type === 'ip') || [];
-      
+      const ipIndicators = threat.indicators?.filter((i) => i.type === 'ip') || [];
+
       if (ipIndicators.length === 0) {
         return null;
       }
 
       // Mock geolocation enrichment (in production, use real geolocation API)
       const geoData = {
-        locations: ipIndicators.map(ip => ({
+        locations: ipIndicators.map((ip) => ({
           ip: ip.value,
           country: this.mockGetCountry(ip.value),
           city: 'Unknown',
-          coordinates: { lat: 0, lng: 0 }
+          coordinates: { lat: 0, lng: 0 },
         })),
         primary_location: {
           country: this.mockGetCountry(ipIndicators[0].value),
           city: 'Unknown',
-          coordinates: { lat: 0, lng: 0 }
-        }
+          coordinates: { lat: 0, lng: 0 },
+        },
       };
 
       return geoData;
@@ -105,13 +105,13 @@ class EnrichmentService {
         scores.push({
           indicator: indicator.value,
           type: indicator.type,
-          score: score,
-          category: score < 30 ? 'malicious' : score < 70 ? 'suspicious' : 'clean'
+          score,
+          category: score < 30 ? 'malicious' : score < 70 ? 'suspicious' : 'clean',
         });
       }
 
-      const avgScore = scores.length > 0 
-        ? scores.reduce((sum, s) => sum + s.score, 0) / scores.length 
+      const avgScore = scores.length > 0
+        ? scores.reduce((sum, s) => sum + s.score, 0) / scores.length
         : 50;
 
       return {
@@ -119,8 +119,8 @@ class EnrichmentService {
         indicators: scores,
         vendors: [
           { name: 'VirusTotal', score: Math.round(avgScore * 0.95) },
-          { name: 'AlienVault', score: Math.round(avgScore * 1.05) }
-        ]
+          { name: 'AlienVault', score: Math.round(avgScore * 1.05) },
+        ],
       };
     } catch (error) {
       logger.error('Error enriching reputation', { error: error.message });
@@ -141,7 +141,7 @@ class EnrichmentService {
         first_seen_online: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000),
         sources: ['SecurityBlog', 'ThreatPost', 'DarkReading'],
         related_campaigns: [],
-        industry_targeting: this.mockIndustryTargeting(threat)
+        industry_targeting: this.mockIndustryTargeting(threat),
       };
 
       return osintData;
@@ -160,7 +160,7 @@ class EnrichmentService {
     try {
       // Extract domain indicators
       const domainIndicators = threat.indicators?.filter(
-        i => i.type === 'domain' || i.type === 'url'
+        (i) => i.type === 'domain' || i.type === 'url',
       ) || [];
 
       if (domainIndicators.length === 0) {
@@ -169,16 +169,16 @@ class EnrichmentService {
 
       // Mock DNS enrichment (in production, use real passive DNS APIs)
       const dnsData = {
-        records: domainIndicators.map(d => ({
+        records: domainIndicators.map((d) => ({
           domain: d.value,
           a_records: [`192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`],
           mx_records: [],
           ns_records: [],
           first_seen: new Date(Date.now() - Math.random() * 90 * 24 * 60 * 60 * 1000),
-          last_seen: new Date()
+          last_seen: new Date(),
         })),
         historical_ips: [],
-        related_domains: []
+        related_domains: [],
       };
 
       return dnsData;
@@ -201,7 +201,7 @@ class EnrichmentService {
       const results = {
         enriched: [],
         failed: [],
-        total: threatIds.length
+        total: threatIds.length,
       };
 
       for (const threatId of threatIds) {
@@ -239,7 +239,7 @@ class EnrichmentService {
         type: threat.type,
         severity: threat.severity,
         enrichment_data: threat.enrichment_data,
-        enriched_at: threat.updated_at
+        enriched_at: threat.updated_at,
       };
     } catch (error) {
       logger.error('Error getting enriched threat', { error: error.message });

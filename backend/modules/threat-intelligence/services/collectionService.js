@@ -23,7 +23,7 @@ class CollectionService {
       // Check for existing threat with same hash
       const existingThreats = await Threat.find({
         name: threatData.name,
-        type: threatData.type
+        type: threatData.type,
       }).limit(10);
 
       for (const existing of existingThreats) {
@@ -38,7 +38,7 @@ class CollectionService {
         ...threatData,
         status: 'active',
         first_seen: new Date(),
-        last_seen: new Date()
+        last_seen: new Date(),
       });
 
       await threat.save();
@@ -61,22 +61,22 @@ class CollectionService {
     try {
       // Merge indicators
       const existingIndicators = new Set(
-        existingThreat.indicators.map(i => i.value)
+        existingThreat.indicators.map((i) => i.value),
       );
       const newIndicators = (newData.indicators || []).filter(
-        i => !existingIndicators.has(i.value)
+        (i) => !existingIndicators.has(i.value),
       );
 
       // Merge tags
       const mergedTags = [...new Set([
         ...existingThreat.tags,
-        ...(newData.tags || [])
+        ...(newData.tags || []),
       ])];
 
       // Merge categories
       const mergedCategories = [...new Set([
         ...existingThreat.categories,
-        ...(newData.categories || [])
+        ...(newData.categories || []),
       ])];
 
       // Update threat
@@ -86,7 +86,7 @@ class CollectionService {
       existingThreat.last_seen = new Date();
       existingThreat.confidence = Math.max(
         existingThreat.confidence,
-        newData.confidence || 0
+        newData.confidence || 0,
       );
 
       await existingThreat.save();
@@ -112,7 +112,7 @@ class CollectionService {
         collected: [],
         updated: [],
         failed: [],
-        total: threatDataArray.length
+        total: threatDataArray.length,
       };
 
       for (const threatData of threatDataArray) {
@@ -126,7 +126,7 @@ class CollectionService {
         } catch (error) {
           results.failed.push({
             data: threatData,
-            error: error.message
+            error: error.message,
           });
         }
       }

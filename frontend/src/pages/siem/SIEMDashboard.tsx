@@ -136,7 +136,7 @@ export default function SIEMDashboard() {
     fetchData();
   }, []);
 
-  const getSeverityColor = (severity: string) => {
+  const getSeverityColor = (severity: string): 'error' | 'warning' | 'info' | 'success' | 'default' => {
     switch (severity) {
       case 'critical':
         return 'error';
@@ -295,7 +295,7 @@ export default function SIEMDashboard() {
                   <TableCell>
                     <Chip
                       label={alert.severity.toUpperCase()}
-                      color={getSeverityColor(alert.severity) as any}
+                      color={getSeverityColor(alert.severity)}
                       size="small"
                     />
                   </TableCell>
@@ -362,7 +362,7 @@ export default function SIEMDashboard() {
                     <TableCell>
                       <Chip
                         label={log.severity.toUpperCase()}
-                        color={getSeverityColor(log.severity) as any}
+                        color={getSeverityColor(log.severity)}
                         size="small"
                       />
                     </TableCell>

@@ -22,7 +22,7 @@ class PlaybookService {
       const playbook = new Playbook({
         ...playbookData,
         is_prebuilt: false,
-        status: playbookData.status || 'draft'
+        status: playbookData.status || 'draft',
       });
 
       await playbook.save();
@@ -140,13 +140,13 @@ class PlaybookService {
         execution_count: 0,
         success_count: 0,
         failure_count: 0,
-        success_rate: 0
+        success_rate: 0,
       });
 
       await clonedPlaybook.save();
-      logger.info('Playbook cloned', { 
-        source_id: playbookId, 
-        clone_id: clonedPlaybook.id 
+      logger.info('Playbook cloned', {
+        source_id: playbookId,
+        clone_id: clonedPlaybook.id,
       });
 
       return clonedPlaybook;
@@ -228,7 +228,7 @@ class PlaybookService {
         ...playbookJson,
         author: options.author || 'imported',
         is_prebuilt: false,
-        status: 'draft'
+        status: 'draft',
       };
 
       const playbook = await this.createPlaybook(playbookData);
@@ -257,7 +257,7 @@ class PlaybookService {
       }
 
       const exportData = playbook.toObject();
-      
+
       // Remove internal fields
       delete exportData._id;
       delete exportData.id;
@@ -288,8 +288,8 @@ class PlaybookService {
       throw new Error('Playbook must have at least one action');
     }
 
-    const orders = actions.map(a => a.order).sort((a, b) => a - b);
-    
+    const orders = actions.map((a) => a.order).sort((a, b) => a - b);
+
     // Check for gaps or duplicates
     for (let i = 0; i < orders.length; i++) {
       if (orders[i] !== i) {

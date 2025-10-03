@@ -163,7 +163,7 @@ export default function CollaborationHub() {
     fetchData();
   }, []);
 
-  const getPriorityColor = (priority: string) => {
+  const getPriorityColor = (priority: string): 'error' | 'warning' | 'info' | 'success' | 'default' => {
     switch (priority) {
       case 'critical':
         return 'error';
@@ -178,7 +178,7 @@ export default function CollaborationHub() {
     }
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: string): 'success' | 'info' | 'warning' | 'default' => {
     switch (status) {
       case 'completed':
         return 'success';
@@ -191,7 +191,7 @@ export default function CollaborationHub() {
     }
   };
 
-  const getMemberStatusColor = (status: string) => {
+  const getMemberStatusColor = (status: string): 'success' | 'warning' | 'default' => {
     switch (status) {
       case 'online':
         return 'success';
@@ -349,13 +349,13 @@ export default function CollaborationHub() {
                         <Chip
                           label={task.priority}
                           size="small"
-                          color={getPriorityColor(task.priority) as any}
+                          color={getPriorityColor(task.priority)}
                         />
                         <Chip
                           label={task.status}
                           size="small"
                           variant="outlined"
-                          color={getStatusColor(task.status) as any}
+                          color={getStatusColor(task.status)}
                         />
                         <Chip label={task.assignee} size="small" variant="outlined" />
                       </Box>
@@ -387,7 +387,7 @@ export default function CollaborationHub() {
                   <Chip
                     label={member.status}
                     size="small"
-                    color={getMemberStatusColor(member.status) as any}
+                    color={getMemberStatusColor(member.status)}
                   />
                 </ListItem>
               ))}

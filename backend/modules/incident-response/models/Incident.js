@@ -176,7 +176,7 @@ const IncidentSchema = new mongoose.Schema({
 });
 
 // Auto-generate ticket number
-IncidentSchema.pre('save', async function(next) {
+IncidentSchema.pre('save', async function (next) {
   if (!this.ticket_number) {
     const date = new Date();
     const year = date.getFullYear();
