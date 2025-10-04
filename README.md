@@ -156,8 +156,8 @@ The project follows Google engineering best practices with a clean separation of
 
 ```
 black-cross/
-├── frontend/          # React + TypeScript frontend application
-├── backend/           # Node.js + Express backend API
+├── frontend/          # React 18 + TypeScript + TSX frontend application
+├── backend/           # Node.js + TypeScript + Express backend API
 ├── prisma/            # Prisma ORM schema and migrations
 ├── docs/              # Documentation
 ├── docker-compose.yml # Docker orchestration

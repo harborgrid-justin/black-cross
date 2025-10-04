@@ -5,7 +5,9 @@
  * Main application entry point
  */
 
-import express, { Request, Response, NextFunction, Application } from 'express';
+import express, {
+  Request, Response, NextFunction, Application,
+} from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import { PlatformHealth } from './types';
