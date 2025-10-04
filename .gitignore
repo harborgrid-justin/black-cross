@@ -80,6 +80,7 @@ frontend/build/
 backend/uploads/
 backend/logs/
 backend/tmp/
+backend/dist/
 
 # Prisma
 prisma/.env

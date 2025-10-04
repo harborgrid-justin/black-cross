@@ -103,6 +103,7 @@ black-cross/
     ├── ARCHITECTURE_NEW.md      # Architecture guide
     ├── GETTING_STARTED.md       # Getting started guide
     ├── MIGRATION_GUIDE.md       # Migration guide for developers
+    ├── TYPESCRIPT_MIGRATION.md  # TypeScript migration guide
     ├── CONTRIBUTING.md          # Contribution guidelines
     ├── PROJECT_STRUCTURE.md     # This file
     ├── verify-structure.sh      # Structure verification script
@@ -202,7 +203,8 @@ React 18 + TypeScript
 
 ### Backend Stack
 ```
-Node.js 16+ + Express
+Node.js 16+ + TypeScript + Express
+├── Language: TypeScript (migration in progress)
 ├── ORM: Prisma (PostgreSQL)
 ├── ODM: Mongoose (MongoDB)
 ├── Auth: JWT + bcrypt

@@ -54,6 +54,7 @@ black-cross/
 
 ### Backend
 - **Node.js 16+** - Runtime environment
+- **TypeScript** - Type-safe development (migration in progress)
 - **Express** - Web framework
 - **Prisma ORM** - Database ORM for PostgreSQL
 - **MongoDB + Mongoose** - Document database (for flexible schemas)
