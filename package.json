@@ -8,6 +8,7 @@
     "backend"
   ],
   "scripts": {
+    "setup": "node setup.js",
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run dev",
@@ -30,7 +31,9 @@
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
-    "clean": "rm -rf node_modules backend/node_modules frontend/node_modules"
+    "clean": "rm -rf node_modules backend/node_modules frontend/node_modules",
+    "verify": "node verify-setup.js",
+    "verify:structure": "bash verify-structure.sh"
   },
   "keywords": [
     "threat-intelligence",
@@ -47,6 +50,11 @@
     "node": ">=16.0.0",
     "npm": ">=7.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/harborgrid-justin/black-cross.git"
+  },
+  "homepage": "https://github.com/harborgrid-justin/black-cross#readme",
   "devDependencies": {
     "concurrently": "^8.2.0"
   }

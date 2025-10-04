@@ -166,14 +166,43 @@ black-cross/
 
 ## 🔧 Installation
 
-### Quick Start with Docker (Recommended)
+### Quick Setup (5 Minutes)
+
+The fastest way to get started with Black-Cross:
 
 ```bash
-# Clone the repository
+# 1. Clone the repository
 git clone https://github.com/harborgrid-justin/black-cross.git
 cd black-cross
 
-# Start all services
+# 2. Run automated setup
+npm run setup
+
+# 3. Start PostgreSQL (using Docker)
+docker-compose up -d postgres
+
+# 4. Run database migrations
+npm run prisma:migrate
+
+# 5. Start the application
+npm run dev
+
+# Access the application:
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:8080
+# Default login: admin@black-cross.io / admin
+```
+
+**✅ That's it!** See [SETUP.md](./SETUP.md) for detailed instructions and troubleshooting.
+
+### Alternative: Docker Compose (All Services)
+
+To run with all services (PostgreSQL, MongoDB, Redis, Elasticsearch):
+
+```bash
+# Clone and start all services
+git clone https://github.com/harborgrid-justin/black-cross.git
+cd black-cross
 docker-compose up -d
 
 # Access the application
@@ -181,50 +210,27 @@ docker-compose up -d
 # Backend API: http://localhost:8080
 ```
 
-### Local Development Setup
+### Manual Setup
 
-#### Prerequisites
-- Node.js 16+
-- PostgreSQL 13+
-- MongoDB 4.4+ (optional, for legacy modules)
-- Redis 6+ (optional)
+For manual installation without the automated setup script:
 
-#### Backend Setup
 ```bash
-cd backend
+# Install dependencies
 npm install
+cd backend && npm install
+cd ../frontend && npm install
 
-# Set up environment
-cp .env.example .env
-# Edit .env with your database credentials
+# Setup environment files
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
 
 # Generate Prisma Client and run migrations
+cd backend
 npm run prisma:generate
 npm run prisma:migrate
 
-# Start development server
-npm run dev  # Runs on http://localhost:8080
-```
-
-#### Frontend Setup
-```bash
-cd frontend
-npm install
-
-# Set up environment
-cp .env.example .env
-# Edit .env with your API URL
-
-# Start development server
-npm run dev  # Runs on http://localhost:3000
-```
-
-#### Run Both (from root)
-```bash
-# Install all dependencies
-npm run install:all
-
-# Run both frontend and backend
+# Start development servers (from root)
+cd ..
 npm run dev
 ```
 
@@ -241,6 +247,9 @@ npm start
 ```
 
 For detailed installation instructions, see:
+- **[SETUP.md](./SETUP.md)** - Complete setup guide with troubleshooting
+- **[QUICK_REFERENCE.md](./QUICK_REFERENCE.md)** - Quick command reference
+- [GETTING_STARTED.md](./GETTING_STARTED.md) - Quick start guide
 - [Backend README](./backend/README.md)
 - [Frontend README](./frontend/README.md)
 - [Prisma Setup](./prisma/README.md)

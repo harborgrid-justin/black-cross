@@ -2,9 +2,37 @@
 
 Welcome to Black-Cross! This guide will help you get the platform up and running quickly.
 
+## 🚀 Automated Setup (Easiest - Recommended)
+
+Black-Cross now includes an automated setup script that handles everything:
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/harborgrid-justin/black-cross.git
+cd black-cross
+
+# 2. Run automated setup
+npm run setup
+
+# 3. Start PostgreSQL
+docker-compose up -d postgres
+
+# 4. Run migrations
+npm run prisma:migrate
+
+# 5. Start the app
+npm run dev
+```
+
+**Done!** Access at http://localhost:3000 (login: admin@black-cross.io / admin)
+
+For detailed instructions and troubleshooting, see [SETUP.md](./SETUP.md).
+
+---
+
 ## Quick Start (5 minutes)
 
-### Option 1: Docker Compose (Recommended)
+### Option 1: Docker Compose (All Services)
 
 ```bash
 # 1. Clone the repository
@@ -23,7 +51,9 @@ docker-compose logs -f backend
 # Default login: admin@black-cross.io / admin
 ```
 
-### Option 2: Local Development
+### Option 2: Local Development (Manual)
+
+If you prefer to run each step manually:
 
 ```bash
 # 1. Clone the repository
@@ -50,6 +80,8 @@ npm run dev
 # Frontend: http://localhost:3000
 # Backend: http://localhost:8080
 ```
+
+**Tip**: Use `npm run setup` to automate steps 2-5!
 
 ## Prerequisites
 

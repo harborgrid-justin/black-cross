@@ -74,6 +74,30 @@ By participating in this project, you agree to maintain a respectful and inclusi
 
 ### Setup Steps
 
+#### Quick Setup (Recommended)
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/harborgrid-justin/black-cross.git
+cd black-cross
+
+# 2. Run automated setup
+npm run setup
+
+# 3. Start PostgreSQL
+docker-compose up -d postgres
+
+# 4. Run migrations
+npm run prisma:migrate
+
+# 5. Start development servers
+npm run dev
+```
+
+See [SETUP.md](./SETUP.md) for detailed instructions and troubleshooting.
+
+#### Manual Setup
+
 1. Clone the repository
    ```bash
    git clone https://github.com/harborgrid-justin/black-cross.git

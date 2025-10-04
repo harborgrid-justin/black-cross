@@ -17,20 +17,37 @@ Black-Cross uses Prisma ORM for PostgreSQL database management. The schema defin
 
 ## Setup
 
-### Prerequisites
+### Quick Setup (Recommended)
+
+The easiest way to set up Prisma and the database:
+
+```bash
+# From the root directory
+npm run setup
+docker-compose up -d postgres
+npm run prisma:migrate
+```
+
+This is handled automatically by the [setup script](../SETUP.md).
+
+### Manual Setup
+
+If you prefer to set up manually:
+
+#### Prerequisites
 
 - PostgreSQL 13+ installed and running
 - Node.js 16+ installed
 
-### Environment Variables
+#### Environment Variables
 
-Create a `.env` file in the root directory with:
+Create a `backend/.env` file with:
 
 ```env
 DATABASE_URL="postgresql://user:password@localhost:5432/blackcross?schema=public"
 ```
 
-### Initial Setup
+#### Initial Setup Steps
 
 1. Install dependencies:
 ```bash
