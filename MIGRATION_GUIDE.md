@@ -52,6 +52,13 @@ black-cross/
 - Separate Dockerfiles for frontend and backend
 - Updated service names (`api` → `backend`)
 
+### 6. TypeScript Migration
+- Backend is being migrated from JavaScript to TypeScript
+- Main entry point (`index.ts`) now in TypeScript
+- Type definitions in `backend/types/`
+- Both `.js` and `.ts` files supported during migration
+- Build output in `backend/dist/`
+
 ## Migration Steps for Developers
 
 ### 1. Update Your Local Clone
@@ -284,6 +291,58 @@ jobs:
         run: npm run build
 ```
 
+## TypeScript Migration (Backend)
+
+The backend is being systematically migrated from JavaScript to TypeScript for improved type safety and developer experience.
+
+### Current State
+- ✅ TypeScript infrastructure set up (`tsconfig.json`)
+- ✅ Main entry point (`index.ts`) migrated
+- ✅ Type definitions created (`backend/types/`)
+- ✅ Build pipeline configured
+- 🔄 Module migration in progress
+
+### For New Development
+When writing new backend code, use TypeScript:
+
+```typescript
+// backend/modules/my-module/service.ts
+import { Request, Response } from 'express';
+import { ApiResponse } from '../../types';
+
+export class MyService {
+  async getData(req: Request, res: Response): Promise<void> {
+    const response: ApiResponse = {
+      success: true,
+      data: { message: 'Hello TypeScript!' }
+    };
+    res.json(response);
+  }
+}
+```
+
+### Migration Commands
+
+```bash
+# Type check without building
+npm run type-check
+
+# Build TypeScript to JavaScript
+npm run build
+
+# Watch mode for development
+npm run build:watch
+
+# Run the TypeScript version
+npm run dev
+```
+
+### Backward Compatibility
+The backend supports both `.js` and `.ts` files during the migration:
+- Existing `.js` modules continue to work
+- New modules should be written in `.ts`
+- Gradually migrate modules as needed
+
 ## Troubleshooting
 
 ### Issue: Module not found
@@ -299,6 +358,13 @@ cd ../frontend && npm install
 **Solution**: Generate the Prisma Client:
 ```bash
 npm run prisma:generate
+```
+
+### Issue: TypeScript build errors
+
+**Solution**: Check TypeScript errors and fix them:
+```bash
+npm run type-check
 ```
 
 ### Issue: Docker containers failing to start

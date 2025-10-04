@@ -8,7 +8,8 @@ The backend provides a RESTful API and real-time WebSocket connections for the B
 
 ## Tech Stack
 
-- **Node.js** - Runtime environment
+- **Node.js 16+** - Runtime environment
+- **TypeScript** - Type-safe development (migration in progress)
 - **Express** - Web framework
 - **Prisma ORM** - Database ORM for PostgreSQL
 - **MongoDB** - Document database (for specific modules)
@@ -73,30 +74,57 @@ npm run db:seed
 ### Development
 
 ```bash
-# Start development server with auto-reload
+# Start development server with auto-reload (TypeScript)
 npm run dev
 
+# Or use JavaScript version (legacy)
+npm run dev:js
+
 # Server will run on http://localhost:8080
+```
+
+### TypeScript Development
+
+The backend is being migrated to TypeScript for improved type safety:
+
+```bash
+# Type check without building
+npm run type-check
+
+# Build TypeScript to JavaScript
+npm run build
+
+# Watch mode for development
+npm run build:watch
 ```
 
 ### Production
 
 ```bash
-# Start production server
+# Build and start production server
+npm run build
 npm start
+
+# Or use JavaScript version (during migration)
+npm run start:js
 ```
 
 ## Project Structure
 
 ```
 backend/
-├── index.js              # Application entry point
+├── index.ts              # Application entry point (TypeScript)
+├── index.js              # Legacy JS entry point
+├── types/                # TypeScript type definitions
+│   └── index.ts
 ├── modules/              # Feature modules
 │   ├── threat-intelligence/
 │   ├── automation/
 │   └── risk-assessment/
+├── dist/                 # Compiled TypeScript output
 ├── config/               # Configuration files
 ├── scripts/              # Utility scripts
+├── tsconfig.json         # TypeScript configuration
 │   ├── migrate.js
 │   ├── seed.js
 │   └── create-admin.js

@@ -7,9 +7,33 @@
   "extends": [
     "airbnb-base"
   ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 12
+    "ecmaVersion": 12,
+    "project": "./tsconfig.json"
   },
+  "plugins": ["@typescript-eslint"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "extends": [
+        "airbnb-base",
+        "plugin:@typescript-eslint/recommended"
+      ],
+      "rules": {
+        "import/extensions": [
+          "error",
+          "ignorePackages",
+          {
+            "js": "never",
+            "ts": "never"
+          }
+        ],
+        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+        "no-unused-vars": "off"
+      }
+    }
+  ],
   "rules": {
     "no-console": "off",
     "no-underscore-dangle": "off",
@@ -23,6 +47,25 @@
     "no-param-reassign": ["error", { "props": false }],
     "camelcase": ["error", { "properties": "never", "ignoreDestructuring": true }],
     "no-nested-ternary": "warn",
-    "func-names": "warn"
+    "func-names": "warn",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "ts": "never"
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "./tsconfig.json"
+      },
+      "node": {
+        "extensions": [".js", ".ts"]
+      }
+    }
   }
 }
