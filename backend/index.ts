@@ -29,6 +29,7 @@ app.get('/health', (_req: Request, res: Response) => {
     version: '1.0.0',
     timestamp: new Date().toISOString(),
     modules: {
+      exampleTypescript: 'operational',
       threatIntelligence: 'operational',
       incidentResponse: 'operational',
       threatHunting: 'operational',
@@ -74,8 +75,11 @@ app.get('/api/v1', (_req: Request, res: Response) => {
   });
 });
 
-// Module routes - Keep importing JS modules for backward compatibility
-// These will be migrated to TypeScript incrementally
+// Module routes
+// TypeScript modules (new)
+import exampleTypescript from './modules/example-typescript';
+
+// JavaScript modules (backward compatibility during migration)
 const threatIntelligence = require('./modules/threat-intelligence');
 const incidentResponse = require('./modules/incident-response');
 const threatHunting = require('./modules/threat-hunting');
@@ -92,6 +96,10 @@ const darkWeb = require('./modules/dark-web');
 const compliance = require('./modules/compliance');
 const automation = require('./modules/automation');
 
+// TypeScript modules
+app.use('/api/v1/example', exampleTypescript);
+
+// JavaScript modules (legacy)
 app.use('/api/v1/threat-intelligence', threatIntelligence);
 app.use('/api/v1/incidents', incidentResponse);
 app.use('/api/v1/hunting', threatHunting);
