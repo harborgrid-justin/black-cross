@@ -58,12 +58,14 @@ export default function RiskAssessment() {
         if (response.success && response.data && response.data.length > 0) {
           // Update risk metrics from API data
           const apiData = response.data[0];
-          setRiskMetrics([
-            { label: 'Overall Risk Score', value: apiData.riskScore || 7.2, max: 10, color: '#f57c00' },
-            { label: 'Threat Level', value: apiData.threatLevel || 8.1, max: 10, color: '#d32f2f' },
-            { label: 'Vulnerability Exposure', value: apiData.vulnerabilityScore || 6.5, max: 10, color: '#fbc02d' },
-            { label: 'Security Posture', value: 10 - (apiData.riskScore || 7.2), max: 10, color: '#388e3c' },
-          ]);
+          if (apiData) {
+            setRiskMetrics([
+              { label: 'Overall Risk Score', value: apiData.riskScore ?? 7.2, max: 10, color: '#f57c00' },
+              { label: 'Threat Level', value: apiData.threatLevel ?? 8.1, max: 10, color: '#d32f2f' },
+              { label: 'Vulnerability Exposure', value: apiData.vulnerabilityScore ?? 6.5, max: 10, color: '#fbc02d' },
+              { label: 'Security Posture', value: 10 - (apiData.riskScore ?? 7.2), max: 10, color: '#388e3c' },
+            ]);
+          }
         } else {
           // Use mock data
           setRiskMetrics([

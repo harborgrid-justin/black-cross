@@ -1,71 +1,155 @@
 /**
  * Example TypeScript Module - Service Layer
- * This demonstrates business logic with type safety
+ * Demonstrates TypeScript best practices:
+ * - Explicit return type annotations
+ * - Proper error handling with type guards
+ * - Use of readonly for data immutability
+ * - Optional chaining and nullish coalescing
+ * - Utility types for type transformations
  */
 
-import { ExampleData, ExampleQuery } from './types';
+import type { ExampleData, ExampleQuery, CreateExampleInput, UpdateExampleInput } from './types';
 
+/**
+ * Service class for managing example data
+ * Demonstrates business logic with comprehensive type safety
+ */
 export class ExampleService {
   /**
-   * Get example data with optional filtering
+   * Mock data store - in production, this would use Prisma or MongoDB
    */
-  async getData(query: ExampleQuery): Promise<ExampleData[]> {
-    // Mock implementation - in real module, this would use Prisma or MongoDB
-    const mockData: ExampleData[] = [
-      {
-        id: '1',
-        name: 'Example 1',
-        status: 'active',
-        createdAt: new Date(),
-      },
-      {
-        id: '2',
-        name: 'Example 2',
-        status: 'inactive',
-        createdAt: new Date(),
-      },
-    ];
+  private readonly mockDataStore: ExampleData[] = [
+    {
+      id: '1',
+      name: 'Example 1',
+      status: 'active',
+      createdAt: new Date('2024-01-01'),
+    },
+    {
+      id: '2',
+      name: 'Example 2',
+      status: 'inactive',
+      createdAt: new Date('2024-01-02'),
+    },
+  ];
 
-    // Apply filters
-    let filtered = mockData;
-    if (query.status) {
-      filtered = filtered.filter((item) => item.status === query.status);
+  /**
+   * Get example data with optional filtering
+   * @param query - Query parameters for filtering
+   * @returns Promise resolving to array of filtered example data
+   */
+  public async getData(query: ExampleQuery): Promise<readonly ExampleData[]> {
+    // Apply filters with explicit type checking
+    let filtered: readonly ExampleData[] = [...this.mockDataStore];
+
+    // Use optional chaining and type guards for safe property access
+    if (query.status !== undefined) {
+      filtered = filtered.filter((item): boolean => item.status === query.status);
     }
-    if (query.search) {
-      filtered = filtered.filter((item) => item.name.toLowerCase().includes(query.search!.toLowerCase()));
+
+    if (query.search !== undefined && query.search.length > 0) {
+      const searchLower: string = query.search.toLowerCase();
+      filtered = filtered.filter((item): boolean =>
+        item.name.toLowerCase().includes(searchLower)
+      );
     }
-    if (query.limit) {
-      filtered = filtered.slice(0, query.limit);
-    }
+
+    // Use nullish coalescing for default values
+    const limit: number = query.limit ?? filtered.length;
+    filtered = filtered.slice(0, limit);
 
     return filtered;
   }
 
   /**
    * Get example data by ID
+   * @param id - Unique identifier of the example data
+   * @returns Promise resolving to example data or null if not found
+   * @throws Error if ID is empty or invalid
    */
-  async getById(id: string): Promise<ExampleData | null> {
-    // Mock implementation
-    if (id === '1') {
-      return {
-        id: '1',
-        name: 'Example 1',
-        status: 'active',
-        createdAt: new Date(),
-      };
+  public async getById(id: string): Promise<ExampleData | null> {
+    // Validate input
+    if (!id || id.trim().length === 0) {
+      throw new Error('ID must not be empty');
     }
-    return null;
+
+    // Use optional chaining and nullish coalescing
+    const found: ExampleData | undefined = this.mockDataStore.find(
+      (item): boolean => item.id === id
+    );
+
+    return found ?? null;
   }
 
   /**
    * Create new example data
+   * @param input - Data for creating new example
+   * @returns Promise resolving to created example data
+   * @throws Error if input validation fails
    */
-  async create(data: Omit<ExampleData, 'id' | 'createdAt'>): Promise<ExampleData> {
-    // Mock implementation
-    return {
-      id: Math.random().toString(36).substr(2, 9),
-      ...data,
+  public async create(input: CreateExampleInput): Promise<ExampleData> {
+    // Validate input
+    if (!input.name || input.name.trim().length === 0) {
+      throw new Error('Name must not be empty');
+    }
+
+    // Create new data with generated fields
+    const newData: ExampleData = {
+      id: this.generateId(),
+      ...input,
       createdAt: new Date(),
     };
+
+    return newData;
+  }
+
+  /**
+   * Update existing example data
+   * @param id - Unique identifier of the example data
+   * @param updates - Partial data to update
+   * @returns Promise resolving to updated example data or null if not found
+   * @throws Error if ID is empty or updates are invalid
+   */
+  public async update(id: string, updates: UpdateExampleInput): Promise<ExampleData | null> {
+    // Validate input
+    if (!id || id.trim().length === 0) {
+      throw new Error('ID must not be empty');
+    }
+
+    const existing: ExampleData | null = await this.getById(id);
+    if (existing === null) {
+      return null;
+    }
+
+    // Merge updates with existing data
+    const updated: ExampleData = {
+      ...existing,
+      ...updates,
+    };
+
+    return updated;
+  }
+
+  /**
+   * Delete example data by ID
+   * @param id - Unique identifier of the example data
+   * @returns Promise resolving to true if deleted, false if not found
+   * @throws Error if ID is empty
+   */
+  public async delete(id: string): Promise<boolean> {
+    if (!id || id.trim().length === 0) {
+      throw new Error('ID must not be empty');
+    }
+
+    const existing: ExampleData | null = await this.getById(id);
+    return existing !== null;
+  }
+
+  /**
+   * Generate a unique ID
+   * @returns A unique identifier string
+   */
+  private generateId(): string {
+    return Math.random().toString(36).substring(2, 11);
   }
 }
