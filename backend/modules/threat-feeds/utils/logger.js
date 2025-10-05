@@ -1,6 +1,10 @@
-const logger = {
-  info: (message, ...args) => console.log(`[THREAT-FEEDS] [INFO] ${message}`, ...args),
-  error: (message, ...args) => console.error(`[THREAT-FEEDS] [ERROR] ${message}`, ...args),
-  warn: (message, ...args) => console.warn(`[THREAT-FEEDS] [WARN] ${message}`, ...args),
-};
+/**
+ * Threat Feeds Module Logger
+ * Uses centralized Winston logger with module context
+ */
+
+const { createModuleLogger } = require('../../../utils/logger');
+
+const logger = createModuleLogger('threat-feeds');
+
 module.exports = logger;

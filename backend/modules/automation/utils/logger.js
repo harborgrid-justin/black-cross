@@ -1,29 +1,10 @@
 /**
  * Automation Module Logger
+ * Uses centralized Winston logger with module context
  */
 
-const winston = require('winston');
+const { createModuleLogger } = require('../../../utils/logger');
 
-const logger = winston.createLogger({
-  level: process.env.LOG_LEVEL || 'info',
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.errors({ stack: true }),
-    winston.format.json(),
-  ),
-  defaultMeta: { module: 'automation' },
-  transports: [
-    new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.colorize(),
-        winston.format.printf(({
-          timestamp, level, message, ...meta
-        }) => `${timestamp} [${level}] [automation]: ${message} ${
-          Object.keys(meta).length ? JSON.stringify(meta, null, 2) : ''
-        }`),
-      ),
-    }),
-  ],
-});
+const logger = createModuleLogger('automation');
 
 module.exports = logger;

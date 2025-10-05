@@ -1,6 +1,10 @@
-const logger = {
-  info: (message, ...args) => console.log(`[COLLABORATION] [INFO] ${message}`, ...args),
-  error: (message, ...args) => console.error(`[COLLABORATION] [ERROR] ${message}`, ...args),
-  warn: (message, ...args) => console.warn(`[COLLABORATION] [WARN] ${message}`, ...args),
-};
+/**
+ * Collaboration Module Logger
+ * Uses centralized Winston logger with module context
+ */
+
+const { createModuleLogger } = require('../../../utils/logger');
+
+const logger = createModuleLogger('collaboration');
+
 module.exports = logger;
