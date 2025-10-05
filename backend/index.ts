@@ -17,7 +17,7 @@ import { PlatformHealth } from './types';
 import exampleTypescript from './modules/example-typescript';
 
 const app: Application = express();
-const PORT = process.env.APP_PORT || 8080;
+const PORT = process.env['APP_PORT'] || 8080;
 
 // Middleware
 app.use(helmet());
@@ -121,7 +121,7 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   console.error(err.stack);
   res.status(500).json({
     error: 'Internal Server Error',
-    message: process.env.NODE_ENV === 'development' ? err.message : undefined,
+    message: process.env['NODE_ENV'] === 'development' ? err.message : undefined,
   });
 });
 
@@ -150,7 +150,7 @@ app.listen(PORT, () => {
 
 Features: 15 Primary | 105+ Sub-Features
 Status: Operational
-Environment: ${process.env.NODE_ENV || 'development'}
+Environment: ${process.env['NODE_ENV'] || 'development'}
   `);
 });
 
