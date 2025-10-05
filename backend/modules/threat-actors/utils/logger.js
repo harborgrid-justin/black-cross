@@ -1,6 +1,10 @@
-const logger = {
-  info: (message, ...args) => console.log(`[THREAT-ACTORS] [INFO] ${message}`, ...args),
-  error: (message, ...args) => console.error(`[THREAT-ACTORS] [ERROR] ${message}`, ...args),
-  warn: (message, ...args) => console.warn(`[THREAT-ACTORS] [WARN] ${message}`, ...args),
-};
+/**
+ * Threat Actors Module Logger
+ * Uses centralized Winston logger with module context
+ */
+
+const { createModuleLogger } = require('../../../utils/logger');
+
+const logger = createModuleLogger('threat-actors');
+
 module.exports = logger;

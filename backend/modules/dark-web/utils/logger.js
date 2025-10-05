@@ -1,6 +1,10 @@
-const logger = {
-  info: (message, ...args) => console.log(`[DARK-WEB] [INFO] ${message}`, ...args),
-  error: (message, ...args) => console.error(`[DARK-WEB] [ERROR] ${message}`, ...args),
-  warn: (message, ...args) => console.warn(`[DARK-WEB] [WARN] ${message}`, ...args),
-};
+/**
+ * Dark Web Module Logger
+ * Uses centralized Winston logger with module context
+ */
+
+const { createModuleLogger } = require('../../../utils/logger');
+
+const logger = createModuleLogger('dark-web');
+
 module.exports = logger;
