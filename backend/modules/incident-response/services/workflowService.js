@@ -176,6 +176,23 @@ class WorkflowService {
 
   /**
    * Execute a single action
+   *
+   * Supported Action Types:
+   * - isolate_asset: Isolate compromised asset from network
+   * - block_ip: Block malicious IP address in firewall
+   * - block_domain: Block malicious domain
+   * - disable_account: Disable compromised user account
+   * - send_notification: Send alert notifications to team
+   * - collect_logs: Collect forensic logs from affected systems
+   * - escalate: Escalate incident to higher tier support
+   *
+   * @param {Object} incident - Incident object
+   * @param {Object} action - Action configuration
+   * @param {string} userId - User executing the action
+   * @returns {Promise<Object>} Action execution result
+   *
+   * Note: To add new action types, extend the switch statement below
+   * and implement the corresponding handler method (e.g., _myNewAction)
    */
   async _executeAction(incident, action, userId) {
     logger.info(`Executing action: ${action.action_type} - ${action.name}`);

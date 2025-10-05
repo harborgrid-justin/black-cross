@@ -12,6 +12,10 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { PlatformHealth } from './types';
 
+// Module routes
+// TypeScript modules (new)
+import exampleTypescript from './modules/example-typescript';
+
 const app: Application = express();
 const PORT = process.env.APP_PORT || 8080;
 
@@ -74,10 +78,6 @@ app.get('/api/v1', (_req: Request, res: Response) => {
     ],
   });
 });
-
-// Module routes
-// TypeScript modules (new)
-import exampleTypescript from './modules/example-typescript';
 
 // JavaScript modules (backward compatibility during migration)
 const threatIntelligence = require('./modules/threat-intelligence');

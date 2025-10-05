@@ -21,12 +21,12 @@ export async function list(req: Request, res: Response): Promise<void> {
     };
 
     const data = await service.getData(query);
-    
+
     const response: ExampleResponse = {
       success: true,
       data,
     };
-    
+
     res.json(response);
   } catch (error) {
     const response: ExampleResponse = {
@@ -44,7 +44,7 @@ export async function getById(req: Request, res: Response): Promise<void> {
   try {
     const { id } = req.params;
     const data = await service.getById(id);
-    
+
     if (!data) {
       const response: ExampleResponse = {
         success: false,
@@ -53,12 +53,12 @@ export async function getById(req: Request, res: Response): Promise<void> {
       res.status(404).json(response);
       return;
     }
-    
+
     const response: ExampleResponse = {
       success: true,
       data,
     };
-    
+
     res.json(response);
   } catch (error) {
     const response: ExampleResponse = {
@@ -75,13 +75,13 @@ export async function getById(req: Request, res: Response): Promise<void> {
 export async function create(req: Request, res: Response): Promise<void> {
   try {
     const data = await service.create(req.body);
-    
+
     const response: ExampleResponse = {
       success: true,
       data,
       message: 'Created successfully',
     };
-    
+
     res.status(201).json(response);
   } catch (error) {
     const response: ExampleResponse = {
