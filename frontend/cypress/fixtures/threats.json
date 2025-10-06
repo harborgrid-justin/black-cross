@@ -1,0 +1,30 @@
+{
+  "sampleThreat": {
+    "id": "1",
+    "title": "Sample Threat",
+    "severity": "high",
+    "status": "active",
+    "description": "This is a sample threat for testing",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  "threats": [
+    {
+      "id": "1",
+      "title": "Phishing Campaign",
+      "severity": "high",
+      "status": "active"
+    },
+    {
+      "id": "2",
+      "title": "Malware Detection",
+      "severity": "critical",
+      "status": "investigating"
+    },
+    {
+      "id": "3",
+      "title": "Suspicious Network Activity",
+      "severity": "medium",
+      "status": "resolved"
+    }
+  ]
+}
