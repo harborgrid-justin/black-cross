@@ -6,44 +6,46 @@ const express = require('express');
 
 const router = express.Router();
 const threatController = require('../controllers/threatController');
+const { validate, Joi } = require('../../../middleware/validator');
 const {
   threatSchema, categorizationSchema, enrichmentSchema, archiveSchema, correlationSchema,
 } = require('../validators/threatValidator');
 
-// Validation middleware
-const validate = (schema) => (req, res, next) => {
-  const { error } = schema.validate(req.body);
-  if (error) {
-    return res.status(400).json({
-      success: false,
-      error: error.details[0].message,
-    });
-  }
-  next();
-};
+// Basic CRUD routes (must come first before specific routes to avoid conflicts)
+router.get('/threats', threatController.listThreats);
+router.post('/threats', validate({ body: threatSchema }), threatController.collectThreat);
 
 // Threat collection routes
-router.post('/threats/collect', validate(threatSchema), threatController.collectThreat);
+router.post('/threats/collect', validate({ body: threatSchema }), threatController.collectThreat);
 router.get('/threats/stream', threatController.streamThreats);
 
 // Threat categorization routes
-router.post('/threats/categorize', validate(categorizationSchema), threatController.categorizeThreat);
+router.post('/threats/categorize', validate({ body: categorizationSchema }), threatController.categorizeThreat);
 router.get('/threats/categories', threatController.getCategories);
 
 // Threat archival routes
-router.post('/threats/archive', validate(archiveSchema), threatController.archiveThreats);
+router.post('/threats/archive', validate({ body: archiveSchema }), threatController.archiveThreats);
 router.get('/threats/history', threatController.getHistory);
 
 // Threat enrichment routes
-router.post('/threats/enrich', validate(enrichmentSchema), threatController.enrichThreat);
-router.get('/threats/:id/enriched', threatController.getEnrichedThreat);
+router.post('/threats/enrich', validate({ body: enrichmentSchema }), threatController.enrichThreat);
 
 // Threat correlation routes
-router.post('/threats/correlate', validate(correlationSchema), threatController.correlateThreats);
-router.get('/threats/:id/related', threatController.getRelatedThreats);
+router.post('/threats/correlate', validate({ body: correlationSchema }), threatController.correlateThreats);
 
 // Threat context routes
-router.get('/threats/:id/context', threatController.getThreatContext);
 router.post('/threats/analyze', threatController.analyzeThreats);
+
+// ID-based routes (must come last to avoid conflicts with named routes)
+const idSchema = { params: Joi.object({ id: Joi.string().required() }) };
+router.get('/threats/:id', validate(idSchema), threatController.getThreat);
+router.put('/threats/:id', validate({
+  params: Joi.object({ id: Joi.string().required() }),
+  body: threatSchema,
+}), threatController.updateThreat);
+router.delete('/threats/:id', validate(idSchema), threatController.deleteThreat);
+router.get('/threats/:id/enriched', validate(idSchema), threatController.getEnrichedThreat);
+router.get('/threats/:id/related', validate(idSchema), threatController.getRelatedThreats);
+router.get('/threats/:id/context', validate(idSchema), threatController.getThreatContext);
 
 module.exports = router;
