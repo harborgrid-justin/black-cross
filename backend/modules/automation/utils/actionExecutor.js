@@ -280,6 +280,7 @@ class ActionExecutor {
   async wait(params) {
     const duration = params.duration || 5;
     logger.info('Waiting', { duration });
+    // eslint-disable-next-line no-promise-executor-return
     await new Promise((resolve) => setTimeout(resolve, duration * 1000));
     return {
       action: 'wait',

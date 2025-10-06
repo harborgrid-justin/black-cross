@@ -17,15 +17,15 @@ const { v4: uuidv4 } = require('uuid');
  */
 function correlationId(req, res, next) {
   // Try to get correlation ID from header, or generate new one
-  const correlationId = req.get('x-correlation-id')
+  const requestCorrelationId = req.get('x-correlation-id')
                         || req.get('x-request-id')
                         || uuidv4();
 
   // Attach to request
-  req.correlationId = correlationId;
+  req.correlationId = requestCorrelationId;
 
   // Add to response headers
-  res.set('x-correlation-id', correlationId);
+  res.set('x-correlation-id', requestCorrelationId);
 
   next();
 }

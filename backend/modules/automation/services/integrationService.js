@@ -172,11 +172,14 @@ class IntegrationService {
       integration.health_check.message = testResult.message;
 
       // Update usage stats
+      // eslint-disable-next-line no-plusplus
       integration.usage_stats.total_calls++;
       if (testResult.success) {
+        // eslint-disable-next-line no-plusplus
         integration.usage_stats.successful_calls++;
         integration.status = 'active';
       } else {
+        // eslint-disable-next-line no-plusplus
         integration.usage_stats.failed_calls++;
         integration.status = 'error';
       }

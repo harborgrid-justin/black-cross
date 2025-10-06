@@ -25,6 +25,7 @@ const router: Router = ExpressRouter();
  * - search: string (optional)
  * - limit: number (optional)
  */
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.get('/', controller.list);
 
 /**
@@ -33,6 +34,7 @@ router.get('/', controller.list);
  * Path parameters:
  * - id: string (required)
  */
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.get('/:id', controller.getById);
 
 /**
@@ -40,6 +42,7 @@ router.get('/:id', controller.getById);
  * Create new example data
  * Body: CreateExampleInput
  */
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.post('/', controller.create);
 
 /**
@@ -49,6 +52,7 @@ router.post('/', controller.create);
  * - id: string (required)
  * Body: UpdateExampleInput
  */
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.put('/:id', controller.update);
 
 /**
@@ -57,6 +61,7 @@ router.put('/:id', controller.update);
  * Path parameters:
  * - id: string (required)
  */
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.delete('/:id', controller.deleteById);
 
 export default router;

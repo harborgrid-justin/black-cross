@@ -30,14 +30,18 @@ function requestLogger(req, res, next) {
 
   // Capture response
   const originalSend = res.send;
-  res.send = function (data) {
+  res.send = function sendWrapper(data) {
     res.send = originalSend;
 
     const responseTime = Date.now() - startTime;
 
     // Log response
-    const logLevel = res.statusCode >= 500 ? 'error'
-      : res.statusCode >= 400 ? 'warn' : 'info';
+    let logLevel = 'info';
+    if (res.statusCode >= 500) {
+      logLevel = 'error';
+    } else if (res.statusCode >= 400) {
+      logLevel = 'warn';
+    }
 
     logger[logLevel]('Request completed', {
       method: req.method,

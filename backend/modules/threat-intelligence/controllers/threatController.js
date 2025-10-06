@@ -66,13 +66,13 @@ class ThreatController {
    */
   async categorizeThreat(req, res) {
     try {
-      const { threat_id, categories, auto_categorize } = req.body;
+      const { threat_id: threatId, categories, auto_categorize: autoCategorize } = req.body;
 
       let threat;
-      if (auto_categorize) {
-        threat = await categorizationService.autoCategorizeThreat(threat_id);
+      if (autoCategorize) {
+        threat = await categorizationService.autoCategorizeThreat(threatId);
       } else {
-        threat = await categorizationService.categorizeThreat(threat_id, categories);
+        threat = await categorizationService.categorizeThreat(threatId, categories);
       }
 
       res.json({

@@ -101,7 +101,9 @@ class ExecutionService {
             end_time: new Date(),
             duration: 0,
           });
+          // eslint-disable-next-line no-plusplus
           execution.skipped_actions++;
+          // eslint-disable-next-line no-continue
           continue;
         }
 
@@ -123,6 +125,7 @@ class ExecutionService {
         });
 
         if (actionResult.success) {
+          // eslint-disable-next-line no-plusplus
           execution.successful_actions++;
 
           // Update context with action output
@@ -130,6 +133,7 @@ class ExecutionService {
             context[`action_${action.id}_output`] = actionResult.output;
           }
         } else {
+          // eslint-disable-next-line no-plusplus
           execution.failed_actions++;
           execution.errors.push({
             action_id: action.id,
@@ -203,6 +207,7 @@ class ExecutionService {
         return { ...result, retry_count: retryCount };
       }
 
+      // eslint-disable-next-line no-plusplus
       retryCount++;
 
       if (retryCount < maxRetries) {
@@ -212,6 +217,7 @@ class ExecutionService {
           attempt: retryCount + 1,
           delay,
         });
+        // eslint-disable-next-line no-promise-executor-return
         await new Promise((resolve) => setTimeout(resolve, delay * 1000));
       }
     }
@@ -364,11 +370,14 @@ class ExecutionService {
    */
   async updatePlaybookStats(playbook, execution) {
     try {
+      // eslint-disable-next-line no-plusplus
       playbook.execution_count++;
 
       if (execution.status === 'completed') {
+        // eslint-disable-next-line no-plusplus
         playbook.success_count++;
       } else if (execution.status === 'failed') {
+        // eslint-disable-next-line no-plusplus
         playbook.failure_count++;
       }
 

@@ -182,11 +182,14 @@ class MetricsService {
           };
         }
 
+        // eslint-disable-next-line no-plusplus
         actionStats[action.action_type].total++;
 
         if (action.status === 'completed') {
+          // eslint-disable-next-line no-plusplus
           actionStats[action.action_type].successful++;
         } else if (action.status === 'failed') {
+          // eslint-disable-next-line no-plusplus
           actionStats[action.action_type].failed++;
         }
 
@@ -235,6 +238,7 @@ class MetricsService {
             };
           }
 
+          // eslint-disable-next-line no-plusplus
           errorTypes[errorKey].count++;
           if (error.action_id) {
             errorTypes[errorKey].action_ids.push(error.action_id);

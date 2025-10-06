@@ -328,10 +328,17 @@ class ContextService {
       weight: 0.3,
     });
 
+    let recommendation = 'low';
+    if (threat.confidence >= 70) {
+      recommendation = 'high';
+    } else if (threat.confidence >= 50) {
+      recommendation = 'medium';
+    }
+
     return {
       overall_confidence: threat.confidence,
       factors,
-      recommendation: threat.confidence >= 70 ? 'high' : threat.confidence >= 50 ? 'medium' : 'low',
+      recommendation,
     };
   }
 
