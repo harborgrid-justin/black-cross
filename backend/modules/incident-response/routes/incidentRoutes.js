@@ -14,6 +14,7 @@ router.get('/incidents', incidentController.listIncidents);
 router.get('/incidents/stats', incidentController.getStatistics);
 router.get('/incidents/:id', incidentController.getIncident);
 router.patch('/incidents/:id', incidentController.updateIncident);
+router.delete('/incidents/:id', incidentController.deleteIncident);
 
 // Prioritization
 router.post('/incidents/:id/prioritize', incidentController.prioritizeIncident);

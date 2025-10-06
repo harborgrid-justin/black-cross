@@ -9,9 +9,134 @@ const archivalService = require('../services/archivalService');
 const enrichmentService = require('../services/enrichmentService');
 const correlationService = require('../services/correlationService');
 const contextService = require('../services/contextService');
+const Threat = require('../models/Threat');
 const logger = require('../utils/logger');
 
 class ThreatController {
+  /**
+   * List all threats with filters
+   * GET /api/v1/threat-intelligence/threats
+   */
+  async listThreats(req, res) {
+    try {
+      const {
+        page = 1, limit = 20, severity, type, categories, tags,
+      } = req.query;
+
+      const query = {};
+      if (severity) query.severity = severity;
+      if (type) query.type = type;
+      if (categories) query.categories = { $in: categories.split(',') };
+      if (tags) query.tags = { $in: tags.split(',') };
+
+      const threats = await Threat.find(query)
+        .sort({ created_at: -1 })
+        .limit(parseInt(limit, 10))
+        .skip((parseInt(page, 10) - 1) * parseInt(limit, 10));
+
+      const total = await Threat.countDocuments(query);
+
+      res.json({
+        success: true,
+        data: threats,
+        pagination: {
+          page: parseInt(page, 10),
+          limit: parseInt(limit, 10),
+          total,
+          pages: Math.ceil(total / parseInt(limit, 10)),
+        },
+      });
+    } catch (error) {
+      logger.error('Error in listThreats controller', { error: error.message });
+      res.status(400).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+
+  /**
+   * Get single threat by ID
+   * GET /api/v1/threat-intelligence/threats/:id
+   */
+  async getThreat(req, res) {
+    try {
+      const threat = await Threat.findOne({ id: req.params.id });
+      if (!threat) {
+        return res.status(404).json({
+          success: false,
+          error: 'Threat not found',
+        });
+      }
+      res.json({
+        success: true,
+        data: threat,
+      });
+    } catch (error) {
+      logger.error('Error in getThreat controller', { error: error.message });
+      res.status(400).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+
+  /**
+   * Update threat
+   * PUT /api/v1/threat-intelligence/threats/:id
+   */
+  async updateThreat(req, res) {
+    try {
+      const threat = await Threat.findOneAndUpdate(
+        { id: req.params.id },
+        { $set: req.body },
+        { new: true, runValidators: true },
+      );
+      if (!threat) {
+        return res.status(404).json({
+          success: false,
+          error: 'Threat not found',
+        });
+      }
+      res.json({
+        success: true,
+        data: threat,
+      });
+    } catch (error) {
+      logger.error('Error in updateThreat controller', { error: error.message });
+      res.status(400).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+
+  /**
+   * Delete threat
+   * DELETE /api/v1/threat-intelligence/threats/:id
+   */
+  async deleteThreat(req, res) {
+    try {
+      const threat = await Threat.findOneAndDelete({ id: req.params.id });
+      if (!threat) {
+        return res.status(404).json({
+          success: false,
+          error: 'Threat not found',
+        });
+      }
+      res.json({
+        success: true,
+        message: 'Threat deleted successfully',
+      });
+    } catch (error) {
+      logger.error('Error in deleteThreat controller', { error: error.message });
+      res.status(400).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+
   /**
    * Collect threat intelligence
    * POST /api/v1/threat-intelligence/threats/collect

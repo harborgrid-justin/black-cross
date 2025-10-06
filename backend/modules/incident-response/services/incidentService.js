@@ -376,6 +376,26 @@ class IncidentService {
       throw error;
     }
   }
+
+  /**
+   * Delete incident
+   * @param {string} incidentId - Incident ID
+   * @returns {Promise<void>}
+   */
+  async deleteIncident(incidentId) {
+    try {
+      const incident = await Incident.findOne({ id: incidentId });
+      if (!incident) {
+        throw new Error('Incident not found');
+      }
+
+      await Incident.deleteOne({ id: incidentId });
+      logger.info('Incident deleted', { incidentId });
+    } catch (error) {
+      logger.error('Error deleting incident:', error);
+      throw error;
+    }
+  }
 }
 
 module.exports = new IncidentService();

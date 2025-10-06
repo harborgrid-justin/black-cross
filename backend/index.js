@@ -8,6 +8,11 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./config/swagger');
+const { rateLimiter } = require('./middleware/rateLimiter');
+const { correlationId } = require('./middleware/correlationId');
+const { requestLogger } = require('./middleware/requestLogger');
 
 const app = express();
 const PORT = process.env.APP_PORT || 8080;
@@ -17,6 +22,16 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Request tracking
+app.use(correlationId);
+app.use(requestLogger);
+
+// Global rate limiting
+app.use(rateLimiter({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  maxRequests: 1000,
+}));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -45,7 +60,30 @@ app.get('/health', (req, res) => {
   });
 });
 
-// API routes
+/**
+ * @swagger
+ * /api/v1:
+ *   get:
+ *     summary: API Information
+ *     description: Get information about the Black-Cross API
+ *     tags: [Health]
+ *     responses:
+ *       200:
+ *         description: API information
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 documentation:
+ *                   type: string
+ *                 features:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ */
 app.get('/api/v1', (req, res) => {
   res.json({
     message: 'Black-Cross API v1.0',
@@ -69,6 +107,13 @@ app.get('/api/v1', (req, res) => {
     ],
   });
 });
+
+// API Documentation
+app.use('/api/v1/docs', swaggerUi.serve);
+app.get('/api/v1/docs', swaggerUi.setup(swaggerSpec, {
+  customSiteTitle: 'Black-Cross API Documentation',
+  customCss: '.swagger-ui .topbar { display: none }',
+}));
 
 // Module routes
 const threatIntelligence = require('./modules/threat-intelligence');

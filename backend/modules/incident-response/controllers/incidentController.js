@@ -213,6 +213,16 @@ class IncidentController {
       res.status(400).json({ error: error.message });
     }
   }
+
+  // Delete incident
+  async deleteIncident(req, res) {
+    try {
+      await incidentService.deleteIncident(req.params.id);
+      res.json({ success: true, message: 'Incident deleted successfully' });
+    } catch (error) {
+      res.status(404).json({ error: error.message });
+    }
+  }
 }
 
 module.exports = new IncidentController();
