@@ -10,19 +10,19 @@ black-cross/
 │   │   ├── components/           # Reusable UI components
 │   │   │   ├── auth/            # Authentication components
 │   │   │   └── layout/          # Layout components
-│   │   ├── pages/               # Page components
-│   │   │   ├── actors/          # Threat Actors page
-│   │   │   ├── automation/      # Automation & Playbooks
-│   │   │   ├── compliance/      # Compliance Management
-│   │   │   ├── darkweb/        # Dark Web Monitoring
-│   │   │   ├── feeds/          # Threat Feeds
-│   │   │   ├── hunting/        # Threat Hunting
-│   │   │   ├── incidents/      # Incident Management
-│   │   │   ├── iocs/           # IoC Management
-│   │   │   ├── malware/        # Malware Analysis
-│   │   │   ├── risk/           # Risk Assessment
-│   │   │   ├── threats/        # Threat Intelligence
-│   │   │   └── vulnerabilities/ # Vulnerability Management
+│   │   ├── pages/                      # Page components
+│   │   │   ├── threat-actors/          # Threat Actors page
+│   │   │   ├── automation/             # Automation & Playbooks
+│   │   │   ├── compliance/             # Compliance Management
+│   │   │   ├── dark-web/               # Dark Web Monitoring
+│   │   │   ├── threat-feeds/           # Threat Feeds
+│   │   │   ├── threat-hunting/         # Threat Hunting
+│   │   │   ├── incident-response/      # Incident Management
+│   │   │   ├── ioc-management/         # IoC Management
+│   │   │   ├── malware-analysis/       # Malware Analysis
+│   │   │   ├── risk-assessment/        # Risk Assessment
+│   │   │   ├── threat-intelligence/    # Threat Intelligence
+│   │   │   └── vulnerability-management/ # Vulnerability Management
 │   │   ├── services/            # API client services
 │   │   ├── store/               # Redux state management
 │   │   ├── types/               # TypeScript type definitions
