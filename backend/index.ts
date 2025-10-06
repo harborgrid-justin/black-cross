@@ -18,7 +18,7 @@ import type { PlatformHealth } from './types';
 import exampleTypescript from './modules/example-typescript';
 
 const app: Application = express();
-const PORT = process.env.APP_PORT || 8080;
+const PORT = process.env.APP_PORT ?? 8080;
 
 // Middleware
 app.use(helmet());
@@ -81,6 +81,8 @@ app.get('/api/v1', (_req: Request, res: Response) => {
 });
 
 // JavaScript modules (backward compatibility during migration)
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 const threatIntelligence = require('./modules/threat-intelligence');
 const incidentResponse = require('./modules/incident-response');
 const threatHunting = require('./modules/threat-hunting');
@@ -96,11 +98,14 @@ const malwareAnalysis = require('./modules/malware-analysis');
 const darkWeb = require('./modules/dark-web');
 const compliance = require('./modules/compliance');
 const automation = require('./modules/automation');
+/* eslint-enable @typescript-eslint/no-unsafe-assignment */
+/* eslint-enable @typescript-eslint/no-var-requires */
 
 // TypeScript modules
 app.use('/api/v1/example', exampleTypescript);
 
 // JavaScript modules (legacy)
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 app.use('/api/v1/threat-intelligence', threatIntelligence);
 app.use('/api/v1/incidents', incidentResponse);
 app.use('/api/v1/hunting', threatHunting);
@@ -116,9 +121,11 @@ app.use('/api/v1/malware', malwareAnalysis);
 app.use('/api/v1/darkweb', darkWeb);
 app.use('/api/v1/compliance', compliance);
 app.use('/api/v1/automation', automation);
+/* eslint-enable @typescript-eslint/no-unsafe-argument */
 
 // Error handling middleware
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  // eslint-disable-next-line no-console
   console.error(err.stack);
   res.status(500).json({
     error: 'Internal Server Error',
@@ -136,6 +143,7 @@ app.use((_req: Request, res: Response) => {
 
 // Start server
 app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(`
 ╔══════════════════════════════════════════════════════════════╗
 ║                                                              ║
@@ -151,7 +159,7 @@ app.listen(PORT, () => {
 
 Features: 15 Primary | 105+ Sub-Features
 Status: Operational
-Environment: ${process.env.NODE_ENV || 'development'}
+Environment: ${process.env.NODE_ENV ?? 'development'}
   `);
 });
 

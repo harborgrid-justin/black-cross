@@ -146,7 +146,7 @@ ThreatSchema.index({ updated_at: -1 });
 ThreatSchema.index({ 'source.name': 1 });
 
 // Virtual for age calculation
-ThreatSchema.virtual('age_days').get(function () {
+ThreatSchema.virtual('age_days').get(function getAgeDays() {
   return Math.floor((Date.now() - this.first_seen) / (1000 * 60 * 60 * 24));
 });
 

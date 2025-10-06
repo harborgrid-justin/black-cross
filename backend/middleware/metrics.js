@@ -54,7 +54,7 @@ function metricsMiddleware(req, res, next) {
 
   // Capture response
   const originalSend = res.send;
-  res.send = function (data) {
+  res.send = function sendWrapper(data) {
     res.send = originalSend;
 
     const duration = (Date.now() - startTime) / 1000; // seconds

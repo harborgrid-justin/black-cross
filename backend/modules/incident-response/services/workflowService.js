@@ -194,7 +194,7 @@ class WorkflowService {
    * Note: To add new action types, extend the switch statement below
    * and implement the corresponding handler method (e.g., _myNewAction)
    */
-  async _executeAction(incident, action, userId) {
+  async _executeAction(incident, action, _userId) {
     logger.info(`Executing action: ${action.action_type} - ${action.name}`);
 
     // Check if approval is required
@@ -326,7 +326,9 @@ class WorkflowService {
         'trigger_conditions.auto_trigger': true,
       });
 
-      const matchingWorkflows = workflows.filter((workflow) => this._matchesTriggerConditions(incident, workflow.trigger_conditions));
+      const matchingWorkflows = workflows.filter(
+        (workflow) => this._matchesTriggerConditions(incident, workflow.trigger_conditions),
+      );
 
       logger.info(`Found ${matchingWorkflows.length} auto-trigger workflows for incident ${incident.ticket_number}`);
 

@@ -102,11 +102,18 @@ class EnrichmentService {
 
       for (const indicator of indicators) {
         const score = this.mockCalculateReputation(indicator);
+        let category = 'clean';
+        if (score < 30) {
+          category = 'malicious';
+        } else if (score < 70) {
+          category = 'suspicious';
+        }
+
         scores.push({
           indicator: indicator.value,
           type: indicator.type,
           score,
-          category: score < 30 ? 'malicious' : score < 70 ? 'suspicious' : 'clean',
+          category,
         });
       }
 

@@ -6,6 +6,7 @@ const express = require('express');
 
 const router = express.Router();
 const playbookController = require('../controllers/playbookController');
+const { validate } = require('../../../middleware/validator');
 const {
   playbookSchema,
   playbookUpdateSchema,
@@ -13,18 +14,6 @@ const {
   decisionSchema,
   testPlaybookSchema,
 } = require('../validators/playbookValidator');
-
-// Validation middleware
-const validate = (schema) => (req, res, next) => {
-  const { error } = schema.validate(req.body);
-  if (error) {
-    return res.status(400).json({
-      success: false,
-      error: error.details[0].message,
-    });
-  }
-  next();
-};
 
 // Library routes
 router.get('/library', playbookController.getLibrary);
@@ -41,23 +30,23 @@ router.post('/executions/:id/approve', playbookController.approveExecution);
 
 // Playbook CRUD routes
 router.get('/', playbookController.listPlaybooks);
-router.post('/', validate(playbookSchema), playbookController.createPlaybook);
+router.post('/', validate({ body: playbookSchema }), playbookController.createPlaybook);
 router.get('/:id', playbookController.getPlaybook);
-router.put('/:id', validate(playbookUpdateSchema), playbookController.updatePlaybook);
+router.put('/:id', validate({ body: playbookUpdateSchema }), playbookController.updatePlaybook);
 router.delete('/:id', playbookController.deletePlaybook);
 
 // Playbook operations
 router.post('/:id/clone', playbookController.clonePlaybook);
-router.post('/:id/execute', validate(executePlaybookSchema), playbookController.executePlaybook);
+router.post('/:id/execute', validate({ body: executePlaybookSchema }), playbookController.executePlaybook);
 router.get('/:id/export', playbookController.exportPlaybook);
 router.post('/import', playbookController.importPlaybook);
 
 // Decision routes
-router.post('/:id/decisions', validate(decisionSchema), playbookController.addDecision);
+router.post('/:id/decisions', validate({ body: decisionSchema }), playbookController.addDecision);
 router.get('/:id/paths', playbookController.getExecutionPaths);
 
 // Testing routes
-router.post('/:id/test', validate(testPlaybookSchema), playbookController.testPlaybook);
+router.post('/:id/test', validate({ body: testPlaybookSchema }), playbookController.testPlaybook);
 router.get('/:id/test-results', playbookController.getTestResults);
 
 // Metrics routes

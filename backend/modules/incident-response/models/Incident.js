@@ -101,7 +101,10 @@ const IncidentSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ['malware', 'phishing', 'data_breach', 'ddos', 'unauthorized_access', 'insider_threat', 'ransomware', 'other'],
+    enum: [
+      'malware', 'phishing', 'data_breach', 'ddos',
+      'unauthorized_access', 'insider_threat', 'ransomware', 'other',
+    ],
     required: true,
     index: true,
   },
@@ -179,7 +182,7 @@ const IncidentSchema = new mongoose.Schema({
 });
 
 // Auto-generate ticket number
-IncidentSchema.pre('save', async function (next) {
+IncidentSchema.pre('save', async function saveMiddleware(next) {
   if (!this.ticket_number) {
     const date = new Date();
     const year = date.getFullYear();

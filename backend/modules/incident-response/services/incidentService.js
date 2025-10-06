@@ -216,10 +216,10 @@ class IncidentService {
         priority,
         severity,
         category,
-        assigned_to,
-        reported_by,
-        from_date,
-        to_date,
+        assigned_to: assignedTo,
+        reported_by: reportedBy,
+        from_date: fromDate,
+        to_date: toDate,
       } = filters;
 
       const {
@@ -233,13 +233,13 @@ class IncidentService {
       if (priority) query.priority = Array.isArray(priority) ? { $in: priority } : priority;
       if (severity) query.severity = Array.isArray(severity) ? { $in: severity } : severity;
       if (category) query.category = Array.isArray(category) ? { $in: category } : category;
-      if (assigned_to) query.assigned_to = assigned_to;
-      if (reported_by) query.reported_by = reported_by;
+      if (assignedTo) query.assigned_to = assignedTo;
+      if (reportedBy) query.reported_by = reportedBy;
 
-      if (from_date || to_date) {
+      if (fromDate || toDate) {
         query.created_at = {};
-        if (from_date) query.created_at.$gte = new Date(from_date);
-        if (to_date) query.created_at.$lte = new Date(to_date);
+        if (fromDate) query.created_at.$gte = new Date(fromDate);
+        if (toDate) query.created_at.$lte = new Date(toDate);
       }
 
       const skip = (page - 1) * limit;
@@ -333,7 +333,7 @@ class IncidentService {
    */
   async getStatistics(timeRange = '30d') {
     try {
-      const days = parseInt(timeRange);
+      const days = parseInt(timeRange, 10);
       const startDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
 
       const stats = await Incident.aggregate([

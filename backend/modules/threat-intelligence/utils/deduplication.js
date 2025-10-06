@@ -45,7 +45,7 @@ const calculateSimilarity = (threat1, threat2) => {
 
   // Name similarity
   if (threat1.name && threat2.name) {
-    checks++;
+    checks += 1;
     const name1 = threat1.name.toLowerCase();
     const name2 = threat2.name.toLowerCase();
     if (name1 === name2) score += 30;
@@ -54,13 +54,13 @@ const calculateSimilarity = (threat1, threat2) => {
 
   // Type match
   if (threat1.type && threat2.type) {
-    checks++;
+    checks += 1;
     if (threat1.type === threat2.type) score += 20;
   }
 
   // Indicator overlap
   if (threat1.indicators?.length && threat2.indicators?.length) {
-    checks++;
+    checks += 1;
     const indicators1 = new Set(threat1.indicators.map((i) => i.value));
     const indicators2 = new Set(threat2.indicators.map((i) => i.value));
     const intersection = new Set([...indicators1].filter((x) => indicators2.has(x)));

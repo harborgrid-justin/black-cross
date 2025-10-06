@@ -48,7 +48,7 @@ class NotificationService {
   /**
    * Send bulk notifications
    */
-  async sendBulkNotifications(incidentId, recipients, message, channel = 'email', userId) {
+  async sendBulkNotifications(incidentId, recipients, message, userId, channel = 'email') {
     try {
       const results = [];
       for (const recipient of recipients) {
