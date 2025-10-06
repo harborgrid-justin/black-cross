@@ -13,37 +13,37 @@ export const actorService = {
       });
     }
     return apiClient.get<PaginatedResponse<ThreatActor>>(
-      `/actors?${params.toString()}`
+      `/threat-actors?${params.toString()}`
     );
   },
 
   // Get single threat actor by ID
   async getActor(id: string): Promise<ApiResponse<ThreatActor>> {
-    return apiClient.get<ApiResponse<ThreatActor>>(`/actors/${id}`);
+    return apiClient.get<ApiResponse<ThreatActor>>(`/threat-actors/${id}`);
   },
 
   // Create threat actor
   async createActor(data: Partial<ThreatActor>): Promise<ApiResponse<ThreatActor>> {
-    return apiClient.post<ApiResponse<ThreatActor>>('/actors', data);
+    return apiClient.post<ApiResponse<ThreatActor>>('/threat-actors', data);
   },
 
   // Update threat actor
   async updateActor(id: string, data: Partial<ThreatActor>): Promise<ApiResponse<ThreatActor>> {
-    return apiClient.put<ApiResponse<ThreatActor>>(`/actors/${id}`, data);
+    return apiClient.put<ApiResponse<ThreatActor>>(`/threat-actors/${id}`, data);
   },
 
   // Delete threat actor
   async deleteActor(id: string): Promise<ApiResponse<void>> {
-    return apiClient.delete<ApiResponse<void>>(`/actors/${id}`);
+    return apiClient.delete<ApiResponse<void>>(`/threat-actors/${id}`);
   },
 
   // Get actor campaigns
   async getActorCampaigns(id: string): Promise<ApiResponse<unknown>> {
-    return apiClient.get<ApiResponse<unknown>>(`/actors/${id}/campaigns`);
+    return apiClient.get<ApiResponse<unknown>>(`/threat-actors/${id}/campaigns`);
   },
 
   // Get actor TTPs
   async getActorTTPs(id: string): Promise<ApiResponse<unknown>> {
-    return apiClient.get<ApiResponse<unknown>>(`/actors/${id}/ttps`);
+    return apiClient.get<ApiResponse<unknown>>(`/threat-actors/${id}/ttps`);
   },
 };

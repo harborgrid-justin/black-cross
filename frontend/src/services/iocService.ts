@@ -13,42 +13,42 @@ export const iocService = {
       });
     }
     return apiClient.get<PaginatedResponse<IoC>>(
-      `/iocs?${params.toString()}`
+      `/ioc-management?${params.toString()}`
     );
   },
 
   // Get single IoC by ID
   async getIoC(id: string): Promise<ApiResponse<IoC>> {
-    return apiClient.get<ApiResponse<IoC>>(`/iocs/${id}`);
+    return apiClient.get<ApiResponse<IoC>>(`/ioc-management/${id}`);
   },
 
   // Create IoC
   async createIoC(data: Partial<IoC>): Promise<ApiResponse<IoC>> {
-    return apiClient.post<ApiResponse<IoC>>('/iocs', data);
+    return apiClient.post<ApiResponse<IoC>>('/ioc-management', data);
   },
 
   // Update IoC
   async updateIoC(id: string, data: Partial<IoC>): Promise<ApiResponse<IoC>> {
-    return apiClient.put<ApiResponse<IoC>>(`/iocs/${id}`, data);
+    return apiClient.put<ApiResponse<IoC>>(`/ioc-management/${id}`, data);
   },
 
   // Delete IoC
   async deleteIoC(id: string): Promise<ApiResponse<void>> {
-    return apiClient.delete<ApiResponse<void>>(`/iocs/${id}`);
+    return apiClient.delete<ApiResponse<void>>(`/ioc-management/${id}`);
   },
 
   // Bulk import IoCs
   async bulkImport(iocs: Partial<IoC>[]): Promise<ApiResponse<unknown>> {
-    return apiClient.post<ApiResponse<unknown>>('/iocs/bulk', { iocs });
+    return apiClient.post<ApiResponse<unknown>>('/ioc-management/bulk', { iocs });
   },
 
   // Export IoCs
   async exportIoCs(format: 'json' | 'csv' | 'stix'): Promise<ApiResponse<unknown>> {
-    return apiClient.get<ApiResponse<unknown>>(`/iocs/export?format=${format}`);
+    return apiClient.get<ApiResponse<unknown>>(`/ioc-management/export?format=${format}`);
   },
 
   // Check IoC against threat feeds
   async checkIoC(value: string, type: string): Promise<ApiResponse<unknown>> {
-    return apiClient.post<ApiResponse<unknown>>('/iocs/check', { value, type });
+    return apiClient.post<ApiResponse<unknown>>('/ioc-management/check', { value, type });
   },
 };
