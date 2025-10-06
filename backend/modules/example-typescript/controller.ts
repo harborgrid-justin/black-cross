@@ -10,7 +10,9 @@
 
 import type { Request, Response } from 'express';
 import { ExampleService } from './service';
-import type { ExampleResponse, ExampleQuery, ExampleData, CreateExampleInput } from './types';
+import type {
+  ExampleResponse, ExampleQuery, ExampleData, CreateExampleInput,
+} from './types';
 
 const service: ExampleService = new ExampleService();
 
@@ -42,13 +44,12 @@ function createErrorResponse(error: unknown): ExampleResponse<never> {
  * @returns Validated query parameters
  */
 function parseQuery(query: Request['query']): ExampleQuery {
-  const status: string | undefined = typeof query['status'] === 'string' ? query['status'] : undefined;
-  const search: string | undefined = typeof query['search'] === 'string' ? query['search'] : undefined;
-  const limitStr: string | undefined = typeof query['limit'] === 'string' ? query['limit'] : undefined;
+  const status: string | undefined = typeof query.status === 'string' ? query.status : undefined;
+  const search: string | undefined = typeof query.search === 'string' ? query.search : undefined;
+  const limitStr: string | undefined = typeof query.limit === 'string' ? query.limit : undefined;
 
   // Validate status if provided
-  const validStatus: 'active' | 'inactive' | undefined =
-    status === 'active' || status === 'inactive' ? status : undefined;
+  const validStatus: 'active' | 'inactive' | undefined = status === 'active' || status === 'inactive' ? status : undefined;
 
   // Parse limit with validation
   let limit: number | undefined;
@@ -95,7 +96,7 @@ export async function list(req: Request, res: Response): Promise<void> {
  */
 export async function getById(req: Request, res: Response): Promise<void> {
   try {
-    const id: string = req.params['id'] ?? '';
+    const id: string = req.params.id ?? '';
     const data: ExampleData | null = await service.getById(id);
 
     if (data === null) {
@@ -153,7 +154,7 @@ export async function create(req: Request, res: Response): Promise<void> {
  */
 export async function update(req: Request, res: Response): Promise<void> {
   try {
-    const id: string = req.params['id'] ?? '';
+    const id: string = req.params.id ?? '';
     const updates = req.body as Partial<CreateExampleInput>;
     const data: ExampleData | null = await service.update(id, updates);
 
@@ -188,7 +189,7 @@ export async function update(req: Request, res: Response): Promise<void> {
  */
 export async function deleteById(req: Request, res: Response): Promise<void> {
   try {
-    const id: string = req.params['id'] ?? '';
+    const id: string = req.params.id ?? '';
     const deleted: boolean = await service.delete(id);
 
     if (!deleted) {

@@ -111,7 +111,7 @@ export function isDate(value: unknown): value is Date {
  */
 export function hasProperty<K extends string>(
   value: unknown,
-  property: K
+  property: K,
 ): value is Record<K, unknown> {
   return isObject(value) && property in value;
 }
@@ -160,7 +160,7 @@ export function isNonEmptyArray<T>(value: readonly T[]): value is readonly [T, .
  */
 export function assertDefined<T>(
   value: T | null | undefined,
-  message?: string
+  message?: string,
 ): asserts value is T {
   if (isNullOrUndefined(value)) {
     throw new Error(message ?? 'Value must be defined');

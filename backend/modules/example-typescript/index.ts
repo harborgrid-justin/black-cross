@@ -3,7 +3,8 @@
  * This demonstrates the TypeScript migration pattern for backend modules
  */
 
-import { Router, Request, Response } from 'express';
+import type { Request, Response } from 'express';
+import { Router } from 'express';
 import routes from './routes';
 
 const router = Router();
