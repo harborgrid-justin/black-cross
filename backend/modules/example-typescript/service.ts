@@ -8,7 +8,9 @@
  * - Utility types for type transformations
  */
 
-import type { ExampleData, ExampleQuery, CreateExampleInput, UpdateExampleInput } from './types';
+import type {
+  ExampleData, ExampleQuery, CreateExampleInput, UpdateExampleInput,
+} from './types';
 
 /**
  * Service class for managing example data
@@ -49,9 +51,7 @@ export class ExampleService {
 
     if (query.search !== undefined && query.search.length > 0) {
       const searchLower: string = query.search.toLowerCase();
-      filtered = filtered.filter((item): boolean =>
-        item.name.toLowerCase().includes(searchLower)
-      );
+      filtered = filtered.filter((item): boolean => item.name.toLowerCase().includes(searchLower));
     }
 
     // Use nullish coalescing for default values
@@ -75,7 +75,7 @@ export class ExampleService {
 
     // Use optional chaining and nullish coalescing
     const found: ExampleData | undefined = this.mockDataStore.find(
-      (item): boolean => item.id === id
+      (item): boolean => item.id === id,
     );
 
     return found ?? null;

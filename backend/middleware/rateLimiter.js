@@ -1,7 +1,7 @@
 /**
  * Rate Limiter Middleware
  * Protects API endpoints from abuse
- * 
+ *
  * Features:
  * - Configurable rate limits per endpoint
  * - IP-based and user-based limiting
@@ -28,11 +28,11 @@ function rateLimiter(options = {}) {
     maxRequests = parseInt(process.env.RATE_LIMIT_MAX_REQUESTS, 10) || 100,
     keyGenerator = (req) => req.ip,
   } = options;
-  
+
   return (req, res, next) => {
     const key = keyGenerator(req);
     const now = Date.now();
-    
+
     // Clean up old entries periodically
     if (Math.random() < 0.01) {
       for (const [k, v] of requestCounts.entries()) {
@@ -41,10 +41,10 @@ function rateLimiter(options = {}) {
         }
       }
     }
-    
+
     // Get or create counter for this key
     let counter = requestCounts.get(key);
-    
+
     if (!counter || now - counter.resetTime > windowMs) {
       counter = {
         count: 0,
@@ -52,31 +52,31 @@ function rateLimiter(options = {}) {
       };
       requestCounts.set(key, counter);
     }
-    
+
     counter.count += 1;
-    
+
     // Set rate limit headers
     res.set({
       'X-RateLimit-Limit': maxRequests,
       'X-RateLimit-Remaining': Math.max(0, maxRequests - counter.count),
       'X-RateLimit-Reset': new Date(counter.resetTime + windowMs).toISOString(),
     });
-    
+
     // Check if limit exceeded
     if (counter.count > maxRequests) {
       const retryAfter = Math.ceil((counter.resetTime + windowMs - now) / 1000);
       res.set('Retry-After', retryAfter);
-      
+
       logger.warn('Rate limit exceeded', {
         key,
         count: counter.count,
         maxRequests,
         correlationId: req.correlationId,
       });
-      
+
       return next(new RateLimitError('Too many requests, please try again later'));
     }
-    
+
     next();
   };
 }
