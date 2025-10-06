@@ -120,8 +120,10 @@ class LibraryService {
 
         if (!existing) {
           await Playbook.create(playbookData);
+          // eslint-disable-next-line no-plusplus
           results.created++;
         } else {
+          // eslint-disable-next-line no-plusplus
           results.skipped++;
         }
       }

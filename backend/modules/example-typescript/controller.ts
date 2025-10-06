@@ -55,7 +55,7 @@ function parseQuery(query: Request['query']): ExampleQuery {
   let limit: number | undefined;
   if (limitStr !== undefined) {
     const parsed: number = parseInt(limitStr, 10);
-    limit = !isNaN(parsed) && parsed > 0 ? parsed : undefined;
+    limit = !Number.isNaN(parsed) && parsed > 0 ? parsed : undefined;
   }
 
   return {

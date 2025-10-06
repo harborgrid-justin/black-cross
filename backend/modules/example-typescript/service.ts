@@ -16,6 +16,7 @@ import type {
  * Service class for managing example data
  * Demonstrates business logic with comprehensive type safety
  */
+// eslint-disable-next-line import/prefer-default-export
 export class ExampleService {
   /**
    * Mock data store - in production, this would use Prisma or MongoDB
@@ -58,7 +59,7 @@ export class ExampleService {
     const limit: number = query.limit ?? filtered.length;
     filtered = filtered.slice(0, limit);
 
-    return filtered;
+    return Promise.resolve(filtered);
   }
 
   /**
@@ -67,7 +68,7 @@ export class ExampleService {
    * @returns Promise resolving to example data or null if not found
    * @throws Error if ID is empty or invalid
    */
-  public async getById(id: string): Promise<ExampleData | null> {
+  public getById(id: string): Promise<ExampleData | null> {
     // Validate input
     if (!id || id.trim().length === 0) {
       throw new Error('ID must not be empty');
@@ -78,7 +79,7 @@ export class ExampleService {
       (item): boolean => item.id === id,
     );
 
-    return found ?? null;
+    return Promise.resolve(found ?? null);
   }
 
   /**
@@ -87,7 +88,7 @@ export class ExampleService {
    * @returns Promise resolving to created example data
    * @throws Error if input validation fails
    */
-  public async create(input: CreateExampleInput): Promise<ExampleData> {
+  public create(input: CreateExampleInput): Promise<ExampleData> {
     // Validate input
     if (!input.name || input.name.trim().length === 0) {
       throw new Error('Name must not be empty');
@@ -100,7 +101,7 @@ export class ExampleService {
       createdAt: new Date(),
     };
 
-    return newData;
+    return Promise.resolve(newData);
   }
 
   /**
@@ -149,6 +150,7 @@ export class ExampleService {
    * Generate a unique ID
    * @returns A unique identifier string
    */
+  // eslint-disable-next-line class-methods-use-this
   private generateId(): string {
     return Math.random().toString(36).substring(2, 11);
   }
