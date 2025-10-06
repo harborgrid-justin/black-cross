@@ -13,41 +13,41 @@ interface ThreatFeed {
 export const feedService = {
   // Get all threat feeds
   async getFeeds(): Promise<ApiResponse<ThreatFeed[]>> {
-    return apiClient.get<ApiResponse<ThreatFeed[]>>('/feeds');
+    return apiClient.get<ApiResponse<ThreatFeed[]>>('/threat-feeds');
   },
 
   // Get single feed by ID
   async getFeed(id: string): Promise<ApiResponse<ThreatFeed>> {
-    return apiClient.get<ApiResponse<ThreatFeed>>(`/feeds/${id}`);
+    return apiClient.get<ApiResponse<ThreatFeed>>(`/threat-feeds/${id}`);
   },
 
   // Create feed
   async createFeed(data: Partial<ThreatFeed>): Promise<ApiResponse<ThreatFeed>> {
-    return apiClient.post<ApiResponse<ThreatFeed>>('/feeds', data);
+    return apiClient.post<ApiResponse<ThreatFeed>>('/threat-feeds', data);
   },
 
   // Update feed
   async updateFeed(id: string, data: Partial<ThreatFeed>): Promise<ApiResponse<ThreatFeed>> {
-    return apiClient.put<ApiResponse<ThreatFeed>>(`/feeds/${id}`, data);
+    return apiClient.put<ApiResponse<ThreatFeed>>(`/threat-feeds/${id}`, data);
   },
 
   // Delete feed
   async deleteFeed(id: string): Promise<ApiResponse<void>> {
-    return apiClient.delete<ApiResponse<void>>(`/feeds/${id}`);
+    return apiClient.delete<ApiResponse<void>>(`/threat-feeds/${id}`);
   },
 
   // Enable/disable feed
   async toggleFeed(id: string, enabled: boolean): Promise<ApiResponse<ThreatFeed>> {
-    return apiClient.patch<ApiResponse<ThreatFeed>>(`/feeds/${id}/toggle`, { enabled });
+    return apiClient.patch<ApiResponse<ThreatFeed>>(`/threat-feeds/${id}/toggle`, { enabled });
   },
 
   // Refresh feed
   async refreshFeed(id: string): Promise<ApiResponse<unknown>> {
-    return apiClient.post<ApiResponse<unknown>>(`/feeds/${id}/refresh`);
+    return apiClient.post<ApiResponse<unknown>>(`/threat-feeds/${id}/refresh`);
   },
 
   // Get feed statistics
   async getFeedStats(id: string): Promise<ApiResponse<unknown>> {
-    return apiClient.get<ApiResponse<unknown>>(`/feeds/${id}/stats`);
+    return apiClient.get<ApiResponse<unknown>>(`/threat-feeds/${id}/stats`);
   },
 };

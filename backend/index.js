@@ -88,18 +88,18 @@ const compliance = require('./modules/compliance');
 const automation = require('./modules/automation');
 
 app.use('/api/v1/threat-intelligence', threatIntelligence);
-app.use('/api/v1/incidents', incidentResponse);
-app.use('/api/v1/hunting', threatHunting);
-app.use('/api/v1/vulnerabilities', vulnerabilityManagement);
+app.use('/api/v1/incident-response', incidentResponse);
+app.use('/api/v1/threat-hunting', threatHunting);
+app.use('/api/v1/vulnerability-management', vulnerabilityManagement);
 app.use('/api/v1/siem', siem);
 app.use('/api/v1/threat-actors', threatActors);
-app.use('/api/v1/iocs', iocManagement);
-app.use('/api/v1/feeds', threatFeeds);
-app.use('/api/v1/risk', riskAssessment);
+app.use('/api/v1/ioc-management', iocManagement);
+app.use('/api/v1/threat-feeds', threatFeeds);
+app.use('/api/v1/risk-assessment', riskAssessment);
 app.use('/api/v1/collaboration', collaboration);
-app.use('/api/v1/reports', reporting);
-app.use('/api/v1/malware', malwareAnalysis);
-app.use('/api/v1/darkweb', darkWeb);
+app.use('/api/v1/reporting', reporting);
+app.use('/api/v1/malware-analysis', malwareAnalysis);
+app.use('/api/v1/dark-web', darkWeb);
 app.use('/api/v1/compliance', compliance);
 app.use('/api/v1/automation', automation);
 
