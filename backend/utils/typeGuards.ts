@@ -19,7 +19,7 @@ export function isString(value: unknown): value is string {
  * @returns True if value is a number and not NaN
  */
 export function isNumber(value: unknown): value is number {
-  return typeof value === 'number' && !isNaN(value);
+  return typeof value === 'number' && !Number.isNaN(value);
 }
 
 /**
@@ -100,7 +100,7 @@ export function isError(value: unknown): value is Error {
  * @returns True if value is a valid Date
  */
 export function isDate(value: unknown): value is Date {
-  return value instanceof Date && !isNaN(value.getTime());
+  return value instanceof Date && !Number.isNaN(value.getTime());
 }
 
 /**

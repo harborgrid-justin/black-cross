@@ -1,7 +1,7 @@
 /**
  * Centralized Configuration Management
  * Enterprise-grade configuration with validation
- * 
+ *
  * Features:
  * - Environment-based configuration
  * - Configuration validation
@@ -18,11 +18,12 @@ const configSchema = Joi.object({
   app: Joi.object({
     name: Joi.string().default('Black-Cross'),
     env: Joi.string().valid('development', 'production', 'test').default('development'),
-    port: Joi.number().integer().min(1).max(65535).default(8080),
+    port: Joi.number().integer().min(1).max(65535)
+      .default(8080),
     host: Joi.string().default('0.0.0.0'),
     url: Joi.string().uri().default('http://localhost:8080'),
   }).required(),
-  
+
   // Database
   database: Joi.object({
     mongodb: Joi.object({
@@ -32,7 +33,7 @@ const configSchema = Joi.object({
         minPoolSize: Joi.number().integer().default(2),
       }).default(),
     }).required(),
-    
+
     postgresql: Joi.object({
       url: Joi.string().required(),
       host: Joi.string().default('localhost'),
@@ -41,39 +42,40 @@ const configSchema = Joi.object({
       user: Joi.string().default('blackcross'),
       password: Joi.string().required(),
     }).required(),
-    
+
     redis: Joi.object({
       url: Joi.string().required(),
       password: Joi.string().allow('').default(''),
     }).required(),
-    
+
     elasticsearch: Joi.object({
       url: Joi.string().required(),
       username: Joi.string().allow('').default(''),
       password: Joi.string().allow('').default(''),
     }).required(),
   }).required(),
-  
+
   // Security
   security: Joi.object({
     jwt: Joi.object({
       secret: Joi.string().min(32).required(),
       expiration: Joi.string().default('24h'),
     }).required(),
-    
+
     bcrypt: Joi.object({
-      rounds: Joi.number().integer().min(10).max(15).default(10),
+      rounds: Joi.number().integer().min(10).max(15)
+        .default(10),
     }).default(),
-    
+
     encryption: Joi.object({
       key: Joi.string().length(32).required(),
     }).required(),
-    
+
     cors: Joi.object({
       origin: Joi.string().default('http://localhost:3000'),
     }).default(),
   }).required(),
-  
+
   // Logging
   logging: Joi.object({
     level: Joi.string().valid('error', 'warn', 'info', 'debug', 'verbose').default('info'),
@@ -81,13 +83,13 @@ const configSchema = Joi.object({
     maxSize: Joi.string().default('10m'),
     maxFiles: Joi.number().integer().default(5),
   }).required(),
-  
+
   // Rate Limiting
   rateLimiting: Joi.object({
     windowMs: Joi.number().integer().default(900000), // 15 minutes
     maxRequests: Joi.number().integer().default(100),
   }).required(),
-  
+
   // Features
   features: Joi.object({
     darkWebMonitoring: Joi.boolean().default(true),
@@ -96,7 +98,7 @@ const configSchema = Joi.object({
     threatHunting: Joi.boolean().default(true),
     complianceManagement: Joi.boolean().default(true),
   }).default(),
-  
+
   // Monitoring
   monitoring: Joi.object({
     enabled: Joi.boolean().default(true),
@@ -114,7 +116,7 @@ const rawConfig = {
     host: process.env.APP_HOST,
     url: process.env.APP_URL,
   },
-  
+
   database: {
     mongodb: {
       uri: process.env.MONGODB_URI,
@@ -138,7 +140,7 @@ const rawConfig = {
       password: process.env.ELASTICSEARCH_PASSWORD,
     },
   },
-  
+
   security: {
     jwt: {
       secret: process.env.JWT_SECRET,
@@ -154,19 +156,19 @@ const rawConfig = {
       origin: process.env.CORS_ORIGIN,
     },
   },
-  
+
   logging: {
     level: process.env.LOG_LEVEL,
     file: process.env.LOG_FILE === 'true',
     maxSize: process.env.LOG_MAX_SIZE,
     maxFiles: parseInt(process.env.LOG_MAX_FILES, 10),
   },
-  
+
   rateLimiting: {
     windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS, 10),
     maxRequests: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS, 10),
   },
-  
+
   features: {
     darkWebMonitoring: process.env.FEATURE_DARK_WEB_MONITORING !== 'false',
     malwareSandbox: process.env.FEATURE_MALWARE_SANDBOX !== 'false',
@@ -174,7 +176,7 @@ const rawConfig = {
     threatHunting: process.env.FEATURE_THREAT_HUNTING !== 'false',
     complianceManagement: process.env.FEATURE_COMPLIANCE_MANAGEMENT !== 'false',
   },
-  
+
   monitoring: {
     enabled: process.env.METRICS_ENABLED !== 'false',
     port: parseInt(process.env.METRICS_PORT, 10),
@@ -190,7 +192,7 @@ const { error, value: config } = configSchema.validate(rawConfig, {
 
 if (error) {
   console.error('Configuration validation failed:');
-  error.details.forEach(detail => {
+  error.details.forEach((detail) => {
     console.error(`  - ${detail.path.join('.')}: ${detail.message}`);
   });
   process.exit(1);

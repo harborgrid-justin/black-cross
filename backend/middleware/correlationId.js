@@ -1,7 +1,7 @@
 /**
  * Correlation ID Middleware
  * Adds unique correlation IDs to requests for distributed tracing
- * 
+ *
  * Features:
  * - Generate or extract correlation ID from headers
  * - Add to request context
@@ -17,16 +17,16 @@ const { v4: uuidv4 } = require('uuid');
  */
 function correlationId(req, res, next) {
   // Try to get correlation ID from header, or generate new one
-  const correlationId = req.get('x-correlation-id') || 
-                        req.get('x-request-id') || 
-                        uuidv4();
-  
+  const correlationId = req.get('x-correlation-id')
+                        || req.get('x-request-id')
+                        || uuidv4();
+
   // Attach to request
   req.correlationId = correlationId;
-  
+
   // Add to response headers
   res.set('x-correlation-id', correlationId);
-  
+
   next();
 }
 

@@ -1,7 +1,7 @@
 /**
  * Centralized Logger Configuration
  * Enterprise-grade logging with Winston
- * 
+ *
  * Features:
  * - Structured logging with JSON format
  * - Multiple transports (Console, File, Error file)
@@ -25,23 +25,26 @@ const logFormat = winston.format.combine(
 const consoleFormat = winston.format.combine(
   winston.format.colorize(),
   winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-  winston.format.printf(({ timestamp, level, message, module, correlationId, ...meta }) => {
+  winston.format.printf(({
+    timestamp, level, message, module, correlationId, ...meta
+  }) => {
     let log = `${timestamp} [${level}]`;
     if (module) log += ` [${module}]`;
     if (correlationId) log += ` [${correlationId}]`;
     log += `: ${message}`;
-    
+
     // Add metadata if present
     if (Object.keys(meta).length > 0) {
       log += ` ${JSON.stringify(meta)}`;
     }
-    
+
     return log;
   }),
 );
 
 // Create logs directory if it doesn't exist
 const fs = require('fs');
+
 const logsDir = path.join(__dirname, '../logs');
 if (!fs.existsSync(logsDir)) {
   fs.mkdirSync(logsDir, { recursive: true });
