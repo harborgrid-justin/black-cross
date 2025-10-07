@@ -64,19 +64,6 @@ const darkTheme = createTheme({
   },
 });
 
-// Wrapper component for protected routes with layout
-function ProtectedLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <PrivateRoute>
-      <Layout>
-        <Suspense fallback={<LoadingFallback />}>
-          {children}
-        </Suspense>
-      </Layout>
-    </PrivateRoute>
-  );
-}
-
 // Inner component to handle auth hydration
 function AppContent() {
   useEffect(() => {
@@ -92,25 +79,38 @@ function AppContent() {
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<ProtectedLayout><SimpleDashboard /></ProtectedLayout>} />
-          <Route path="/dashboard" element={<ProtectedLayout><SimpleDashboard /></ProtectedLayout>} />
-          <Route path="/threat-intelligence" element={<ProtectedLayout><ThreatList /></ProtectedLayout>} />
-          <Route path="/threat-intelligence/:id" element={<ProtectedLayout><ThreatDetails /></ProtectedLayout>} />
-          <Route path="/incident-response" element={<ProtectedLayout><IncidentList /></ProtectedLayout>} />
-          <Route path="/threat-hunting" element={<ProtectedLayout><ThreatHunting /></ProtectedLayout>} />
-          <Route path="/vulnerability-management" element={<ProtectedLayout><VulnerabilityList /></ProtectedLayout>} />
-          <Route path="/risk-assessment" element={<ProtectedLayout><RiskAssessment /></ProtectedLayout>} />
-          <Route path="/threat-actors" element={<ProtectedLayout><ThreatActors /></ProtectedLayout>} />
-          <Route path="/ioc-management" element={<ProtectedLayout><IoCManagement /></ProtectedLayout>} />
-          <Route path="/threat-feeds" element={<ProtectedLayout><ThreatFeeds /></ProtectedLayout>} />
-          <Route path="/siem" element={<ProtectedLayout><SIEMDashboard /></ProtectedLayout>} />
-          <Route path="/collaboration" element={<ProtectedLayout><CollaborationHub /></ProtectedLayout>} />
-          <Route path="/reporting" element={<ProtectedLayout><ReportingAnalytics /></ProtectedLayout>} />
-          <Route path="/malware-analysis" element={<ProtectedLayout><MalwareAnalysis /></ProtectedLayout>} />
-          <Route path="/dark-web" element={<ProtectedLayout><DarkWebMonitoring /></ProtectedLayout>} />
-          <Route path="/compliance" element={<ProtectedLayout><ComplianceManagement /></ProtectedLayout>} />
-          <Route path="/automation" element={<ProtectedLayout><AutomationPlaybooks /></ProtectedLayout>} />
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          <Route
+            path="/*"
+            element={
+              <PrivateRoute>
+                <Layout>
+                  <Suspense fallback={<LoadingFallback />}>
+                    <Routes>
+                      <Route path="/" element={<SimpleDashboard />} />
+                      <Route path="/dashboard" element={<SimpleDashboard />} />
+                      <Route path="/threat-intelligence" element={<ThreatList />} />
+                      <Route path="/threat-intelligence/:id" element={<ThreatDetails />} />
+                      <Route path="/incident-response" element={<IncidentList />} />
+                      <Route path="/threat-hunting" element={<ThreatHunting />} />
+                      <Route path="/vulnerability-management" element={<VulnerabilityList />} />
+                      <Route path="/risk-assessment" element={<RiskAssessment />} />
+                      <Route path="/threat-actors" element={<ThreatActors />} />
+                      <Route path="/ioc-management" element={<IoCManagement />} />
+                      <Route path="/threat-feeds" element={<ThreatFeeds />} />
+                      <Route path="/siem" element={<SIEMDashboard />} />
+                      <Route path="/collaboration" element={<CollaborationHub />} />
+                      <Route path="/reporting" element={<ReportingAnalytics />} />
+                      <Route path="/malware-analysis" element={<MalwareAnalysis />} />
+                      <Route path="/dark-web" element={<DarkWebMonitoring />} />
+                      <Route path="/compliance" element={<ComplianceManagement />} />
+                      <Route path="/automation" element={<AutomationPlaybooks />} />
+                      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                    </Routes>
+                  </Suspense>
+                </Layout>
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </Router>
     </ThemeProvider>
