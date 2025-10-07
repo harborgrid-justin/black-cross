@@ -86,6 +86,7 @@ export interface AuthenticatedUser {
   readonly id: string;
   readonly email: string;
   readonly role: UserRole;
+  [key: string]: unknown;
 }
 
 /**
@@ -93,7 +94,7 @@ export interface AuthenticatedUser {
  * Extends Express Request with authenticated user data
  */
 export interface AuthRequest extends Request {
-  readonly user?: AuthenticatedUser;
+  user?: AuthenticatedUser;
 }
 
 /**

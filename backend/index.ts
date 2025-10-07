@@ -5,20 +5,18 @@
  * Main application entry point
  */
 
-import type {
-  Request, Response, NextFunction, Application,
-} from 'express';
-import express from 'express';
+import express, { type Request, type Response, type NextFunction, type Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import type { PlatformHealth } from './types';
-
-// Module routes
-// TypeScript modules (new)
-import exampleTypescript from './modules/example-typescript';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './config/swagger';
+import { rateLimiter } from './middleware/rateLimiter';
+import correlationId from './middleware/correlationId';
+import requestLogger from './middleware/requestLogger';
+import { APP, PORTS, RATE_LIMIT, ROUTES, MODULE_ROUTES, FEATURES, STATUS, ENVIRONMENT, MODULES, SWAGGER } from './constants';
 
 const app: Application = express();
-const PORT = process.env.APP_PORT ?? 8080;
+const PORT: string | number = process.env.APP_PORT || PORTS.APP;
 
 // Middleware
 app.use(helmet());
@@ -26,115 +24,126 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Request tracking
+app.use(correlationId);
+app.use(requestLogger);
+
+// Global rate limiting
+app.use(rateLimiter({
+  windowMs: RATE_LIMIT.WINDOW_MS,
+  maxRequests: RATE_LIMIT.MAX_REQUESTS_GLOBAL,
+}));
+
 // Health check endpoint
-app.get('/health', (_req: Request, res: Response) => {
-  const health: PlatformHealth = {
-    status: 'operational',
-    platform: 'Black-Cross',
-    version: '1.0.0',
+app.get(ROUTES.HEALTH, (req: Request, res: Response): void => {
+  res.json({
+    status: STATUS.OPERATIONAL,
+    platform: APP.NAME,
+    version: APP.VERSION,
     timestamp: new Date().toISOString(),
     modules: {
-      exampleTypescript: 'operational',
-      threatIntelligence: 'operational',
-      incidentResponse: 'operational',
-      threatHunting: 'operational',
-      vulnerabilityManagement: 'operational',
-      siem: 'operational',
-      threatActors: 'operational',
-      iocManagement: 'operational',
-      threatFeeds: 'operational',
-      riskAssessment: 'operational',
-      collaboration: 'operational',
-      reporting: 'operational',
-      malwareAnalysis: 'operational',
-      darkWeb: 'operational',
-      compliance: 'operational',
-      automation: 'operational',
+      threatIntelligence: STATUS.OPERATIONAL,
+      incidentResponse: STATUS.OPERATIONAL,
+      threatHunting: STATUS.OPERATIONAL,
+      vulnerabilityManagement: STATUS.OPERATIONAL,
+      siem: STATUS.OPERATIONAL,
+      threatActors: STATUS.OPERATIONAL,
+      iocManagement: STATUS.OPERATIONAL,
+      threatFeeds: STATUS.OPERATIONAL,
+      riskAssessment: STATUS.OPERATIONAL,
+      collaboration: STATUS.OPERATIONAL,
+      reporting: STATUS.OPERATIONAL,
+      malwareAnalysis: STATUS.OPERATIONAL,
+      darkWeb: STATUS.OPERATIONAL,
+      compliance: STATUS.OPERATIONAL,
+      automation: STATUS.OPERATIONAL,
     },
-  };
-  res.json(health);
-});
-
-// API routes
-app.get('/api/v1', (_req: Request, res: Response) => {
-  res.json({
-    message: 'Black-Cross API v1.0',
-    documentation: '/api/v1/docs',
-    features: [
-      'Threat Intelligence Management',
-      'Incident Response & Management',
-      'Threat Hunting Platform',
-      'Vulnerability Management',
-      'SIEM Integration',
-      'Threat Actor Profiling',
-      'IoC Management',
-      'Threat Intelligence Feeds Integration',
-      'Risk Assessment & Scoring',
-      'Collaboration & Workflow',
-      'Reporting & Analytics',
-      'Malware Analysis & Sandbox',
-      'Dark Web Monitoring',
-      'Compliance & Audit Management',
-      'Automated Response & Playbooks',
-    ],
   });
 });
 
-// JavaScript modules (backward compatibility during migration)
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-const threatIntelligence = require('./modules/threat-intelligence');
-const incidentResponse = require('./modules/incident-response');
-const threatHunting = require('./modules/threat-hunting');
-const vulnerabilityManagement = require('./modules/vulnerability-management');
-const siem = require('./modules/siem');
-const threatActors = require('./modules/threat-actors');
-const iocManagement = require('./modules/ioc-management');
-const threatFeeds = require('./modules/threat-feeds');
-const riskAssessment = require('./modules/risk-assessment');
-const collaboration = require('./modules/collaboration');
-const reporting = require('./modules/reporting');
-const malwareAnalysis = require('./modules/malware-analysis');
-const darkWeb = require('./modules/dark-web');
-const compliance = require('./modules/compliance');
-const automation = require('./modules/automation');
-/* eslint-enable @typescript-eslint/no-unsafe-assignment */
-/* eslint-enable @typescript-eslint/no-var-requires */
+/**
+ * @swagger
+ * /api/v1:
+ *   get:
+ *     summary: API Information
+ *     description: Get information about the Black-Cross API
+ *     tags: [Health]
+ *     responses:
+ *       200:
+ *         description: API information
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 documentation:
+ *                   type: string
+ *                 features:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ */
+app.get(ROUTES.API_ROOT, (req: Request, res: Response): void => {
+  res.json({
+    message: `${APP.NAME} API v${APP.VERSION}`,
+    documentation: ROUTES.API_DOCS,
+    features: FEATURES,
+  });
+});
 
-// TypeScript modules
-app.use('/api/v1/example', exampleTypescript);
+// API Documentation
+app.use(ROUTES.API_DOCS, swaggerUi.serve);
+app.get(ROUTES.API_DOCS, swaggerUi.setup(swaggerSpec, {
+  customSiteTitle: SWAGGER.CUSTOM_SITE_TITLE,
+  customCss: SWAGGER.CUSTOM_CSS,
+}));
 
-// JavaScript modules (legacy)
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-app.use('/api/v1/threat-intelligence', threatIntelligence);
-app.use('/api/v1/incidents', incidentResponse);
-app.use('/api/v1/hunting', threatHunting);
-app.use('/api/v1/vulnerabilities', vulnerabilityManagement);
-app.use('/api/v1/siem', siem);
-app.use('/api/v1/threat-actors', threatActors);
-app.use('/api/v1/iocs', iocManagement);
-app.use('/api/v1/feeds', threatFeeds);
-app.use('/api/v1/risk', riskAssessment);
-app.use('/api/v1/collaboration', collaboration);
-app.use('/api/v1/reports', reporting);
-app.use('/api/v1/malware', malwareAnalysis);
-app.use('/api/v1/darkweb', darkWeb);
-app.use('/api/v1/compliance', compliance);
-app.use('/api/v1/automation', automation);
-/* eslint-enable @typescript-eslint/no-unsafe-argument */
+// Module routes
+import threatIntelligence from './modules/threat-intelligence';
+import incidentResponse from './modules/incident-response';
+import threatHunting from './modules/threat-hunting';
+import vulnerabilityManagement from './modules/vulnerability-management';
+import siem from './modules/siem';
+import threatActors from './modules/threat-actors';
+import iocManagement from './modules/ioc-management';
+import threatFeeds from './modules/threat-feeds';
+import riskAssessment from './modules/risk-assessment';
+import collaboration from './modules/collaboration';
+import reporting from './modules/reporting';
+import malwareAnalysis from './modules/malware-analysis';
+import darkWeb from './modules/dark-web';
+import compliance from './modules/compliance';
+import automation from './modules/automation';
+
+app.use(MODULE_ROUTES.THREAT_INTELLIGENCE, threatIntelligence);
+app.use(MODULE_ROUTES.INCIDENT_RESPONSE, incidentResponse);
+app.use(MODULE_ROUTES.THREAT_HUNTING, threatHunting);
+app.use(MODULE_ROUTES.VULNERABILITY_MANAGEMENT, vulnerabilityManagement);
+app.use(MODULE_ROUTES.SIEM, siem);
+app.use(MODULE_ROUTES.THREAT_ACTORS, threatActors);
+app.use(MODULE_ROUTES.IOC_MANAGEMENT, iocManagement);
+app.use(MODULE_ROUTES.THREAT_FEEDS, threatFeeds);
+app.use(MODULE_ROUTES.RISK_ASSESSMENT, riskAssessment);
+app.use(MODULE_ROUTES.COLLABORATION, collaboration);
+app.use(MODULE_ROUTES.REPORTING, reporting);
+app.use(MODULE_ROUTES.MALWARE_ANALYSIS, malwareAnalysis);
+app.use(MODULE_ROUTES.DARK_WEB, darkWeb);
+app.use(MODULE_ROUTES.COMPLIANCE, compliance);
+app.use(MODULE_ROUTES.AUTOMATION, automation);
 
 // Error handling middleware
-app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-  // eslint-disable-next-line no-console
+app.use((err: Error, req: Request, res: Response, _next: NextFunction): void => {
   console.error(err.stack);
   res.status(500).json({
     error: 'Internal Server Error',
-    message: process.env.NODE_ENV === 'development' ? err.message : undefined,
+    message: process.env.NODE_ENV === ENVIRONMENT.DEVELOPMENT ? err.message : undefined,
   });
 });
 
 // 404 handler
-app.use((_req: Request, res: Response) => {
+app.use((req: Request, res: Response): void => {
   res.status(404).json({
     error: 'Not Found',
     message: 'The requested resource was not found',
@@ -143,24 +152,24 @@ app.use((_req: Request, res: Response) => {
 
 // Start server
 app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
   console.log(`
 ╔══════════════════════════════════════════════════════════════╗
 ║                                                              ║
-║                      BLACK-CROSS                             ║
-║          Enterprise Cyber Threat Intelligence Platform       ║
+║                      ${APP.NAME.toUpperCase()}                             ║
+║          ${APP.TITLE}       ║
 ║                                                              ║
 ╚══════════════════════════════════════════════════════════════╝
 
 🚀 Server running on port ${PORT}
-📍 API: http://localhost:${PORT}/api/v1
-💚 Health: http://localhost:${PORT}/health
-📚 Docs: http://localhost:${PORT}/api/v1/docs
+📍 API: http://localhost:${PORT}${ROUTES.API_ROOT}
+💚 Health: http://localhost:${PORT}${ROUTES.HEALTH}
+📚 Docs: http://localhost:${PORT}${ROUTES.API_DOCS}
 
-Features: 15 Primary | 105+ Sub-Features
-Status: Operational
-Environment: ${process.env.NODE_ENV ?? 'development'}
+Features: ${MODULES.PRIMARY_COUNT} Primary | ${MODULES.SUB_FEATURES_COUNT}+ Sub-Features
+Status: ${STATUS.OPERATIONAL}
+Environment: ${process.env.NODE_ENV || ENVIRONMENT.DEVELOPMENT}
   `);
 });
 
 export default app;
+

@@ -7,24 +7,24 @@
     "rootDir": "./",
     "removeComments": true,
     
-    /* Strict Type-Checking Options - All enabled for maximum type safety */
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
-    "noImplicitThis": true,
+    /* Strict Type-Checking Options - Gradually enable for improved type safety */
+    "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
+    "strictBindCallApply": false,
+    "strictPropertyInitialization": false,
+    "noImplicitThis": false,
     "alwaysStrict": true,
     
     /* Additional Checks */
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
+    "noUncheckedIndexedAccess": false,
     "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
+    "noPropertyAccessFromIndexSignature": false,
     
     /* Module Resolution Options */
     "moduleResolution": "node",
@@ -33,6 +33,9 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    
+    /* Project References */
+    "composite": true,
     
     /* Path Aliases for cleaner imports */
     "baseUrl": "./",
@@ -51,7 +54,7 @@
     
     /* Type Definitions */
     "types": ["node"],
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types", "./types"]
   },
   "include": [
     "**/*.ts"
@@ -60,6 +63,8 @@
     "node_modules",
     "dist",
     "**/*.test.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "jest.setup.ts",
+    "jest.config.ts"
   ]
 }

@@ -1,25 +1,25 @@
 import type { AxiosInstance, AxiosRequestConfig } from 'axios';
 import axios from 'axios';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api/v1';
+import { API_CONFIG, HTTP_STATUS, HTTP_HEADERS, CONTENT_TYPE, STORAGE_KEYS, PUBLIC_ROUTES } from '../constants';
 
 class ApiClient {
   private readonly client: AxiosInstance;
 
   constructor() {
     this.client = axios.create({
-      baseURL: API_BASE_URL,
+      baseURL: API_CONFIG.BASE_URL,
+      timeout: API_CONFIG.TIMEOUT,
       headers: {
-        'Content-Type': 'application/json',
+        [HTTP_HEADERS.CONTENT_TYPE]: CONTENT_TYPE.JSON,
       },
     });
 
     // Request interceptor to add auth token
     this.client.interceptors.request.use(
       (config) => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
         if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
+          config.headers[HTTP_HEADERS.AUTHORIZATION] = `Bearer ${token}`;
         }
         return config;
       },
@@ -32,9 +32,9 @@ class ApiClient {
     this.client.interceptors.response.use(
       (response) => response,
       (error) => {
-        if (error.response?.status === 401) {
-          localStorage.removeItem('token');
-          window.location.href = '/login';
+        if (error.response?.status === HTTP_STATUS.UNAUTHORIZED) {
+          localStorage.removeItem(STORAGE_KEYS.TOKEN);
+          window.location.href = PUBLIC_ROUTES.LOGIN;
         }
         return Promise.reject(error);
       }

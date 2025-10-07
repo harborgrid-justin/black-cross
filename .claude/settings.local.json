@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(test:*)",
+      "Bash(npm run type-check:*)",
+      "Bash(find:*)",
+      "Bash(npm run build:*)",
+      "Bash(npx tsc:*)",
+      "Bash(node:*)",
+      "Bash(cut:*)",
+      "Bash(awk:*)",
+      "Bash(cat:*)",
+      "Bash(pwsh:*)",
+      "Bash(npx prisma generate:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
