@@ -111,6 +111,7 @@ const PlaybookExecutionSchema = new mongoose.Schema({
     createdAt: 'created_at',
     updatedAt: 'updated_at',
   },
+  suppressReservedKeysWarning: true,
 });
 
 // Indexes for performance

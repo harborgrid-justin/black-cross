@@ -97,12 +97,11 @@ const PlaybookTestSchema = new mongoose.Schema({
     createdAt: 'created_at',
     updatedAt: 'updated_at',
   },
+  suppressReservedKeysWarning: true,
 });
 
 // Indexes for performance
 PlaybookTestSchema.index({ playbook_id: 1, created_at: -1 });
-PlaybookTestSchema.index({ status: 1 });
-PlaybookTestSchema.index({ test_type: 1 });
 
 // Calculate duration and success rate before save
 PlaybookTestSchema.pre('save', function (next) {

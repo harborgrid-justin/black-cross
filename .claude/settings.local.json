@@ -11,7 +11,8 @@
       "Bash(awk:*)",
       "Bash(cat:*)",
       "Bash(pwsh:*)",
-      "Bash(npx prisma generate:*)"
+      "Bash(npx prisma generate:*)",
+      "Bash(npm run prisma:generate:*)"
     ],
     "deny": [],
     "ask": []

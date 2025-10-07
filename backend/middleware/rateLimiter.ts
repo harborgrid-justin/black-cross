@@ -1,3 +1,5 @@
+/// <reference path="../types/express.d.ts" />
+
 /**
  * Rate Limiter Middleware
  * Protects API endpoints from abuse
@@ -81,7 +83,7 @@ function rateLimiter(options: RateLimitOptions = {}): (req: Request, res: Respon
         key,
         count: counter.count,
         maxRequests,
-        correlationId: req.correlationId,
+        correlationId: req.correlationId || 'none',
       });
 
       return next(new RateLimitError('Too many requests, please try again later'));
@@ -99,7 +101,7 @@ function rateLimiter(options: RateLimitOptions = {}): (req: Request, res: Respon
 function userRateLimiter(options: RateLimitOptions = {}): (req: Request, res: Response, next: NextFunction) => void {
   return rateLimiter({
     ...options,
-    keyGenerator: (req: Request): string => (req.user as any)?.id || req.ip || 'unknown',
+    keyGenerator: (req: Request): string => req.user?.id || req.ip || 'unknown',
   });
 }
 

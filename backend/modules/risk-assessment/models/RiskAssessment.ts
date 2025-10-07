@@ -109,7 +109,6 @@ const RiskAssessmentSchema = new mongoose.Schema({
 // Indexes for performance
 RiskAssessmentSchema.index({ risk_level: 1, status: 1 });
 RiskAssessmentSchema.index({ assessed_at: -1 });
-RiskAssessmentSchema.index({ next_review: 1 });
 RiskAssessmentSchema.index({ owner: 1 });
 
 // Virtual for days until next review

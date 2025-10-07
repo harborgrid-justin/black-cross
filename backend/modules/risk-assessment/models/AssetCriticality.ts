@@ -107,7 +107,6 @@ const AssetCriticalitySchema = new mongoose.Schema({
 });
 
 // Indexes for performance
-AssetCriticalitySchema.index({ criticality_tier: 1 });
 AssetCriticalitySchema.index({ business_unit: 1 });
 AssetCriticalitySchema.index({ owner: 1 });
 AssetCriticalitySchema.index({ last_assessed: -1 });

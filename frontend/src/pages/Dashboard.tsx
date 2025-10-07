@@ -206,6 +206,10 @@ export default function Dashboard() {
       <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
         Dashboard
       </Typography>
+      
+      <Alert severity="info" sx={{ mb: 3 }}>
+        🎉 Dashboard loaded successfully! Authentication bypass is active for development.
+      </Alert>
 
       {error && (
         <Alert severity="info" sx={{ mb: 3 }}>

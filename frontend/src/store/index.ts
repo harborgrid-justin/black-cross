@@ -7,6 +7,14 @@ export const store = configureStore({
     auth: authReducer,
     threats: threatReducer,
   },
+  // Add dev tools and middleware configuration for better error handling
+  devTools: process.env['NODE_ENV'] !== 'production',
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['persist/PERSIST'],
+      },
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

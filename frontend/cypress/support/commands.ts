@@ -11,9 +11,16 @@
 // Custom command for login
 Cypress.Commands.add('login', (email: string, password: string) => {
   cy.visit('/login');
-  cy.get('input[name="email"]').type(email);
-  cy.get('input[name="password"]').type(password);
-  cy.get('button[type="submit"]').click();
+  
+  // Wait for the app to be fully loaded before interacting
+  cy.get('body').should('be.visible');
+  
+  // Wait for React app to be initialized by looking for a specific element
+  cy.get('[data-testid="login-form"], form, input[name="email"]', { timeout: 10000 }).should('exist');
+  
+  cy.get('input[name="email"]').should('be.visible').type(email);
+  cy.get('input[name="password"]').should('be.visible').type(password);
+  cy.get('button[type="submit"]').should('be.visible').click();
   cy.url().should('not.include', '/login');
 });
 

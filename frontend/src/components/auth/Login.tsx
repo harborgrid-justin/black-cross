@@ -65,10 +65,11 @@ export default function Login() {
             </Alert>
           )}
 
-          <form onSubmit={handleSubmit} aria-label="Login form">
+          <form onSubmit={handleSubmit} aria-label="Login form" data-testid="login-form">
             <TextField
               fullWidth
               id="email-input"
+              name="email"
               label="Email"
               type="email"
               value={email}
@@ -85,6 +86,7 @@ export default function Login() {
             <TextField
               fullWidth
               id="password-input"
+              name="password"
               label="Password"
               type="password"
               value={password}

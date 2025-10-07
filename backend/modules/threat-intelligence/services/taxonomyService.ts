@@ -190,9 +190,8 @@ class TaxonomyService {
         throw new Error('Taxonomy not found');
       }
 
-      taxonomy.categories = taxonomy.categories.filter(
-        (cat) => cat.id !== categoryId,
-      );
+      // Use Mongoose's pull method to maintain DocumentArray type
+      taxonomy.categories.pull({ id: categoryId });
       await taxonomy.save();
 
       logger.info('Category removed successfully', { taxonomyId });

@@ -17,9 +17,11 @@ class ApiClient {
     // Request interceptor to add auth token
     this.client.interceptors.request.use(
       (config) => {
-        const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-        if (token) {
-          config.headers[HTTP_HEADERS.AUTHORIZATION] = `Bearer ${token}`;
+        if (typeof window !== 'undefined' && window.localStorage) {
+          const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+          if (token) {
+            config.headers[HTTP_HEADERS.AUTHORIZATION] = `Bearer ${token}`;
+          }
         }
         return config;
       },
@@ -33,8 +35,10 @@ class ApiClient {
       (response) => response,
       (error) => {
         if (error.response?.status === HTTP_STATUS.UNAUTHORIZED) {
-          localStorage.removeItem(STORAGE_KEYS.TOKEN);
-          window.location.href = PUBLIC_ROUTES.LOGIN;
+          if (typeof window !== 'undefined' && window.localStorage) {
+            localStorage.removeItem(STORAGE_KEYS.TOKEN);
+            window.location.href = PUBLIC_ROUTES.LOGIN;
+          }
         }
         return Promise.reject(error);
       }

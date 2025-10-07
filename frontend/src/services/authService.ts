@@ -18,8 +18,10 @@ export const authService = {
   },
 
   async logout(): Promise<void> {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    }
   },
 
   async getCurrentUser(): Promise<ApiResponse<User>> {
@@ -34,11 +36,16 @@ export const authService = {
   },
 
   getToken(): string | null {
-    return localStorage.getItem('token');
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return localStorage.getItem('token');
+    }
+    return null;
   },
 
   setToken(token: string): void {
-    localStorage.setItem('token', token);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('token', token);
+    }
   },
 
   isAuthenticated(): boolean {

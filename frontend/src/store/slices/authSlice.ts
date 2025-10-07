@@ -3,12 +3,36 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { authService } from '@/services/authService';
 import type { AuthState, User } from '@/types';
 
-const initialState: AuthState = {
-  user: null,
-  token: authService.getToken(),
-  isAuthenticated: authService.isAuthenticated(),
-  loading: false,
+const getInitialAuthState = (): AuthState => {
+  // Safe initialization that works both on server and client and in test environments
+  if (typeof window === 'undefined' || typeof window.localStorage === 'undefined') {
+    return {
+      user: null,
+      token: null,
+      isAuthenticated: false,
+      loading: false,
+    };
+  }
+  
+  try {
+    return {
+      user: null,
+      token: authService.getToken(),
+      isAuthenticated: authService.isAuthenticated(),
+      loading: false,
+    };
+  } catch (error) {
+    console.warn('Error initializing auth state:', error);
+    return {
+      user: null,
+      token: null,
+      isAuthenticated: false,
+      loading: false,
+    };
+  }
 };
+
+const initialState: AuthState = getInitialAuthState();
 
 export const login = createAsyncThunk(
   'auth/login',
@@ -16,7 +40,9 @@ export const login = createAsyncThunk(
     const response = await authService.login(credentials);
     if (response.success && response.data) {
       authService.setToken(response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+      }
       return response.data;
     }
     throw new Error(response.error || 'Login failed');
@@ -44,6 +70,24 @@ const authSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
+    hydrate: (state) => {
+      // Hydrate auth state from localStorage when client is ready
+      if (typeof window !== 'undefined') {
+        const token = authService.getToken();
+        state.token = token;
+        state.isAuthenticated = !!token;
+        
+        // Try to get user from localStorage if available
+        try {
+          const storedUser = localStorage.getItem('user');
+          if (storedUser) {
+            state.user = JSON.parse(storedUser);
+          }
+        } catch (error) {
+          // Ignore parsing errors
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -68,5 +112,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, setUser } = authSlice.actions;
+export const { logout, setUser, hydrate } = authSlice.actions;
 export default authSlice.reducer;
