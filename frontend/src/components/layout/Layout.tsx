@@ -43,22 +43,22 @@ import { logout } from '@/store/slices/authSlice';
 const drawerWidth = 260;
 
 const menuItems = [
-  { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
-  { text: 'Threat Intelligence', icon: <ThreatIcon />, path: '/threat-intelligence' },
-  { text: 'Incidents', icon: <IncidentIcon />, path: '/incident-response' },
-  { text: 'Threat Hunting', icon: <HuntingIcon />, path: '/threat-hunting' },
-  { text: 'Vulnerabilities', icon: <VulnerabilityIcon />, path: '/vulnerability-management' },
-  { text: 'SIEM', icon: <SIEMIcon />, path: '/siem' },
-  { text: 'Threat Actors', icon: <ActorIcon />, path: '/threat-actors' },
-  { text: 'IoC Management', icon: <IoCIcon />, path: '/ioc-management' },
-  { text: 'Threat Feeds', icon: <FeedIcon />, path: '/threat-feeds' },
-  { text: 'Risk Assessment', icon: <RiskIcon />, path: '/risk-assessment' },
-  { text: 'Collaboration', icon: <CollaborationIcon />, path: '/collaboration' },
-  { text: 'Reporting', icon: <ReportingIcon />, path: '/reporting' },
-  { text: 'Malware Analysis', icon: <MalwareIcon />, path: '/malware-analysis' },
-  { text: 'Dark Web', icon: <DarkWebIcon />, path: '/dark-web' },
-  { text: 'Compliance', icon: <ComplianceIcon />, path: '/compliance' },
-  { text: 'Automation', icon: <AutomationIcon />, path: '/automation' },
+  { text: 'Dashboard', icon: DashboardIcon, path: '/dashboard' },
+  { text: 'Threat Intelligence', icon: ThreatIcon, path: '/threat-intelligence' },
+  { text: 'Incidents', icon: IncidentIcon, path: '/incident-response' },
+  { text: 'Threat Hunting', icon: HuntingIcon, path: '/threat-hunting' },
+  { text: 'Vulnerabilities', icon: VulnerabilityIcon, path: '/vulnerability-management' },
+  { text: 'SIEM', icon: SIEMIcon, path: '/siem' },
+  { text: 'Threat Actors', icon: ActorIcon, path: '/threat-actors' },
+  { text: 'IoC Management', icon: IoCIcon, path: '/ioc-management' },
+  { text: 'Threat Feeds', icon: FeedIcon, path: '/threat-feeds' },
+  { text: 'Risk Assessment', icon: RiskIcon, path: '/risk-assessment' },
+  { text: 'Collaboration', icon: CollaborationIcon, path: '/collaboration' },
+  { text: 'Reporting', icon: ReportingIcon, path: '/reporting' },
+  { text: 'Malware Analysis', icon: MalwareIcon, path: '/malware-analysis' },
+  { text: 'Dark Web', icon: DarkWebIcon, path: '/dark-web' },
+  { text: 'Compliance', icon: ComplianceIcon, path: '/compliance' },
+  { text: 'Automation', icon: AutomationIcon, path: '/automation' },
 ];
 
 interface LayoutProps {
@@ -105,8 +105,8 @@ export default function Layout({ children }: LayoutProps) {
               aria-label={`Navigate to ${item.text}`}
               role="menuitem"
             >
-              <ListItemIcon sx={{ color: 'primary.main' }} aria-hidden="true">
-                {item.icon}
+            <ListItemIcon sx={{ color: 'primary.main' }} aria-hidden="true">
+                <item.icon />
               </ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>

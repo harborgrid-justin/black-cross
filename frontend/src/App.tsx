@@ -9,7 +9,7 @@ import PrivateRoute from './components/auth/PrivateRoute';
 
 // Eager load critical components
 import Login from './components/auth/Login';
-import Dashboard from './pages/Dashboard';
+import SimpleDashboard from './pages/SimpleDashboard';
 
 // Lazy load feature pages for better performance
 const ThreatList = lazy(() => import('./pages/threat-intelligence/ThreatList'));
@@ -86,8 +86,8 @@ function AppContent() {
                 <Layout>
                   <Suspense fallback={<LoadingFallback />}>
                     <Routes>
-                      <Route path="/" element={<Dashboard />} />
-                      <Route path="/dashboard" element={<Dashboard />} />
+                      <Route path="/" element={<SimpleDashboard />} />
+                      <Route path="/dashboard" element={<SimpleDashboard />} />
                       <Route path="/threat-intelligence" element={<ThreatList />} />
                       <Route path="/threat-intelligence/:id" element={<ThreatDetails />} />
                       <Route path="/incident-response" element={<IncidentList />} />

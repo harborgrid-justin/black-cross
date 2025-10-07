@@ -8,7 +8,7 @@ export const store = configureStore({
     threats: threatReducer,
   },
   // Add dev tools and middleware configuration for better error handling
-  devTools: process.env['NODE_ENV'] !== 'production',
+  devTools: import.meta.env.MODE !== 'production',
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

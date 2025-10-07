@@ -10,7 +10,7 @@ export default function PrivateRoute({ children }: PrivateRouteProps) {
   const { isAuthenticated, token } = useAppSelector((state) => state.auth);
   
   // For development: bypass authentication if in development mode
-  const isDevelopment = process.env['NODE_ENV'] === 'development';
+  const isDevelopment = import.meta.env.MODE === 'development';
 
   // Debug logging
   useEffect(() => {
