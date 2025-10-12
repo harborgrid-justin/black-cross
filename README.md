@@ -158,7 +158,8 @@ The project follows Google engineering best practices with a clean separation of
 black-cross/
 ├── frontend/          # React 18 + TypeScript + TSX frontend application
 ├── backend/           # Node.js + TypeScript + Express backend API
-├── prisma/            # Prisma ORM schema and migrations
+│   ├── models/        # Sequelize ORM models for PostgreSQL
+│   └── config/        # Database and application configuration
 ├── docs/              # Documentation
 ├── docker-compose.yml # Docker orchestration
 └── package.json       # Root package for workspace management
@@ -181,8 +182,8 @@ npm run setup
 # 3. Start PostgreSQL (using Docker)
 docker-compose up -d postgres
 
-# 4. Run database migrations
-npm run prisma:migrate
+# 4. Sync database models
+npm run db:sync
 
 # 5. Start the application
 npm run dev
@@ -224,13 +225,10 @@ cd ../frontend && npm install
 cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env
 
-# Generate Prisma Client and run migrations
-cd backend
-npm run prisma:generate
-npm run prisma:migrate
+# Sync database models with Sequelize
+npm run db:sync
 
-# Start development servers (from root)
-cd ..
+# Start development servers
 npm run dev
 ```
 
@@ -252,7 +250,7 @@ For detailed installation instructions, see:
 - [GETTING_STARTED.md](./GETTING_STARTED.md) - Quick start guide
 - [Backend README](./backend/README.md)
 - [Frontend README](./frontend/README.md)
-- [Prisma Setup](./prisma/README.md)
+- [Sequelize Migration Guide](./docs/SEQUELIZE_MIGRATION.md)
 - [Full Installation Guide](./docs/INSTALLATION.md)
 
 ## 📖 Documentation

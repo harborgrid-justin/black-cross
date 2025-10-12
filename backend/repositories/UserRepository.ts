@@ -4,7 +4,7 @@
  */
 
 import { Op } from 'sequelize';
-import type { User } from '../utils/prisma';
+import type { User } from '../utils/sequelize';
 import { BaseRepository } from '../utils/BaseRepository';
 import UserModel from '../models/User';
 

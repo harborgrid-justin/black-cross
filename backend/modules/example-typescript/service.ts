@@ -19,7 +19,7 @@ import type {
 // eslint-disable-next-line import/prefer-default-export
 export class ExampleService {
   /**
-   * Mock data store - in production, this would use Prisma or MongoDB
+   * Mock data store - in production, this would use Sequelize or MongoDB
    */
   private readonly mockDataStore: ExampleData[] = [
     {

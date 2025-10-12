@@ -16,5 +16,5 @@ export type {
   IOC,
   ThreatActor,
   PlaybookExecution 
-} from '../utils/prisma';
+} from '../utils/sequelize';
 export type { ListFilters, PaginatedResponse } from '../utils/BaseRepository';
