@@ -4,14 +4,14 @@ Enterprise-grade Cyber Threat Intelligence Platform - Backend API
 
 ## Overview
 
-The backend provides a RESTful API and real-time WebSocket connections for the Black-Cross platform. Built with Node.js, Express, and Prisma ORM.
+The backend provides a RESTful API and real-time WebSocket connections for the Black-Cross platform. Built with Node.js, Express, and Sequelize ORM.
 
 ## Tech Stack
 
 - **Node.js 16+** - Runtime environment
 - **TypeScript** - Type-safe development (migration in progress)
 - **Express** - Web framework
-- **Prisma ORM** - Database ORM for PostgreSQL
+- **Sequelize ORM** - Database ORM for PostgreSQL
 - **MongoDB** - Document database (for specific modules)
 - **Redis** - Caching and session management
 - **Elasticsearch** - Search and analytics
@@ -28,8 +28,7 @@ Use the automated setup from the root directory:
 ```bash
 cd ..  # Go to root directory
 npm run setup
-docker-compose up -d postgres
-npm run prisma:migrate
+npm run dev  # Backend will auto-sync database on first connection
 ```
 
 See [SETUP.md](../SETUP.md) for detailed instructions.
@@ -59,13 +58,10 @@ cp .env.example .env
 # Edit .env with your configuration
 ```
 
-3. **Set up Prisma and database**
+3. **Set up Sequelize and database**
 ```bash
-# Generate Prisma Client
-npm run prisma:generate
-
-# Run migrations
-npm run prisma:migrate
+# Sync database models (Sequelize will auto-create tables)
+npm run db:sync
 
 # (Optional) Seed database
 npm run db:seed
@@ -140,7 +136,7 @@ Each module follows this structure:
 ```
 module-name/
 ├── controllers/      # Request handlers
-├── models/          # Data models (Mongoose or Prisma)
+├── models/          # Data models (Mongoose or Sequelize)
 ├── services/        # Business logic
 ├── routes/          # API routes
 ├── validators/      # Input validation
@@ -178,24 +174,21 @@ module-name/
 
 ## Database
 
-The backend uses **Prisma ORM** with **PostgreSQL** for structured data and **MongoDB** for flexible schema requirements in specific modules.
+The backend uses **Sequelize ORM** with **PostgreSQL** (Neon serverless) for structured data and **MongoDB** for flexible schema requirements in specific modules.
 
-### Prisma Commands
+### Sequelize Commands
 
 ```bash
-# Generate Prisma Client
-npm run prisma:generate
+# Sync database models (creates/updates tables)
+npm run db:sync
 
-# Create and apply migration
-npm run prisma:migrate
-
-# Open Prisma Studio (Database GUI)
-npm run prisma:studio
+# Seed database with initial data
+npm run db:seed
 ```
 
 ### Database Models
 
-Core models managed by Prisma:
+Core models managed by Sequelize:
 - Users
 - Incidents
 - Vulnerabilities
@@ -205,7 +198,7 @@ Core models managed by Prisma:
 - Audit Logs
 - Playbook Executions
 
-See `../prisma/schema.prisma` for full schema definition.
+See `backend/models/` for model definitions.
 
 ## Testing
 
@@ -295,7 +288,7 @@ Security features:
 - Helmet.js for security headers
 - CORS protection
 - Input validation with Joi
-- SQL injection prevention (Prisma)
+- SQL injection prevention (Sequelize parameterized queries)
 - XSS protection
 - CSRF tokens for state-changing operations
 
@@ -336,14 +329,14 @@ pm2 monit
 
 ### Database Connection Issues
 ```bash
-# Check PostgreSQL is running
-pg_isready
+# Check PostgreSQL is running (for Neon, check online dashboard)
+# DATABASE_URL should be set in .env
 
 # Check MongoDB is running
 mongosh --eval "db.adminCommand('ping')"
 
-# Reset Prisma Client
-npm run prisma:generate
+# Resync database models
+npm run db:sync
 ```
 
 ### Module Not Found Errors
