@@ -1,10 +1,10 @@
 /**
- * Base Repository Pattern for Prisma
+ * Base Repository Pattern for Sequelize
  * Provides common CRUD operations with type safety
  */
 
-import type { PrismaClient } from '@prisma/client';
-import { getPrisma } from './prisma';
+import type { Model, ModelStatic, WhereOptions, FindOptions } from 'sequelize';
+import { getSequelize } from './prisma';
 
 /**
  * Generic filter type for list operations
@@ -35,54 +35,51 @@ export interface PaginatedResponse<T> {
  * Base Repository Class
  * Extend this class for model-specific repositories
  */
-export abstract class BaseRepository<TModel, TCreateInput, TUpdateInput> {
-  protected prisma: PrismaClient;
-  protected abstract modelName: string;
+export abstract class BaseRepository<TModel extends Model> {
+  protected abstract model: ModelStatic<TModel>;
 
   constructor() {
-    this.prisma = getPrisma();
-  }
-
-  /**
-   * Get the Prisma model delegate
-   */
-  protected get model(): any {
-    return (this.prisma as any)[this.modelName];
+    // Sequelize is already initialized through DatabaseManager
+    getSequelize();
   }
 
   /**
    * Create a new record
    */
-  async create(data: TCreateInput): Promise<TModel> {
-    return await this.model.create({ data });
+  async create(data: any): Promise<TModel> {
+    return await this.model.create(data);
   }
 
   /**
    * Find record by ID
    */
   async findById(id: string): Promise<TModel | null> {
-    return await this.model.findUnique({ where: { id } });
+    return await this.model.findByPk(id);
   }
 
   /**
    * Find record by ID or throw error
    */
   async findByIdOrThrow(id: string): Promise<TModel> {
-    return await this.model.findUniqueOrThrow({ where: { id } });
+    const record = await this.model.findByPk(id);
+    if (!record) {
+      throw new Error(`${this.model.name} with id ${id} not found`);
+    }
+    return record;
   }
 
   /**
    * Find first record matching criteria
    */
-  async findFirst(where: any): Promise<TModel | null> {
-    return await this.model.findFirst({ where });
+  async findFirst(where: WhereOptions<any>): Promise<TModel | null> {
+    return await this.model.findOne({ where });
   }
 
   /**
    * Find many records
    */
-  async findMany(where: any = {}, options: any = {}): Promise<TModel[]> {
-    return await this.model.findMany({
+  async findMany(where: WhereOptions<any> = {}, options: FindOptions<any> = {}): Promise<TModel[]> {
+    return await this.model.findAll({
       where,
       ...options,
     });
@@ -101,18 +98,15 @@ export abstract class BaseRepository<TModel, TCreateInput, TUpdateInput> {
       ...whereFilters
     } = filters;
 
-    const skip = (page - 1) * pageSize;
+    const offset = (page - 1) * pageSize;
     const where = this.buildWhereClause(whereFilters, search);
 
-    const [data, total] = await Promise.all([
-      this.model.findMany({
-        where,
-        orderBy: { [sortBy]: sortOrder },
-        skip,
-        take: pageSize,
-      }),
-      this.model.count({ where }),
-    ]);
+    const { rows: data, count: total } = await this.model.findAndCountAll({
+      where,
+      order: [[sortBy, sortOrder.toUpperCase()]],
+      offset,
+      limit: pageSize,
+    });
 
     const totalPages = Math.ceil(total / pageSize);
 
@@ -130,34 +124,31 @@ export abstract class BaseRepository<TModel, TCreateInput, TUpdateInput> {
   /**
    * Update record by ID
    */
-  async update(id: string, data: TUpdateInput): Promise<TModel> {
-    return await this.model.update({
-      where: { id },
-      data,
-    });
+  async update(id: string, data: any): Promise<TModel> {
+    const record = await this.findByIdOrThrow(id);
+    return await record.update(data);
   }
 
   /**
    * Delete record by ID
    */
-  async delete(id: string): Promise<TModel> {
-    return await this.model.delete({ where: { id } });
+  async delete(id: string): Promise<void> {
+    const record = await this.findByIdOrThrow(id);
+    await record.destroy();
   }
 
   /**
    * Soft delete (set isActive to false)
    */
   async softDelete(id: string): Promise<TModel> {
-    return await this.model.update({
-      where: { id },
-      data: { isActive: false },
-    });
+    const record = await this.findByIdOrThrow(id);
+    return await record.update({ isActive: false } as any);
   }
 
   /**
    * Count records
    */
-  async count(where: any = {}): Promise<number> {
+  async count(where: WhereOptions<any> = {}): Promise<number> {
     return await this.model.count({ where });
   }
 
@@ -165,7 +156,7 @@ export abstract class BaseRepository<TModel, TCreateInput, TUpdateInput> {
    * Check if record exists
    */
   async exists(id: string): Promise<boolean> {
-    const count = await this.model.count({ where: { id } });
+    const count = await this.model.count({ where: { id } as any });
     return count > 0;
   }
 
@@ -173,7 +164,7 @@ export abstract class BaseRepository<TModel, TCreateInput, TUpdateInput> {
    * Build where clause for queries
    * Override this method in child classes for custom search logic
    */
-  protected buildWhereClause(filters: any, search?: string): any {
+  protected buildWhereClause(filters: any, search?: string): WhereOptions<any> {
     const where: any = { ...filters };
 
     // Override in child classes to implement search functionality
@@ -191,10 +182,9 @@ export abstract class BaseRepository<TModel, TCreateInput, TUpdateInput> {
   async transaction<T>(
     callback: (repo: this) => Promise<T>
   ): Promise<T> {
-    return await this.prisma.$transaction(async (tx) => {
-      const txRepo = Object.create(this);
-      txRepo.prisma = tx;
-      return await callback(txRepo);
+    const sequelize = getSequelize();
+    return await sequelize.transaction(async () => {
+      return await callback(this);
     });
   }
 }
