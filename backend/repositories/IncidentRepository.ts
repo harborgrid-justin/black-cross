@@ -3,23 +3,22 @@
  * Type-safe repository for Incident model operations
  */
 
-import type { Incident, Prisma } from '../utils/prisma';
+import { Op } from 'sequelize';
+import type { Incident } from '../utils/prisma';
 import { BaseRepository } from '../utils/BaseRepository';
+import IncidentModel from '../models/Incident';
+import UserModel from '../models/User';
 
-class IncidentRepository extends BaseRepository<
-  Incident,
-  Prisma.IncidentCreateInput,
-  Prisma.IncidentUpdateInput
-> {
-  protected modelName = 'incident';
+class IncidentRepository extends BaseRepository<Incident> {
+  protected model = IncidentModel;
 
   /**
    * Find incidents by status
    */
   async findByStatus(status: string): Promise<Incident[]> {
-    return await this.model.findMany({
+    return await this.model.findAll({
       where: { status },
-      orderBy: { createdAt: 'desc' },
+      order: [['createdAt', 'DESC']],
     });
   }
 
@@ -27,9 +26,9 @@ class IncidentRepository extends BaseRepository<
    * Find incidents by severity
    */
   async findBySeverity(severity: string): Promise<Incident[]> {
-    return await this.model.findMany({
+    return await this.model.findAll({
       where: { severity },
-      orderBy: { createdAt: 'desc' },
+      order: [['createdAt', 'DESC']],
     });
   }
 
@@ -37,10 +36,10 @@ class IncidentRepository extends BaseRepository<
    * Find incidents assigned to user
    */
   async findByAssignee(userId: string): Promise<Incident[]> {
-    return await this.model.findMany({
+    return await this.model.findAll({
       where: { assignedToId: userId },
-      include: { assignedTo: true },
-      orderBy: { createdAt: 'desc' },
+      include: [{ model: UserModel, as: 'assignedTo' }],
+      order: [['createdAt', 'DESC']],
     });
   }
 
@@ -48,15 +47,15 @@ class IncidentRepository extends BaseRepository<
    * Find open incidents
    */
   async findOpen(): Promise<Incident[]> {
-    return await this.model.findMany({
+    return await this.model.findAll({
       where: {
         status: {
-          in: ['open', 'investigating', 'in_progress'],
+          [Op.in]: ['open', 'investigating', 'in_progress'],
         },
       },
-      orderBy: [
-        { priority: 'asc' },
-        { createdAt: 'desc' },
+      order: [
+        ['priority', 'ASC'],
+        ['createdAt', 'DESC'],
       ],
     });
   }
@@ -65,14 +64,14 @@ class IncidentRepository extends BaseRepository<
    * Find critical incidents
    */
   async findCritical(): Promise<Incident[]> {
-    return await this.model.findMany({
+    return await this.model.findAll({
       where: {
         severity: 'critical',
         status: {
-          notIn: ['resolved', 'closed'],
+          [Op.notIn]: ['resolved', 'closed'],
         },
       },
-      orderBy: { createdAt: 'desc' },
+      order: [['createdAt', 'DESC']],
     });
   }
 
@@ -80,10 +79,8 @@ class IncidentRepository extends BaseRepository<
    * Assign incident to user
    */
   async assign(incidentId: string, userId: string): Promise<Incident> {
-    return await this.model.update({
-      where: { id: incidentId },
-      data: { assignedToId: userId },
-    });
+    const incident = await this.findByIdOrThrow(incidentId);
+    return await incident.update({ assignedToId: userId });
   }
 
   /**
@@ -97,10 +94,8 @@ class IncidentRepository extends BaseRepository<
       data.resolvedAt = new Date();
     }
 
-    return await this.model.update({
-      where: { id },
-      data,
-    });
+    const incident = await this.findByIdOrThrow(id);
+    return await incident.update(data);
   }
 
   /**
@@ -125,8 +120,8 @@ class IncidentRepository extends BaseRepository<
       low,
     ] = await Promise.all([
       this.count(),
-      this.count({ status: { in: ['open', 'investigating', 'in_progress'] } }),
-      this.count({ status: { in: ['resolved', 'closed'] } }),
+      this.count({ status: { [Op.in]: ['open', 'investigating', 'in_progress'] } }),
+      this.count({ status: { [Op.in]: ['resolved', 'closed'] } }),
       this.count({ severity: 'critical' }),
       this.count({ severity: 'high' }),
       this.count({ severity: 'medium' }),
@@ -143,10 +138,10 @@ class IncidentRepository extends BaseRepository<
     const where: any = { ...filters };
 
     if (search) {
-      where.OR = [
-        { title: { contains: search, mode: 'insensitive' } },
-        { description: { contains: search, mode: 'insensitive' } },
-        { category: { contains: search, mode: 'insensitive' } },
+      where[Op.or] = [
+        { title: { [Op.iLike]: `%${search}%` } },
+        { description: { [Op.iLike]: `%${search}%` } },
+        { category: { [Op.iLike]: `%${search}%` } },
       ];
     }
 

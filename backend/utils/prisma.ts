@@ -1,45 +1,45 @@
 /**
- * Prisma Utilities
- * Helper functions and type exports for Prisma Client
+ * Sequelize Utilities
+ * Helper functions and type exports for Sequelize models
  */
 
-import { PrismaClient, Prisma } from '@prisma/client';
+import type { Sequelize } from 'sequelize-typescript';
 import dbManager from '../config/database';
+import * as Models from '../models';
 
-// Re-export commonly used Prisma types
-type PrismaClientType = InstanceType<typeof PrismaClient>;
-
-// Get model types from Prisma client
-export type User = Prisma.UserGetPayload<{}>;
-export type Incident = Prisma.IncidentGetPayload<{}>;
-export type Vulnerability = Prisma.VulnerabilityGetPayload<{}>;
-export type Asset = Prisma.AssetGetPayload<{}>;
-export type AuditLog = Prisma.AuditLogGetPayload<{}>;
+// Re-export model types
+export type User = InstanceType<typeof Models.User>;
+export type Incident = InstanceType<typeof Models.Incident>;
+export type Vulnerability = InstanceType<typeof Models.Vulnerability>;
+export type Asset = InstanceType<typeof Models.Asset>;
+export type AuditLog = InstanceType<typeof Models.AuditLog>;
+export type IOC = InstanceType<typeof Models.IOC>;
+export type ThreatActor = InstanceType<typeof Models.ThreatActor>;
+export type PlaybookExecution = InstanceType<typeof Models.PlaybookExecution>;
 
 /**
- * Get Prisma Client instance
- * Provides a convenient way to access the Prisma client
+ * Get Sequelize instance
+ * Provides a convenient way to access the Sequelize instance
  */
-export function getPrisma(): PrismaClient {
-  return dbManager.getPrismaClient();
+export function getSequelize(): Sequelize {
+  return dbManager.getSequelizeInstance();
 }
 
-// Export Prisma namespace for use in repositories
-export { Prisma };
+// Export models for direct access
+export { Models };
 
 /**
- * Type-safe Prisma query helpers
+ * Type-safe Sequelize query helpers
  */
-export const prismaHelpers = {
+export const sequelizeHelpers = {
   /**
    * Check if a record exists by ID
    */
-  async exists<T extends keyof PrismaClient>(
-    model: T,
+  async exists(
+    Model: any,
     id: string
   ): Promise<boolean> {
-    const prisma = getPrisma();
-    const count = await (prisma[model] as any).count({
+    const count = await Model.count({
       where: { id },
     });
     return count > 0;
@@ -48,40 +48,39 @@ export const prismaHelpers = {
   /**
    * Get a record by ID or throw error
    */
-  async getByIdOrThrow<T extends keyof PrismaClient>(
-    model: T,
+  async getByIdOrThrow(
+    Model: any,
     id: string
   ): Promise<any> {
-    const prisma = getPrisma();
-    const record = await (prisma[model] as any).findUniqueOrThrow({
-      where: { id },
-    });
+    const record = await Model.findByPk(id);
+    if (!record) {
+      throw new Error(`Record with id ${id} not found`);
+    }
     return record;
   },
 
   /**
    * Soft delete (set isActive to false instead of deleting)
    */
-  async softDelete<T extends keyof PrismaClient>(
-    model: T,
+  async softDelete(
+    Model: any,
     id: string
   ): Promise<any> {
-    const prisma = getPrisma();
-    return await (prisma[model] as any).update({
-      where: { id },
-      data: { isActive: false },
-    });
+    return await Model.update(
+      { isActive: false },
+      { where: { id } }
+    );
   },
 
   /**
    * Paginate results
    */
-  async paginate<T extends keyof PrismaClient>(
-    model: T,
+  async paginate(
+    Model: any,
     page: number = 1,
     pageSize: number = 20,
     where: any = {},
-    orderBy: any = { createdAt: 'desc' }
+    order: any = [['createdAt', 'DESC']]
   ): Promise<{
     data: any[];
     total: number;
@@ -89,18 +88,14 @@ export const prismaHelpers = {
     pageSize: number;
     totalPages: number;
   }> {
-    const prisma = getPrisma();
-    const skip = (page - 1) * pageSize;
+    const offset = (page - 1) * pageSize;
 
-    const [data, total] = await Promise.all([
-      (prisma[model] as any).findMany({
-        where,
-        orderBy,
-        skip,
-        take: pageSize,
-      }),
-      (prisma[model] as any).count({ where }),
-    ]);
+    const { rows: data, count: total } = await Model.findAndCountAll({
+      where,
+      order,
+      offset,
+      limit: pageSize,
+    });
 
     return {
       data,
@@ -117,44 +112,34 @@ export const prismaHelpers = {
  * Execute multiple operations in a transaction
  */
 export async function transaction<T>(
-  callback: (prisma: PrismaClient) => Promise<T>
+  callback: (sequelize: Sequelize) => Promise<T>
 ): Promise<T> {
-  const prisma = getPrisma();
-  return await prisma.$transaction(async (tx) => {
-    return await callback(tx as PrismaClient);
+  const sequelize = getSequelize();
+  return await sequelize.transaction(async (t) => {
+    return await callback(sequelize);
   });
 }
 
 /**
  * Raw query helper
- * Execute raw SQL queries with type safety
+ * Execute raw SQL queries
  */
 export async function rawQuery<T = any>(
   query: string,
-  ...params: any[]
+  options?: any
 ): Promise<T[]> {
-  const prisma = getPrisma();
-  return await (prisma as any).$queryRawUnsafe(query, ...params);
-}
-
-/**
- * Execute raw SQL (for INSERT, UPDATE, DELETE)
- */
-export async function executeRaw(
-  query: string,
-  ...params: any[]
-): Promise<number> {
-  const prisma = getPrisma();
-  return await prisma.$executeRawUnsafe(query, ...params);
+  const sequelize = getSequelize();
+  const [results] = await sequelize.query(query, options);
+  return results as T[];
 }
 
 /**
  * Health check helper
  */
-export async function checkPrismaHealth(): Promise<boolean> {
+export async function checkSequelizeHealth(): Promise<boolean> {
   try {
-    const prisma = getPrisma();
-    await (prisma as any).$queryRaw`SELECT 1`;
+    const sequelize = getSequelize();
+    await sequelize.authenticate();
     return true;
   } catch (error) {
     return false;
@@ -162,10 +147,9 @@ export async function checkPrismaHealth(): Promise<boolean> {
 }
 
 export default {
-  getPrisma,
-  prismaHelpers,
+  getSequelize,
+  sequelizeHelpers,
   transaction,
   rawQuery,
-  executeRaw,
-  checkPrismaHealth,
+  checkSequelizeHealth,
 };

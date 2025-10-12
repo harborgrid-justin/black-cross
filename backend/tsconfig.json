@@ -23,8 +23,12 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": false,
-    "noImplicitOverride": true,
+    "noImplicitOverride": false,
     "noPropertyAccessFromIndexSignature": false,
+    
+    /* Decorator Options */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     
     /* Module Resolution Options */
     "moduleResolution": "node",
@@ -54,7 +58,7 @@
     
     /* Type Definitions */
     "types": ["node"],
-    "typeRoots": ["./node_modules/@types", "./types"]
+    "typeRoots": ["../node_modules/@types", "./node_modules/@types", "./types"]
   },
   "include": [
     "**/*.ts"

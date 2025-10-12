@@ -3,21 +3,19 @@
  * Type-safe repository for User model operations
  */
 
-import type { User, Prisma } from '../utils/prisma';
+import { Op } from 'sequelize';
+import type { User } from '../utils/prisma';
 import { BaseRepository } from '../utils/BaseRepository';
+import UserModel from '../models/User';
 
-class UserRepository extends BaseRepository<
-  User,
-  Prisma.UserCreateInput,
-  Prisma.UserUpdateInput
-> {
-  protected modelName = 'user';
+class UserRepository extends BaseRepository<User> {
+  protected model = UserModel;
 
   /**
    * Find user by email
    */
   async findByEmail(email: string): Promise<User | null> {
-    return await this.model.findUnique({
+    return await this.model.findOne({
       where: { email },
     });
   }
@@ -26,7 +24,7 @@ class UserRepository extends BaseRepository<
    * Find user by username
    */
   async findByUsername(username: string): Promise<User | null> {
-    return await this.model.findUnique({
+    return await this.model.findOne({
       where: { username },
     });
   }
@@ -35,7 +33,7 @@ class UserRepository extends BaseRepository<
    * Find active users
    */
   async findActive(filters: any = {}): Promise<User[]> {
-    return await this.model.findMany({
+    return await this.model.findAll({
       where: {
         ...filters,
         isActive: true,
@@ -47,7 +45,7 @@ class UserRepository extends BaseRepository<
    * Find users by role
    */
   async findByRole(role: string): Promise<User[]> {
-    return await this.model.findMany({
+    return await this.model.findAll({
       where: { role },
     });
   }
@@ -56,30 +54,24 @@ class UserRepository extends BaseRepository<
    * Update last login timestamp
    */
   async updateLastLogin(id: string): Promise<User> {
-    return await this.model.update({
-      where: { id },
-      data: { lastLogin: new Date() },
-    });
+    const user = await this.findByIdOrThrow(id);
+    return await user.update({ lastLogin: new Date() });
   }
 
   /**
    * Deactivate user
    */
   async deactivate(id: string): Promise<User> {
-    return await this.model.update({
-      where: { id },
-      data: { isActive: false },
-    });
+    const user = await this.findByIdOrThrow(id);
+    return await user.update({ isActive: false });
   }
 
   /**
    * Activate user
    */
   async activate(id: string): Promise<User> {
-    return await this.model.update({
-      where: { id },
-      data: { isActive: true },
-    });
+    const user = await this.findByIdOrThrow(id);
+    return await user.update({ isActive: true });
   }
 
   /**
@@ -89,11 +81,11 @@ class UserRepository extends BaseRepository<
     const where: any = { ...filters };
 
     if (search) {
-      where.OR = [
-        { email: { contains: search, mode: 'insensitive' } },
-        { username: { contains: search, mode: 'insensitive' } },
-        { firstName: { contains: search, mode: 'insensitive' } },
-        { lastName: { contains: search, mode: 'insensitive' } },
+      where[Op.or] = [
+        { email: { [Op.iLike]: `%${search}%` } },
+        { username: { [Op.iLike]: `%${search}%` } },
+        { firstName: { [Op.iLike]: `%${search}%` } },
+        { lastName: { [Op.iLike]: `%${search}%` } },
       ];
     }
 

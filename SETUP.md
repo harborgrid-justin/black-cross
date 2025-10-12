@@ -14,13 +14,10 @@ cd black-cross
 # 2. Run automated setup
 npm run setup
 
-# 3. Start PostgreSQL (using Docker)
-docker-compose up -d postgres
+# 3. Configure database connection
+# Edit backend/.env and set DATABASE_URL to your PostgreSQL instance
 
-# 4. Run database migrations
-npm run prisma:migrate
-
-# 5. Start the application
+# 4. Start the application (database will auto-sync)
 npm run dev
 ```
 
@@ -72,7 +69,6 @@ The setup script will:
 - ✅ Check prerequisites
 - ✅ Install all dependencies (root, backend, frontend)
 - ✅ Create environment files from examples
-- ✅ Generate Prisma Client
 - ✅ Verify installation
 
 ```bash
@@ -112,12 +108,16 @@ code backend/.env
 **Required settings:**
 
 ```env
-# Database - Update with your PostgreSQL credentials
-DATABASE_URL="postgresql://blackcross:your_password@localhost:5432/blackcross?schema=public"
+# Database - PostgreSQL (Sequelize)
+# For Neon serverless PostgreSQL:
+DATABASE_URL="postgresql://username:password@host.neon.tech/database?sslmode=require"
+
+# Or for local PostgreSQL:
+# DATABASE_URL="postgresql://blackcross:your_password@localhost:5432/blackcross"
 
 # Security - CHANGE THESE IN PRODUCTION!
 JWT_SECRET=your_secure_random_string_minimum_32_characters
-ENCRYPTION_KEY=your_32_character_encryption_key!!
+ENCRYPTION_KEY=12345678901234567890123456789012
 SESSION_SECRET=another_secure_random_string_here
 ```
 
@@ -174,34 +174,37 @@ GRANT ALL PRIVILEGES ON DATABASE blackcross TO blackcross;
 
 Update `backend/.env` with your credentials:
 ```env
-DATABASE_URL="postgresql://blackcross:your_secure_password@localhost:5432/blackcross?schema=public"
+DATABASE_URL="postgresql://blackcross:your_secure_password@localhost:5432/blackcross"
 ```
 
-### Step 6: Run Database Migrations
+#### Option C: Using Neon Serverless PostgreSQL
+
+Black-Cross now uses Neon serverless PostgreSQL by default:
+
+```env
+DATABASE_URL="postgresql://neondb_owner:password@host.neon.tech/neondb?sslmode=require"
+```
+
+No local installation required - just set the DATABASE_URL!
+
+### Step 6: Sync Database Models
 
 This creates all necessary database tables:
 
+Database models will be automatically synced when you start the application. To manually sync:
+
 ```bash
-npm run prisma:migrate
+npm run db:sync
 ```
 
 Expected output:
 ```
-Prisma schema loaded from prisma/schema.prisma
-Datasource "db": PostgreSQL database "blackcross"
-
-PostgreSQL database blackcross created at localhost:5432
-
-Applying migration `20231003_initial`
-
-The following migration(s) have been applied:
-
-migrations/
-  └─ 20231003_initial/
-    └─ migration.sql
-
-✅ Generated Prisma Client
+🔌 Connecting to PostgreSQL via Sequelize...
+✅ PostgreSQL connection established successfully
+✅ Database models synced successfully
 ```
+
+**Note**: Sequelize automatically creates tables on first connection in development mode.
 
 ### Step 7: Start the Application
 

@@ -5,14 +5,15 @@
 
 import mongoose from 'mongoose';
 import type { Connection } from 'mongoose';
-import { PrismaClient } from '@prisma/client';
+import type { Sequelize } from 'sequelize-typescript';
+import { initializeSequelize, testConnection as testSequelizeConnection, syncDatabase } from './sequelize';
 import config from './index';
 
 class DatabaseManager {
   private mongoConnection: Connection | null = null;
   private isMongoConnected = false;
-  private prismaClient: PrismaClient | null = null;
-  private isPrismaConnected = false;
+  private sequelizeInstance: Sequelize | null = null;
+  private isSequelizeConnected = false;
 
   /**
    * Initialize MongoDB connection
@@ -97,48 +98,51 @@ class DatabaseManager {
   }
 
   /**
-   * Initialize Prisma Client (PostgreSQL)
+   * Initialize Sequelize (PostgreSQL)
    */
-  async connectPrisma(): Promise<PrismaClient | null> {
-    if (this.isPrismaConnected && this.prismaClient) {
-      return this.prismaClient;
+  async connectSequelize(): Promise<Sequelize | null> {
+    if (this.isSequelizeConnected && this.sequelizeInstance) {
+      return this.sequelizeInstance;
     }
 
     try {
-      console.log('🔌 Connecting to PostgreSQL via Prisma...');
+      console.log('🔌 Connecting to PostgreSQL via Sequelize...');
 
-      this.prismaClient = new PrismaClient({
-        log: config.env === 'development' ? ['query', 'error', 'warn'] : ['error'],
-        errorFormat: 'pretty',
-      });
+      this.sequelizeInstance = initializeSequelize();
 
       // Test connection
-      await this.prismaClient.$connect();
+      const isConnected = await testSequelizeConnection();
+      if (!isConnected) {
+        throw new Error('Failed to connect to PostgreSQL');
+      }
 
-      this.isPrismaConnected = true;
-      console.log('✅ PostgreSQL (Prisma) connected successfully');
+      // Sync database models (non-destructive)
+      await syncDatabase(false);
 
-      return this.prismaClient;
+      this.isSequelizeConnected = true;
+      console.log('✅ PostgreSQL (Sequelize) connected successfully');
+
+      return this.sequelizeInstance;
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      console.error('❌ PostgreSQL (Prisma) connection failed:', errorMessage);
+      console.error('❌ PostgreSQL (Sequelize) connection failed:', errorMessage);
       console.error('ℹ️  Please ensure PostgreSQL is running and DATABASE_URL is set correctly');
-      this.isPrismaConnected = false;
-      this.prismaClient = null;
-      throw error; // Prisma is required for core functionality
+      this.isSequelizeConnected = false;
+      this.sequelizeInstance = null;
+      throw error; // Sequelize is required for core functionality
     }
   }
 
   /**
-   * Disconnect from Prisma
+   * Disconnect from Sequelize
    */
-  async disconnectPrisma(): Promise<void> {
-    if (this.prismaClient) {
+  async disconnectSequelize(): Promise<void> {
+    if (this.sequelizeInstance) {
       try {
-        await this.prismaClient.$disconnect();
-        this.isPrismaConnected = false;
-        this.prismaClient = null;
-        console.log('✅ PostgreSQL (Prisma) disconnected successfully');
+        await this.sequelizeInstance.close();
+        this.isSequelizeConnected = false;
+        this.sequelizeInstance = null;
+        console.log('✅ PostgreSQL (Sequelize) disconnected successfully');
       } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
         console.error('❌ Error disconnecting from PostgreSQL:', errorMessage);
@@ -148,20 +152,20 @@ class DatabaseManager {
   }
 
   /**
-   * Get Prisma Client instance
+   * Get Sequelize instance
    */
-  getPrismaClient(): PrismaClient {
-    if (!this.prismaClient || !this.isPrismaConnected) {
-      throw new Error('Prisma client is not connected. Call connectPrisma() first.');
+  getSequelizeInstance(): Sequelize {
+    if (!this.sequelizeInstance || !this.isSequelizeConnected) {
+      throw new Error('Sequelize is not connected. Call connectSequelize() first.');
     }
-    return this.prismaClient;
+    return this.sequelizeInstance;
   }
 
   /**
-   * Check if Prisma is connected
+   * Check if Sequelize is connected
    */
-  checkPrismaConnection(): boolean {
-    return this.isPrismaConnected && this.prismaClient !== null;
+  checkSequelizeConnection(): boolean {
+    return this.isSequelizeConnected && this.sequelizeInstance !== null;
   }
 
   /**
@@ -169,8 +173,8 @@ class DatabaseManager {
    */
   async initializeAll(): Promise<boolean> {
     try {
-      // Prisma (PostgreSQL) is required
-      await this.connectPrisma();
+      // Sequelize (PostgreSQL) is required
+      await this.connectSequelize();
 
       // MongoDB is optional
       await this.connectMongoDB();
@@ -180,7 +184,7 @@ class DatabaseManager {
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       console.error('❌ Database initialization failed:', errorMessage);
-      throw error; // Fail if Prisma connection fails
+      throw error; // Fail if Sequelize connection fails
     }
   }
 
@@ -190,7 +194,7 @@ class DatabaseManager {
   async closeAll(): Promise<void> {
     try {
       await this.disconnectMongoDB();
-      await this.disconnectPrisma();
+      await this.disconnectSequelize();
       console.log('✅ All database connections closed successfully');
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
