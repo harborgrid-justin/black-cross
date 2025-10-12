@@ -16,7 +16,7 @@
     "lint:fix": "eslint '**/*.{js,ts}' --fix",
     "type-check": "tsc --noEmit",
     "db:sync": "ts-node scripts/sync-db.ts",
-    "db:seed": "node scripts/seed.js",
+    "db:seed": "ts-node scripts/seed-db.ts",
     "create-admin": "node scripts/create-admin.js",
     "import": "node scripts/import-data.js"
   },
