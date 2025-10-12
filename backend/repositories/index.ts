@@ -5,6 +5,12 @@
 
 export { userRepository } from './UserRepository';
 export { incidentRepository } from './IncidentRepository';
+export { vulnerabilityRepository } from './VulnerabilityRepository';
+export { assetRepository } from './AssetRepository';
+export { auditLogRepository } from './AuditLogRepository';
+export { iocRepository } from './IOCRepository';
+export { threatActorRepository } from './ThreatActorRepository';
+export { playbookExecutionRepository } from './PlaybookExecutionRepository';
 
 // Export types
 export type { 
