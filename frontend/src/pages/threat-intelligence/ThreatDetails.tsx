@@ -120,7 +120,7 @@ export default function ThreatDetails() {
         <Divider sx={{ my: 3 }} />
 
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
               Metadata
             </Typography>
@@ -152,7 +152,7 @@ export default function ThreatDetails() {
             </Box>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
               Categories & Tags
             </Typography>
@@ -179,7 +179,7 @@ export default function ThreatDetails() {
           </Grid>
 
           {threat.indicators && threat.indicators.length > 0 && (
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
                 Indicators of Compromise (IoCs)
               </Typography>

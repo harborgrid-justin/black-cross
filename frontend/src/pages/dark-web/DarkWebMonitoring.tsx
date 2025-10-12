@@ -14,14 +14,14 @@ export default function DarkWebMonitoring() {
       </Typography>
 
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
               Recent Findings
             </Typography>
             <Grid container spacing={2} sx={{ mt: 1 }}>
               {findings.map((finding, index) => (
-                <Grid item xs={12} md={4} key={index}>
+                <Grid size={{ xs: 12, md: 4 }} key={index}>
                   <Card>
                     <CardContent>
                       <Chip

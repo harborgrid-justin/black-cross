@@ -213,7 +213,7 @@ export default function ReportingAnalytics() {
 
       {/* Statistics Cards */}
       <Grid container spacing={3} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -231,7 +231,7 @@ export default function ReportingAnalytics() {
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -249,7 +249,7 @@ export default function ReportingAnalytics() {
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -267,7 +267,7 @@ export default function ReportingAnalytics() {
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -293,7 +293,7 @@ export default function ReportingAnalytics() {
         </Typography>
         <Grid container spacing={3}>
           {kpis.map((kpi, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>
               <Card variant="outlined">
                 <CardContent>
                   <Typography variant="body2" color="text.secondary" gutterBottom>
@@ -320,7 +320,7 @@ export default function ReportingAnalytics() {
       {/* Charts */}
       <Grid container spacing={3} sx={{ mb: 3 }}>
         {/* Threat Trends Line Chart */}
-        <Grid item xs={12} md={8}>
+        <Grid size={{ xs: 12, md: 8 }}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
               Threat Trends Over Time
@@ -341,7 +341,7 @@ export default function ReportingAnalytics() {
         </Grid>
 
         {/* Threat Type Distribution Pie Chart */}
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
               Threat Type Distribution
@@ -369,7 +369,7 @@ export default function ReportingAnalytics() {
         </Grid>
 
         {/* Severity Distribution Bar Chart */}
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
               Threat Severity Distribution
