@@ -9,7 +9,7 @@ git clone https://github.com/harborgrid-justin/black-cross.git
 cd black-cross
 npm run setup
 docker-compose up -d postgres
-npm run prisma:migrate
+npm run db:sync
 npm run dev
 ```
 
@@ -51,8 +51,8 @@ npm run setup
 # Start database
 docker-compose up -d postgres
 
-# Run migrations
-npm run prisma:migrate
+# Sync database models
+npm run db:sync
 
 # Start application
 npm run dev
@@ -86,9 +86,8 @@ docker-compose up -d
 
 4. **Initialize the database**
 ```bash
-# Generate Prisma Client and run migrations
-docker-compose exec backend npm run prisma:generate
-docker-compose exec backend npm run prisma:migrate
+# Sync Sequelize models with database
+docker-compose exec backend npm run db:sync
 
 # (Optional) Seed database
 docker-compose exec backend npm run db:seed
@@ -97,7 +96,7 @@ docker-compose exec backend npm run db:seed
 5. **Access the platform**
 - Web UI: http://localhost:3000
 - Backend API: http://localhost:8080
-- Prisma Studio: Run `cd backend && npm run prisma:studio`
+- Database: Use any PostgreSQL client to view data
 - Default credentials: admin / admin (change immediately)
 
 ### Method 2: Kubernetes (Production)

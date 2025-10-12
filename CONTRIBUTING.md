@@ -87,8 +87,8 @@ npm run setup
 # 3. Start PostgreSQL
 docker-compose up -d postgres
 
-# 4. Run migrations
-npm run prisma:migrate
+# 4. Sync database models
+npm run db:sync
 
 # 5. Start development servers
 npm run dev
@@ -118,13 +118,10 @@ See [SETUP.md](./SETUP.md) for detailed instructions and troubleshooting.
    # Edit both .env files with your configuration
    ```
 
-4. Set up Prisma and database
+4. Set up database
    ```bash
-   # Generate Prisma Client
-   npm run prisma:generate
-   
-   # Run migrations
-   npm run prisma:migrate
+   # Sync Sequelize models with database
+   npm run db:sync
    ```
 
 5. Start services (optional - for PostgreSQL, MongoDB, Redis)
@@ -201,9 +198,9 @@ black-cross/
 │   │   └── ...
 │   ├── index.js
 │   └── package.json
-├── prisma/           # Database schema and migrations
-│   ├── schema.prisma
-│   └── migrations/
+├── backend/
+│   ├── models/       # Sequelize database models
+│   └── config/       # Database configuration
 └── package.json      # Root workspace config
 ```
 

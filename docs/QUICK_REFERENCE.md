@@ -9,7 +9,7 @@ git clone https://github.com/harborgrid-justin/black-cross.git
 cd black-cross
 npm run setup
 docker-compose up -d postgres
-npm run prisma:migrate
+npm run db:sync
 npm run dev
 ```
 
@@ -19,7 +19,7 @@ Access: http://localhost:3000 (admin@black-cross.io / admin)
 
 | Command | Description |
 |---------|-------------|
-| `npm run setup` | **Automated setup** - installs dependencies, creates env files, generates Prisma |
+| `npm run setup` | **Automated setup** - installs dependencies, creates env files |
 | `npm run verify` | Verify setup is complete and correct |
 | `npm run install:all` | Install dependencies for all workspaces |
 | `npm run clean` | Remove all node_modules directories |
@@ -36,9 +36,7 @@ Access: http://localhost:3000 (admin@black-cross.io / admin)
 
 | Command | Description |
 |---------|-------------|
-| `npm run prisma:generate` | Generate Prisma Client |
-| `npm run prisma:migrate` | Run database migrations |
-| `npm run prisma:studio` | Open Prisma Studio GUI (port 5555) |
+| `npm run db:sync` | Sync Sequelize models with database |
 
 ## 🐳 Docker Commands
 
@@ -80,7 +78,7 @@ Access: http://localhost:3000 (admin@black-cross.io / admin)
 |------|---------|
 | `backend/.env` | Backend configuration (DB, secrets, API keys) |
 | `frontend/.env` | Frontend configuration (API URL) |
-| `prisma/schema.prisma` | Database schema definition |
+| `backend/models/` | Sequelize database models |
 | `docker-compose.yml` | Docker services configuration |
 
 ## 📝 Environment Variables
@@ -122,7 +120,7 @@ VITE_API_URL=http://localhost:8080/api/v1
 ```bash
 npm run setup
 docker-compose up -d postgres
-npm run prisma:migrate
+npm run db:sync
 npm run dev
 ```
 
@@ -130,8 +128,7 @@ npm run dev
 
 ```bash
 cd backend
-npx prisma migrate reset
-npm run prisma:migrate
+npm run db:sync
 ```
 
 ### Generate Secure Secrets
@@ -192,10 +189,10 @@ docker-compose ps postgres
 psql -h localhost -U blackcross -d blackcross
 ```
 
-### Prisma Client Not Found
+### Database Models Not Synced
 
 ```bash
-npm run prisma:generate
+npm run db:sync
 ```
 
 ### Module Not Found
@@ -214,7 +211,7 @@ npm run setup
 | [GETTING_STARTED.md](./GETTING_STARTED.md) | Quick start guide |
 | [CONTRIBUTING.md](./CONTRIBUTING.md) | Development guide |
 | [backend/README.md](./backend/README.md) | Backend documentation |
-| [prisma/README.md](./prisma/README.md) | Database documentation |
+| [docs/SEQUELIZE_MIGRATION.md](./docs/SEQUELIZE_MIGRATION.md) | Database documentation |
 
 ## 🆘 Getting Help
 
