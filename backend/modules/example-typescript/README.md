@@ -252,7 +252,7 @@ This module requires the following TypeScript configuration:
 ## Notes
 
 - This is a **reference implementation** demonstrating all TypeScript best practices
-- Mock data is used for demonstration - replace with Prisma/MongoDB in production
+- Mock data is used for demonstration - replace with Sequelize/MongoDB in production
 - All patterns follow industry standards and modern TypeScript conventions
 - See documentation links below for complete guides
 
