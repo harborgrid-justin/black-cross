@@ -16,7 +16,7 @@ export default function ComplianceManagement() {
 
       <Grid container spacing={3}>
         {frameworks.map((framework, index) => (
-          <Grid item xs={12} md={6} key={index}>
+          <Grid size={{ xs: 12, md: 6 }} key={index}>
             <Card>
               <CardContent>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>

@@ -73,14 +73,14 @@ export default function ThreatFeeds() {
 
       <Grid container spacing={3}>
         {feeds.length === 0 ? (
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Typography color="text.secondary" align="center" sx={{ py: 4 }}>
               No threat feeds configured.
             </Typography>
           </Grid>
         ) : (
           feeds.map((feed) => (
-            <Grid item xs={12} md={6} key={feed.id}>
+            <Grid size={{ xs: 12, md: 6 }} key={feed.id}>
               <Card>
                 <CardContent>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
