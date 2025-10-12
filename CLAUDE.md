@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Black-Cross is an enterprise-grade cyber threat intelligence platform built with:
 - **Frontend**: React 18 + TypeScript + Vite + Material-UI
 - **Backend**: Node.js + Express + TypeScript (gradual migration from JavaScript)
-- **Database**: PostgreSQL (via Prisma ORM) + MongoDB (optional) + Redis + Elasticsearch
+- **Database**: PostgreSQL (via Sequelize ORM) + MongoDB (optional) + Redis + Elasticsearch
 - **Testing**: Cypress (E2E), Jest (backend unit tests)
 
 The platform provides 15 core security features including threat intelligence, incident response, vulnerability management, SIEM, and more.
@@ -19,7 +19,7 @@ The platform provides 15 core security features including threat intelligence, i
 # Quick start (PostgreSQL required, other services optional)
 npm run setup                    # One-time setup with environment files
 docker-compose up -d postgres    # Start PostgreSQL
-npm run prisma:migrate          # Run database migrations
+npm run db:sync                 # Sync database models with Sequelize
 npm run dev                     # Start both frontend (3000) and backend (8080)
 
 # Alternative: Start services individually
@@ -32,15 +32,12 @@ docker-compose up -d            # Start all services (PostgreSQL, MongoDB, Redis
 
 ### Database Operations
 ```bash
-# Prisma commands (run from root)
-npm run prisma:generate         # Generate Prisma Client after schema changes
-npm run prisma:migrate          # Create and apply migrations
-npm run prisma:studio           # Open Prisma Studio GUI
+# Sequelize commands (run from root)
+npm run db:sync                 # Sync database models with Sequelize
 
 # Direct backend commands
 cd backend
-npm run prisma:generate         # Same as above, from backend directory
-npm run prisma:migrate
+npm run db:sync                 # Same as above, from backend directory
 npm run create-admin            # Create admin user
 ```
 
@@ -112,11 +109,11 @@ module-name/
 
 ### Database Architecture
 
-**Prisma Schema** (`prisma/schema.prisma`):
+**Sequelize Models** (`backend/models/`):
 - PostgreSQL as primary relational database
 - Core models: User, Incident, Vulnerability, Asset, AuditLog, IOC, ThreatActor, PlaybookExecution
-- Schema location: `../prisma/schema.prisma` (relative to backend)
-- Generated client: `backend/node_modules/.prisma/client`
+- TypeScript classes with decorators using sequelize-typescript
+- Model definitions in `backend/models/*.ts`
 
 **MongoDB** (optional):
 - Used for unstructured data, logs, and real-time events

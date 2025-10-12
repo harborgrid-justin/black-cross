@@ -17,8 +17,8 @@ npm run setup
 # 3. Start PostgreSQL
 docker-compose up -d postgres
 
-# 4. Run migrations
-npm run prisma:migrate
+# 4. Sync database models
+npm run db:sync
 
 # 5. Start the app
 npm run dev
@@ -71,8 +71,7 @@ cp frontend/.env.example frontend/.env
 docker-compose up -d postgres
 
 # 5. Set up database
-npm run prisma:generate
-npm run prisma:migrate
+npm run db:sync
 
 # 6. Start development servers
 npm run dev
@@ -177,11 +176,7 @@ VITE_API_URL=http://localhost:8080/api/v1
 
 ```bash
 # From root directory
-npm run prisma:generate  # Generate Prisma Client
-npm run prisma:migrate   # Run migrations
-
-# Optional: Open Prisma Studio to view database
-npm run prisma:studio
+npm run db:sync  # Sync Sequelize models with database
 ```
 
 ### 5. Start Development Servers
@@ -239,9 +234,9 @@ black-cross/
 │   ├── index.js
 │   └── package.json
 │
-├── prisma/               # Database schema and migrations
-│   ├── schema.prisma    # Database schema
-│   └── migrations/      # Migration history
+├── backend/
+│   ├── models/          # Sequelize database models
+│   └── config/          # Database configuration
 │
 └── package.json         # Root workspace config
 ```
@@ -257,9 +252,7 @@ npm run dev:frontend     # Start frontend only
 npm run build            # Build both
 npm test                 # Run all tests
 npm run lint             # Lint all code
-npm run prisma:generate  # Generate Prisma Client
-npm run prisma:migrate   # Run database migrations
-npm run prisma:studio    # Open Prisma Studio GUI
+npm run db:sync          # Sync Sequelize models with database
 npm run install:all      # Install all dependencies
 ```
 
@@ -271,8 +264,7 @@ npm run dev              # Start with nodemon
 npm start                # Start in production mode
 npm test                 # Run tests
 npm run lint             # Run ESLint
-npm run prisma:generate  # Generate Prisma Client
-npm run prisma:migrate   # Run migrations
+npm run db:sync          # Sync Sequelize models
 npm run db:seed          # Seed database
 ```
 
@@ -335,9 +327,9 @@ npm run create-admin -- --email user@company.com --password SecurePass123!
    - Check terminal for errors
 
 3. **Database Schema Changes**
-   - Edit `prisma/schema.prisma`
-   - Run `npm run prisma:migrate`
-   - Generates new migration and updates database
+   - Edit model files in `backend/models/`
+   - Run `npm run db:sync`
+   - Syncs Sequelize models with database
 
 ### Testing
 
@@ -395,12 +387,13 @@ DATABASE_URL="postgresql://..."
 
 ```bash
 # Generate Prisma Client
-npm run prisma:generate
+npm run db:sync
 
 # If still failing, try:
 cd backend
-rm -rf node_modules/.prisma
-npm run prisma:generate
+rm -rf node_modules
+npm install
+npm run db:sync
 ```
 
 ### Module Not Found
@@ -461,7 +454,7 @@ docker-compose -f docker-compose.prod.yml up -d --build
 - [Architecture Overview](./ARCHITECTURE_NEW.md)
 - [Backend Documentation](./backend/README.md)
 - [Frontend Documentation](./frontend/README.md)
-- [Prisma Documentation](./prisma/README.md)
+- [Sequelize Migration Guide](./docs/SEQUELIZE_MIGRATION.md)
 - [Migration Guide](./MIGRATION_GUIDE.md)
 
 ### Resources

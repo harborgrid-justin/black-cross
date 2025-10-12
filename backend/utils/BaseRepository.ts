@@ -4,7 +4,7 @@
  */
 
 import type { Model, ModelStatic, WhereOptions, FindOptions } from 'sequelize';
-import { getSequelize } from './prisma';
+import { getSequelize } from './sequelize';
 
 /**
  * Generic filter type for list operations

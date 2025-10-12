@@ -245,13 +245,9 @@ curl http://localhost:8080/health
 
 ### View Database
 
-Open Prisma Studio to view and edit your database:
+You can connect to PostgreSQL directly using any PostgreSQL client (e.g., pgAdmin, DBeaver) using the credentials from your `.env` file.
 
-```bash
-npm run prisma:studio
-```
-
-This opens a web interface at http://localhost:5555
+Alternatively, use the backend API endpoints to view and manage data.
 
 ### Run Tests
 
@@ -306,20 +302,20 @@ cat backend/.env | grep DATABASE_URL
 psql -h localhost -U blackcross -d blackcross
 ```
 
-### Issue: Prisma Client Not Found
+### Issue: Database Models Not Found
 
-**Error**: `Cannot find module '@prisma/client'`
+**Error**: Database model errors or connection issues
 
 **Solution**:
 ```bash
-# Regenerate Prisma Client
-npm run prisma:generate
+# Sync database models with Sequelize
+npm run db:sync
 
 # If still failing, reinstall dependencies
 cd backend
 rm -rf node_modules
 npm install
-npm run prisma:generate
+npm run db:sync
 ```
 
 ### Issue: Module Not Found Errors
@@ -354,11 +350,10 @@ nano backend/.env
 **Solution**:
 ```bash
 # Reset database (WARNING: This deletes all data)
+# Connect to PostgreSQL and drop/recreate database manually
+# Or use Sequelize sync with force option
 cd backend
-npx prisma migrate reset
-
-# Then reapply migrations
-npm run prisma:migrate
+npm run db:sync
 ```
 
 ### Issue: Docker Container Won't Start
@@ -524,7 +519,7 @@ After successful setup:
 - [docs/INSTALLATION.md](./docs/INSTALLATION.md) - Detailed installation
 - [backend/README.md](./backend/README.md) - Backend documentation
 - [frontend/README.md](./frontend/README.md) - Frontend documentation
-- [prisma/README.md](./prisma/README.md) - Database documentation
+- [docs/SEQUELIZE_MIGRATION.md](./docs/SEQUELIZE_MIGRATION.md) - Database documentation
 
 ### Support Channels
 
@@ -543,7 +538,7 @@ Use this checklist to track your setup progress:
 - [ ] PostgreSQL running (Docker or local)
 - [ ] Backend `.env` configured
 - [ ] Frontend `.env` configured (usually defaults work)
-- [ ] Database migrations run (`npm run prisma:migrate`)
+- [ ] Database models synced (`npm run db:sync`)
 - [ ] Application started (`npm run dev`)
 - [ ] Accessed frontend at http://localhost:3000
 - [ ] Logged in successfully

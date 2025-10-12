@@ -4,7 +4,7 @@
  */
 
 import { Op } from 'sequelize';
-import type { Incident } from '../utils/prisma';
+import type { Incident } from '../utils/sequelize';
 import { BaseRepository } from '../utils/BaseRepository';
 import IncidentModel from '../models/Incident';
 import UserModel from '../models/User';

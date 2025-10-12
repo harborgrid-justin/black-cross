@@ -82,9 +82,10 @@ backend/logs/
 backend/tmp/
 backend/dist/
 
-# Prisma
-prisma/.env
-backend/prisma/migrations/*_migration/
+# Archive directory (contains deprecated Prisma schema for reference)
+.archive/
+
+# Legacy Prisma references (if any remain)
 node_modules/.prisma/
 
 # IDE
