@@ -109,6 +109,9 @@ tmp/
 temp/
 *.tmp
 
+# Screenshot capture script (temporary)
+capture-screenshots.ts
+
 # Docker
 .docker/
 
