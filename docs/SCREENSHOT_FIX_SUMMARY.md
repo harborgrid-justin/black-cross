@@ -56,7 +56,7 @@ The screenshots were created as placeholder images that failed to capture actual
 
 **Before (Blank Screenshots)**:
 - All pixels: RGB(255, 255, 255) - pure white
-- Unique colors: 1
+- Unique colors: 1 (pure white only)
 - Mean pixel value: 255.0
 - Content: None - completely blank
 
