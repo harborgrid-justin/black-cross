@@ -6,6 +6,12 @@ This document provides a comprehensive visual overview of all pages in the Black
 
 All screenshots were captured on October 19, 2025, showing the current state of the application's user interface. Screenshots are stored in the `docs/screenshots/` directory.
 
+**Total Screenshots:** 22
+- 17 main page screenshots (00-16)
+- 5 additional detail views and tab interactions (17-21)
+
+This comprehensive collection includes both the main pages and specific tab/detail views to showcase the full functionality of the Black-Cross platform.
+
 ---
 
 ## Login & Authentication
@@ -334,6 +340,8 @@ All screenshots were captured on October 19, 2025, showing the current state of 
 
 ## File Listing
 
+### Main Page Screenshots
+
 | # | Filename | Page Name | Route |
 |---|----------|-----------|-------|
 | 00 | `00-login.png` | Login | `/login` |
@@ -354,6 +362,16 @@ All screenshots were captured on October 19, 2025, showing the current state of 
 | 15 | `15-compliance-management.png` | Compliance Management | `/compliance` |
 | 16 | `16-automation-playbooks.png` | Automation Playbooks | `/automation` |
 
+### Detail Views and Tab Interactions
+
+| # | Filename | Description | Route/Tab |
+|---|----------|-------------|-----------|
+| 17 | `17-collaboration-hub-detail.png` | Collaboration Hub Detail | `/collaboration` |
+| 18 | `18-malware-analysis-families.png` | Malware Families Tab | `/malware-analysis` (Malware Families) |
+| 19 | `19-malware-analysis-yara-rules.png` | YARA Rules Tab | `/malware-analysis` (YARA Rules) |
+| 20 | `20-dark-web-credential-leaks.png` | Credential Leaks Tab | `/dark-web` (Credential Leaks) |
+| 21 | `21-compliance-gaps.png` | Compliance Gaps Tab | `/compliance` (Gaps) |
+
 ---
 
 ## Notes
@@ -361,10 +379,86 @@ All screenshots were captured on October 19, 2025, showing the current state of 
 - All screenshots were captured using Playwright browser automation
 - Some pages show loading states or mock data due to backend API availability
 - The application demonstrates a comprehensive security operations platform
-- All 17 pages (16 main pages + login) are fully documented with screenshots
-- Screenshots are full-page captures showing complete page layouts
+- 22 total screenshots documented (17 main pages + 5 detail/tab views)
+- Screenshots include full-page captures showing complete layouts
+- Additional screenshots showcase:
+  - Different tabs within multi-tab interfaces
+  - Detail views with fully loaded data
+  - Interactive elements and specific views
+
+## Additional Screenshots - Detail Views and Tab Interactions
+
+### 17. Collaboration Hub - Detail View
+**File:** `17-collaboration-hub-detail.png`  
+**Route:** `/collaboration`  
+**Description:** Detailed view of the collaboration hub showing fully loaded tasks, team members, and chat interface.
+
+**Features:**
+- Active project and member statistics
+- Detailed task list with assignees and priorities
+- Team member online status indicators
+- Activity timeline
+- Real-time chat interface
+
+---
+
+### 18. Malware Analysis - Malware Families Tab
+**File:** `18-malware-analysis-families.png`  
+**Route:** `/malware-analysis` (Malware Families tab)  
+**Description:** The Malware Families tab showing classification of samples by malware family.
+
+**Features:**
+- Family name cards (Emotet, Trickbot, Ransomware)
+- Sample counts per family
+- Visual organization of malware categories
+
+---
+
+### 19. Malware Analysis - YARA Rules Tab
+**File:** `19-malware-analysis-yara-rules.png`  
+**Route:** `/malware-analysis` (YARA Rules tab)  
+**Description:** The YARA Rules tab for managing detection rules.
+
+**Features:**
+- YARA rule management interface
+- Placeholder for rule display
+
+---
+
+### 20. Dark Web Monitoring - Credential Leaks Tab
+**File:** `20-dark-web-credential-leaks.png`  
+**Route:** `/dark-web` (Credential Leaks tab)  
+**Description:** Dedicated view for monitoring credential leaks discovered on the dark web.
+
+**Features:**
+- Email and domain tracking
+- Source identification
+- Validation status tracking
+- Discovery timestamps
+- Validation action buttons
+
+**Sample Data:**
+- user@company.com from Dark Forum (Not validated)
+
+---
+
+### 21. Compliance Management - Gaps Tab
+**File:** `21-compliance-gaps.png`  
+**Route:** `/compliance` (Gaps tab for SOC 2)  
+**Description:** Compliance gap analysis showing identified issues and remediation steps.
+
+**Features:**
+- Control ID and name
+- Gap descriptions
+- Priority levels (High, Medium)
+- Remediation recommendations
+
+**Sample Gaps:**
+- CC3.1: Missing documented risk assessment process (High priority)
+- CC4.2: Incomplete monitoring coverage (Medium priority)
 
 ---
 
 *Last Updated: October 19, 2025*
 *Platform Version: 1.0.0*
+*Total Screenshots: 22 (17 main pages + 5 detail/tab views)*

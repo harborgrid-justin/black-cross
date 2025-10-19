@@ -1,8 +1,10 @@
 # Black-Cross Platform Screenshots
 
-This directory contains comprehensive screenshots of all 17 pages in the Black-Cross Enterprise Cyber Threat Intelligence Platform.
+This directory contains comprehensive screenshots of all pages in the Black-Cross Enterprise Cyber Threat Intelligence Platform, including main pages and detailed tab/interaction views.
 
 ## Quick Reference
+
+### Main Pages (17 screenshots)
 
 | Screenshot | Page Name | Description |
 |------------|-----------|-------------|
@@ -24,16 +26,26 @@ This directory contains comprehensive screenshots of all 17 pages in the Black-C
 | ![Compliance](15-compliance-management.png) | **Compliance Management** | Framework compliance tracking |
 | ![Automation](16-automation-playbooks.png) | **Automation Playbooks** | Security automation and orchestration |
 
+### Detail Views & Tab Interactions (5 screenshots)
+
+| Screenshot | View/Tab | Description |
+|------------|----------|-------------|
+| ![Collab Detail](17-collaboration-hub-detail.png) | **Collaboration Detail** | Fully loaded collaboration hub with tasks and chat |
+| ![Malware Families](18-malware-analysis-families.png) | **Malware Families** | Malware classification by family |
+| ![YARA Rules](19-malware-analysis-yara-rules.png) | **YARA Rules** | Detection rule management |
+| ![Credential Leaks](20-dark-web-credential-leaks.png) | **Credential Leaks** | Dark web credential monitoring |
+| ![Compliance Gaps](21-compliance-gaps.png) | **Compliance Gaps** | Gap analysis and remediation |
+
 ## Full Documentation
 
 For detailed descriptions of each page, features, and technical details, see [SCREENSHOTS.md](../SCREENSHOTS.md).
 
 ## Screenshot Information
 
-- **Total Pages:** 17 (including login)
+- **Total Screenshots:** 22 (17 main pages + 5 detail views)
 - **Capture Date:** October 19, 2025
 - **Format:** PNG (full-page captures)
-- **Total Size:** ~2.2 MB
+- **Total Size:** ~2.9 MB
 - **Tool Used:** Playwright Browser Automation
 
 ## Usage
@@ -44,6 +56,7 @@ These screenshots serve as:
 - Training materials for new users
 - Product demonstration assets
 - Development verification
+- Documentation of tab interactions and detail views
 
 ---
 
