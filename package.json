@@ -57,6 +57,8 @@
   },
   "homepage": "https://github.com/harborgrid-justin/black-cross#readme",
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "@playwright/test": "^1.56.1",
+    "concurrently": "^9.2.1",
+    "playwright": "^1.56.1"
   }
 }
