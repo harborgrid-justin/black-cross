@@ -66,33 +66,33 @@ export interface ValidationResult {
  * Enrichment data from external sources
  */
 export interface EnrichmentData {
-  readonly virustotal?: {
-    readonly malicious: number;
-    readonly suspicious: number;
-    readonly harmless: number;
-    readonly lastAnalysisDate: Date;
-    readonly reputation: number;
+  virustotal?: {
+    malicious: number;
+    suspicious: number;
+    harmless: number;
+    lastAnalysisDate: Date;
+    reputation: number;
   };
-  readonly abuseipdb?: {
-    readonly abuseConfidenceScore: number;
-    readonly totalReports: number;
-    readonly lastReportedAt: Date;
-    readonly country: string;
+  abuseipdb?: {
+    abuseConfidenceScore: number;
+    totalReports: number;
+    lastReportedAt: Date;
+    country: string;
   };
-  readonly whois?: {
-    readonly registrar: string;
-    readonly createdDate: Date;
-    readonly expiresDate: Date;
-    readonly registrant: string;
-    readonly country: string;
+  whois?: {
+    registrar: string;
+    createdDate: Date;
+    expiresDate: Date;
+    registrant: string;
+    country: string;
   };
-  readonly geolocation?: {
-    readonly country: string;
-    readonly city: string;
-    readonly latitude: number;
-    readonly longitude: number;
-    readonly asn: string;
-    readonly isp: string;
+  geolocation?: {
+    country: string;
+    city: string;
+    latitude: number;
+    longitude: number;
+    asn: string;
+    isp: string;
   };
 }
 

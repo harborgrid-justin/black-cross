@@ -43,6 +43,7 @@ interface UpdateIoCInput {
   readonly severity?: 'critical' | 'high' | 'medium' | 'low';
   readonly tags?: readonly string[];
   readonly expiresAt?: Date;
+  readonly lastSeen?: Date;
   readonly metadata?: Record<string, any>;
 }
 
