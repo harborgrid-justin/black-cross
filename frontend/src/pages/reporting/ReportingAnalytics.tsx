@@ -192,6 +192,7 @@ export default function ReportingAnalytics() {
               value={timeRange}
               label="Time Range"
               onChange={(e) => setTimeRange(e.target.value)}
+              data-testid="date-filter"
             >
               <MenuItem value="7d">Last 7 Days</MenuItem>
               <MenuItem value="30d">Last 30 Days</MenuItem>
@@ -212,7 +213,7 @@ export default function ReportingAnalytics() {
       )}
 
       {/* Statistics Cards */}
-      <Grid container spacing={3} sx={{ mb: 3 }}>
+      <Grid container spacing={3} sx={{ mb: 3 }} data-testid="metrics">
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card>
             <CardContent>
@@ -321,7 +322,7 @@ export default function ReportingAnalytics() {
       <Grid container spacing={3} sx={{ mb: 3 }}>
         {/* Threat Trends Line Chart */}
         <Grid size={{ xs: 12, md: 8 }}>
-          <Paper sx={{ p: 3 }}>
+          <Paper sx={{ p: 3 }} data-testid="chart">
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
               Threat Trends Over Time
             </Typography>

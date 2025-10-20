@@ -268,7 +268,7 @@ export default function SIEMDashboard() {
       </Grid>
 
       {/* Active Alerts */}
-      <Paper sx={{ mb: 3, p: 3 }}>
+      <Paper sx={{ mb: 3, p: 3 }} data-testid="alerts">
         <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
           Active Alerts
         </Typography>
@@ -297,6 +297,7 @@ export default function SIEMDashboard() {
                       label={alert.severity.toUpperCase()}
                       color={getSeverityColor(alert.severity)}
                       size="small"
+                      data-testid="severity-filter"
                     />
                   </TableCell>
                   <TableCell>
@@ -335,8 +336,8 @@ export default function SIEMDashboard() {
             }}
           />
         </Box>
-        <TableContainer>
-          <Table>
+        <TableContainer data-testid="events-feed">
+          <Table data-testid="correlation-rules">
             <TableHead>
               <TableRow>
                 <TableCell>Timestamp</TableCell>

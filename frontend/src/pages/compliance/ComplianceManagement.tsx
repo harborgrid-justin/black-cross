@@ -329,7 +329,7 @@ export default function ComplianceManagement() {
       )}
 
       {/* Frameworks Overview */}
-      <Grid container spacing={3} sx={{ mb: 3 }}>
+      <Grid container spacing={3} sx={{ mb: 3 }} data-testid="frameworks">
         {frameworks.map((framework) => (
           <Grid size={{ xs: 12, md: 6, lg: 3 }} key={framework.id}>
             <Card
@@ -340,6 +340,7 @@ export default function ComplianceManagement() {
                 '&:hover': { boxShadow: 6 },
               }}
               onClick={() => handleFrameworkClick(framework)}
+              data-testid="framework-filter"
             >
               <CardContent>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 2 }}>
@@ -354,7 +355,7 @@ export default function ComplianceManagement() {
                   </IconButton>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-                  <Typography variant="h4" color={`${getComplianceColor(framework.complianceScore)}.main`} sx={{ fontWeight: 700 }}>
+                  <Typography variant="h4" color={`${getComplianceColor(framework.complianceScore)}.main`} sx={{ fontWeight: 700 }} data-testid="compliance-score">
                     {framework.complianceScore}%
                   </Typography>
                   <Chip
@@ -407,7 +408,7 @@ export default function ComplianceManagement() {
           </Tabs>
 
           <TabPanel value={tabValue} index={0}>
-            <TableContainer>
+            <TableContainer data-testid="requirements-list">
               <Table>
                 <TableHead>
                   <TableRow>

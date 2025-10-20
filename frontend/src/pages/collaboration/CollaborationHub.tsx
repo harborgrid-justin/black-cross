@@ -303,7 +303,7 @@ export default function CollaborationHub() {
                   <Typography color="text.secondary" variant="body2">
                     Unread Messages
                   </Typography>
-                  <Typography variant="h4" sx={{ fontWeight: 700, mt: 1 }}>
+                  <Typography variant="h4" sx={{ fontWeight: 700, mt: 1 }} data-testid="notifications">
                     {stats.unreadMessages}
                   </Typography>
                 </Box>
@@ -374,7 +374,7 @@ export default function CollaborationHub() {
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
               Team Members
             </Typography>
-            <List>
+            <List data-testid="team-members">
               {teamMembers.map((member) => (
                 <ListItem key={member.id}>
                   <ListItemAvatar>
@@ -399,7 +399,7 @@ export default function CollaborationHub() {
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
               Recent Activity
             </Typography>
-            <List>
+            <List data-testid="activity-feed">
               {activities.map((activity, index) => (
                 <Box key={activity.id}>
                   <ListItem sx={{ px: 0 }}>
@@ -453,6 +453,7 @@ export default function CollaborationHub() {
                 placeholder="Type a message..."
                 value={chatMessage}
                 onChange={(e) => setChatMessage(e.target.value)}
+                data-testid="message-input"
               />
               <IconButton color="primary">
                 <SendIcon />
