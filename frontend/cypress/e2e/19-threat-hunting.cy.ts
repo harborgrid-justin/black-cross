@@ -10,13 +10,13 @@ describe('Threat Hunting Platform - Comprehensive Test Suite', () => {
 
     it('Test 2: should have correct page title', () => {
       cy.visit('/hunting');
-      cy.contains(/Threat Hunting/i, { timeout: 10000 }).should('be.visible');
+      cy.contains('Threat Hunting Platform', { timeout: 10000 }).should('be.visible');
     });
 
     it('Test 3: should navigate to threat hunting page directly', () => {
       cy.visit('/hunting');
       cy.url().should('include', '/hunting');
-      cy.contains(/Threat Hunting/i).should('be.visible');
+      cy.contains('Threat Hunting Platform').should('be.visible');
     });
 
     it('Test 4: should load without errors', () => {
@@ -33,14 +33,12 @@ describe('Threat Hunting Platform - Comprehensive Test Suite', () => {
 
     it('Test 6: should display refresh button', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/Refresh/i, { timeout: 10000 }).should('exist');
+      cy.contains('Refresh', { timeout: 10000 }).should('exist');
     });
 
     it('Test 7: should display new hypothesis button', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/New Hypothesis/i, { timeout: 10000 }).should('exist');
+      cy.contains('New Hypothesis', { timeout: 10000 }).should('exist');
     });
 
     it('Test 8: should be accessible without login errors', () => {
@@ -72,22 +70,22 @@ describe('Threat Hunting Platform - Comprehensive Test Suite', () => {
   describe('Display and Layout', () => {
     it('Test 11: should display query builder section', () => {
       cy.visit('/hunting');
-      cy.contains(/Query Builder/i, { timeout: 10000 }).should('be.visible');
+      cy.contains('Query Builder', { timeout: 10000 }).should('be.visible');
     });
 
     it('Test 12: should display query results section', () => {
       cy.visit('/hunting');
-      cy.contains(/Query Results/i, { timeout: 10000 }).should('be.visible');
+      cy.contains('Query Results', { timeout: 10000 }).should('be.visible');
     });
 
     it('Test 13: should display hunting hypotheses section', () => {
       cy.visit('/hunting');
-      cy.contains(/Hunting Hypotheses/i, { timeout: 10000 }).should('be.visible');
+      cy.contains('Hunting Hypotheses', { timeout: 10000 }).should('be.visible');
     });
 
     it('Test 14: should have query language selector', () => {
       cy.visit('/hunting');
-      cy.contains(/Language/i, { timeout: 10000 }).should('exist');
+      cy.contains('Language', { timeout: 10000 }).should('exist');
     });
 
     it('Test 15: should have query text input area', () => {
@@ -106,19 +104,17 @@ describe('Threat Hunting Platform - Comprehensive Test Suite', () => {
     it('Test 17: should be responsive on tablet viewport', () => {
       cy.viewport('ipad-2');
       cy.visit('/hunting');
-      cy.contains(/Threat Hunting/i, { timeout: 10000 }).should('be.visible');
+      cy.contains('Threat Hunting Platform', { timeout: 10000 }).should('be.visible');
     });
 
     it('Test 18: should display execute query button', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/Execute/i, { timeout: 10000 }).should('exist');
+      cy.contains('Execute Query', { timeout: 10000 }).should('exist');
     });
 
     it('Test 19: should display save query button', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/Save/i, { timeout: 10000 }).should('exist');
+      cy.contains('Save Query', { timeout: 10000 }).should('exist');
     });
 
     it('Test 20: should have proper grid layout structure', () => {
@@ -133,32 +129,32 @@ describe('Threat Hunting Platform - Comprehensive Test Suite', () => {
   describe('Statistics Display', () => {
     it('Test 21: should display total hypotheses statistic', () => {
       cy.visit('/hunting');
-      cy.contains(/Hypotheses/i, { timeout: 10000 }).should('be.visible');
+      cy.get('.MuiCard-root', { timeout: 10000 }).contains('Hypotheses').should('be.visible');
     });
 
     it('Test 22: should display active hypotheses count', () => {
       cy.visit('/hunting');
-      cy.contains(/Active/i, { timeout: 10000 }).should('be.visible');
+      cy.get('.MuiCard-root', { timeout: 10000 }).contains('Active').should('be.visible');
     });
 
     it('Test 23: should display validated hypotheses count', () => {
       cy.visit('/hunting');
-      cy.contains(/Validated/i, { timeout: 10000 }).should('be.visible');
+      cy.get('.MuiCard-root', { timeout: 10000 }).contains('Validated').should('be.visible');
     });
 
     it('Test 24: should display total findings count', () => {
       cy.visit('/hunting');
-      cy.contains(/Findings/i, { timeout: 10000 }).should('be.visible');
+      cy.get('.MuiCard-root', { timeout: 10000 }).contains('Findings').should('be.visible');
     });
 
     it('Test 25: should display critical findings count', () => {
       cy.visit('/hunting');
-      cy.contains(/Critical/i, { timeout: 10000 }).should('be.visible');
+      cy.get('.MuiCard-root', { timeout: 10000 }).contains('Critical').should('be.visible');
     });
 
     it('Test 26: should display campaigns count', () => {
       cy.visit('/hunting');
-      cy.contains(/Campaigns/i, { timeout: 10000 }).should('be.visible');
+      cy.get('.MuiCard-root', { timeout: 10000 }).contains('Campaigns').should('be.visible');
     });
 
     it('Test 27: should display statistics in cards', () => {
@@ -248,7 +244,7 @@ describe('Threat Hunting Platform - Comprehensive Test Suite', () => {
 
     it('Test 42: should display KQL language option', () => {
       cy.visit('/hunting');
-      cy.contains(/KQL/i, { timeout: 10000 }).should('exist');
+      cy.contains('KQL', { timeout: 10000 }).should('exist');
     });
 
     it('Test 43: should allow typing in query field', () => {
@@ -261,17 +257,17 @@ describe('Threat Hunting Platform - Comprehensive Test Suite', () => {
     it('Test 44: should enable execute button when query is entered', () => {
       cy.visit('/hunting');
       cy.get('textarea[placeholder*="hunting query"]', { timeout: 10000 }).type('test query');
-      cy.contains('button', /Execute Query/i).should('not.be.disabled');
+      cy.contains('Execute Query').should('not.be.disabled');
     });
 
     it('Test 45: should disable execute button when query is empty', () => {
       cy.visit('/hunting');
-      cy.contains('button', /Execute Query/i, { timeout: 10000 }).should('be.disabled');
+      cy.contains('Execute Query', { timeout: 10000 }).should('be.disabled');
     });
 
     it('Test 46: should have save query functionality', () => {
       cy.visit('/hunting');
-      cy.contains('button', /Save Query/i, { timeout: 10000 }).should('exist');
+      cy.contains('Save Query', { timeout: 10000 }).should('exist');
     });
 
     it('Test 47: should display query text area with multiple rows', () => {
@@ -282,7 +278,7 @@ describe('Threat Hunting Platform - Comprehensive Test Suite', () => {
 
     it('Test 48: should show language selector options', () => {
       cy.visit('/hunting');
-      cy.get('.MuiFormControl-root:has(.MuiInputLabel-root:contains("Language"))', { timeout: 10000 })
+      cy.get('.MuiFormControl-root:has(.MuiInputLabel-root)', { timeout: 10000 })
         .should('exist');
     });
 
@@ -295,9 +291,8 @@ describe('Threat Hunting Platform - Comprehensive Test Suite', () => {
 
     it('Test 50: should have execute and save buttons in query builder', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/Execute/i, { timeout: 10000 }).should('exist');
-      cy.contains(/Save/i).should('exist');
+      cy.contains('Execute Query', { timeout: 10000 }).should('exist');
+      cy.contains('Save Query').should('exist');
     });
   });
 
@@ -429,84 +424,74 @@ describe('Threat Hunting Platform - Comprehensive Test Suite', () => {
   describe('CRUD Operations', () => {
     it('Test 71: should open new hypothesis dialog', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/New Hypothesis/i, { timeout: 10000 }).click();
+      cy.contains('New Hypothesis', { timeout: 10000 }).click();
       cy.wait(500);
-      cy.contains(/Create|Hypothesis/i, { timeout: 5000 }).should('be.visible');
+      cy.contains('Create Hunting Hypothesis', { timeout: 5000 }).should('be.visible');
     });
 
     it('Test 72: should display hypothesis form fields', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/New Hypothesis/i, { timeout: 10000 }).click();
+      cy.contains('New Hypothesis', { timeout: 10000 }).click();
       cy.wait(500);
       cy.get('.MuiDialog-root', { timeout: 5000 }).should('be.visible');
     });
 
     it('Test 73: should have description field in hypothesis form', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/New Hypothesis/i, { timeout: 10000 }).click();
+      cy.contains('New Hypothesis', { timeout: 10000 }).click();
       cy.wait(500);
-      cy.get('.MuiDialog-root', { timeout: 5000 }).contains(/Description/i).should('be.visible');
+      cy.get('.MuiDialog-root', { timeout: 5000 }).contains('Description').should('be.visible');
     });
 
     it('Test 74: should have category selector in hypothesis form', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/New Hypothesis/i, { timeout: 10000 }).click();
+      cy.contains('New Hypothesis', { timeout: 10000 }).click();
       cy.wait(500);
-      cy.get('.MuiDialog-root', { timeout: 5000 }).contains(/Category/i).should('be.visible');
+      cy.get('.MuiDialog-root', { timeout: 5000 }).contains('Category').should('be.visible');
     });
 
     it('Test 75: should have priority selector in hypothesis form', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/New Hypothesis/i, { timeout: 10000 }).click();
+      cy.contains('New Hypothesis', { timeout: 10000 }).click();
       cy.wait(500);
-      cy.get('.MuiDialog-root', { timeout: 5000 }).contains(/Priority/i).should('be.visible');
+      cy.get('.MuiDialog-root', { timeout: 5000 }).contains('Priority').should('be.visible');
     });
 
     it('Test 76: should close hypothesis dialog on cancel', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/New Hypothesis/i, { timeout: 10000 }).click();
+      cy.contains('New Hypothesis', { timeout: 10000 }).click();
       cy.wait(500);
-      cy.get('.MuiDialog-root', { timeout: 5000 }).contains('button', /Cancel/i).click();
+      cy.get('.MuiDialog-root', { timeout: 5000 }).contains('button', 'Cancel').click();
       cy.wait(500);
       cy.get('.MuiDialog-root').should('not.exist');
     });
 
     it('Test 77: should have create button in hypothesis dialog', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/New Hypothesis/i, { timeout: 10000 }).click();
+      cy.contains('New Hypothesis', { timeout: 10000 }).click();
       cy.wait(500);
-      cy.get('.MuiDialog-root', { timeout: 5000 }).contains('button', /Create/i).should('exist');
+      cy.get('.MuiDialog-root', { timeout: 5000 }).contains('button', 'Create').should('exist');
     });
 
     it('Test 78: should open save query dialog', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/Save/i, { timeout: 10000 }).click();
+      cy.contains('Save Query', { timeout: 10000 }).click();
       cy.wait(500);
       cy.get('.MuiDialog-root', { timeout: 5000 }).should('be.visible');
     });
 
     it('Test 79: should have query name field in save dialog', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/Save/i, { timeout: 10000 }).click();
+      cy.contains('Save Query', { timeout: 10000 }).click();
       cy.wait(500);
-      cy.get('.MuiDialog-root', { timeout: 5000 }).contains(/Query Name/i).should('be.visible');
+      cy.get('.MuiDialog-root', { timeout: 5000 }).contains('Query Name').should('be.visible');
     });
 
     it('Test 80: should close save query dialog on cancel', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/Save/i, { timeout: 10000 }).click();
+      cy.contains('Save Query', { timeout: 10000 }).click();
       cy.wait(500);
-      cy.get('.MuiDialog-root', { timeout: 5000 }).contains('button', /Cancel/i).click();
+      cy.get('.MuiDialog-root', { timeout: 5000 }).contains('button', 'Cancel').click();
       cy.wait(500);
     });
   });
@@ -517,24 +502,21 @@ describe('Threat Hunting Platform - Comprehensive Test Suite', () => {
   describe('Integration and Dialogs', () => {
     it('Test 81: should display refresh functionality', () => {
       cy.visit('/hunting');
+      cy.contains('Refresh', { timeout: 10000 }).click();
       cy.wait(1000);
-      cy.contains(/Refresh/i, { timeout: 10000 }).click();
-      cy.wait(1000);
-      cy.contains(/Threat Hunting/i).should('be.visible');
+      cy.contains('Threat Hunting').should('be.visible');
     });
 
     it('Test 82: should handle dialog interactions', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/New Hypothesis/i, { timeout: 10000 }).click();
+      cy.contains('New Hypothesis', { timeout: 10000 }).click();
       cy.wait(500);
       cy.get('.MuiDialog-root', { timeout: 5000 }).should('be.visible');
     });
 
     it('Test 83: should display proper dialog structure', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/New Hypothesis/i, { timeout: 10000 }).click();
+      cy.contains('New Hypothesis', { timeout: 10000 }).click();
       cy.wait(500);
       cy.get('.MuiDialogTitle-root', { timeout: 5000 }).should('exist');
       cy.get('.MuiDialogContent-root').should('exist');
@@ -543,60 +525,53 @@ describe('Threat Hunting Platform - Comprehensive Test Suite', () => {
 
     it('Test 84: should have form controls in dialogs', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/New Hypothesis/i, { timeout: 10000 }).click();
+      cy.contains('New Hypothesis', { timeout: 10000 }).click();
       cy.wait(500);
       cy.get('.MuiFormControl-root', { timeout: 5000 }).should('exist');
     });
 
     it('Test 85: should validate dialog inputs', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/New Hypothesis/i, { timeout: 10000 }).click();
+      cy.contains('New Hypothesis', { timeout: 10000 }).click();
       cy.wait(500);
       cy.get('input', { timeout: 5000 }).should('exist');
     });
 
     it('Test 86: should display category options in dropdown', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/New Hypothesis/i, { timeout: 10000 }).click();
+      cy.contains('New Hypothesis', { timeout: 10000 }).click();
       cy.wait(1000);
       cy.get('.MuiSelect-select', { timeout: 5000 }).should('exist');
     });
 
     it('Test 87: should handle multiple dialog states', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/New Hypothesis/i, { timeout: 10000 }).click();
+      cy.contains('New Hypothesis', { timeout: 10000 }).click();
       cy.wait(500);
-      cy.get('.MuiDialog-root').contains('button', /Cancel/i, { timeout: 5000 }).click();
+      cy.get('.MuiDialog-root').contains('button', 'Cancel', { timeout: 5000 }).click();
       cy.wait(500);
-      cy.contains(/Save/i, { timeout: 10000 }).click();
+      cy.contains('Save Query', { timeout: 10000 }).click();
       cy.wait(500);
-      cy.get('.MuiDialog-root').contains('button', /Cancel/i, { timeout: 5000 }).click();
+      cy.get('.MuiDialog-root').contains('button', 'Cancel', { timeout: 5000 }).click();
     });
 
     it('Test 88: should display query results placeholder', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/Execute a query to see results/i, { timeout: 10000 }).should('be.visible');
+      cy.contains('Execute a query to see results', { timeout: 10000 }).should('be.visible');
     });
 
     it('Test 89: should handle hypothesis selection', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
       cy.get('.MuiListItemButton-root', { timeout: 10000 }).should('exist');
     });
 
     it('Test 90: should maintain state after interactions', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/New Hypothesis/i, { timeout: 10000 }).click();
+      cy.contains('New Hypothesis', { timeout: 10000 }).click();
       cy.wait(500);
-      cy.get('.MuiDialog-root').contains('button', /Cancel/i, { timeout: 5000 }).click();
+      cy.get('.MuiDialog-root').contains('button', 'Cancel', { timeout: 5000 }).click();
       cy.wait(500);
-      cy.contains(/Threat Hunting/i).should('be.visible');
+      cy.contains('Threat Hunting Platform').should('be.visible');
     });
   });
 
@@ -606,7 +581,6 @@ describe('Threat Hunting Platform - Comprehensive Test Suite', () => {
   describe('Performance and Edge Cases', () => {
     it('Test 91: should handle empty query state', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
       cy.get('textarea[placeholder*="hunting query"]', { timeout: 10000 }).should('be.empty');
     });
 
@@ -618,34 +592,29 @@ describe('Threat Hunting Platform - Comprehensive Test Suite', () => {
 
     it('Test 93: should handle multiple hypotheses', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
       cy.get('.MuiListItem-root', { timeout: 10000 }).should('have.length.at.least', 1);
     });
 
     it('Test 94: should display statistics correctly', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
       cy.get('.MuiCard-root .MuiTypography-h4', { timeout: 10000 }).should('exist');
     });
 
     it('Test 95: should handle window resize gracefully', () => {
       cy.viewport(1920, 1080);
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/Threat Hunting/i, { timeout: 10000 }).should('be.visible');
+      cy.contains('Threat Hunting', { timeout: 10000 }).should('be.visible');
       cy.viewport(1280, 720);
-      cy.contains(/Threat Hunting/i).should('be.visible');
+      cy.contains('Threat Hunting').should('be.visible');
     });
 
     it('Test 96: should maintain data integrity', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
       cy.get('.MuiCard-root', { timeout: 10000 }).should('have.length', 6);
     });
 
     it('Test 97: should display proper chip colors', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
       cy.get('.MuiChip-colorError, .MuiChip-colorWarning, .MuiChip-colorInfo', { timeout: 10000 })
         .should('exist');
     });
@@ -654,26 +623,23 @@ describe('Threat Hunting Platform - Comprehensive Test Suite', () => {
       cy.visit('/hunting');
       cy.wait(1000);
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/Threat Hunting/i, { timeout: 10000 }).should('be.visible');
+      cy.contains('Threat Hunting', { timeout: 10000 }).should('be.visible');
     });
 
     it('Test 99: should display all UI elements consistently', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/Threat Hunting/i, { timeout: 10000 }).should('be.visible');
-      cy.contains(/Query Builder/i).should('be.visible');
-      cy.contains(/Hunting Hypotheses/i).should('be.visible');
+      cy.contains('Threat Hunting Platform', { timeout: 10000 }).should('be.visible');
+      cy.contains('Query Builder').should('be.visible');
+      cy.contains('Hunting Hypotheses').should('be.visible');
     });
 
     it('Test 100: should complete comprehensive test suite successfully', () => {
       cy.visit('/hunting');
-      cy.wait(1000);
-      cy.contains(/Threat Hunting/i, { timeout: 10000 }).should('be.visible');
+      cy.contains('Threat Hunting Platform', { timeout: 10000 }).should('be.visible');
       cy.get('.MuiCard-root').should('have.length', 6);
       cy.get('.MuiListItem-root').should('have.length.at.least', 1);
-      cy.contains(/New Hypothesis/i).should('exist');
-      cy.contains(/Execute/i).should('exist');
+      cy.contains('New Hypothesis').should('exist');
+      cy.contains('Execute Query').should('exist');
     });
   });
 });
