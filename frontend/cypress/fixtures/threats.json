@@ -1,30 +1,203 @@
 {
   "sampleThreat": {
     "id": "1",
-    "title": "Sample Threat",
-    "severity": "high",
+    "name": "APT29 Campaign",
+    "type": "apt",
+    "severity": "critical",
     "status": "active",
-    "description": "This is a sample threat for testing",
-    "createdAt": "2024-01-01T00:00:00.000Z"
+    "confidence": 95,
+    "description": "Advanced Persistent Threat campaign targeting government networks",
+    "categories": ["espionage", "apt", "targeted-attack"],
+    "tags": ["apt29", "cozy-bear", "government"],
+    "firstSeen": "2024-01-01T00:00:00.000Z",
+    "lastSeen": "2024-01-15T12:30:00.000Z",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "indicators": [
+      {
+        "type": "ip",
+        "value": "192.168.1.100",
+        "confidence": 90
+      },
+      {
+        "type": "domain",
+        "value": "malicious-domain.com",
+        "confidence": 85
+      }
+    ]
   },
   "threats": [
     {
       "id": "1",
-      "title": "Phishing Campaign",
-      "severity": "high",
-      "status": "active"
+      "name": "APT29 Campaign",
+      "type": "apt",
+      "severity": "critical",
+      "status": "active",
+      "confidence": 95,
+      "description": "Advanced Persistent Threat campaign targeting government networks",
+      "categories": ["espionage", "apt", "targeted-attack"],
+      "tags": ["apt29", "cozy-bear", "government"],
+      "firstSeen": "2024-01-01T00:00:00.000Z",
+      "lastSeen": "2024-01-15T12:30:00.000Z",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "indicators": [
+        {
+          "type": "ip",
+          "value": "192.168.1.100",
+          "confidence": 90
+        }
+      ]
     },
     {
       "id": "2",
-      "title": "Malware Detection",
+      "name": "WannaCry Ransomware",
+      "type": "ransomware",
       "severity": "critical",
-      "status": "investigating"
+      "status": "archived",
+      "confidence": 100,
+      "description": "Global ransomware attack exploiting SMB vulnerability",
+      "categories": ["ransomware", "malware", "worm"],
+      "tags": ["wannacry", "smb", "eternalblue"],
+      "firstSeen": "2024-02-01T00:00:00.000Z",
+      "lastSeen": "2024-02-10T18:45:00.000Z",
+      "createdAt": "2024-02-01T00:00:00.000Z",
+      "indicators": [
+        {
+          "type": "hash",
+          "value": "ed01ebfbc9eb5bbea545af4d01bf5f1071661840480439c6e5babe8e080e41aa",
+          "confidence": 100
+        }
+      ]
     },
     {
       "id": "3",
-      "title": "Suspicious Network Activity",
+      "name": "Phishing Campaign - Office365",
+      "type": "phishing",
+      "severity": "high",
+      "status": "active",
+      "confidence": 85,
+      "description": "Credential harvesting campaign targeting Office365 users",
+      "categories": ["phishing", "credential-theft", "social-engineering"],
+      "tags": ["office365", "credential-harvesting", "email"],
+      "firstSeen": "2024-03-01T00:00:00.000Z",
+      "lastSeen": "2024-03-20T09:15:00.000Z",
+      "createdAt": "2024-03-01T00:00:00.000Z",
+      "indicators": [
+        {
+          "type": "domain",
+          "value": "fake-office365-login.com",
+          "confidence": 95
+        },
+        {
+          "type": "email",
+          "value": "noreply@fake-microsoft.com",
+          "confidence": 90
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Mirai Botnet Activity",
+      "type": "botnet",
+      "severity": "high",
+      "status": "resolved",
+      "confidence": 90,
+      "description": "IoT botnet conducting DDoS attacks",
+      "categories": ["botnet", "ddos", "iot"],
+      "tags": ["mirai", "iot", "ddos"],
+      "firstSeen": "2024-04-01T00:00:00.000Z",
+      "lastSeen": "2024-04-25T14:20:00.000Z",
+      "createdAt": "2024-04-01T00:00:00.000Z",
+      "indicators": [
+        {
+          "type": "ip",
+          "value": "10.0.0.50",
+          "confidence": 85
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "TrickBot Malware",
+      "type": "malware",
       "severity": "medium",
-      "status": "resolved"
+      "status": "active",
+      "confidence": 80,
+      "description": "Banking trojan with modular capabilities",
+      "categories": ["malware", "banking-trojan", "credential-theft"],
+      "tags": ["trickbot", "banking", "trojan"],
+      "firstSeen": "2024-05-01T00:00:00.000Z",
+      "lastSeen": "2024-05-18T16:40:00.000Z",
+      "createdAt": "2024-05-01T00:00:00.000Z",
+      "indicators": [
+        {
+          "type": "hash",
+          "value": "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6",
+          "confidence": 75
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "name": "DDoS Attack on DNS",
+      "type": "ddos",
+      "severity": "medium",
+      "status": "active",
+      "confidence": 75,
+      "description": "Distributed denial of service targeting DNS infrastructure",
+      "categories": ["ddos", "network-attack", "infrastructure"],
+      "tags": ["ddos", "dns", "amplification"],
+      "firstSeen": "2024-06-01T00:00:00.000Z",
+      "lastSeen": "2024-06-22T11:30:00.000Z",
+      "createdAt": "2024-06-01T00:00:00.000Z",
+      "indicators": [
+        {
+          "type": "ip",
+          "value": "172.16.0.100",
+          "confidence": 70
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "name": "Zero-Day Exploit - CVE-2024-1234",
+      "type": "malware",
+      "severity": "critical",
+      "status": "active",
+      "confidence": 98,
+      "description": "Active exploitation of unpatched vulnerability in popular software",
+      "categories": ["zero-day", "exploit", "vulnerability"],
+      "tags": ["zero-day", "cve-2024-1234", "critical"],
+      "firstSeen": "2024-07-01T00:00:00.000Z",
+      "lastSeen": "2024-07-28T13:50:00.000Z",
+      "createdAt": "2024-07-01T00:00:00.000Z",
+      "indicators": [
+        {
+          "type": "url",
+          "value": "http://exploit-server.net/payload",
+          "confidence": 95
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "name": "Emotet Campaign",
+      "type": "malware",
+      "severity": "low",
+      "status": "resolved",
+      "confidence": 65,
+      "description": "Legacy malware campaign with reduced activity",
+      "categories": ["malware", "botnet", "spam"],
+      "tags": ["emotet", "legacy", "low-activity"],
+      "firstSeen": "2024-08-01T00:00:00.000Z",
+      "lastSeen": "2024-08-15T10:25:00.000Z",
+      "createdAt": "2024-08-01T00:00:00.000Z",
+      "indicators": [
+        {
+          "type": "email",
+          "value": "malware@spam-server.net",
+          "confidence": 60
+        }
+      ]
     }
   ]
 }
