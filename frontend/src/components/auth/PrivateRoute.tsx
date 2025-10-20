@@ -9,15 +9,17 @@ interface PrivateRouteProps {
 export default function PrivateRoute({ children }: PrivateRouteProps) {
   const { isAuthenticated, token } = useAppSelector((state) => state.auth);
   
-  // For development: bypass authentication if in development mode
+  // Bypass authentication only in development mode AND not in Cypress tests
   const isDevelopment = import.meta.env.MODE === 'development';
+  const isCypress = (window as any).Cypress !== undefined;
+  const shouldBypassAuth = isDevelopment && !isCypress;
 
   // Debug logging
   useEffect(() => {
-    console.log('PrivateRoute: isAuthenticated =', isAuthenticated, ', token =', token, ', isDevelopment =', isDevelopment);
-  }, [isAuthenticated, token, isDevelopment]);
+    console.log('PrivateRoute: isAuthenticated =', isAuthenticated, ', token =', token, ', isDevelopment =', isDevelopment, ', isCypress =', isCypress);
+  }, [isAuthenticated, token, isDevelopment, isCypress]);
 
-  if (!isAuthenticated && !isDevelopment) {
+  if (!isAuthenticated && !shouldBypassAuth) {
     console.log('PrivateRoute: Redirecting to login');
     return <Navigate to="/login" replace />;
   }

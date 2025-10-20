@@ -30,7 +30,9 @@ describe('Dashboard Page', () => {
     cy.fixture('users').then((users) => {
       cy.login(users.validUser.email, users.validUser.password);
       cy.visit('/');
-      cy.contains('Dashboard').should('be.visible');
+      // On mobile, the header should be visible, not the drawer
+      cy.get('header').should('be.visible');
+      cy.get('[data-testid="menu-button"]').should('be.visible');
     });
   });
 });
