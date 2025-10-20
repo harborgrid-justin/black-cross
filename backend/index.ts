@@ -101,6 +101,7 @@ app.get(ROUTES.API_DOCS, swaggerUi.setup(swaggerSpec, {
 }));
 
 // Module routes
+import auth from './modules/auth';
 import threatIntelligence from './modules/threat-intelligence';
 import incidentResponse from './modules/incident-response';
 import threatHunting from './modules/threat-hunting';
@@ -117,6 +118,7 @@ import darkWeb from './modules/dark-web';
 import compliance from './modules/compliance';
 import automation from './modules/automation';
 
+app.use('/api/v1/auth', auth);
 app.use(MODULE_ROUTES.THREAT_INTELLIGENCE, threatIntelligence);
 app.use(MODULE_ROUTES.INCIDENT_RESPONSE, incidentResponse);
 app.use(MODULE_ROUTES.THREAT_HUNTING, threatHunting);
