@@ -12,8 +12,14 @@ describe('Layout Component', () => {
 
   it('should navigate to different pages via menu', () => {
     cy.visit('/');
-    cy.contains('Threats').click();
-    cy.url().should('include', '/threats');
+    // Wait for the page to load
+    cy.wait(1000);
+    // Click on the Threat Intelligence menu item in the navigation
+    cy.get('nav').contains('Threat Intelligence').click();
+    // Wait for navigation
+    cy.wait(500);
+    // Verify URL changed
+    cy.url().should('include', '/threat-intelligence');
   });
 
   it('should display user menu', () => {
