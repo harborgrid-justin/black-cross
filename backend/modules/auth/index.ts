@@ -101,17 +101,19 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
     // Return success response
     res.json({
       success: true,
-      token,
-      expires_in: 86400, // 24 hours in seconds
-      user: {
-        id: user.id,
-        email: user.email,
-        username: user.username,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        role: user.role,
+      data: {
+        token,
+        expires_in: 86400, // 24 hours in seconds
+        user: {
+          id: user.id,
+          email: user.email,
+          username: user.username,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          role: user.role,
+        },
       },
-    } as LoginResponse);
+    });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({
