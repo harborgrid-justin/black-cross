@@ -230,7 +230,7 @@ describe('IoC Management - Comprehensive Test Suite', () => {
 
     it('Test 37: should be able to click Add button', () => {
       cy.visit('/ioc-management');
-      cy.contains(/Add|Create|New/i, { timeout: 10000 }).should('be.visible');
+      cy.get('button', { timeout: 10000 }).contains(/Add|Create|New/i).should('be.visible');
     });
 
     it('Test 38: should have page interface for creation', () => {
