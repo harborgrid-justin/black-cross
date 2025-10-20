@@ -91,7 +91,7 @@ export default function AutomationPlaybooks() {
         </Alert>
       )}
 
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} data-testid="playbooks-list">
         <Table>
           <TableHead>
             <TableRow>
@@ -121,9 +121,10 @@ export default function AutomationPlaybooks() {
                       size="small"
                       color={playbook.status === 'active' ? 'success' : 'default'}
                       variant="outlined"
+                      data-testid="status-filter"
                     />
                   </TableCell>
-                  <TableCell>{playbook.executions}</TableCell>
+                  <TableCell data-testid="execution-history">{playbook.executions}</TableCell>
                   <TableCell>{playbook.lastRun}</TableCell>
                   <TableCell>
                     <Button 

@@ -202,7 +202,7 @@ export default function Dashboard() {
   }
 
   return (
-    <Box>
+    <Box data-testid="dashboard">
       <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
         Dashboard
       </Typography>

@@ -101,7 +101,7 @@ export default function IncidentList() {
         </Alert>
       )}
 
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} data-testid="incidents-list">
         <Table>
           <TableHead>
             <TableRow>
@@ -123,17 +123,18 @@ export default function IncidentList() {
               </TableRow>
             ) : (
               incidents.map((incident) => (
-                <TableRow key={incident.id} hover sx={{ cursor: 'pointer' }}>
-                  <TableCell>{incident.title}</TableCell>
+                <TableRow key={incident.id} hover sx={{ cursor: 'pointer' }} data-testid="incident-item">
+                  <TableCell data-testid="timeline">{incident.title}</TableCell>
                   <TableCell>
                     <Chip
                       label={incident.severity}
                       color={incident.severity === 'high' || incident.severity === 'critical' ? 'error' : 'warning'}
                       size="small"
+                      data-testid="severity-badge"
                     />
                   </TableCell>
                   <TableCell>
-                    <Chip label={incident.status} size="small" variant="outlined" />
+                    <Chip label={incident.status} size="small" variant="outlined" data-testid="status-filter" />
                   </TableCell>
                   <TableCell>{incident.assignedTo || 'Unassigned'}</TableCell>
                   <TableCell>{new Date(incident.createdAt).toLocaleDateString()}</TableCell>

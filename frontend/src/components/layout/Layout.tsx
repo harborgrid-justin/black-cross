@@ -133,6 +133,7 @@ export default function Layout({ children }: LayoutProps) {
             edge="start"
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: 'none' } }}
+            data-testid="menu-button"
           >
             <MenuIcon />
           </IconButton>
@@ -145,6 +146,7 @@ export default function Layout({ children }: LayoutProps) {
             aria-label="user account menu"
             aria-controls="user-menu"
             aria-haspopup="true"
+            data-testid="user-menu"
           >
             <Avatar sx={{ width: 32, height: 32 }} alt={user?.name || 'User profile'}>
               <AccountCircle />

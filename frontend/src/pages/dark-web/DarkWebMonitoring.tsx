@@ -384,8 +384,8 @@ export default function DarkWebMonitoring() {
             />
           </Box>
 
-          <TableContainer>
-            <Table>
+          <TableContainer data-testid="scan-results">
+            <Table data-testid="alerts">
               <TableHead>
                 <TableRow>
                   <TableCell>Type</TableCell>
@@ -476,7 +476,7 @@ export default function DarkWebMonitoring() {
         </TabPanel>
 
         <TabPanel value={tabValue} index={2}>
-          <TableContainer>
+          <TableContainer data-testid="keywords">
             <Table>
               <TableHead>
                 <TableRow>
