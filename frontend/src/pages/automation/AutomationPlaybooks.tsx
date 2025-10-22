@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
   Box,
   Paper,
@@ -15,55 +15,20 @@ import {
   Alert,
 } from '@mui/material';
 import { Add as AddIcon, PlayArrow as PlayIcon } from '@mui/icons-material';
-import { playbookService } from '@/services/playbookService';
-
-interface Playbook {
-  id: string;
-  name: string;
-  status: 'active' | 'inactive';
-  executions: number;
-  lastRun: string;
-}
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { fetchPlaybooks, executePlaybook } from '@/store/slices/automationSlice';
 
 export default function AutomationPlaybooks() {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [playbooks, setPlaybooks] = useState<Playbook[]>([]);
-
-  const fetchPlaybooks = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await playbookService.listPlaybooks();
-      if (response.success && response.data) {
-        setPlaybooks(response.data);
-      }
-    } catch (err) {
-      console.error('Error fetching playbooks:', err);
-      setError('Failed to load playbooks. Showing mock data.');
-      // Mock data fallback
-      setPlaybooks([
-        { id: '1', name: 'Phishing Response', status: 'active', executions: 45, lastRun: '2 hours ago' },
-        { id: '2', name: 'Malware Containment', status: 'active', executions: 23, lastRun: '1 day ago' },
-        { id: '3', name: 'DDoS Mitigation', status: 'inactive', executions: 12, lastRun: '3 days ago' },
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const dispatch = useAppDispatch();
+  const { playbooks, loading, error } = useAppSelector((state) => state.automation);
 
   useEffect(() => {
-    fetchPlaybooks();
-  }, []);
+    dispatch(fetchPlaybooks());
+  }, [dispatch]);
 
   const handleRunPlaybook = async (id: string) => {
-    try {
-      await playbookService.executePlaybook(id);
-      // Refresh playbooks after execution
-      fetchPlaybooks();
-    } catch (err) {
-      console.error('Error running playbook:', err);
-    }
+    await dispatch(executePlaybook(id));
+    dispatch(fetchPlaybooks());
   };
 
   if (loading) {

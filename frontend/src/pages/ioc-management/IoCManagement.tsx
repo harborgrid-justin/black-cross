@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
   Box,
   Paper,
@@ -15,69 +15,16 @@ import {
   Alert,
 } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
-import { iocService } from '@/services/iocService';
-import type { IoC } from '@/types';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { fetchIoCs } from '@/store/slices/iocSlice';
 
 export default function IoCManagement() {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [iocs, setIoCs] = useState<IoC[]>([]);
+  const dispatch = useAppDispatch();
+  const { iocs, loading, error } = useAppSelector((state) => state.iocs);
 
   useEffect(() => {
-    const fetchIoCs = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await iocService.getIoCs();
-        if (response.success && response.data) {
-          setIoCs(response.data);
-        }
-      } catch (err) {
-        console.error('Error fetching IoCs:', err);
-        setError('Failed to load IoCs. Showing mock data.');
-        // Mock data fallback
-        setIoCs([
-          { 
-            id: '1', 
-            type: 'ip', 
-            value: '192.168.1.100', 
-            confidence: 95, 
-            status: 'active',
-            source: 'Internal',
-            tags: ['suspicious'],
-            firstSeen: new Date().toISOString(),
-            lastSeen: new Date().toISOString(),
-          },
-          { 
-            id: '2', 
-            type: 'domain', 
-            value: 'malicious-site.com', 
-            confidence: 88, 
-            status: 'active',
-            source: 'Threat Feed',
-            tags: ['malware'],
-            firstSeen: new Date().toISOString(),
-            lastSeen: new Date().toISOString(),
-          },
-          { 
-            id: '3', 
-            type: 'hash', 
-            value: 'a1b2c3d4e5f6...', 
-            confidence: 92, 
-            status: 'active',
-            source: 'Analysis',
-            tags: ['ransomware'],
-            firstSeen: new Date().toISOString(),
-            lastSeen: new Date().toISOString(),
-          },
-        ] as IoC[]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchIoCs();
-  }, []);
+    dispatch(fetchIoCs(undefined));
+  }, [dispatch]);
 
   if (loading) {
     return (
