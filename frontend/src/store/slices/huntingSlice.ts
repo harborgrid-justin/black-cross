@@ -5,8 +5,10 @@ interface HuntingHypothesis {
   id: string;
   title: string;
   description: string;
-  status: string;
-  confidence: number;
+  category: 'malware' | 'insider-threat' | 'apt' | 'data-exfiltration' | 'lateral-movement' | 'privilege-escalation' | 'other';
+  priority: 'critical' | 'high' | 'medium' | 'low';
+  status: 'draft' | 'active' | 'validated' | 'disproven' | 'archived';
+  createdBy: string;
   createdAt: string;
   updatedAt: string;
 }

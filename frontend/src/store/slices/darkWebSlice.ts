@@ -3,14 +3,18 @@ import { darkWebService } from '@/services/darkWebService';
 
 interface DarkWebFinding {
   id: string;
-  type: string;
-  content: string;
+  type: 'credential-leak' | 'brand-mention' | 'data-breach' | 'threat-actor' | 'malware' | 'marketplace';
+  severity: 'critical' | 'high' | 'medium' | 'low';
+  status: 'new' | 'investigating' | 'validated' | 'false-positive' | 'resolved';
   source: string;
-  url: string;
-  severity: string;
-  status: string;
+  sourceUrl?: string;
+  title: string;
+  description: string;
+  content?: string;
+  keywords: string[];
+  affectedAssets?: string[];
   discoveredAt: string;
-  verifiedAt?: string;
+  updatedAt: string;
 }
 
 interface DarkWebState {

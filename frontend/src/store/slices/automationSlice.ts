@@ -5,10 +5,9 @@ interface Playbook {
   id: string;
   name: string;
   description: string;
-  trigger: string;
-  actions: unknown[];
-  enabled: boolean;
-  createdBy: string;
+  status: 'active' | 'inactive';
+  executions: number;
+  lastRun: string;
   createdAt: string;
   updatedAt: string;
 }
