@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
   Box,
   Paper,
@@ -15,66 +15,16 @@ import {
   Alert,
 } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
-import { incidentService } from '@/services/incidentService';
-import type { Incident } from '@/types';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { fetchIncidents } from '@/store/slices/incidentSlice';
 
 export default function IncidentList() {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [incidents, setIncidents] = useState<Incident[]>([]);
+  const dispatch = useAppDispatch();
+  const { incidents, loading, error } = useAppSelector((state) => state.incidents);
 
   useEffect(() => {
-    const fetchIncidents = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await incidentService.getIncidents();
-        if (response.success && response.data) {
-          setIncidents(response.data);
-        }
-      } catch (err) {
-        console.error('Error fetching incidents:', err);
-        setError('Failed to load incidents. Showing mock data.');
-        // Mock data fallback
-        setIncidents([
-          {
-            id: '1',
-            title: 'Phishing Attack on Finance Department',
-            description: 'Multiple employees received phishing emails',
-            severity: 'high',
-            status: 'investigating',
-            priority: 1,
-            assignedTo: 'John Doe',
-            createdBy: 'System',
-            affectedAssets: ['email-server'],
-            timeline: [],
-            evidence: [],
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          },
-          {
-            id: '2',
-            title: 'Suspicious Login Activity',
-            description: 'Unusual login patterns detected',
-            severity: 'medium',
-            status: 'open',
-            priority: 2,
-            assignedTo: 'Jane Smith',
-            createdBy: 'System',
-            affectedAssets: ['auth-system'],
-            timeline: [],
-            evidence: [],
-            createdAt: new Date(Date.now() - 86400000).toISOString(),
-            updatedAt: new Date(Date.now() - 86400000).toISOString(),
-          },
-        ] as Incident[]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchIncidents();
-  }, []);
+    dispatch(fetchIncidents(undefined));
+  }, [dispatch]);
 
   if (loading) {
     return (
