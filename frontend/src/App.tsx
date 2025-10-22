@@ -14,7 +14,7 @@ import SimpleDashboard from './pages/SimpleDashboard';
 // Lazy load feature pages for better performance
 const ThreatIntelligenceRoutes = lazy(() => import('./pages/threat-intelligence/routes'));
 const IncidentResponseRoutes = lazy(() => import('./pages/incident-response/routes'));
-const VulnerabilityList = lazy(() => import('./pages/vulnerability-management/VulnerabilityList'));
+const VulnerabilityManagementRoutes = lazy(() => import('./pages/vulnerability-management/routes'));
 const RiskAssessment = lazy(() => import('./pages/risk-assessment/RiskAssessment'));
 const ThreatHunting = lazy(() => import('./pages/threat-hunting/ThreatHunting'));
 const ThreatActors = lazy(() => import('./pages/threat-actors/ThreatActors'));
@@ -23,8 +23,8 @@ const ThreatFeeds = lazy(() => import('./pages/threat-feeds/ThreatFeeds'));
 const MalwareAnalysis = lazy(() => import('./pages/malware-analysis/MalwareAnalysis'));
 const DarkWebMonitoring = lazy(() => import('./pages/dark-web/DarkWebMonitoring'));
 const ComplianceManagement = lazy(() => import('./pages/compliance/ComplianceManagement'));
-const AutomationPlaybooks = lazy(() => import('./pages/automation/AutomationPlaybooks'));
-const SIEMDashboard = lazy(() => import('./pages/siem/SIEMDashboard'));
+const AutomationRoutes = lazy(() => import('./pages/automation/routes'));
+const SiemRoutes = lazy(() => import('./pages/siem/routes'));
 const CollaborationHub = lazy(() => import('./pages/collaboration/CollaborationHub'));
 const ReportingAnalytics = lazy(() => import('./pages/reporting/ReportingAnalytics'));
 
@@ -90,18 +90,18 @@ function AppContent() {
                       <Route path="/threat-intelligence/*" element={<ThreatIntelligenceRoutes />} />
                       <Route path="/incident-response/*" element={<IncidentResponseRoutes />} />
                       <Route path="/threat-hunting" element={<ThreatHunting />} />
-                      <Route path="/vulnerability-management" element={<VulnerabilityList />} />
+                      <Route path="/vulnerability-management/*" element={<VulnerabilityManagementRoutes />} />
                       <Route path="/risk-assessment" element={<RiskAssessment />} />
                       <Route path="/threat-actors" element={<ThreatActors />} />
                       <Route path="/ioc-management" element={<IoCManagement />} />
                       <Route path="/threat-feeds" element={<ThreatFeeds />} />
-                      <Route path="/siem" element={<SIEMDashboard />} />
+                      <Route path="/siem/*" element={<SiemRoutes />} />
                       <Route path="/collaboration" element={<CollaborationHub />} />
                       <Route path="/reporting" element={<ReportingAnalytics />} />
                       <Route path="/malware-analysis" element={<MalwareAnalysis />} />
                       <Route path="/dark-web" element={<DarkWebMonitoring />} />
                       <Route path="/compliance" element={<ComplianceManagement />} />
-                      <Route path="/automation" element={<AutomationPlaybooks />} />
+                      <Route path="/automation/*" element={<AutomationRoutes />} />
                       <Route path="*" element={<Navigate to="/dashboard" replace />} />
                     </Routes>
                   </Suspense>
