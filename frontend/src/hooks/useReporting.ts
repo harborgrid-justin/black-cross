@@ -134,12 +134,12 @@ export function useReportingMutation() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const generateReport = useCallback(async (data: unknown): Promise<ApiResponse<unknown> | null> => {
+  const generateReport = useCallback(async (id: string): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await reportingService.generateReport(data);
-      return response;
+      const response = await reportingService.generateReport(id);
+      return response as any;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to generate report';
       setError(message);
@@ -164,12 +164,12 @@ export function useReportingMutation() {
     }
   }, []);
 
-  const scheduleReport = useCallback(async (reportId: string, schedule: unknown): Promise<ApiResponse<unknown> | null> => {
+  const scheduleReport = useCallback(async (reportId: string, schedule: any): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
       const response = await reportingService.scheduleReport(reportId, schedule);
-      return response;
+      return response as any;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to schedule report';
       setError(message);
@@ -179,14 +179,14 @@ export function useReportingMutation() {
     }
   }, []);
 
-  const exportReport = useCallback(async (reportId: string, format: string): Promise<ApiResponse<unknown> | null> => {
+  const downloadReport = useCallback(async (reportId: string): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await reportingService.exportReport(reportId, format);
-      return response;
+      const response = await reportingService.downloadReport(reportId);
+      return response as any;
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to export report';
+      const message = err instanceof Error ? err.message : 'Failed to download report';
       setError(message);
       return null;
     } finally {
@@ -288,7 +288,7 @@ export function useReportingMutation() {
     generateReport,
     deleteReport,
     scheduleReport,
-    exportReport,
+    downloadReport,
     createTemplate,
     updateTemplate,
     deleteTemplate,
@@ -308,21 +308,21 @@ export function useReportingComposite() {
   const [error, setError] = useState<string | null>(null);
 
   const generateAndSchedule = useCallback(async (
-    reportData: unknown,
-    schedule: unknown
+    reportId: string,
+    schedule: any
   ): Promise<{ report: ApiResponse<unknown> | null; scheduled: ApiResponse<unknown> | null }> => {
     try {
       setLoading(true);
       setError(null);
       
-      const report = await reportingService.generateReport(reportData);
+      const report = await reportingService.generateReport(reportId);
       if (!report.data?.id) {
         throw new Error('Failed to generate report');
       }
       
       const scheduled = await reportingService.scheduleReport(report.data.id, schedule);
       
-      return { report, scheduled };
+      return { report: report as any, scheduled: scheduled as any };
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to generate and schedule report';
       setError(message);

@@ -39,12 +39,12 @@ export function useComplianceQuery() {
     }
   }, []);
 
-  const getControls = useCallback(async (frameworkId: string): Promise<ApiResponse<unknown> | null> => {
+  const getControls = useCallback(async (frameworkId: string, filters?: FilterOptions): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await complianceService.getControls(frameworkId);
-      return response;
+      const response = await complianceService.getControls(frameworkId, filters);
+      return response as any;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch controls';
       setError(message);
@@ -74,7 +74,7 @@ export function useComplianceQuery() {
       setLoading(true);
       setError(null);
       const response = await complianceService.getAuditLogs(filters);
-      return response;
+      return response as any;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch audit logs';
       setError(message);
@@ -84,12 +84,12 @@ export function useComplianceQuery() {
     }
   }, []);
 
-  const getReports = useCallback(async (filters?: FilterOptions): Promise<PaginatedResponse<unknown> | null> => {
+  const getReports = useCallback(async (frameworkId?: string): Promise<PaginatedResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await complianceService.getReports(filters);
-      return response;
+      const response = await complianceService.getReports(frameworkId);
+      return response as any;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch reports';
       setError(message);
@@ -118,12 +118,12 @@ export function useComplianceMutation() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const updateControl = useCallback(async (id: string, data: unknown): Promise<ApiResponse<unknown> | null> => {
+  const updateControl = useCallback(async (frameworkId: string, controlId: string, data: unknown): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await complianceService.updateControl(id, data);
-      return response;
+      const response = await complianceService.updateControl(frameworkId, controlId, data as any);
+      return response as any;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to update control';
       setError(message);
@@ -133,14 +133,14 @@ export function useComplianceMutation() {
     }
   }, []);
 
-  const addEvidence = useCallback(async (controlId: string, evidence: unknown): Promise<ApiResponse<unknown> | null> => {
+  const uploadEvidence = useCallback(async (frameworkId: string, controlId: string, file: File, description?: string): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await complianceService.addEvidence(controlId, evidence);
-      return response;
+      const response = await complianceService.uploadEvidence(frameworkId, controlId, file, description);
+      return response as any;
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to add evidence';
+      const message = err instanceof Error ? err.message : 'Failed to upload evidence';
       setError(message);
       return null;
     } finally {
@@ -148,12 +148,12 @@ export function useComplianceMutation() {
     }
   }, []);
 
-  const generateReport = useCallback(async (frameworkId: string, options?: unknown): Promise<ApiResponse<unknown> | null> => {
+  const generateReport = useCallback(async (frameworkId: string): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await complianceService.generateReport(frameworkId, options);
-      return response;
+      const response = await complianceService.generateReport(frameworkId);
+      return response as any;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to generate report';
       setError(message);
@@ -165,7 +165,7 @@ export function useComplianceMutation() {
 
   return {
     updateControl,
-    addEvidence,
+    uploadEvidence,
     generateReport,
     loading,
     error,

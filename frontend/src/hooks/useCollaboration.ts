@@ -54,11 +54,11 @@ export function useCollaborationQuery() {
     }
   }, []);
 
-  const getTask = useCallback(async (id: string): Promise<ApiResponse<unknown> | null> => {
+  const getTask = useCallback(async (workspaceId: string, taskId: string): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await collaborationService.getTask(id);
+      const response = await collaborationService.getTask(workspaceId, taskId);
       return response;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch task';
@@ -84,11 +84,11 @@ export function useCollaborationQuery() {
     }
   }, []);
 
-  const getWikiPage = useCallback(async (id: string): Promise<ApiResponse<unknown> | null> => {
+  const getWikiPage = useCallback(async (workspaceId: string, pageId: string): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await collaborationService.getWikiPage(id);
+      const response = await collaborationService.getWikiPage(workspaceId, pageId);
       return response;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch wiki page';
@@ -163,11 +163,11 @@ export function useCollaborationMutation() {
     }
   }, []);
 
-  const addMember = useCallback(async (workspaceId: string, member: unknown): Promise<ApiResponse<unknown> | null> => {
+  const addMember = useCallback(async (workspaceId: string, userId: string, role: string): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await collaborationService.addMember(workspaceId, member);
+      const response = await collaborationService.addMember(workspaceId, userId, role);
       return response;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to add member';
@@ -208,11 +208,11 @@ export function useCollaborationMutation() {
     }
   }, []);
 
-  const updateTask = useCallback(async (id: string, data: unknown): Promise<ApiResponse<unknown> | null> => {
+  const updateTask = useCallback(async (workspaceId: string, taskId: string, data: unknown): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await collaborationService.updateTask(id, data);
+      const response = await collaborationService.updateTask(workspaceId, taskId, data as any);
       return response;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to update task';
@@ -223,11 +223,11 @@ export function useCollaborationMutation() {
     }
   }, []);
 
-  const deleteTask = useCallback(async (id: string): Promise<boolean> => {
+  const deleteTask = useCallback(async (workspaceId: string, taskId: string): Promise<boolean> => {
     try {
       setLoading(true);
       setError(null);
-      await collaborationService.deleteTask(id);
+      await collaborationService.deleteTask(workspaceId, taskId);
       return true;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to delete task';
@@ -238,11 +238,11 @@ export function useCollaborationMutation() {
     }
   }, []);
 
-  const addComment = useCallback(async (taskId: string, comment: unknown): Promise<ApiResponse<unknown> | null> => {
+  const addComment = useCallback(async (workspaceId: string, taskId: string, content: string): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await collaborationService.addComment(taskId, comment);
+      const response = await collaborationService.addComment(workspaceId, taskId, content);
       return response;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to add comment';
@@ -268,11 +268,11 @@ export function useCollaborationMutation() {
     }
   }, []);
 
-  const updateWikiPage = useCallback(async (id: string, data: unknown): Promise<ApiResponse<unknown> | null> => {
+  const updateWikiPage = useCallback(async (workspaceId: string, pageId: string, data: unknown): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await collaborationService.updateWikiPage(id, data);
+      const response = await collaborationService.updateWikiPage(workspaceId, pageId, data as any);
       return response;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to update wiki page';
@@ -309,19 +309,19 @@ export function useCollaborationComposite() {
 
   const createWorkspaceWithMembers = useCallback(async (
     workspaceData: unknown,
-    members: unknown[]
+    members: Array<{ userId: string; role: string }>
   ): Promise<{ workspace: ApiResponse<unknown> | null; addedMembers: ApiResponse<unknown>[] }> => {
     try {
       setLoading(true);
       setError(null);
       
-      const workspace = await collaborationService.createWorkspace(workspaceData);
+      const workspace = await collaborationService.createWorkspace(workspaceData as any);
       if (!workspace.data?.id) {
         throw new Error('Failed to create workspace');
       }
       
       const addedMembers = await Promise.all(
-        members.map(member => collaborationService.addMember(workspace.data.id, member))
+        members.map(member => collaborationService.addMember(workspace.data.id, member.userId, member.role))
       );
       
       return { workspace, addedMembers };

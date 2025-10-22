@@ -118,14 +118,14 @@ export function useDarkWebMutation() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const updateFindingStatus = useCallback(async (id: string, status: string): Promise<ApiResponse<unknown> | null> => {
+  const updateFinding = useCallback(async (id: string, data: unknown): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await darkWebService.updateFindingStatus(id, status);
+      const response = await darkWebService.updateFinding(id, data as any);
       return response;
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to update finding status';
+      const message = err instanceof Error ? err.message : 'Failed to update finding';
       setError(message);
       return null;
     } finally {
@@ -133,14 +133,14 @@ export function useDarkWebMutation() {
     }
   }, []);
 
-  const validateLeak = useCallback(async (id: string, validated: boolean): Promise<ApiResponse<unknown> | null> => {
+  const validateCredential = useCallback(async (id: string): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await darkWebService.validateLeak(id, validated);
-      return response;
+      const response = await darkWebService.validateCredential(id);
+      return response as any;
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to validate leak';
+      const message = err instanceof Error ? err.message : 'Failed to validate credential';
       setError(message);
       return null;
     } finally {
@@ -148,14 +148,14 @@ export function useDarkWebMutation() {
     }
   }, []);
 
-  const addKeyword = useCallback(async (keywordData: unknown): Promise<ApiResponse<unknown> | null> => {
+  const createKeyword = useCallback(async (keywordData: unknown): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await darkWebService.addKeyword(keywordData);
+      const response = await darkWebService.createKeyword(keywordData as any);
       return response;
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to add keyword';
+      const message = err instanceof Error ? err.message : 'Failed to create keyword';
       setError(message);
       return null;
     } finally {
@@ -178,27 +178,27 @@ export function useDarkWebMutation() {
     }
   }, []);
 
-  const startScan = useCallback(async (options?: unknown): Promise<ApiResponse<unknown> | null> => {
+  const deleteFinding = useCallback(async (id: string): Promise<boolean> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await darkWebService.startScan(options);
-      return response;
+      await darkWebService.deleteFinding(id);
+      return true;
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to start scan';
+      const message = err instanceof Error ? err.message : 'Failed to delete finding';
       setError(message);
-      return null;
+      return false;
     } finally {
       setLoading(false);
     }
   }, []);
 
   return {
-    updateFindingStatus,
-    validateLeak,
-    addKeyword,
+    updateFinding,
+    validateCredential,
+    createKeyword,
     deleteKeyword,
-    startScan,
+    deleteFinding,
     loading,
     error,
   };
@@ -211,31 +211,26 @@ export function useDarkWebComposite() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const scanAndGetFindings = useCallback(async (
-    options?: unknown,
+  const refreshFindings = useCallback(async (
     filters?: FilterOptions
-  ): Promise<{ scan: ApiResponse<unknown> | null; findings: PaginatedResponse<unknown> | null }> => {
+  ): Promise<PaginatedResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
       
-      const scan = await darkWebService.startScan(options);
-      // Wait a bit for scan to produce results
-      await new Promise(resolve => setTimeout(resolve, 2000));
       const findings = await darkWebService.getFindings(filters);
-      
-      return { scan, findings };
+      return findings;
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to scan and get findings';
+      const message = err instanceof Error ? err.message : 'Failed to refresh findings';
       setError(message);
-      return { scan: null, findings: null };
+      return null;
     } finally {
       setLoading(false);
     }
   }, []);
 
   return {
-    scanAndGetFindings,
+    refreshFindings,
     loading,
     error,
   };

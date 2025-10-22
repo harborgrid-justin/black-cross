@@ -39,12 +39,12 @@ export function useThreatHuntingQuery() {
     }
   }, []);
 
-  const getQueries = useCallback(async (hypothesisId: string): Promise<ApiResponse<unknown> | null> => {
+  const getQueries = useCallback(async (hypothesisId?: string): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
       const response = await huntingService.getQueries(hypothesisId);
-      return response;
+      return response as any;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch queries';
       setError(message);
@@ -54,12 +54,12 @@ export function useThreatHuntingQuery() {
     }
   }, []);
 
-  const getQuery = useCallback(async (id: string): Promise<ApiResponse<unknown> | null> => {
+  const getQuery = useCallback(async (hypothesisId: string, queryId: string): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await huntingService.getQuery(id);
-      return response;
+      const response = await huntingService.getQuery(hypothesisId, queryId);
+      return response as any;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch query';
       setError(message);
@@ -69,12 +69,12 @@ export function useThreatHuntingQuery() {
     }
   }, []);
 
-  const getFindings = useCallback(async (hypothesisId: string): Promise<ApiResponse<unknown> | null> => {
+  const getFindings = useCallback(async (hypothesisId?: string, filters?: FilterOptions): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await huntingService.getFindings(hypothesisId);
-      return response;
+      const response = await huntingService.getFindings(hypothesisId, filters);
+      return response as any;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch findings';
       setError(message);
@@ -84,12 +84,12 @@ export function useThreatHuntingQuery() {
     }
   }, []);
 
-  const getFinding = useCallback(async (id: string): Promise<ApiResponse<unknown> | null> => {
+  const getFinding = useCallback(async (hypothesisId: string, findingId: string): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await huntingService.getFinding(id);
-      return response;
+      const response = await huntingService.getFinding(hypothesisId, findingId);
+      return response as any;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch finding';
       setError(message);
@@ -178,12 +178,12 @@ export function useThreatHuntingMutation() {
     }
   }, []);
 
-  const updateQuery = useCallback(async (id: string, data: unknown): Promise<ApiResponse<unknown> | null> => {
+  const updateQuery = useCallback(async (hypothesisId: string, queryId: string, data: unknown): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await huntingService.updateQuery(id, data);
-      return response;
+      const response = await huntingService.updateQuery(hypothesisId, queryId, data as any);
+      return response as any;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to update query';
       setError(message);
@@ -193,11 +193,11 @@ export function useThreatHuntingMutation() {
     }
   }, []);
 
-  const deleteQuery = useCallback(async (id: string): Promise<boolean> => {
+  const deleteQuery = useCallback(async (hypothesisId: string, queryId: string): Promise<boolean> => {
     try {
       setLoading(true);
       setError(null);
-      await huntingService.deleteQuery(id);
+      await huntingService.deleteQuery(hypothesisId, queryId);
       return true;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to delete query';
@@ -208,12 +208,12 @@ export function useThreatHuntingMutation() {
     }
   }, []);
 
-  const executeQuery = useCallback(async (id: string): Promise<ApiResponse<unknown> | null> => {
+  const executeQuery = useCallback(async (hypothesisId: string, queryId: string): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await huntingService.executeQuery(id);
-      return response;
+      const response = await huntingService.executeQuery(hypothesisId, queryId);
+      return response as any;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to execute query';
       setError(message);
@@ -238,12 +238,12 @@ export function useThreatHuntingMutation() {
     }
   }, []);
 
-  const updateFinding = useCallback(async (id: string, data: unknown): Promise<ApiResponse<unknown> | null> => {
+  const updateFinding = useCallback(async (hypothesisId: string, findingId: string, data: unknown): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await huntingService.updateFinding(id, data);
-      return response;
+      const response = await huntingService.updateFinding(hypothesisId, findingId, data as any);
+      return response as any;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to update finding';
       setError(message);
@@ -253,11 +253,11 @@ export function useThreatHuntingMutation() {
     }
   }, []);
 
-  const deleteFinding = useCallback(async (id: string): Promise<boolean> => {
+  const deleteFinding = useCallback(async (hypothesisId: string, findingId: string): Promise<boolean> => {
     try {
       setLoading(true);
       setError(null);
-      await huntingService.deleteFinding(id);
+      await huntingService.deleteFinding(hypothesisId, findingId);
       return true;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to delete finding';
@@ -318,7 +318,7 @@ export function useThreatHuntingComposite() {
     }
   }, []);
 
-  const executeAndAnalyze = useCallback(async (queryId: string): Promise<{
+  const executeAndAnalyze = useCallback(async (hypothesisId: string, queryId: string): Promise<{
     execution: ApiResponse<unknown> | null;
     query: ApiResponse<unknown> | null;
   }> => {
@@ -326,10 +326,10 @@ export function useThreatHuntingComposite() {
       setLoading(true);
       setError(null);
       
-      const execution = await huntingService.executeQuery(queryId);
-      const query = await huntingService.getQuery(queryId);
+      const execution = await huntingService.executeQuery(hypothesisId, queryId);
+      const query = await huntingService.getQuery(hypothesisId, queryId);
       
-      return { execution, query };
+      return { execution: execution as any, query: query as any };
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to execute and analyze query';
       setError(message);
@@ -354,7 +354,7 @@ export function useThreatHuntingComposite() {
         huntingService.getFindings(id),
       ]);
       
-      return { hypothesis, queries, findings };
+      return { hypothesis: hypothesis as any, queries: queries as any, findings: findings as any };
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to get hypothesis details';
       setError(message);

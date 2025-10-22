@@ -118,14 +118,14 @@ export function useSIEMMutation() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const ingestLog = useCallback(async (logData: unknown): Promise<ApiResponse<unknown> | null> => {
+  const updateAlert = useCallback(async (id: string, data: unknown): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await siemService.ingestLog(logData);
+      const response = await siemService.updateAlert(id, data as any);
       return response;
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to ingest log';
+      const message = err instanceof Error ? err.message : 'Failed to update alert';
       setError(message);
       return null;
     } finally {
@@ -239,7 +239,7 @@ export function useSIEMMutation() {
   }, []);
 
   return {
-    ingestLog,
+    updateAlert,
     acknowledgeAlert,
     resolveAlert,
     createRule,
@@ -259,12 +259,12 @@ export function useSIEMComposite() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const searchLogs = useCallback(async (query: string, filters?: FilterOptions): Promise<PaginatedResponse<unknown> | null> => {
+  const searchLogs = useCallback(async (query: string, filters?: FilterOptions): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
       const response = await siemService.searchLogs(query, filters);
-      return response;
+      return response as any;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to search logs';
       setError(message);
@@ -274,14 +274,14 @@ export function useSIEMComposite() {
     }
   }, []);
 
-  const correlateEvents = useCallback(async (eventIds: string[]): Promise<ApiResponse<unknown> | null> => {
+  const getCorrelation = useCallback(async (correlationId: string): Promise<ApiResponse<unknown> | null> => {
     try {
       setLoading(true);
       setError(null);
-      const response = await siemService.correlateEvents(eventIds);
+      const response = await siemService.getCorrelation(correlationId);
       return response;
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to correlate events';
+      const message = err instanceof Error ? err.message : 'Failed to get correlation';
       setError(message);
       return null;
     } finally {
@@ -299,7 +299,7 @@ export function useSIEMComposite() {
       
       const [alert, relatedLogs] = await Promise.all([
         siemService.getAlert(alertId),
-        siemService.getLogs({ correlationId: alertId }),
+        siemService.getLogs(),
       ]);
       
       return { alert, relatedLogs };
@@ -314,7 +314,7 @@ export function useSIEMComposite() {
 
   return {
     searchLogs,
-    correlateEvents,
+    getCorrelation,
     investigateAlert,
     loading,
     error,
