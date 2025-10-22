@@ -13,7 +13,7 @@ import SimpleDashboard from './pages/SimpleDashboard';
 
 // Lazy load feature pages for better performance
 const ThreatIntelligenceRoutes = lazy(() => import('./pages/threat-intelligence/routes'));
-const IncidentList = lazy(() => import('./pages/incident-response/IncidentList'));
+const IncidentResponseRoutes = lazy(() => import('./pages/incident-response/routes'));
 const VulnerabilityList = lazy(() => import('./pages/vulnerability-management/VulnerabilityList'));
 const RiskAssessment = lazy(() => import('./pages/risk-assessment/RiskAssessment'));
 const ThreatHunting = lazy(() => import('./pages/threat-hunting/ThreatHunting'));
@@ -88,7 +88,7 @@ function AppContent() {
                       <Route path="/" element={<SimpleDashboard />} />
                       <Route path="/dashboard" element={<SimpleDashboard />} />
                       <Route path="/threat-intelligence/*" element={<ThreatIntelligenceRoutes />} />
-                      <Route path="/incident-response" element={<IncidentList />} />
+                      <Route path="/incident-response/*" element={<IncidentResponseRoutes />} />
                       <Route path="/threat-hunting" element={<ThreatHunting />} />
                       <Route path="/vulnerability-management" element={<VulnerabilityList />} />
                       <Route path="/risk-assessment" element={<RiskAssessment />} />
