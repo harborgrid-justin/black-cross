@@ -45,6 +45,34 @@ class FeedController {
       res.status(400).json({ error: error.message });
     }
   }
+
+  async toggleFeed(req, res) {
+    try {
+      const { enabled } = req.body;
+      const item = await feedService.update(req.params.id, { enabled });
+      res.json({ success: true, data: item });
+    } catch (error) {
+      res.status(400).json({ success: false, error: error.message });
+    }
+  }
+
+  async refreshFeed(req, res) {
+    try {
+      const result = await feedService.fetchAndParseFeed(req.params.id);
+      res.json({ success: true, data: result });
+    } catch (error) {
+      res.status(400).json({ success: false, error: error.message });
+    }
+  }
+
+  async getFeedStats(req, res) {
+    try {
+      const stats = await feedService.getFeedHealth(req.params.id);
+      res.json({ success: true, data: stats });
+    } catch (error) {
+      res.status(404).json({ success: false, error: error.message });
+    }
+  }
 }
 
 export default new FeedController();

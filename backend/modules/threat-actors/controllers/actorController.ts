@@ -45,6 +45,30 @@ class ActorController {
       res.status(400).json({ error: error.message });
     }
   }
+
+  async getCampaigns(req, res) {
+    try {
+      const actorProfile = await actorService.getActorProfile(req.params.id);
+      res.json({ 
+        success: true,
+        data: actorProfile.campaigns || []
+      });
+    } catch (error) {
+      res.status(404).json({ success: false, error: error.message });
+    }
+  }
+
+  async getTTPs(req, res) {
+    try {
+      const actorProfile = await actorService.getActorProfile(req.params.id);
+      res.json({ 
+        success: true,
+        data: actorProfile.ttps || []
+      });
+    } catch (error) {
+      res.status(404).json({ success: false, error: error.message });
+    }
+  }
 }
 
 export default new ActorController();
