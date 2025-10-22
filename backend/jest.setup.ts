@@ -3,6 +3,11 @@
  * Global test configuration and utilities
  */
 
+// Mock uuid to avoid ES module issues
+jest.mock('uuid', () => ({
+  v4: () => 'mocked-uuid-123',
+}));
+
 // Set test environment variables
 process.env.NODE_ENV = 'test';
 process.env.APP_PORT = '8080';
