@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
-import threatReducer from './slices/threatSlice';
+import threatReducer from '../pages/threat-intelligence/store/threatSlice';
 import incidentReducer from './slices/incidentSlice';
 import vulnerabilityReducer from './slices/vulnerabilitySlice';
 import iocReducer from './slices/iocSlice';
