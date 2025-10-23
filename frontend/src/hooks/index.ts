@@ -1,4 +1,10 @@
 /**
+ * @fileoverview Central export point for all custom React hooks.
+ * 
+ * @module hooks
+ */
+
+/**
  * Central export file for all custom hooks
  * 
  * This file provides a single import point for all domain-specific hooks

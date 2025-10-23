@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Route configuration for Reporting. Defines routing structure and navigation.
+ * 
+ * @module pages/reporting/routes.tsx
+ */
+
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ReportingMain from './ReportingMain';

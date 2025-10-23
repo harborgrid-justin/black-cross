@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for Collaboration page state. Manages local page state and interactions.
+ * 
+ * @module pages/collaboration/store/collaborationSlice.ts
+ */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { collaborationService } from '@/services/collaborationService';
 

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Risk Assessment main page. Primary landing page for the Risk Assessment module.
+ * 
+ * @module pages/risk-assessment/RiskAssessmentMain.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

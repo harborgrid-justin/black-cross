@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Threat Feeds main page. Primary landing page for the Threat Feeds module.
+ * 
+ * @module pages/threat-feeds/ThreatFeedsMain.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

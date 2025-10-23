@@ -1,3 +1,9 @@
+/**
+ * @fileoverview PrivateRoute component. React component for the Black-Cross platform.
+ * 
+ * @module components/auth/PrivateRoute.tsx
+ */
+
 import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '@/store/hooks';
 import { useEffect } from 'react';

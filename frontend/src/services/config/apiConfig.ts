@@ -1,8 +1,12 @@
 /**
+ * @fileoverview API Configuration and Axios Setup
+ * 
  * WF-COMP-001 | apiConfig.ts - API configuration and Axios setup
  * Purpose: Central API configuration with authentication and interceptors
  * Dependencies: axios, API constants, security modules
  * Last Updated: 2025-10-22 | File Type: .ts
+ * 
+ * @module services/config/apiConfig
  */
 
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';

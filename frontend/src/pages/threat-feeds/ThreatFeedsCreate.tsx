@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Threat Feeds creation page. Form for creating new Threat Feeds entries.
+ * 
+ * @module pages/threat-feeds/ThreatFeedsCreate.tsx
+ */
+
 import { useNavigate } from 'react-router-dom';
 import { Box, Paper, Typography, Button } from '@mui/material';
 import { ArrowBack as BackIcon } from '@mui/icons-material';

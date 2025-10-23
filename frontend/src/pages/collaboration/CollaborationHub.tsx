@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Collaboration - CollaborationHub component. Component for Collaboration feature.
+ * 
+ * @module pages/collaboration/CollaborationHub.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

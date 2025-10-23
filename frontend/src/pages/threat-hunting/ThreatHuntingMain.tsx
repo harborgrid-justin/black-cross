@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Threat Hunting main page. Primary landing page for the Threat Hunting module.
+ * 
+ * @module pages/threat-hunting/ThreatHuntingMain.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for managing darkWeb state. Handles state management, reducers, and async thunks.
+ * 
+ * @module store/slices/darkWebSlice
+ */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { darkWebService } from '@/services/darkWebService';
 

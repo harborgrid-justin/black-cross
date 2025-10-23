@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Automation edit page. Form for editing existing Automation entries.
+ * 
+ * @module pages/automation/AutomationEdit.tsx
+ */
+
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Paper, Typography, Button } from '@mui/material';
 import { ArrowBack as BackIcon } from '@mui/icons-material';

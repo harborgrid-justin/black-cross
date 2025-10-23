@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Custom React hook for Automation feature. Provides state management and operations for Automation.
+ * 
+ * @module hooks/useAutomation
+ */
+
 import { useState, useCallback } from 'react';
 import { playbookService } from '@/services/playbookService';
 import type { ApiResponse } from '@/types';

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Automation - AutomationPlaybooks component. Component for Automation feature.
+ * 
+ * @module pages/automation/AutomationPlaybooks.tsx
+ */
+
 import { useEffect } from 'react';
 import {
   Box,

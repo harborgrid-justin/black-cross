@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for Threat Feeds page state. Manages local page state and interactions.
+ * 
+ * @module pages/threat-feeds/store/feedSlice.ts
+ */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { feedService } from '@/services/feedService';
 

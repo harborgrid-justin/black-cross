@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Compliance creation page. Form for creating new Compliance entries.
+ * 
+ * @module pages/compliance/ComplianceCreate.tsx
+ */
+
 import { useNavigate } from 'react-router-dom';
 import { Box, Paper, Typography, Button } from '@mui/material';
 import { ArrowBack as BackIcon } from '@mui/icons-material';

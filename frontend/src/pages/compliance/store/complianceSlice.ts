@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for Compliance page state. Manages local page state and interactions.
+ * 
+ * @module pages/compliance/store/complianceSlice.ts
+ */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { complianceService } from '@/services/complianceService';
 

@@ -1,6 +1,10 @@
 /**
- * Application Constants
- * Centralized application-wide constants
+ * @fileoverview Application Constants
+ * 
+ * Centralized application-wide constants including app metadata, storage keys,
+ * timeouts, pagination settings, colors, and validation rules.
+ * 
+ * @module constants/app
  */
 
 /**

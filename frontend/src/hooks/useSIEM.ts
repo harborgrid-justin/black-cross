@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Custom React hook for SIEM feature. Provides state management and operations for SIEM.
+ * 
+ * @module hooks/useSIEM
+ */
+
 import { useState, useCallback } from 'react';
 import { siemService } from '@/services/siemService';
 import type { ApiResponse, PaginatedResponse, FilterOptions } from '@/types';

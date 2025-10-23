@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Custom React hook for ThreatHunting feature. Provides state management and operations for ThreatHunting.
+ * 
+ * @module hooks/useThreatHunting
+ */
+
 import { useState, useCallback } from 'react';
 import { huntingService } from '@/services/huntingService';
 import type { ApiResponse, PaginatedResponse, FilterOptions } from '@/types';

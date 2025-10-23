@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Threat Intelligence list page. Displays paginated list of Threat Intelligence items.
+ * 
+ * @module pages/threat-intelligence/ThreatList.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {

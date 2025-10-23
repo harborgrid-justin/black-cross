@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Reporting API service.
+ * 
+ * Provides methods for generating, managing, and exporting security reports.
+ * 
+ * @module services/reportingService
+ */
+
 import { apiClient } from './api';
 import type { ApiResponse, PaginatedResponse, FilterOptions } from '@/types';
 
@@ -111,6 +119,14 @@ export interface TrendAnalysis {
   forecast?: Array<{ timestamp: string; value: number; confidence: number }>;
 }
 
+/**
+ * Service for handling reporting API operations.
+ * 
+ * Provides methods for CRUD operations and specialized functionality.
+ * All methods return promises and handle errors appropriately.
+ * 
+ * @namespace reportingService
+ */
 export const reportingService = {
   // Reports
   async getReports(filters?: FilterOptions): Promise<PaginatedResponse<Report>> {

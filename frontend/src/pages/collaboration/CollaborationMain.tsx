@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Collaboration main page. Primary landing page for the Collaboration module.
+ * 
+ * @module pages/collaboration/CollaborationMain.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

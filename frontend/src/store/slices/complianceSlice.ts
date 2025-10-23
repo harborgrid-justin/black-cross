@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for managing compliance state. Handles state management, reducers, and async thunks.
+ * 
+ * @module store/slices/complianceSlice
+ */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { complianceService } from '@/services/complianceService';
 

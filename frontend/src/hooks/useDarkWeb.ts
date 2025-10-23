@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Custom React hook for DarkWeb feature. Provides state management and operations for DarkWeb.
+ * 
+ * @module hooks/useDarkWeb
+ */
+
 import { useState, useCallback } from 'react';
 import { darkWebService } from '@/services/darkWebService';
 import type { ApiResponse, PaginatedResponse, FilterOptions } from '@/types';

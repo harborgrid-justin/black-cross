@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Dashboard API service.
+ * 
+ * Provides methods for retrieving dashboard metrics, statistics, and visualizations.
+ * 
+ * @module services/dashboardService
+ */
+
 import { apiClient } from './api';
 import type { ApiResponse } from '@/types';
 
@@ -25,6 +33,14 @@ interface SystemHealth {
   vulnerabilityScanning: number;
 }
 
+/**
+ * Service for handling dashboard API operations.
+ * 
+ * Provides methods for CRUD operations and specialized functionality.
+ * All methods return promises and handle errors appropriately.
+ * 
+ * @namespace dashboardService
+ */
 export const dashboardService = {
   // Get dashboard statistics
   async getStats(): Promise<ApiResponse<DashboardStats>> {

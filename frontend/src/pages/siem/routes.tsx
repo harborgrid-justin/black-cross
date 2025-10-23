@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Route configuration for Siem. Defines routing structure and navigation.
+ * 
+ * @module pages/siem/routes.tsx
+ */
+
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import SiemMain from './SiemMain';

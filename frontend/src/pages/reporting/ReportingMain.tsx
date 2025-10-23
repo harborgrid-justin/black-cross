@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Reporting main page. Primary landing page for the Reporting module.
+ * 
+ * @module pages/reporting/ReportingMain.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

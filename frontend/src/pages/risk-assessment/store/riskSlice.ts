@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for Risk Assessment page state. Manages local page state and interactions.
+ * 
+ * @module pages/risk-assessment/store/riskSlice.ts
+ */
+
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { riskService } from '@/services/riskService';

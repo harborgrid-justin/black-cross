@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Custom React hook for IncidentResponse feature. Provides state management and operations for IncidentResponse.
+ * 
+ * @module hooks/useIncidentResponse
+ */
+
 import { useState, useCallback } from 'react';
 import { incidentService } from '@/services/incidentService';
 import type { Incident, FilterOptions, PaginatedResponse } from '@/types';

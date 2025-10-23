@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for Threat Actors page state. Manages local page state and interactions.
+ * 
+ * @module pages/threat-actors/store/actorSlice.ts
+ */
+
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { actorService } from '@/services/actorService';

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for Automation page state. Manages local page state and interactions.
+ * 
+ * @module pages/automation/store/automationSlice.ts
+ */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { playbookService } from '@/services/playbookService';
 

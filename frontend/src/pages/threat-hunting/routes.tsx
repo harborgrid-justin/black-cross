@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Route configuration for Threat Hunting. Defines routing structure and navigation.
+ * 
+ * @module pages/threat-hunting/routes.tsx
+ */
+
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ThreatHuntingMain from './ThreatHuntingMain';

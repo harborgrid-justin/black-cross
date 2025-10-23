@@ -1,4 +1,10 @@
 /**
+ * @fileoverview Module export point for Threat Intelligence. Central export for all module components.
+ * 
+ * @module pages/threat-intelligence/index.ts
+ */
+
+/**
  * WF-COMP-005 | index.ts - Threat Intelligence page exports
  * Purpose: Centralized exports for threat intelligence page module
  * Last Updated: 2025-10-22 | File Type: .ts

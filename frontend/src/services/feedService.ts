@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Threat Feed API service.
+ * 
+ * Provides methods for managing threat intelligence feeds and their synchronization.
+ * 
+ * @module services/feedService
+ */
+
 import { apiClient } from './api';
 import type { ApiResponse } from '@/types';
 
@@ -10,6 +18,14 @@ interface ThreatFeed {
   reliability: number;
 }
 
+/**
+ * Service for handling feed API operations.
+ * 
+ * Provides methods for CRUD operations and specialized functionality.
+ * All methods return promises and handle errors appropriately.
+ * 
+ * @namespace feedService
+ */
 export const feedService = {
   // Get all threat feeds
   async getFeeds(): Promise<ApiResponse<ThreatFeed[]>> {

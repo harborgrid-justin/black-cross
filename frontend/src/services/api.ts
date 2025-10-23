@@ -1,7 +1,24 @@
+/**
+ * @fileoverview API Client
+ * 
+ * Provides the main API client class for making HTTP requests with
+ * authentication, error handling, and request/response interceptors.
+ * 
+ * @module services/api
+ */
+
 import type { AxiosInstance, AxiosRequestConfig } from 'axios';
 import axios from 'axios';
 import { API_CONFIG, HTTP_STATUS, HTTP_HEADERS, CONTENT_TYPE, STORAGE_KEYS, PUBLIC_ROUTES } from '../constants';
 
+/**
+ * API Client class for handling HTTP requests.
+ * 
+ * Provides methods for GET, POST, PUT, DELETE, and PATCH requests
+ * with automatic token injection and error handling.
+ * 
+ * @class ApiClient
+ */
 class ApiClient {
   private readonly client: AxiosInstance;
 

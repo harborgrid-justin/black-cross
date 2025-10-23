@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for Dark Web page state. Manages local page state and interactions.
+ * 
+ * @module pages/dark-web/store/darkWebSlice.ts
+ */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { darkWebService } from '@/services/darkWebService';
 

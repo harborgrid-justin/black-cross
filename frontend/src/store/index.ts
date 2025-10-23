@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux store configuration. Combines all slices and configures the Redux store with middleware.
+ * 
+ * @module store
+ */
+
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
 import threatReducer from '../pages/threat-intelligence/store/threatSlice';

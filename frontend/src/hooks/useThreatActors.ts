@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Custom React hook for ThreatActors feature. Provides state management and operations for ThreatActors.
+ * 
+ * @module hooks/useThreatActors
+ */
+
 import { useState, useCallback } from 'react';
 import { actorService } from '@/services/actorService';
 import type { ThreatActor, FilterOptions, PaginatedResponse, ApiResponse } from '@/types';

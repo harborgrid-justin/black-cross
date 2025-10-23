@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Authentication API service.
+ * 
+ * Provides methods for user authentication, login, logout, password management,
+ * and token handling.
+ * 
+ * @module services/authService
+ */
+
 import { apiClient } from './api';
 import type { User, ApiResponse } from '@/types';
 
@@ -12,6 +21,14 @@ interface LoginResponse {
   user: User;
 }
 
+/**
+ * Service for handling auth API operations.
+ * 
+ * Provides methods for CRUD operations and specialized functionality.
+ * All methods return promises and handle errors appropriately.
+ * 
+ * @namespace authService
+ */
 export const authService = {
   async login(credentials: LoginCredentials): Promise<ApiResponse<LoginResponse>> {
     return apiClient.post<ApiResponse<LoginResponse>>('/auth/login', credentials);

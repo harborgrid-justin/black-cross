@@ -1,6 +1,10 @@
 /**
- * Message Constants
- * Centralized user-facing messages
+ * @fileoverview Message Constants
+ * 
+ * Centralized user-facing messages including success, error, warning, info,
+ * confirmation messages, placeholders, and button labels.
+ * 
+ * @module constants/messages
  */
 
 /**

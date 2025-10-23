@@ -1,6 +1,22 @@
+/**
+ * @fileoverview Risk Assessment API service.
+ * 
+ * Provides methods for risk assessments, calculations, and mitigation recommendations.
+ * 
+ * @module services/riskService
+ */
+
 import { apiClient } from './api';
 import type { RiskAssessment, ApiResponse } from '@/types';
 
+/**
+ * Service for handling risk API operations.
+ * 
+ * Provides methods for CRUD operations and specialized functionality.
+ * All methods return promises and handle errors appropriately.
+ * 
+ * @namespace riskService
+ */
 export const riskService = {
   // Get risk scores
   async getRiskScores(): Promise<ApiResponse<RiskAssessment[]>> {

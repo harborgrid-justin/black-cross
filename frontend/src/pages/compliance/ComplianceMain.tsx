@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Compliance main page. Primary landing page for the Compliance module.
+ * 
+ * @module pages/compliance/ComplianceMain.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

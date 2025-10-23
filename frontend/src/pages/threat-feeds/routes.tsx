@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Route configuration for Threat Feeds. Defines routing structure and navigation.
+ * 
+ * @module pages/threat-feeds/routes.tsx
+ */
+
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ThreatFeedsMain from './ThreatFeedsMain';

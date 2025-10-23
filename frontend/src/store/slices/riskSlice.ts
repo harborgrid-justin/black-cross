@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for managing risk state. Handles state management, reducers, and async thunks.
+ * 
+ * @module store/slices/riskSlice
+ */
+
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { riskService } from '@/services/riskService';

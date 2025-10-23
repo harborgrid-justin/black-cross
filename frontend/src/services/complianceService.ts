@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Compliance Management API service.
+ * 
+ * Provides methods for compliance framework management, audits, and reporting.
+ * 
+ * @module services/complianceService
+ */
+
 import { apiClient } from './api';
 import type { ApiResponse, PaginatedResponse, FilterOptions } from '@/types';
 
@@ -73,6 +81,14 @@ export interface ComplianceReport {
   generatedBy: string;
 }
 
+/**
+ * Service for handling compliance API operations.
+ * 
+ * Provides methods for CRUD operations and specialized functionality.
+ * All methods return promises and handle errors appropriately.
+ * 
+ * @namespace complianceService
+ */
 export const complianceService = {
   // Frameworks
   async getFrameworks(filters?: FilterOptions): Promise<PaginatedResponse<ComplianceFramework>> {

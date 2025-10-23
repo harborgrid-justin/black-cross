@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for managing ioc state. Handles state management, reducers, and async thunks.
+ * 
+ * @module store/slices/iocSlice
+ */
+
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { iocService } from '@/services/iocService';

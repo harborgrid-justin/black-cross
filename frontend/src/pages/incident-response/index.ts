@@ -1,4 +1,10 @@
 /**
+ * @fileoverview Module export point for Incident Response. Central export for all module components.
+ * 
+ * @module pages/incident-response/index.ts
+ */
+
+/**
  * WF-COMP-011 | index.ts - Incident Response page exports
  * Purpose: Centralized exports for incident response page module
  * Last Updated: 2025-10-22 | File Type: .ts

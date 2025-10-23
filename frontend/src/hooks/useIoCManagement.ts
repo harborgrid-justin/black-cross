@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Custom React hook for IoCManagement feature. Provides state management and operations for IoCManagement.
+ * 
+ * @module hooks/useIoCManagement
+ */
+
 import { useState, useCallback } from 'react';
 import { iocService } from '@/services/iocService';
 import type { IoC, FilterOptions, PaginatedResponse, ApiResponse } from '@/types';

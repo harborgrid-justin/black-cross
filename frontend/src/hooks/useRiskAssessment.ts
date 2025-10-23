@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Custom React hook for RiskAssessment feature. Provides state management and operations for RiskAssessment.
+ * 
+ * @module hooks/useRiskAssessment
+ */
+
 import { useState, useCallback } from 'react';
 import { riskService } from '@/services/riskService';
 import type { RiskAssessment, ApiResponse } from '@/types';

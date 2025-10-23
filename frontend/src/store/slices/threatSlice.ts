@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for managing threat state. Handles state management, reducers, and async thunks.
+ * 
+ * @module store/slices/threatSlice
+ */
+
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { threatService } from '@/services/threatService';

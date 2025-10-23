@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Threat Actors creation page. Form for creating new Threat Actors entries.
+ * 
+ * @module pages/threat-actors/ThreatActorsCreate.tsx
+ */
+
 import { useNavigate } from 'react-router-dom';
 import { Box, Paper, Typography, Button } from '@mui/material';
 import { ArrowBack as BackIcon } from '@mui/icons-material';

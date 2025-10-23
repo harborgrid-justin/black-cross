@@ -1,4 +1,10 @@
 /**
+ * @fileoverview Route configuration for Threat Intelligence. Defines routing structure and navigation.
+ * 
+ * @module pages/threat-intelligence/routes.tsx
+ */
+
+/**
  * WF-COMP-004 | routes.tsx - Threat Intelligence page routes
  * Purpose: Threat Intelligence route configuration with role-based protection
  * Related: ProtectedRoute, threat intelligence components

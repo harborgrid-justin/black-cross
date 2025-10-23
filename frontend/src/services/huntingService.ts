@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Threat Hunting API service.
+ * 
+ * Provides methods for threat hunting sessions, queries, and results analysis.
+ * 
+ * @module services/huntingService
+ */
+
 import { apiClient } from './api';
 import type { ApiResponse, PaginatedResponse, FilterOptions } from '@/types';
 
@@ -134,6 +142,14 @@ export interface HuntingStatistics {
   findingsTrend: Array<{ date: string; count: number }>;
 }
 
+/**
+ * Service for handling hunting API operations.
+ * 
+ * Provides methods for CRUD operations and specialized functionality.
+ * All methods return promises and handle errors appropriately.
+ * 
+ * @namespace huntingService
+ */
 export const huntingService = {
   // Hypotheses
   async getHypotheses(filters?: FilterOptions): Promise<PaginatedResponse<HuntingHypothesis>> {

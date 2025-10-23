@@ -1,4 +1,10 @@
 /**
+ * @fileoverview Threat Intelligence creation page. Form for creating new Threat Intelligence entries.
+ * 
+ * @module pages/threat-intelligence/ThreatIntelligenceCreate.tsx
+ */
+
+/**
  * WF-COMP-002 | ThreatIntelligenceCreate.tsx - Create threat intelligence page
  * Purpose: Form page for creating new threat intelligence items
  * Last Updated: 2025-10-22 | File Type: .tsx

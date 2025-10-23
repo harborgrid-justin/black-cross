@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Custom React hook for Compliance feature. Provides state management and operations for Compliance.
+ * 
+ * @module hooks/useCompliance
+ */
+
 import { useState, useCallback } from 'react';
 import { complianceService } from '@/services/complianceService';
 import type { ApiResponse, PaginatedResponse, FilterOptions } from '@/types';

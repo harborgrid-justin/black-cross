@@ -1,4 +1,10 @@
 /**
+ * @fileoverview Incident Response creation page. Form for creating new Incident Response entries.
+ * 
+ * @module pages/incident-response/IncidentResponseCreate.tsx
+ */
+
+/**
  * WF-COMP-008 | IncidentResponseCreate.tsx - Create incident page
  * Purpose: Form page for creating new incidents
  * Last Updated: 2025-10-22 | File Type: .tsx

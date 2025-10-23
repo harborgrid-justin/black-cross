@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for managing automation state. Handles state management, reducers, and async thunks.
+ * 
+ * @module store/slices/automationSlice
+ */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { playbookService } from '@/services/playbookService';
 

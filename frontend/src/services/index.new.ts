@@ -1,4 +1,10 @@
 /**
+ * @fileoverview Service layer export point. Central export for all API services.
+ * 
+ * @module services
+ */
+
+/**
  * WF-IDX-003 | index.ts - Services module exports
  * Purpose: Centralized exports for all service modules
  * Last Updated: 2025-10-22 | File Type: .ts

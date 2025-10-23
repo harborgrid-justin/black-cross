@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for managing dashboard state. Handles state management, reducers, and async thunks.
+ * 
+ * @module store/slices/dashboardSlice
+ */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { dashboardService } from '@/services/dashboardService';
 

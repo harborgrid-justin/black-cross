@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Automation Playbook API service.
+ * 
+ * Provides methods for playbook management, execution, and workflow automation.
+ * 
+ * @module services/playbookService
+ */
+
 import { apiClient } from './api';
 import type { ApiResponse } from '@/types';
 
@@ -20,6 +28,14 @@ interface PlaybookExecution {
   completedAt?: string;
 }
 
+/**
+ * Service for handling playbook API operations.
+ * 
+ * Provides methods for CRUD operations and specialized functionality.
+ * All methods return promises and handle errors appropriately.
+ * 
+ * @namespace playbookService
+ */
 export const playbookService = {
   // List playbooks
   async listPlaybooks(): Promise<ApiResponse<Playbook[]>> {
