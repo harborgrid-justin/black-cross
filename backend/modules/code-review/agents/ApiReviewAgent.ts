@@ -300,17 +300,13 @@ export class ApiReviewAgent implements IReviewAgent {
    * Helper: Find verb-based endpoints
    */
   private findVerbBasedEndpoints(content: string): string[] {
-    const verbPatterns = [
-      /router\.(get|post|put|delete|patch)\(['"]\/(create|update|delete|fetch|get|remove)/g,
-    ];
+    const verbPattern = /router\.(get|post|put|delete|patch)\(['"]\/(create|update|delete|fetch|get|remove)/g;
     
     const endpoints: string[] = [];
+    let match;
     
-    for (const pattern of verbPatterns) {
-      const matches = content.matchAll(pattern);
-      for (const match of matches) {
-        endpoints.push(match[0]);
-      }
+    while ((match = verbPattern.exec(content)) !== null) {
+      endpoints.push(match[0]);
     }
     
     return endpoints;
@@ -320,8 +316,21 @@ export class ApiReviewAgent implements IReviewAgent {
    * Helper: Check HTTP method usage
    */
   private checkHttpMethodUsage(content: string, moduleName: string, findings: ReviewFinding[]): void {
-    // Check if using GET for mutations
-    const getWithMutations = /router\.get\([^)]*\).*\.(save|update|delete|create)\(/s.test(content);
+    // Check if using GET for mutations (check line by line to avoid regex flags)
+    const lines = content.split('\n');
+    let getWithMutations = false;
+    
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].includes('router.get') || lines[i].includes('router.get(')) {
+        // Check following lines for mutations
+        for (let j = i; j < Math.min(i + 10, lines.length); j++) {
+          if (lines[j].match(/\.(save|update|delete|create)\(/)) {
+            getWithMutations = true;
+            break;
+          }
+        }
+      }
+    }
     
     if (getWithMutations) {
       findings.push({
