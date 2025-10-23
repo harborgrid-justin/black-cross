@@ -1,6 +1,22 @@
+/**
+ * @fileoverview Indicator of Compromise (IOC) API service.
+ * 
+ * Provides methods for IOC management, checking, and bulk importing.
+ * 
+ * @module services/iocService
+ */
+
 import { apiClient } from './api';
 import type { IoC, ApiResponse, PaginatedResponse, FilterOptions } from '@/types';
 
+/**
+ * Service for handling ioc API operations.
+ * 
+ * Provides methods for CRUD operations and specialized functionality.
+ * All methods return promises and handle errors appropriately.
+ * 
+ * @namespace iocService
+ */
 export const iocService = {
   // Get all IoCs with optional filters
   async getIoCs(filters?: FilterOptions): Promise<PaginatedResponse<IoC>> {

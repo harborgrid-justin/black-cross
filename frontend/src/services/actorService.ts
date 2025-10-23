@@ -1,6 +1,22 @@
+/**
+ * @fileoverview Threat Actor API service.
+ * 
+ * Provides methods for managing threat actor profiles, campaigns, and TTPs.
+ * 
+ * @module services/actorService
+ */
+
 import { apiClient } from './api';
 import type { ThreatActor, ApiResponse, PaginatedResponse, FilterOptions } from '@/types';
 
+/**
+ * Service for handling actor API operations.
+ * 
+ * Provides methods for CRUD operations and specialized functionality.
+ * All methods return promises and handle errors appropriately.
+ * 
+ * @namespace actorService
+ */
 export const actorService = {
   // Get all threat actors with optional filters
   async getActors(filters?: FilterOptions): Promise<PaginatedResponse<ThreatActor>> {

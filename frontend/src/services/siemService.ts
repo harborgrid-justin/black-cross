@@ -1,3 +1,11 @@
+/**
+ * @fileoverview SIEM (Security Information and Event Management) API service.
+ * 
+ * Provides methods for event management, alerting, and security monitoring.
+ * 
+ * @module services/siemService
+ */
+
 import { apiClient } from './api';
 import type { ApiResponse, PaginatedResponse, FilterOptions } from '@/types';
 
@@ -125,6 +133,14 @@ export interface SIEMStatistics {
   alertTrend: Array<{ timestamp: string; count: number }>;
 }
 
+/**
+ * Service for handling siem API operations.
+ * 
+ * Provides methods for CRUD operations and specialized functionality.
+ * All methods return promises and handle errors appropriately.
+ * 
+ * @namespace siemService
+ */
 export const siemService = {
   // Log Management
   async getLogs(filters?: FilterOptions): Promise<PaginatedResponse<LogEntry>> {

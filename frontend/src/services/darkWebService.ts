@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Dark Web Monitoring API service.
+ * 
+ * Provides methods for dark web intelligence gathering, monitoring, and alerts.
+ * 
+ * @module services/darkWebService
+ */
+
 import { apiClient } from './api';
 import type { ApiResponse, PaginatedResponse, FilterOptions } from '@/types';
 
@@ -75,6 +83,14 @@ export interface DarkWebAlert {
   createdAt: string;
 }
 
+/**
+ * Service for handling darkWeb API operations.
+ * 
+ * Provides methods for CRUD operations and specialized functionality.
+ * All methods return promises and handle errors appropriately.
+ * 
+ * @namespace darkWebService
+ */
 export const darkWebService = {
   // Findings
   async getFindings(filters?: FilterOptions): Promise<PaginatedResponse<DarkWebFinding>> {

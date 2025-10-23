@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Collaboration API service.
+ * 
+ * Provides methods for team collaboration, workspaces, and information sharing.
+ * 
+ * @module services/collaborationService
+ */
+
 import { apiClient } from './api';
 import type { ApiResponse, PaginatedResponse, FilterOptions } from '@/types';
 
@@ -137,6 +145,14 @@ export interface Notification {
   createdAt: string;
 }
 
+/**
+ * Service for handling collaboration API operations.
+ * 
+ * Provides methods for CRUD operations and specialized functionality.
+ * All methods return promises and handle errors appropriately.
+ * 
+ * @namespace collaborationService
+ */
 export const collaborationService = {
   // Workspaces
   async getWorkspaces(filters?: FilterOptions): Promise<PaginatedResponse<Workspace>> {
