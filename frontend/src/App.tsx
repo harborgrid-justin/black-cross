@@ -36,6 +36,10 @@ const AutomationRoutes = lazy(() => import('./pages/automation/routes'));
 const SiemRoutes = lazy(() => import('./pages/siem/routes'));
 const CollaborationRoutes = lazy(() => import('./pages/collaboration/routes'));
 const ReportingRoutes = lazy(() => import('./pages/reporting/routes'));
+const NotificationsRoutes = lazy(() => import('./pages/notifications/routes'));
+const CaseManagementRoutes = lazy(() => import('./pages/case-management/routes'));
+const MetricsRoutes = lazy(() => import('./pages/metrics/routes'));
+const DraftWorkspaceRoutes = lazy(() => import('./pages/draft-workspace/routes'));
 
 /**
  * Loading fallback component displayed during lazy module loading.
@@ -128,6 +132,10 @@ function AppContent() {
                       <Route path="/dark-web/*" element={<DarkWebRoutes />} />
                       <Route path="/compliance/*" element={<ComplianceRoutes />} />
                       <Route path="/automation/*" element={<AutomationRoutes />} />
+                      <Route path="/notifications/*" element={<NotificationsRoutes />} />
+                      <Route path="/case-management/*" element={<CaseManagementRoutes />} />
+                      <Route path="/metrics/*" element={<MetricsRoutes />} />
+                      <Route path="/draft-workspace/*" element={<DraftWorkspaceRoutes />} />
                       <Route path="*" element={<Navigate to="/dashboard" replace />} />
                     </Routes>
                   </Suspense>

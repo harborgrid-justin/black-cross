@@ -41,6 +41,10 @@ import {
   Shield as SIEMIcon,
   People as CollaborationIcon,
   BarChart as ReportingIcon,
+  Notifications as NotificationsIcon,
+  Work as CaseIcon,
+  Analytics as MetricsIcon,
+  Description as DraftIcon,
   AccountCircle,
 } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -50,6 +54,10 @@ const drawerWidth = 260;
 
 const menuItems = [
   { text: 'Dashboard', icon: DashboardIcon, path: '/dashboard' },
+  { text: 'Notifications', icon: NotificationsIcon, path: '/notifications' },
+  { text: 'Case Management', icon: CaseIcon, path: '/case-management' },
+  { text: 'Metrics & Analytics', icon: MetricsIcon, path: '/metrics' },
+  { text: 'Draft Workspace', icon: DraftIcon, path: '/draft-workspace' },
   { text: 'Threat Intelligence', icon: ThreatIcon, path: '/threat-intelligence' },
   { text: 'Incidents', icon: IncidentIcon, path: '/incident-response' },
   { text: 'Threat Hunting', icon: HuntingIcon, path: '/threat-hunting' },
