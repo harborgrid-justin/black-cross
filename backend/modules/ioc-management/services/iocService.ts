@@ -841,8 +841,24 @@ class IocService {
   async checkIndicator(value: string, type: string): Promise<any> {
     logger.info('Checking indicator', { value, type });
     
-    // Try to find the indicator
-    const indicator = await IoC.findOne({ value, type });
+    // Sanitize inputs to prevent injection
+    const sanitizedValue = String(value).trim();
+    const sanitizedType = String(type).trim();
+    
+    // Validate type against allowed types
+    const allowedTypes = ['ip', 'domain', 'url', 'hash', 'email'];
+    if (!allowedTypes.includes(sanitizedType)) {
+      return {
+        found: false,
+        error: 'Invalid indicator type',
+      };
+    }
+    
+    // Try to find the indicator using sanitized values
+    const indicator = await IoC.findOne({ 
+      value: sanitizedValue, 
+      type: sanitizedType 
+    });
     
     if (indicator) {
       return {
@@ -854,8 +870,8 @@ class IocService {
     
     return {
       found: false,
-      value,
-      type,
+      value: sanitizedValue,
+      type: sanitizedType,
       message: 'Indicator not found in database',
     };
   }
