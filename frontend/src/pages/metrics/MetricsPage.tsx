@@ -122,7 +122,7 @@ export default function MetricsPage() {
       <TabPanel value={tabValue} index={0}>
         {securityMetrics && (
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid size={{ xs: 12, md: 6, lg: 3 }}>
               <Card>
                 <CardContent>
                   <Typography color="text.secondary" gutterBottom>
@@ -134,7 +134,7 @@ export default function MetricsPage() {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid size={{ xs: 12, md: 6, lg: 3 }}>
               <Card>
                 <CardContent>
                   <Typography color="text.secondary" gutterBottom>
@@ -146,7 +146,7 @@ export default function MetricsPage() {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid size={{ xs: 12, md: 6, lg: 3 }}>
               <Card>
                 <CardContent>
                   <Typography color="text.secondary" gutterBottom>
@@ -158,7 +158,7 @@ export default function MetricsPage() {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid size={{ xs: 12, md: 6, lg: 3 }}>
               <Card>
                 <CardContent>
                   <Typography color="text.secondary" gutterBottom>
@@ -170,7 +170,7 @@ export default function MetricsPage() {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Card>
                 <CardContent>
                   <Typography color="text.secondary" gutterBottom>
@@ -182,7 +182,7 @@ export default function MetricsPage() {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Card>
                 <CardContent>
                   <Typography color="text.secondary" gutterBottom>
@@ -194,7 +194,7 @@ export default function MetricsPage() {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Card>
                 <CardContent>
                   <Typography color="text.secondary" gutterBottom>
@@ -213,7 +213,7 @@ export default function MetricsPage() {
       <TabPanel value={tabValue} index={1}>
         {performanceMetrics && (
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid size={{ xs: 12, md: 6, lg: 3 }}>
               <Card>
                 <CardContent>
                   <Typography color="text.secondary" gutterBottom>
@@ -225,7 +225,7 @@ export default function MetricsPage() {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid size={{ xs: 12, md: 6, lg: 3 }}>
               <Card>
                 <CardContent>
                   <Typography color="text.secondary" gutterBottom>
@@ -237,7 +237,7 @@ export default function MetricsPage() {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid size={{ xs: 12, md: 6, lg: 3 }}>
               <Card>
                 <CardContent>
                   <Typography color="text.secondary" gutterBottom>
@@ -249,7 +249,7 @@ export default function MetricsPage() {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid size={{ xs: 12, md: 6, lg: 3 }}>
               <Card>
                 <CardContent>
                   <Typography color="text.secondary" gutterBottom>
@@ -268,7 +268,7 @@ export default function MetricsPage() {
       <TabPanel value={tabValue} index={2}>
         {usageMetrics && (
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid size={{ xs: 12, md: 6, lg: 3 }}>
               <Card>
                 <CardContent>
                   <Typography color="text.secondary" gutterBottom>
@@ -280,7 +280,7 @@ export default function MetricsPage() {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid size={{ xs: 12, md: 6, lg: 3 }}>
               <Card>
                 <CardContent>
                   <Typography color="text.secondary" gutterBottom>
@@ -292,7 +292,7 @@ export default function MetricsPage() {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid size={{ xs: 12, md: 6, lg: 3 }}>
               <Card>
                 <CardContent>
                   <Typography color="text.secondary" gutterBottom>
@@ -304,7 +304,7 @@ export default function MetricsPage() {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid size={{ xs: 12, md: 6, lg: 3 }}>
               <Card>
                 <CardContent>
                   <Typography color="text.secondary" gutterBottom>

@@ -139,7 +139,7 @@ export default function NotificationsPage() {
       )}
 
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <Card>
             <CardContent>
               {notifications.length === 0 ? (
@@ -155,11 +155,11 @@ export default function NotificationsPage() {
                         borderLeft: 4,
                         borderColor: `${getSeverityColor(notification.severity)}.main`,
                         mb: 1,
-                        bgcolor: notification.status === 'read' ? 'transparent' : 'action.hover',
+                        bgcolor: notification.status === NotificationStatus.READ ? 'transparent' : 'action.hover',
                       }}
                       secondaryAction={
                         <Box>
-                          {notification.status !== 'read' && (
+                          {notification.status !== NotificationStatus.READ && (
                             <IconButton
                               edge="end"
                               aria-label="mark as read"
