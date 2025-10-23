@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Main application component for Black-Cross platform.
+ * 
+ * Configures routing, theming, Redux store, and lazy-loaded feature modules.
+ * Implements code-splitting for optimal performance.
+ * 
+ * @module App
+ */
+
 import { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme, CssBaseline, Box, CircularProgress } from '@mui/material';
@@ -28,7 +37,11 @@ const SiemRoutes = lazy(() => import('./pages/siem/routes'));
 const CollaborationRoutes = lazy(() => import('./pages/collaboration/routes'));
 const ReportingRoutes = lazy(() => import('./pages/reporting/routes'));
 
-// Loading fallback component
+/**
+ * Loading fallback component displayed during lazy module loading.
+ * 
+ * @returns {JSX.Element} Centered loading spinner
+ */
 const LoadingFallback = () => (
   <Box
     sx={{
@@ -44,6 +57,12 @@ const LoadingFallback = () => (
   </Box>
 );
 
+/**
+ * Dark theme configuration for the application.
+ * 
+ * @constant
+ * @type {import('@mui/material').Theme}
+ */
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -63,7 +82,14 @@ const darkTheme = createTheme({
   },
 });
 
-// Inner component to handle auth hydration
+/**
+ * Inner application content component that handles auth hydration and routing.
+ * 
+ * Hydrates authentication state from localStorage on mount and sets up
+ * routing for all application pages with lazy loading.
+ * 
+ * @returns {JSX.Element} Application content with routes
+ */
 function AppContent() {
   useEffect(() => {
     // Hydrate auth state from localStorage on client-side
@@ -115,6 +141,20 @@ function AppContent() {
   );
 }
 
+/**
+ * Root application component.
+ * 
+ * Provides Redux store to the entire application and renders the main content.
+ * Includes a safety check to ensure the store is initialized before rendering.
+ * 
+ * @component
+ * @returns {JSX.Element} Application root with Redux provider
+ * @example
+ * ```tsx
+ * // Used in main.tsx
+ * <App />
+ * ```
+ */
 function App() {
   // Ensure store is available before rendering
   if (!store) {
