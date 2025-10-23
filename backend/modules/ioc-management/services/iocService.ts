@@ -789,6 +789,76 @@ class IocService {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
+
+  /**
+   * Bulk import indicators
+   */
+  async bulkImportIndicators(iocs: any[]): Promise<any> {
+    logger.info('Bulk importing indicators', { count: iocs.length });
+    
+    const results = {
+      imported: 0,
+      failed: 0,
+      errors: [] as string[],
+    };
+    
+    for (const ioc of iocs) {
+      try {
+        await this.create(ioc);
+        results.imported++;
+      } catch (error: any) {
+        results.failed++;
+        results.errors.push(error.message);
+      }
+    }
+    
+    return results;
+  }
+
+  /**
+   * Export indicators in various formats
+   */
+  async exportIndicators(format: 'json' | 'csv' | 'stix'): Promise<any> {
+    logger.info('Exporting indicators', { format });
+    
+    const indicators = await this.list({});
+    
+    if (format === 'json') {
+      return indicators;
+    }
+    
+    // For CSV and STIX, return a simplified response
+    return {
+      format,
+      count: indicators.length,
+      data: indicators,
+    };
+  }
+
+  /**
+   * Check a specific indicator
+   */
+  async checkIndicator(value: string, type: string): Promise<any> {
+    logger.info('Checking indicator', { value, type });
+    
+    // Try to find the indicator
+    const indicator = await IoC.findOne({ value, type });
+    
+    if (indicator) {
+      return {
+        found: true,
+        indicator,
+        threatLevel: indicator.threatLevel,
+      };
+    }
+    
+    return {
+      found: false,
+      value,
+      type,
+      message: 'Indicator not found in database',
+    };
+  }
 }
 
 export default new IocService();

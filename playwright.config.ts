@@ -56,24 +56,25 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: [
-    {
-      command: 'cd backend && npm run dev',
-      url: 'http://localhost:8080/health',
-      reuseExistingServer: !process.env.CI,
-      timeout: 120 * 1000,
-      stdout: 'pipe',
-      stderr: 'pipe',
-    },
-    {
-      command: 'cd frontend && npm run dev',
-      url: 'http://localhost:3000',
-      reuseExistingServer: !process.env.CI,
-      timeout: 120 * 1000,
-      stdout: 'pipe',
-      stderr: 'pipe',
-    },
-  ],
+  // Servers should be started manually or already running
+  // webServer: [
+  //   {
+  //     command: 'cd backend && npm run dev',
+  //     url: 'http://localhost:8080/health',
+  //     reuseExistingServer: !process.env.CI,
+  //     timeout: 120 * 1000,
+  //     stdout: 'pipe',
+  //     stderr: 'pipe',
+  //   },
+  //   {
+  //     command: 'cd frontend && npm run dev',
+  //     url: 'http://localhost:3000',
+  //     reuseExistingServer: !process.env.CI,
+  //     timeout: 120 * 1000,
+  //     stdout: 'pipe',
+  //     stderr: 'pipe',
+  //   },
+  // ],
 
   /* Global timeout for each test */
   timeout: 30 * 1000,

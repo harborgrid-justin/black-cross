@@ -103,6 +103,9 @@ node_modules/.prisma/
 # Testing
 .nyc_output
 coverage/
+playwright-report/
+test-results/
+*.html
 
 # Temporary files
 tmp/
