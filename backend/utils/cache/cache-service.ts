@@ -33,7 +33,7 @@ export class CacheService {
 
       const value = await client.get(this.prefixKey(key));
       
-      if (!value) {
+      if (!value || typeof value !== 'string') {
         return null;
       }
 
@@ -147,7 +147,7 @@ export class CacheService {
       const prefixedKeys = keys.map((k) => this.prefixKey(k));
       const values = await client.mGet(prefixedKeys);
 
-      return values.map((v) => (v ? JSON.parse(v) : null));
+      return values.map((v) => (v && typeof v === 'string' ? JSON.parse(v) : null));
     } catch (error) {
       console.error('Cache mget error:', error);
       return keys.map(() => null);
