@@ -1,7 +1,7 @@
 import express from 'express';
+import collaborationRoutes from './routes/collaborationRoutes';
 
 const router = express.Router();
-import collaborationRoutes from './routes/collaborationRoutes';
 
 // Health check route
 router.get('/health', (req, res) => {
@@ -23,4 +23,3 @@ router.get('/health', (req, res) => {
 
 router.use('/', collaborationRoutes);
 export default router;
-

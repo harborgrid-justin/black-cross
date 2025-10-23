@@ -17,9 +17,10 @@
  */
 
 import { apiInstance } from '../config/apiConfig';
-import { 
+import type { 
   ApiResponse, 
-  PaginatedResponse, 
+  PaginatedResponse} from '../utils/apiUtils';
+import { 
   buildUrlParams,
   handleApiError,
   extractApiData,

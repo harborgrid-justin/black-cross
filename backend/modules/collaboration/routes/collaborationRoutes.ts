@@ -1,9 +1,9 @@
 import express from 'express';
-
-const router = express.Router();
 import collaborationController from '../controllers/collaborationController';
 import { validate, commonSchemas, Joi } from '../../../middleware/validator';
 import validatorSchemas from '../validators/collaborationValidator';
+
+const router = express.Router();
 
 const { collaborationSchema, collaborationUpdateSchema } = validatorSchemas;
 
@@ -17,4 +17,3 @@ router.put('/:id', validate({
 router.delete('/:id', validate({ params: Joi.object({ id: commonSchemas.objectId.required() }) }), collaborationController.delete);
 
 export default router;
-

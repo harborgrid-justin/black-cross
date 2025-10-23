@@ -18,7 +18,7 @@ import './styles/index.css'
  * Creates a React root and renders the App component wrapped in StrictMode
  * for additional development checks and warnings.
  */
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,

@@ -1,7 +1,7 @@
 import express from 'express';
+import darkwebRoutes from './routes/darkwebRoutes';
 
 const router = express.Router();
-import darkwebRoutes from './routes/darkwebRoutes';
 
 // Health check route
 router.get('/health', (req, res) => {
@@ -23,4 +23,3 @@ router.get('/health', (req, res) => {
 
 router.use('/', darkwebRoutes);
 export default router;
-

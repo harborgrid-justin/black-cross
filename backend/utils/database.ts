@@ -3,8 +3,8 @@
  * Provides access to the centralized database connections for modules
  */
 
-import dbManager from '../config/database';
 import type { Connection } from 'mongoose';
+import dbManager from '../config/database';
 
 /**
  * Get the shared MongoDB connection

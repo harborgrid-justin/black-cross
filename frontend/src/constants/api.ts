@@ -20,7 +20,7 @@ export const API_CONFIG = {
 /**
  * API Version
  */
-export const API_VERSION = '/api/v1' as const;
+export const API_VERSION = '/api/v1';
 
 /**
  * API Endpoints

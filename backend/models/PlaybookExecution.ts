@@ -28,7 +28,7 @@ export default class PlaybookExecution extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column(DataType.UUID)
-  id!: string;
+    id!: string;
 
   @AllowNull(false)
   @Index
@@ -36,27 +36,27 @@ export default class PlaybookExecution extends Model {
     type: DataType.STRING,
     field: 'playbook_id',
   })
-  playbookId!: string;
+    playbookId!: string;
 
   @AllowNull(false)
   @Column({
     type: DataType.STRING,
     field: 'playbook_name',
   })
-  playbookName!: string;
+    playbookName!: string;
 
   @Default('pending')
   @AllowNull(false)
   @Index
   @Column(DataType.STRING)
-  status!: string;
+    status!: string;
 
   @AllowNull(false)
   @Column({
     type: DataType.STRING,
     field: 'triggered_by',
   })
-  triggeredBy!: string;
+    triggeredBy!: string;
 
   @Default(DataType.NOW)
   @AllowNull(false)
@@ -65,26 +65,26 @@ export default class PlaybookExecution extends Model {
     type: DataType.DATE,
     field: 'started_at',
   })
-  startedAt!: Date;
+    startedAt!: Date;
 
   @Column({
     type: DataType.DATE,
     field: 'completed_at',
   })
-  completedAt?: Date;
+    completedAt?: Date;
 
   @Column(DataType.INTEGER)
-  duration?: number;
+    duration?: number;
 
   @Column(DataType.JSONB)
-  result?: any;
+    result?: any;
 
   @Column({
     type: DataType.TEXT,
     field: 'error_message',
   })
-  errorMessage?: string;
+    errorMessage?: string;
 
   @Column(DataType.JSONB)
-  metadata?: any;
+    metadata?: any;
 }

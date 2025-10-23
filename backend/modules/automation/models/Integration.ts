@@ -107,4 +107,3 @@ IntegrationSchema.index({ vendor: 1 });
 IntegrationSchema.index({ created_at: -1 });
 
 export default mongoose.model('Integration', IntegrationSchema);
-

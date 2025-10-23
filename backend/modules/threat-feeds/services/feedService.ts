@@ -99,7 +99,7 @@ class FeedService {
 
       return {
         totalFeeds: feeds.length,
-        activeFeeds: feeds.filter(f => f.status === 'active').length,
+        activeFeeds: feeds.filter((f) => f.status === 'active').length,
         totalIndicators,
         uniqueIndicators: uniqueIndicators.size,
         duplicates: totalIndicators - uniqueIndicators.size,
@@ -154,7 +154,7 @@ class FeedService {
     type: FeedType,
     format: FeedFormat,
     url: string,
-    authentication?: FeedAuthentication
+    authentication?: FeedAuthentication,
   ): Promise<any> {
     try {
       logger.info('Configuring feed source', { name, type, format });
@@ -188,7 +188,7 @@ class FeedService {
   async connectCommercialFeed(
     feedType: 'virustotal' | 'alienvault' | 'threatconnect' | 'anomali' | 'recorded_future',
     apiKey: string,
-    config?: Record<string, any>
+    config?: Record<string, any>,
   ): Promise<any> {
     try {
       logger.info('Connecting to commercial feed', { feedType });
@@ -206,7 +206,7 @@ class FeedService {
         'commercial',
         feedConfig.format,
         feedConfig.url,
-        authentication
+        authentication,
       );
 
       logger.info('Commercial feed connected', { feedType, feedId: feed.id });
@@ -223,7 +223,7 @@ class FeedService {
   async connectOpenSourceFeed(
     name: string,
     url: string,
-    format: FeedFormat
+    format: FeedFormat,
   ): Promise<any> {
     try {
       logger.info('Connecting to open-source feed', { name, url });
@@ -232,7 +232,7 @@ class FeedService {
         name,
         'open_source',
         format,
-        url
+        url,
       );
 
       logger.info('Open-source feed connected', { name, feedId: feed.id });
@@ -478,7 +478,7 @@ class FeedService {
   private async parseFeedData(
     rawData: string,
     format: FeedFormat,
-    config?: ParserConfig
+    config?: ParserConfig,
   ): Promise<FeedIndicator[]> {
     const indicators: FeedIndicator[] = [];
 
@@ -792,7 +792,7 @@ class FeedService {
     name: string,
     description: string,
     owner: string,
-    visibility: 'private' | 'organization' | 'public'
+    visibility: 'private' | 'organization' | 'public',
   ): Promise<CustomFeed> {
     try {
       logger.info('Creating custom feed', { name, owner });
@@ -855,7 +855,7 @@ class FeedService {
   async addToCustomFeed(
     feedId: string,
     indicatorData: CustomIndicatorInput,
-    userId: string
+    userId: string,
   ): Promise<FeedIndicator> {
     try {
       logger.info('Adding indicator to custom feed', { feedId, indicator: indicatorData.indicator });
@@ -900,7 +900,7 @@ class FeedService {
    */
   async scheduleFeedUpdate(
     feedId: string,
-    schedule: FeedSchedule
+    schedule: FeedSchedule,
   ): Promise<ScheduledJob> {
     try {
       logger.info('Scheduling feed update', { feedId, frequency: schedule.frequency });
@@ -984,7 +984,7 @@ class FeedService {
         success: true,
         responseTime,
         indicatorsFound: indicators.length,
-        sampleIndicators: indicators.slice(0, 5).map(i => i.indicator),
+        sampleIndicators: indicators.slice(0, 5).map((i) => i.indicator),
         errors: [],
         warnings: [],
         testedAt: new Date(),
@@ -1139,7 +1139,7 @@ class FeedService {
 
       const stats: FeedStatistics = {
         totalFeeds: feeds.length,
-        activeFeeds: feeds.filter(f => f.enabled).length,
+        activeFeeds: feeds.filter((f) => f.enabled).length,
         totalIndicators: feeds.reduce((sum, f) => sum + (f.total_indicators || 0), 0),
         activeIndicators: 0,
         expiredIndicators: 0,
@@ -1204,4 +1204,3 @@ class FeedService {
 }
 
 export default new FeedService();
-

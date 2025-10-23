@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import huntingService from '../services/huntingService';
 
 class HuntController {
@@ -8,7 +8,6 @@ class HuntController {
       res.status(201).json(session);
     } catch (error: any) {
       res.status(400).json({ error: error.message });
-      return;
     }
   }
 
@@ -18,7 +17,6 @@ class HuntController {
       res.json(session);
     } catch (error: any) {
       res.status(404).json({ error: error.message });
-      return;
     }
   }
 
@@ -28,7 +26,6 @@ class HuntController {
       res.json(result);
     } catch (error: any) {
       res.status(400).json({ error: error.message });
-      return;
     }
   }
 
@@ -38,7 +35,6 @@ class HuntController {
       res.json(session);
     } catch (error: any) {
       res.status(400).json({ error: error.message });
-      return;
     }
   }
 
@@ -48,10 +44,8 @@ class HuntController {
       res.json(sessions);
     } catch (error: any) {
       res.status(400).json({ error: error.message });
-      return;
     }
   }
 }
 
 export default new HuntController();
-

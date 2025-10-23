@@ -331,6 +331,3 @@ class TrendVisualizationService {
 }
 
 export default new TrendVisualizationService();
-
-
-

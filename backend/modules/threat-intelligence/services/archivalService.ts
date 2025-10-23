@@ -235,4 +235,3 @@ class ArchivalService {
 }
 
 export default new ArchivalService();
-

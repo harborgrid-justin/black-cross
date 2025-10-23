@@ -182,4 +182,3 @@ class AssetCriticalityService {
 }
 
 export default new AssetCriticalityService();
-

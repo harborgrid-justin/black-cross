@@ -3,11 +3,11 @@
  */
 
 import express from 'express';
+import playbookController from '../controllers/playbookController';
+import { validate } from '../../../middleware/validator';
+import playbookValidator from '../validators/playbookValidator';
 
 const router = express.Router();
-import playbookController from '../controllers/playbookController';
-import {  validate  } from '../../../middleware/validator';
-import playbookValidator from '../validators/playbookValidator';
 
 const {
   playbookSchema,
@@ -55,4 +55,3 @@ router.get('/:id/test-results', playbookController.getTestResults);
 router.get('/:id/metrics', playbookController.getMetrics);
 
 export default router;
-

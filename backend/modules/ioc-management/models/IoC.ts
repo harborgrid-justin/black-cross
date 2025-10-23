@@ -56,4 +56,3 @@ IoCSchema.index({ value: 1, type: 1 }, { unique: true });
 IoCSchema.index({ first_seen: -1 });
 
 export default mongoose.model('IoC', IoCSchema);
-

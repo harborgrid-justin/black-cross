@@ -1,7 +1,7 @@
 import express from 'express';
+import complianceRoutes from './routes/complianceRoutes';
 
 const router = express.Router();
-import complianceRoutes from './routes/complianceRoutes';
 
 // Health check route
 router.get('/health', (req, res) => {
@@ -23,4 +23,3 @@ router.get('/health', (req, res) => {
 
 router.use('/', complianceRoutes);
 export default router;
-

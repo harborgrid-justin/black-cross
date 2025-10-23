@@ -8,14 +8,14 @@ import { initializeSequelize, testConnection, closeConnection } from '../config/
 async function main() {
   try {
     console.log('🔄 Testing database connection...\n');
-    
+
     // Initialize Sequelize
     const sequelize = initializeSequelize();
     console.log('✅ Sequelize initialized\n');
 
     // Test connection
     const isConnected = await testConnection();
-    
+
     if (isConnected) {
       console.log('\n✅ Connection test successful!');
       console.log('📊 Database:', sequelize.config.database);

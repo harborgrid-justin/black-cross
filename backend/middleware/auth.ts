@@ -11,8 +11,8 @@
 
 import jwt, { type JwtPayload } from 'jsonwebtoken';
 import type { Request, Response, NextFunction } from 'express';
-import {  AuthenticationError, AuthorizationError  } from './errorHandler';
-import {  logger  } from '../utils/logger';
+import { AuthenticationError, AuthorizationError } from './errorHandler';
+import { logger } from '../utils/logger';
 import config from '../config';
 import { JWT } from '../constants';
 
@@ -31,7 +31,7 @@ function authenticate(req: Request, res: Response, next: NextFunction): void {
   try {
     // Extract token from Authorization header
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!authHeader?.startsWith('Bearer ')) {
       throw new AuthenticationError('No authentication token provided');
     }
 
@@ -74,7 +74,7 @@ function authenticate(req: Request, res: Response, next: NextFunction): void {
 function optionalAuth(req: Request, res: Response, next: NextFunction): void {
   try {
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!authHeader?.startsWith('Bearer ')) {
       return next();
     }
 
@@ -219,4 +219,3 @@ export default {
   generateToken,
   refreshToken,
 };
-

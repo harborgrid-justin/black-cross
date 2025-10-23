@@ -3,11 +3,11 @@
  */
 
 import express from 'express';
+import integrationController from '../controllers/integrationController';
+import { validate } from '../../../middleware/validator';
+import integrationValidator from '../validators/integrationValidator';
 
 const router = express.Router();
-import integrationController from '../controllers/integrationController';
-import {  validate  } from '../../../middleware/validator';
-import integrationValidator from '../validators/integrationValidator';
 
 const { integrationSchema, integrationUpdateSchema, testIntegrationSchema } = integrationValidator;
 
@@ -26,4 +26,3 @@ router.delete('/:id', integrationController.deleteIntegration);
 router.post('/:id/test', validate({ body: testIntegrationSchema }), integrationController.testIntegration);
 
 export default router;
-

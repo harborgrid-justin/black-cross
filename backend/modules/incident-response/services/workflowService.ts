@@ -373,4 +373,3 @@ class WorkflowService {
 }
 
 export default new WorkflowService();
-

@@ -1,7 +1,7 @@
 import express from 'express';
+import iocRoutes from './routes/iocRoutes';
 
 const router = express.Router();
-import iocRoutes from './routes/iocRoutes';
 
 // Health check route
 router.get('/health', (req, res) => {
@@ -23,4 +23,3 @@ router.get('/health', (req, res) => {
 
 router.use('/', iocRoutes);
 export default router;
-

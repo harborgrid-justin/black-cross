@@ -48,4 +48,3 @@ class SiemController {
 }
 
 export default new SiemController();
-

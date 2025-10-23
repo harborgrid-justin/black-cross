@@ -207,7 +207,9 @@ class AuditLogRepository extends BaseRepository<AuditLog> {
     // Count unique IPs
     const uniqueIps = new Set(logs.filter((log) => log.ipAddress).map((log) => log.ipAddress)).size;
 
-    return { total, byAction, byResource, uniqueUsers, uniqueIps };
+    return {
+      total, byAction, byResource, uniqueUsers, uniqueIps,
+    };
   }
 
   /**

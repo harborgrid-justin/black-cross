@@ -336,7 +336,7 @@ class ExecutiveReportingService {
     if (closedRisks.length === 0) return 0;
 
     const totalDays = closedRisks.reduce((sum, r) => {
-      const days = Math.floor(((r as any).updated_at.getTime() - (r as any).assessed_at.getTime()) / (1000 * 60 * 60 * 24));
+      const days = Math.floor(((r).updated_at.getTime() - (r).assessed_at.getTime()) / (1000 * 60 * 60 * 24));
       return sum + days;
     }, 0);
 
@@ -364,6 +364,3 @@ class ExecutiveReportingService {
 }
 
 export default new ExecutiveReportingService();
-
-
-

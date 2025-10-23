@@ -16,16 +16,16 @@ import PlaybookExecution from '../models/PlaybookExecution';
 
 async function seedUsers() {
   console.log('🌱 Seeding users...');
-  
+
   // Check if users already exist
   const existingCount = await User.count();
   if (existingCount > 0) {
     console.log(`✅ Users already exist (${existingCount} found), skipping...`);
     return await User.findAll();
   }
-  
+
   const password = await bcrypt.hash('admin', 10);
-  
+
   const users = await User.bulkCreate([
     {
       email: 'admin@black-cross.io',
@@ -68,20 +68,20 @@ async function seedUsers() {
       lastLogin: new Date(),
     },
   ]);
-  
+
   console.log(`✅ Created ${users.length} users`);
   return users;
 }
 
 async function seedIncidents(users: User[]) {
   console.log('🌱 Seeding incidents...');
-  
+
   const existingCount = await Incident.count();
   if (existingCount > 0) {
     console.log(`✅ Incidents already exist (${existingCount} found), skipping...`);
     return await Incident.findAll();
   }
-  
+
   const incidents = await Incident.bulkCreate([
     {
       title: 'Ransomware Attack Detected',
@@ -146,20 +146,20 @@ async function seedIncidents(users: User[]) {
       resolvedAt: new Date(Date.now() - 60 * 60 * 60 * 1000), // 2.5 days ago
     },
   ]);
-  
+
   console.log(`✅ Created ${incidents.length} incidents`);
   return incidents;
 }
 
 async function seedVulnerabilities() {
   console.log('🌱 Seeding vulnerabilities...');
-  
+
   const existingCount = await Vulnerability.count();
   if (existingCount > 0) {
     console.log(`✅ Vulnerabilities already exist (${existingCount} found), skipping...`);
     return await Vulnerability.findAll();
   }
-  
+
   const vulnerabilities = await Vulnerability.bulkCreate([
     {
       cveId: 'CVE-2023-44487',
@@ -219,20 +219,20 @@ async function seedVulnerabilities() {
       discoveredAt: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000), // 25 days ago
     },
   ]);
-  
+
   console.log(`✅ Created ${vulnerabilities.length} vulnerabilities`);
   return vulnerabilities;
 }
 
 async function seedAssets() {
   console.log('🌱 Seeding assets...');
-  
+
   const existingCount = await Asset.count();
   if (existingCount > 0) {
     console.log(`✅ Assets already exist (${existingCount} found), skipping...`);
     return await Asset.findAll();
   }
-  
+
   const assets = await Asset.bulkCreate([
     {
       name: 'Production Web Server',
@@ -275,20 +275,20 @@ async function seedAssets() {
       location: 'Data Center A',
     },
   ]);
-  
+
   console.log(`✅ Created ${assets.length} assets`);
   return assets;
 }
 
 async function seedIOCs() {
   console.log('🌱 Seeding IOCs (Indicators of Compromise)...');
-  
+
   const existingCount = await IOC.count();
   if (existingCount > 0) {
     console.log(`✅ IOCs already exist (${existingCount} found), skipping...`);
     return await IOC.findAll();
   }
-  
+
   const now = new Date();
   const iocs = await IOC.bulkCreate([
     {
@@ -347,20 +347,20 @@ async function seedIOCs() {
       lastSeen: new Date(now.getTime() - 6 * 60 * 60 * 1000), // 6 hours ago
     },
   ]);
-  
+
   console.log(`✅ Created ${iocs.length} IOCs`);
   return iocs;
 }
 
 async function seedThreatActors() {
   console.log('🌱 Seeding threat actors...');
-  
+
   const existingCount = await ThreatActor.count();
   if (existingCount > 0) {
     console.log(`✅ Threat actors already exist (${existingCount} found), skipping...`);
     return await ThreatActor.findAll();
   }
-  
+
   const now = new Date();
   const threatActors = await ThreatActor.bulkCreate([
     {
@@ -408,20 +408,20 @@ async function seedThreatActors() {
       lastSeen: new Date(now.getTime() - 180 * 24 * 60 * 60 * 1000), // 180 days ago
     },
   ]);
-  
+
   console.log(`✅ Created ${threatActors.length} threat actors`);
   return threatActors;
 }
 
 async function seedAuditLogs(users: User[]) {
   console.log('🌱 Seeding audit logs...');
-  
+
   const existingCount = await AuditLog.count();
   if (existingCount > 0) {
     console.log(`✅ Audit logs already exist (${existingCount} found), skipping...`);
     return await AuditLog.findAll();
   }
-  
+
   const auditLogs = await AuditLog.bulkCreate([
     {
       userId: users[0].id,
@@ -456,20 +456,20 @@ async function seedAuditLogs(users: User[]) {
       userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Firefox/121.0',
     },
   ]);
-  
+
   console.log(`✅ Created ${auditLogs.length} audit logs`);
   return auditLogs;
 }
 
 async function seedPlaybookExecutions(users: User[]) {
   console.log('🌱 Seeding playbook executions...');
-  
+
   const existingCount = await PlaybookExecution.count();
   if (existingCount > 0) {
     console.log(`✅ Playbook executions already exist (${existingCount} found), skipping...`);
     return await PlaybookExecution.findAll();
   }
-  
+
   const playbooks = await PlaybookExecution.bulkCreate([
     {
       playbookId: 'pb-001',
@@ -498,7 +498,7 @@ async function seedPlaybookExecutions(users: User[]) {
       result: 'Scan completed: 45 vulnerabilities identified, 12 critical',
     },
   ]);
-  
+
   console.log(`✅ Created ${playbooks.length} playbook executions`);
   return playbooks;
 }
@@ -506,7 +506,7 @@ async function seedPlaybookExecutions(users: User[]) {
 async function main() {
   try {
     console.log('🌱 Starting database seeding...\n');
-    
+
     // Initialize Sequelize
     initializeSequelize();
     console.log('✅ Sequelize initialized\n');

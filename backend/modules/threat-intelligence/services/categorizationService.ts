@@ -226,4 +226,3 @@ class CategorizationService {
 }
 
 export default new CategorizationService();
-

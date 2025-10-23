@@ -130,8 +130,7 @@ class PrioritizationService {
     return priorities
       .filter((risk) => {
         // Quick wins: medium-high risk with existing mitigation plan
-        const hasEfficientMitigation = risk.mitigation_plan
-          && risk.mitigation_plan.estimated_cost
+        const hasEfficientMitigation = risk.mitigation_plan?.estimated_cost
           && risk.mitigation_plan.estimated_cost < 50000;
 
         return (
@@ -251,6 +250,3 @@ class PrioritizationService {
 }
 
 export default new PrioritizationService();
-
-
-

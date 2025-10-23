@@ -1,7 +1,7 @@
 import express from 'express';
+import siemRoutes from './routes/siemRoutes';
 
 const router = express.Router();
-import siemRoutes from './routes/siemRoutes';
 
 // Health check route
 router.get('/health', (req, res) => {
@@ -23,4 +23,3 @@ router.get('/health', (req, res) => {
 
 router.use('/', siemRoutes);
 export default router;
-

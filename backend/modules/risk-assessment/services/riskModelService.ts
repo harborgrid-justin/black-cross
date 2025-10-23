@@ -312,6 +312,3 @@ class RiskModelService {
 }
 
 export default new RiskModelService();
-
-
-

@@ -100,4 +100,3 @@ TaxonomySchema.index({ name: 'text', description: 'text' });
 TaxonomySchema.index({ is_active: 1, is_default: 1 });
 
 export default mongoose.model('Taxonomy', TaxonomySchema);
-

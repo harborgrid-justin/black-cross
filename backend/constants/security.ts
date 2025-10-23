@@ -66,9 +66,9 @@ export const RATE_LIMITS = {
 export const ENCRYPTION = {
   ALGORITHM: 'aes-256-gcm',
   KEY_LENGTH: 32, // bytes
-  IV_LENGTH: 16,  // bytes
+  IV_LENGTH: 16, // bytes
   SALT_LENGTH: 64, // bytes
-  TAG_LENGTH: 16,  // bytes
+  TAG_LENGTH: 16, // bytes
 } as const;
 
 /**

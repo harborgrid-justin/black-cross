@@ -108,7 +108,7 @@ export default function ThreatIntelligenceDetail() {
           </Typography>
           <Chip
             label={threat.severity}
-            color={getSeverityColor(threat.severity) as 'error' | 'warning' | 'info' | 'success' | 'default'}
+            color={getSeverityColor(threat.severity)}
             sx={{ fontWeight: 600 }}
           />
         </Box>

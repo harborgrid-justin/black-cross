@@ -326,4 +326,3 @@ class RiskController {
 }
 
 export default new RiskController();
-

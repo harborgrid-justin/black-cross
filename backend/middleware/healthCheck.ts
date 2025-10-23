@@ -12,7 +12,7 @@
 
 import mongoose from 'mongoose';
 import type { Request, Response } from 'express';
-import {  logger  } from '../utils/logger';
+import { logger } from '../utils/logger';
 import { APP, STATUS, CACHE_DURATION } from '../constants';
 
 interface SystemMetrics {
@@ -223,4 +223,3 @@ export default {
   readinessProbe,
   livenessProbe,
 };
-

@@ -74,4 +74,3 @@ export default {
   disconnectDatabase,
   isConnected,
 };
-

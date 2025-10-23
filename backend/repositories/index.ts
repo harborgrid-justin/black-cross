@@ -13,14 +13,14 @@ export { threatActorRepository } from './ThreatActorRepository';
 export { playbookExecutionRepository } from './PlaybookExecutionRepository';
 
 // Export types
-export type { 
-  User, 
-  Incident, 
-  Vulnerability, 
-  Asset, 
+export type {
+  User,
+  Incident,
+  Vulnerability,
+  Asset,
   AuditLog,
   IOC,
   ThreatActor,
-  PlaybookExecution 
+  PlaybookExecution,
 } from '../utils/sequelize';
 export type { ListFilters, PaginatedResponse } from '../utils/BaseRepository';

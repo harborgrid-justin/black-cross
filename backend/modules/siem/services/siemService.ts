@@ -45,7 +45,7 @@ class SiemService {
       logger.info('Collecting log', { sourceType });
 
       const parsingResult = this.parseLog(rawLog, sourceType);
-      
+
       if (!parsingResult.success || !parsingResult.event) {
         throw new Error(parsingResult.error || 'Failed to parse log');
       }
@@ -135,7 +135,7 @@ class SiemService {
   private parseJson(rawLog: string): ParsingResult {
     try {
       const parsed = JSON.parse(rawLog);
-      
+
       return {
         success: true,
         sourceType: 'json',
@@ -207,7 +207,9 @@ class SiemService {
         message: extensionFields.msg || name,
         rawLog,
         tags: ['cef', vendor, product],
-        metadata: { version, vendor, product, deviceVersion, extensions: extensionFields },
+        metadata: {
+          version, vendor, product, deviceVersion, extensions: extensionFields,
+        },
         normalized: true,
       },
     };
@@ -323,7 +325,7 @@ class SiemService {
       logger.info('Correlating events', { patternId: pattern.id });
 
       const timeWindowStart = new Date(Date.now() - pattern.timeWindow * 1000);
-      
+
       // Find events matching the pattern within time window
       const events = await SiemEvent.find({
         eventType: { $in: pattern.eventTypes },
@@ -339,7 +341,7 @@ class SiemService {
       for (const [correlationId, groupEvents] of correlationGroups.entries()) {
         if (groupEvents.length >= pattern.minimumEvents) {
           const confidence = this.calculateCorrelationConfidence(groupEvents, pattern);
-          
+
           results.push({
             correlationId,
             pattern,
@@ -350,10 +352,10 @@ class SiemService {
           });
 
           // Update events with correlation ID
-          const eventIds = groupEvents.map(e => e.id);
+          const eventIds = groupEvents.map((e) => e.id);
           await SiemEvent.updateMany(
             { id: { $in: eventIds } },
-            { $set: { correlationId } }
+            { $set: { correlationId } },
           );
         }
       }
@@ -371,19 +373,19 @@ class SiemService {
    */
   private groupEventsByCorrelation(
     events: any[],
-    pattern: CorrelationPattern
+    pattern: CorrelationPattern,
   ): Map<string, NormalizedEvent[]> {
     const groups = new Map<string, NormalizedEvent[]>();
 
     for (const event of events) {
       // Generate correlation key based on pattern conditions
       const correlationKey = this.generateCorrelationKey(event, pattern.conditions);
-      
+
       if (!groups.has(correlationKey)) {
         groups.set(correlationKey, []);
       }
-      
-      groups.get(correlationKey)!.push(event);
+
+      groups.get(correlationKey).push(event);
     }
 
     return groups;
@@ -394,7 +396,7 @@ class SiemService {
    */
   private generateCorrelationKey(event: any, conditions: Record<string, any>): string {
     const keyParts: string[] = [];
-    
+
     for (const [field, value] of Object.entries(conditions)) {
       if (event[field]) {
         keyParts.push(`${field}:${event[field]}`);
@@ -490,7 +492,7 @@ class SiemService {
       } else {
         const prevCondition = rule.conditions[i - 1];
         const operator = prevCondition.logicalOperator || 'AND';
-        
+
         if (operator === 'AND') {
           matches = matches && conditionMatch;
         } else {
@@ -513,7 +515,7 @@ class SiemService {
    */
   private evaluateCondition(event: any, condition: any): boolean {
     const fieldValue = this.getNestedField(event, condition.field);
-    
+
     if (fieldValue === undefined || fieldValue === null) {
       return false;
     }
@@ -547,7 +549,7 @@ class SiemService {
    */
   private async getRecentMatchingEvents(rule: DetectionRule, timeWindowSeconds: number): Promise<any[]> {
     const since = new Date(Date.now() - timeWindowSeconds * 1000);
-    
+
     return SiemEvent.find({
       timestamp: { $gte: since },
       // Additional filtering based on rule conditions would go here
@@ -570,7 +572,7 @@ class SiemService {
       status: 'open',
       title: rule.name,
       description: rule.description,
-      events: events.map(e => e.id),
+      events: events.map((e) => e.id),
       triggeredAt: new Date(),
       tags: rule.tags,
       metadata: {
@@ -589,7 +591,7 @@ class SiemService {
   async updateAlertStatus(
     alertId: string,
     status: AlertStatus,
-    userId: string
+    userId: string,
   ): Promise<Alert> {
     try {
       logger.info('Updating alert status', { alertId, status, userId });
@@ -598,7 +600,7 @@ class SiemService {
       const alert: any = { id: alertId };
 
       const now = new Date();
-      
+
       if (status === 'investigating') {
         alert.acknowledgedAt = now;
         alert.acknowledgedBy = userId;
@@ -621,7 +623,7 @@ class SiemService {
    * Apply alert tuning rules
    */
   async applyAlertTuning(alert: Alert, tuning: AlertTuning): Promise<Alert> {
-    let tunedAlert = { ...alert };
+    const tunedAlert = { ...alert };
 
     // Check suppression rules
     for (const suppression of tuning.suppressionRules) {
@@ -722,7 +724,7 @@ class SiemService {
       if (!grouped.has(groupKey)) {
         grouped.set(groupKey, []);
       }
-      grouped.get(groupKey)!.push(event);
+      grouped.get(groupKey).push(event);
     }
 
     const result: any = {};
@@ -740,10 +742,10 @@ class SiemService {
           result[key] = total / groupEvents.length;
           break;
         case 'min':
-          result[key] = Math.min(...groupEvents.map(e => e[aggregation.field] || Infinity));
+          result[key] = Math.min(...groupEvents.map((e) => e[aggregation.field] || Infinity));
           break;
         case 'max':
-          result[key] = Math.max(...groupEvents.map(e => e[aggregation.field] || -Infinity));
+          result[key] = Math.max(...groupEvents.map((e) => e[aggregation.field] || -Infinity));
           break;
       }
     }
@@ -813,8 +815,8 @@ class SiemService {
         throw new Error('No events found');
       }
 
-      const uniqueHosts = new Set(events.map(e => e.hostname).filter(Boolean));
-      const uniqueUsers = new Set(events.map(e => e.username).filter(Boolean));
+      const uniqueHosts = new Set(events.map((e) => e.hostname).filter(Boolean));
+      const uniqueUsers = new Set(events.map((e) => e.username).filter(Boolean));
 
       const byCategory: Record<string, number> = {};
       const bySeverity: Record<string, number> = {};
@@ -851,7 +853,7 @@ class SiemService {
    */
   async generateComplianceReport(
     framework: string,
-    period: { start: Date; end: Date }
+    period: { start: Date; end: Date },
   ): Promise<ComplianceReport> {
     try {
       logger.info('Generating compliance report', { framework, period });
@@ -893,21 +895,21 @@ class SiemService {
         controlId: 'AC-2',
         controlName: 'Account Management',
         status: 'compliant' as const,
-        evidence: events.filter(e => e.category === 'authentication').map(e => e.id),
+        evidence: events.filter((e) => e.category === 'authentication').map((e) => e.id),
         score: 95,
       },
       {
         controlId: 'AU-2',
         controlName: 'Audit Events',
         status: 'compliant' as const,
-        evidence: events.map(e => e.id),
+        evidence: events.map((e) => e.id),
         score: 100,
       },
       {
         controlId: 'SI-4',
         controlName: 'Information System Monitoring',
         status: 'compliant' as const,
-        evidence: events.filter(e => e.severity === 'critical' || e.severity === 'high').map(e => e.id),
+        evidence: events.filter((e) => e.severity === 'critical' || e.severity === 'high').map((e) => e.id),
         score: 90,
       },
     ];
@@ -928,7 +930,7 @@ class SiemService {
       const bySeverity: Record<string, number> = {};
       const byCategory: Record<string, number> = {};
       let normalizedCount = 0;
-      let parsingErrors = 0;
+      const parsingErrors = 0;
 
       for (const event of events) {
         const srcType = String(event.sourceType || 'unknown');
@@ -1000,9 +1002,9 @@ class SiemService {
   private mapWindowsEventLevel(level?: number): EventSeverity {
     if (!level) return 'info';
     if (level === 1) return 'critical'; // Critical
-    if (level === 2) return 'high';     // Error
-    if (level === 3) return 'medium';   // Warning
-    return 'info';                       // Information
+    if (level === 2) return 'high'; // Error
+    if (level === 3) return 'medium'; // Warning
+    return 'info'; // Information
   }
 
   /**
@@ -1048,4 +1050,3 @@ class SiemService {
 }
 
 export default new SiemService();
-

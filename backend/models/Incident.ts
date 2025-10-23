@@ -33,69 +33,69 @@ export default class Incident extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column(DataType.UUID)
-  id!: string;
+    id!: string;
 
   @AllowNull(false)
   @Column(DataType.STRING)
-  title!: string;
+    title!: string;
 
   @Column(DataType.TEXT)
-  description?: string;
+    description?: string;
 
   @Default('medium')
   @AllowNull(false)
   @Index
   @Column(DataType.STRING)
-  severity!: string;
+    severity!: string;
 
   @Default('open')
   @AllowNull(false)
   @Index
   @Column(DataType.STRING)
-  status!: string;
+    status!: string;
 
   @Default(3)
   @AllowNull(false)
   @Column(DataType.INTEGER)
-  priority!: number;
+    priority!: number;
 
   @Column(DataType.STRING)
-  category?: string;
+    category?: string;
 
   @ForeignKey(() => User)
   @Column({
     type: DataType.UUID,
     field: 'assigned_to_id',
   })
-  assignedToId?: string;
+    assignedToId?: string;
 
   @BelongsTo(() => User, 'assignedToId')
-  assignedTo?: User;
+    assignedTo?: User;
 
   @AllowNull(false)
   @Column({
     type: DataType.DATE,
     field: 'detected_at',
   })
-  detectedAt!: Date;
+    detectedAt!: Date;
 
   @Column({
     type: DataType.DATE,
     field: 'resolved_at',
   })
-  resolvedAt?: Date;
+    resolvedAt?: Date;
 
   @CreatedAt
   @Column({
     type: DataType.DATE,
     field: 'created_at',
   })
-  createdAt!: Date;
+    createdAt!: Date;
 
   @UpdatedAt
   @Column({
     type: DataType.DATE,
     field: 'updated_at',
   })
-  updatedAt!: Date;
+    updatedAt!: Date;
 }

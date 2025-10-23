@@ -284,4 +284,3 @@ class TaxonomyService {
 }
 
 export default new TaxonomyService();
-

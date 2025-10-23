@@ -208,4 +208,3 @@ IncidentSchema.index({ 'sla.response_deadline': 1 });
 IncidentSchema.index({ 'sla.resolution_deadline': 1 });
 
 export default mongoose.model('Incident', IncidentSchema);
-

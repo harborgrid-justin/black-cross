@@ -76,4 +76,3 @@ class FeedController {
 }
 
 export default new FeedController();
-

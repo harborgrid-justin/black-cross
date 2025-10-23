@@ -1,9 +1,9 @@
 import express from 'express';
-
-const router = express.Router();
 import actorController from '../controllers/actorController';
 import { validate, commonSchemas, Joi } from '../../../middleware/validator';
 import validatorSchemas from '../validators/actorValidator';
+
+const router = express.Router();
 
 const { actorSchema, actorUpdateSchema } = validatorSchemas;
 
@@ -22,4 +22,3 @@ router.get('/:id/campaigns', validate({ params: Joi.object({ id: commonSchemas.o
 router.get('/:id/ttps', validate({ params: Joi.object({ id: commonSchemas.objectId.required() }) }), actorController.getTTPs);
 
 export default router;
-

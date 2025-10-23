@@ -143,7 +143,7 @@ class CollaborationService {
       };
 
       logger.info('Workspace created', { workspaceId: workspace.id });
-      
+
       return workspace;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -172,7 +172,7 @@ class CollaborationService {
       };
 
       logger.info('Member added to workspace', { workspaceId, userId: member.userId });
-      
+
       return member;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -213,7 +213,7 @@ class CollaborationService {
       };
 
       logger.info('Project created', { projectId: project.id });
-      
+
       return project;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -241,7 +241,7 @@ class CollaborationService {
       };
 
       logger.info('Milestone added', { projectId, milestoneId: milestone.id });
-      
+
       return milestone;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -277,7 +277,7 @@ class CollaborationService {
       };
 
       logger.info('Role created', { roleId: role.id });
-      
+
       return role;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -302,7 +302,7 @@ class CollaborationService {
       };
 
       logger.info('Permission added', { roleId, permissionId: newPermission.id });
-      
+
       return newPermission;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -318,10 +318,12 @@ class CollaborationService {
     userId: string,
     resourceId: string,
     resourceType: string,
-    action: string
+    action: string,
   ): Promise<PermissionCheck> {
     try {
-      logger.info('Checking permission', { userId, resourceId, resourceType, action });
+      logger.info('Checking permission', {
+        userId, resourceId, resourceType, action,
+      });
 
       // In production, this would check actual permissions from database
       const check: PermissionCheck = {
@@ -334,7 +336,7 @@ class CollaborationService {
       };
 
       logger.info('Permission check completed', { userId, resourceId, allowed: check.allowed });
-      
+
       return check;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -353,7 +355,7 @@ class CollaborationService {
   async startCollaborationSession(
     resourceId: string,
     resourceType: 'document' | 'task' | 'project' | 'board',
-    userId: string
+    userId: string,
   ): Promise<CollaborationSession> {
     try {
       logger.info('Starting collaboration session', { resourceId, resourceType, userId });
@@ -372,7 +374,7 @@ class CollaborationService {
       };
 
       logger.info('Collaboration session started', { sessionId: session.id });
-      
+
       return session;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -399,7 +401,7 @@ class CollaborationService {
       };
 
       logger.info('User joined session', { sessionId, userId });
-      
+
       return participant;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -477,7 +479,7 @@ class CollaborationService {
       };
 
       logger.info('Task created', { taskId: task.id });
-      
+
       return task;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -502,7 +504,7 @@ class CollaborationService {
       };
 
       logger.info('Task assigned', { taskId, userId });
-      
+
       return assignee;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -525,10 +527,18 @@ class CollaborationService {
         name: boardData.name || 'Unnamed Board',
         description: boardData.description || '',
         columns: boardData.columns || [
-          { id: uuidv4(), name: 'To Do', status: 'todo', order: 0, taskCount: 0 },
-          { id: uuidv4(), name: 'In Progress', status: 'in_progress', order: 1, taskCount: 0 },
-          { id: uuidv4(), name: 'Review', status: 'review', order: 2, taskCount: 0 },
-          { id: uuidv4(), name: 'Done', status: 'completed', order: 3, taskCount: 0 },
+          {
+            id: uuidv4(), name: 'To Do', status: 'todo', order: 0, taskCount: 0,
+          },
+          {
+            id: uuidv4(), name: 'In Progress', status: 'in_progress', order: 1, taskCount: 0,
+          },
+          {
+            id: uuidv4(), name: 'Review', status: 'review', order: 2, taskCount: 0,
+          },
+          {
+            id: uuidv4(), name: 'Done', status: 'completed', order: 3, taskCount: 0,
+          },
         ],
         tasks: boardData.tasks || [],
         filters: boardData.filters || [],
@@ -542,7 +552,7 @@ class CollaborationService {
       };
 
       logger.info('Task board created', { boardId: board.id });
-      
+
       return board;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -596,7 +606,7 @@ class CollaborationService {
       };
 
       logger.info('Article created', { articleId: article.id });
-      
+
       return article;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -621,7 +631,7 @@ class CollaborationService {
       };
 
       logger.info('Article updated', { articleId, version: version.version });
-      
+
       return version;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -651,7 +661,7 @@ class CollaborationService {
       };
 
       logger.info('Category created', { categoryId: category.id });
-      
+
       return category;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -705,7 +715,7 @@ class CollaborationService {
       };
 
       logger.info('Channel created', { channelId: channel.id });
-      
+
       return channel;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -722,7 +732,7 @@ class CollaborationService {
     content: string,
     userId: string,
     username: string,
-    encrypted: boolean = false
+    encrypted: boolean = false,
   ): Promise<ChatMessage> {
     try {
       logger.info('Sending message', { channelId, userId, encrypted });
@@ -745,7 +755,7 @@ class CollaborationService {
       };
 
       logger.info('Message sent', { messageId: message.id, channelId });
-      
+
       return message;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -774,7 +784,7 @@ class CollaborationService {
       };
 
       logger.info('Direct message created', { dmId: dm.id });
-      
+
       return dm;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -817,7 +827,7 @@ class CollaborationService {
       };
 
       logger.info('Activity feed retrieved', { activityCount: feed.activities.length });
-      
+
       return feed;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -851,7 +861,7 @@ class CollaborationService {
       };
 
       logger.info('Activity recorded', { activityId: activity.id });
-      
+
       return activity;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -888,7 +898,7 @@ class CollaborationService {
       };
 
       logger.info('Notification created', { notificationId: notification.id });
-      
+
       return notification;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -1002,7 +1012,7 @@ class CollaborationService {
       };
 
       logger.info('Statistics retrieved');
-      
+
       return stats;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -1075,4 +1085,3 @@ class CollaborationService {
 }
 
 export default new CollaborationService();
-

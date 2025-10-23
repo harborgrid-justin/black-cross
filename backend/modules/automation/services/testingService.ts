@@ -452,4 +452,3 @@ class TestingService {
 }
 
 export default new TestingService();
-

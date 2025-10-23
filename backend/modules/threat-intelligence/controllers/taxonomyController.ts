@@ -158,4 +158,3 @@ class TaxonomyController {
 }
 
 export default new TaxonomyController();
-

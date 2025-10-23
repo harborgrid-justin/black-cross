@@ -226,4 +226,3 @@ class IncidentController {
 }
 
 export default new IncidentController();
-

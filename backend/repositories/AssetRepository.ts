@@ -140,7 +140,9 @@ class AssetRepository extends BaseRepository<Asset> {
       byType[asset.type] = (byType[asset.type] || 0) + 1;
     });
 
-    return { total, critical, high, medium, low, byType };
+    return {
+      total, critical, high, medium, low, byType,
+    };
   }
 
   /**

@@ -1,9 +1,9 @@
 import express from 'express';
-
-const router = express.Router();
 import feedController from '../controllers/feedController';
 import { validate, commonSchemas, Joi } from '../../../middleware/validator';
 import validatorSchemas from '../validators/feedValidator';
+
+const router = express.Router();
 
 const { feedSchema, feedUpdateSchema } = validatorSchemas;
 
@@ -23,4 +23,3 @@ router.post('/:id/refresh', validate({ params: Joi.object({ id: commonSchemas.ob
 router.get('/:id/stats', validate({ params: Joi.object({ id: commonSchemas.objectId.required() }) }), feedController.getFeedStats);
 
 export default router;
-

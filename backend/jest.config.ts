@@ -6,7 +6,7 @@
 export default {
   // Use ts-jest preset for TypeScript
   preset: 'ts-jest',
-  
+
   // Test environment
   testEnvironment: 'node',
 
@@ -75,4 +75,3 @@ export default {
   resetMocks: true,
   restoreMocks: true,
 };
-

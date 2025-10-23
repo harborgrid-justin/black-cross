@@ -11,7 +11,8 @@
  * Last Updated: 2025-10-22 | File Type: .ts
  */
 
-import { AxiosResponse, AxiosError } from 'axios';
+import type { AxiosResponse} from 'axios';
+import { AxiosError } from 'axios';
 
 // ==========================================
 // TYPE DEFINITIONS

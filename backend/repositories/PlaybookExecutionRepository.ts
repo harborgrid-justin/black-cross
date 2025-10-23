@@ -99,14 +99,14 @@ class PlaybookExecutionRepository extends BaseRepository<PlaybookExecution> {
     id: string,
     status: string,
     result?: any,
-    errorMessage?: string
+    errorMessage?: string,
   ): Promise<PlaybookExecution> {
     const data: any = { status };
 
     // If completing, set completedAt and calculate duration
     if (['success', 'failed', 'cancelled'].includes(status)) {
       data.completedAt = new Date();
-      
+
       const execution = await this.findByIdOrThrow(id);
       const startTime = new Date(execution.startedAt).getTime();
       const endTime = data.completedAt.getTime();
@@ -183,7 +183,7 @@ class PlaybookExecutionRepository extends BaseRepository<PlaybookExecution> {
     if (completedExecutions.length > 0) {
       const totalDuration = completedExecutions.reduce(
         (sum, exec) => sum + (exec.duration || 0),
-        0
+        0,
       );
       averageDuration = Math.floor(totalDuration / completedExecutions.length);
     }
@@ -240,7 +240,7 @@ class PlaybookExecutionRepository extends BaseRepository<PlaybookExecution> {
     if (completedExecutions.length > 0) {
       const totalDuration = completedExecutions.reduce(
         (sum, exec) => sum + (exec.duration || 0),
-        0
+        0,
       );
       averageDuration = Math.floor(totalDuration / completedExecutions.length);
     }

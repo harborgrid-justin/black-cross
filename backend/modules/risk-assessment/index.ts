@@ -12,11 +12,11 @@
  */
 
 import express from 'express';
-
-const router = express.Router();
 import riskRoutes from './routes/riskRoutes';
 import logger from './utils/logger';
-import {  isMongoConnected  } from '../../utils/database';
+import { isMongoConnected } from '../../utils/database';
+
+const router = express.Router();
 
 // Health check route
 router.get('/health', (req, res) => {
@@ -41,4 +41,3 @@ router.get('/health', (req, res) => {
 router.use('/', riskRoutes);
 
 export default router;
-

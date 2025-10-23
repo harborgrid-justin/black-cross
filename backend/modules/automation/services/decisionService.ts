@@ -288,4 +288,3 @@ class DecisionService {
 }
 
 export default new DecisionService();
-

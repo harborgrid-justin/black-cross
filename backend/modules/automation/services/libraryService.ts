@@ -432,4 +432,3 @@ class LibraryService {
 }
 
 export default new LibraryService();
-

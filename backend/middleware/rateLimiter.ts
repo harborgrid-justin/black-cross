@@ -36,8 +36,8 @@ const requestCounts = new Map<string, RequestCounter>();
  */
 function rateLimiter(options: RateLimitOptions = {}): (req: Request, res: Response, next: NextFunction) => void {
   const {
-    windowMs = parseInt(process.env['RATE_LIMIT_WINDOW_MS'] || '900000', 10), // 15 minutes
-    maxRequests = parseInt(process.env['RATE_LIMIT_MAX_REQUESTS'] || '100', 10),
+    windowMs = parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000', 10), // 15 minutes
+    maxRequests = parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100', 10),
     keyGenerator = (req: Request): string => req.ip || 'unknown',
   } = options;
 

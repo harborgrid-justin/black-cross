@@ -78,4 +78,3 @@ class IocController {
 }
 
 export default new IocController();
-

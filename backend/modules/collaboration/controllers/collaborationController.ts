@@ -48,4 +48,3 @@ class CollaborationController {
 }
 
 export default new CollaborationController();
-

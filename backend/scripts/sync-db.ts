@@ -8,7 +8,7 @@ import { initializeSequelize, syncDatabase, closeConnection } from '../config/se
 async function main() {
   try {
     console.log('🔄 Starting database synchronization...');
-    
+
     // Initialize Sequelize
     initializeSequelize();
     console.log('✅ Sequelize initialized');

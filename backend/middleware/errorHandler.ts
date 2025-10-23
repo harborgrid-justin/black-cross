@@ -10,8 +10,8 @@
  * - Correlation ID tracking
  */
 
-import { logger } from '../utils/logger';
 import type { Request, Response, NextFunction } from 'express';
+import { logger } from '../utils/logger';
 import {
   AppError,
   ValidationError,
@@ -46,28 +46,28 @@ interface MongoDbError extends Error {
 
 function isMongooseValidationError(error: unknown): error is MongooseValidationError {
   return (
-    error instanceof Error &&
-    error.name === 'ValidationError' &&
-    'errors' in error &&
-    typeof error.errors === 'object'
+    error instanceof Error
+    && error.name === 'ValidationError'
+    && 'errors' in error
+    && typeof error.errors === 'object'
   );
 }
 
 function isMongooseCastError(error: unknown): error is MongooseCastError {
   return (
-    error instanceof Error &&
-    error.name === 'CastError' &&
-    'path' in error &&
-    'value' in error
+    error instanceof Error
+    && error.name === 'CastError'
+    && 'path' in error
+    && 'value' in error
   );
 }
 
 function isMongoDbError(error: unknown): error is MongoDbError {
   return (
-    error instanceof Error &&
-    'code' in error &&
-    typeof (error as any).code === 'number' &&
-    'keyPattern' in error
+    error instanceof Error
+    && 'code' in error
+    && typeof (error as any).code === 'number'
+    && 'keyPattern' in error
   );
 }
 
@@ -144,14 +144,14 @@ function errorHandler(err: Error, req: Request, res: Response, _next: NextFuncti
   };
 
   // Add details in development or for operational errors
-  if (process.env['NODE_ENV'] === 'development' || isOperational) {
+  if (process.env.NODE_ENV === 'development' || isOperational) {
     if (error.details) {
       errorResponse.details = error.details;
     }
   }
 
   // Add stack trace in development
-  if (process.env['NODE_ENV'] === 'development') {
+  if (process.env.NODE_ENV === 'development') {
     errorResponse.stack = error.stack;
   }
 

@@ -478,4 +478,3 @@ class PlaybookController {
 }
 
 export default new PlaybookController();
-

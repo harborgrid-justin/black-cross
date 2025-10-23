@@ -33,7 +33,7 @@ export class AuditLogService {
     resourceId?: string,
     details?: any,
     ipAddress?: string,
-    userAgent?: string
+    userAgent?: string,
   ): Promise<AuditLog> {
     return await this.create({
       userId,

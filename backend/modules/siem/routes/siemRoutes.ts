@@ -1,9 +1,9 @@
 import express from 'express';
-
-const router = express.Router();
 import siemController from '../controllers/siemController';
 import { validate, commonSchemas, Joi } from '../../../middleware/validator';
 import validatorSchemas from '../validators/siemValidator';
+
+const router = express.Router();
 
 const { siemSchema, siemUpdateSchema } = validatorSchemas;
 
@@ -17,4 +17,3 @@ router.put('/:id', validate({
 router.delete('/:id', validate({ params: Joi.object({ id: commonSchemas.objectId.required() }) }), siemController.delete);
 
 export default router;
-

@@ -53,13 +53,13 @@ if (!fs.existsSync(logsDir)) {
 const transports: winston.transport[] = [
   // Console transport
   new winston.transports.Console({
-    format: process.env['NODE_ENV'] === 'production' ? logFormat : consoleFormat,
-    level: process.env['LOG_LEVEL'] || 'info',
+    format: process.env.NODE_ENV === 'production' ? logFormat : consoleFormat,
+    level: process.env.LOG_LEVEL || 'info',
   }),
 ];
 
 // Add file transports in production or if explicitly enabled
-if (process.env['NODE_ENV'] === 'production' || process.env['LOG_FILE'] === 'true') {
+if (process.env.NODE_ENV === 'production' || process.env.LOG_FILE === 'true') {
   transports.push(
     // All logs
     new winston.transports.File({
@@ -83,7 +83,7 @@ if (process.env['NODE_ENV'] === 'production' || process.env['LOG_FILE'] === 'tru
 
 // Create base logger
 const baseLogger = winston.createLogger({
-  level: process.env['LOG_LEVEL'] || 'info',
+  level: process.env.LOG_LEVEL || 'info',
   format: logFormat,
   transports,
   exitOnError: false,

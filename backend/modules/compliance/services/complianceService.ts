@@ -74,7 +74,7 @@ class ComplianceService {
       logger.info('Loading compliance framework', { frameworkType });
 
       const frameworkInfo = this.frameworkLibraries[frameworkType as keyof typeof this.frameworkLibraries];
-      
+
       if (!frameworkInfo) {
         throw new Error(`Unsupported framework type: ${frameworkType}`);
       }
@@ -126,14 +126,14 @@ class ComplianceService {
           this.createControl('PR.AC-1', 'Access Control', 'Protect', frameworkType),
           this.createControl('DE.CM-1', 'Continuous Monitoring', 'Detect', frameworkType),
           this.createControl('RS.RP-1', 'Response Planning', 'Respond', frameworkType),
-          this.createControl('RC.RP-1', 'Recovery Planning', 'Recover', frameworkType)
+          this.createControl('RC.RP-1', 'Recovery Planning', 'Recover', frameworkType),
         );
         break;
       case 'ISO_27001':
         controls.push(
           this.createControl('A.5.1.1', 'Information Security Policies', 'Policies', frameworkType),
           this.createControl('A.9.2.1', 'User Access Provisioning', 'Access Control', frameworkType),
-          this.createControl('A.12.4.1', 'Event Logging', 'Operations Security', frameworkType)
+          this.createControl('A.12.4.1', 'Event Logging', 'Operations Security', frameworkType),
         );
         break;
       case 'PCI_DSS':
@@ -141,7 +141,7 @@ class ComplianceService {
           this.createControl('1.1', 'Firewall Configuration', 'Network Security', frameworkType),
           this.createControl('3.1', 'Data Retention', 'Data Protection', frameworkType),
           this.createControl('6.1', 'Vulnerability Management', 'Security Maintenance', frameworkType),
-          this.createControl('10.1', 'Audit Logging', 'Monitoring', frameworkType)
+          this.createControl('10.1', 'Audit Logging', 'Monitoring', frameworkType),
         );
         break;
     }
@@ -180,7 +180,7 @@ class ComplianceService {
    */
   async mapControlToRequirement(
     controlId: string,
-    requirementId: string
+    requirementId: string,
   ): Promise<RequirementMapping> {
     try {
       logger.info('Mapping control to requirement', { controlId, requirementId });
@@ -421,7 +421,7 @@ class ComplianceService {
    */
   async createRemediationPlan(
     gapId: string,
-    plan: RemediationPlan
+    plan: RemediationPlan,
   ): Promise<ComplianceGap> {
     try {
       logger.info('Creating remediation plan', { gapId });
@@ -488,7 +488,7 @@ class ComplianceService {
     policyId: string,
     status: PolicyStatus,
     userId: string,
-    comments?: string
+    comments?: string,
   ): Promise<Policy> {
     try {
       logger.info('Updating policy status', { policyId, status });
@@ -558,7 +558,7 @@ class ComplianceService {
    */
   async evaluatePolicyCompliance(
     policyId: string,
-    data: Record<string, any>
+    data: Record<string, any>,
   ): Promise<{ compliant: boolean; violations: PolicyViolation[] }> {
     try {
       logger.info('Evaluating policy compliance', { policyId });
@@ -582,7 +582,7 @@ class ComplianceService {
    */
   async detectPolicyViolation(
     policyId: string,
-    violationData: Omit<PolicyViolation, 'id' | 'detectedAt'>
+    violationData: Omit<PolicyViolation, 'id' | 'detectedAt'>,
   ): Promise<PolicyViolation> {
     try {
       const violation: PolicyViolation = {
@@ -616,7 +616,7 @@ class ComplianceService {
     frameworkType: FrameworkType,
     period: { start: Date; end: Date },
     reportType: 'assessment' | 'audit' | 'gap_analysis' | 'executive_summary' | 'custom',
-    userId: string
+    userId: string,
   ): Promise<ComplianceReport> {
     try {
       logger.info('Generating compliance report', { frameworkType, reportType });
@@ -640,7 +640,7 @@ class ComplianceService {
         status: gapAnalysis.complianceStatus,
         controls,
         gaps: gapAnalysis.gaps,
-        evidence: evidence.map(e => ({
+        evidence: evidence.map((e) => ({
           evidenceId: e.id,
           title: e.title,
           type: e.type,
@@ -668,13 +668,13 @@ class ComplianceService {
   async scheduleReport(
     frameworkType: FrameworkType,
     schedule: string, // Cron expression
-    recipients: string[]
+    recipients: string[],
   ): Promise<{ scheduleId: string; nextRun: Date }> {
     try {
       logger.info('Scheduling automated report', { frameworkType, schedule });
 
       const scheduleId = uuidv4();
-      
+
       // In production, set up cron job or scheduled task
       const nextRun = new Date();
       nextRun.setDate(nextRun.getDate() + 30); // Monthly by default
@@ -755,7 +755,7 @@ class ComplianceService {
    * Create evidence request
    */
   async createEvidenceRequest(
-    requestData: Omit<EvidenceRequest, 'id' | 'requestedAt' | 'status' | 'evidenceIds'>
+    requestData: Omit<EvidenceRequest, 'id' | 'requestedAt' | 'status' | 'evidenceIds'>,
   ): Promise<EvidenceRequest> {
     try {
       logger.info('Creating evidence request', { title: requestData.title });
@@ -840,7 +840,7 @@ class ComplianceService {
     updateId: string,
     status: 'under_review' | 'implemented' | 'not_applicable',
     reviewedBy: string,
-    notes?: string
+    notes?: string,
   ): Promise<RegulatoryUpdate> {
     try {
       logger.info('Reviewing regulatory update', { updateId, status });
@@ -951,12 +951,12 @@ class ComplianceService {
   private generateRecommendations(gaps: ComplianceGap[]): string[] {
     const recommendations: string[] = [];
 
-    const criticalGaps = gaps.filter(g => g.severity === 'critical');
+    const criticalGaps = gaps.filter((g) => g.severity === 'critical');
     if (criticalGaps.length > 0) {
       recommendations.push(`Immediately address ${criticalGaps.length} critical compliance gaps`);
     }
 
-    const highGaps = gaps.filter(g => g.severity === 'high');
+    const highGaps = gaps.filter((g) => g.severity === 'high');
     if (highGaps.length > 0) {
       recommendations.push(`Prioritize remediation of ${highGaps.length} high severity gaps`);
     }
@@ -972,10 +972,10 @@ class ComplianceService {
    * Generate executive summary
    */
   private generateExecutiveSummary(analysis: GapAnalysisResult): string {
-    return `Compliance assessment for ${analysis.frameworkType} completed on ${analysis.assessmentDate.toLocaleDateString()}. ` +
-      `Overall compliance score: ${analysis.overallScore}%. ` +
-      `${analysis.compliantControls} of ${analysis.totalControls} controls are compliant. ` +
-      `${analysis.gaps.length} gaps identified requiring remediation.`;
+    return `Compliance assessment for ${analysis.frameworkType} completed on ${analysis.assessmentDate.toLocaleDateString()}. `
+      + `Overall compliance score: ${analysis.overallScore}%. `
+      + `${analysis.compliantControls} of ${analysis.totalControls} controls are compliant. `
+      + `${analysis.gaps.length} gaps identified requiring remediation.`;
   }
 
   // ========================================
@@ -1014,4 +1014,3 @@ class ComplianceService {
 }
 
 export default new ComplianceService();
-

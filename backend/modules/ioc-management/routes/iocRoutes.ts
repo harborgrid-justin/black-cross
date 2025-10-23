@@ -1,9 +1,9 @@
 import express from 'express';
-
-const router = express.Router();
 import iocController from '../controllers/iocController';
 import { validate, commonSchemas, Joi } from '../../../middleware/validator';
 import validatorSchemas from '../validators/iocValidator';
+
+const router = express.Router();
 
 const { iocSchema, iocUpdateSchema } = validatorSchemas;
 
@@ -23,4 +23,3 @@ router.get('/export', iocController.exportIoCs);
 router.post('/check', iocController.checkIoC);
 
 export default router;
-

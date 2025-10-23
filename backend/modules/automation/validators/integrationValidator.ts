@@ -102,4 +102,3 @@ export default {
   integrationUpdateSchema,
   testIntegrationSchema,
 };
-
