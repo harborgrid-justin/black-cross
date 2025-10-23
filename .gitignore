@@ -127,3 +127,4 @@ Thumbs.db
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+backend/modules/code-review/reports/

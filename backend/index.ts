@@ -36,6 +36,7 @@ import malwareAnalysis from './modules/malware-analysis';
 import darkWeb from './modules/dark-web';
 import compliance from './modules/compliance';
 import automation from './modules/automation';
+import codeReview from './modules/code-review';
 
 const app: Application = express();
 const PORT: string | number = process.env.APP_PORT || PORTS.APP;
@@ -79,6 +80,7 @@ app.get(ROUTES.HEALTH, (req: Request, res: Response): void => {
       darkWeb: STATUS.OPERATIONAL,
       compliance: STATUS.OPERATIONAL,
       automation: STATUS.OPERATIONAL,
+      codeReview: STATUS.OPERATIONAL,
     },
   });
 });
@@ -138,6 +140,7 @@ app.use(MODULE_ROUTES.MALWARE_ANALYSIS, malwareAnalysis);
 app.use(MODULE_ROUTES.DARK_WEB, darkWeb);
 app.use(MODULE_ROUTES.COMPLIANCE, compliance);
 app.use(MODULE_ROUTES.AUTOMATION, automation);
+app.use('/api/v1/code-review', codeReview);
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, _next: NextFunction): void => {
