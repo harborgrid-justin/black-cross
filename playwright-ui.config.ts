@@ -58,20 +58,23 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: [
-    {
-      command: 'cd backend && npm run dev',
-      url: 'http://localhost:8080/health',
-      reuseExistingServer: true,
-      timeout: 120 * 1000,
-    },
-    {
-      command: 'cd frontend && npm run dev',
-      url: 'http://localhost:3000',
-      reuseExistingServer: true,
-      timeout: 120 * 1000,
-    },
-  ],
+  // Note: Servers should be started manually before running screenshots
+  // This avoids TypeScript compilation issues during test execution
+  // Start with: npm run dev (in separate terminal)
+  // webServer: [
+  //   {
+  //     command: 'cd backend && npm run dev',
+  //     url: 'http://localhost:8080/health',
+  //     reuseExistingServer: true,
+  //     timeout: 120 * 1000,
+  //   },
+  //   {
+  //     command: 'cd frontend && npm run dev',
+  //     url: 'http://localhost:3000',
+  //     reuseExistingServer: true,
+  //     timeout: 120 * 1000,
+  //   },
+  // ],
 
   /* Global timeout for each test */
   timeout: 60 * 1000,
