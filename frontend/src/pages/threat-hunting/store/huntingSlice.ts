@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for Threat Hunting page state. Manages local page state and interactions.
+ * 
+ * @module pages/threat-hunting/store/huntingSlice.ts
+ */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { huntingService } from '@/services/huntingService';
 

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Custom React hook for ThreatFeeds feature. Provides state management and operations for ThreatFeeds.
+ * 
+ * @module hooks/useThreatFeeds
+ */
+
 import { useState, useCallback } from 'react';
 import { feedService } from '@/services/feedService';
 import type { ApiResponse } from '@/types';

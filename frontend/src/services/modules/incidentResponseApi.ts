@@ -1,4 +1,10 @@
 /**
+ * @fileoverview API module for incidentResponse. Provides type-safe API methods and request/response handling.
+ * 
+ * @module services/modules/incidentResponseApi
+ */
+
+/**
  * WF-COMP-005 | incidentResponseApi.ts - Incident Response API service module
  * Purpose: Incident Response domain API operations with type safety and validation
  * Upstream: ../config/apiConfig, ../utils/apiUtils, ../types | Dependencies: axios, zod

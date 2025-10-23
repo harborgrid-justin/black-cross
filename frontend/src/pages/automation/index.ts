@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Module export point for Automation. Central export for all module components.
+ * 
+ * @module pages/automation/index.ts
+ */
+
 export * from './store';
 export { default as AutomationMain } from './AutomationMain';
 export { default as AutomationDetail } from './AutomationDetail';

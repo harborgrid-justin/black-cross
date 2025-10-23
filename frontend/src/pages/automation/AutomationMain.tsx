@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Automation main page. Primary landing page for the Automation module.
+ * 
+ * @module pages/automation/AutomationMain.tsx
+ */
+
 import { useEffect } from 'react';
 import {
   Box,

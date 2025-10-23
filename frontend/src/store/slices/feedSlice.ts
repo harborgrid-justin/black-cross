@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for managing feed state. Handles state management, reducers, and async thunks.
+ * 
+ * @module store/slices/feedSlice
+ */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { feedService } from '@/services/feedService';
 

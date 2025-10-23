@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Risk Assessment creation page. Form for creating new Risk Assessment entries.
+ * 
+ * @module pages/risk-assessment/RiskAssessmentCreate.tsx
+ */
+
 import { useNavigate } from 'react-router-dom';
 import { Box, Paper, Typography, Button } from '@mui/material';
 import { ArrowBack as BackIcon } from '@mui/icons-material';

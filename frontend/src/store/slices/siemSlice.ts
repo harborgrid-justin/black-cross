@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for managing siem state. Handles state management, reducers, and async thunks.
+ * 
+ * @module store/slices/siemSlice
+ */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { siemService } from '@/services/siemService';
 

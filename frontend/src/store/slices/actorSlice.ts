@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for managing actor state. Handles state management, reducers, and async thunks.
+ * 
+ * @module store/slices/actorSlice
+ */
+
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { actorService } from '@/services/actorService';

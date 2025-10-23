@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Route configuration for Ioc Management. Defines routing structure and navigation.
+ * 
+ * @module pages/ioc-management/routes.tsx
+ */
+
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import IoCManagementMain from './IoCManagementMain';

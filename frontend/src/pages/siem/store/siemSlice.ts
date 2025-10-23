@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for Siem page state. Manages local page state and interactions.
+ * 
+ * @module pages/siem/store/siemSlice.ts
+ */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { siemService } from '@/services/siemService';
 

@@ -1,4 +1,10 @@
 /**
+ * @fileoverview Type definitions for API services. Provides TypeScript interfaces for API requests and responses.
+ * 
+ * @module services/types
+ */
+
+/**
  * WF-IDX-002 | index.ts - Service types module exports
  * Purpose: Centralized type exports for service layer
  * Last Updated: 2025-10-22 | File Type: .ts

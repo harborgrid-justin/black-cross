@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Layout component. React component for the Black-Cross platform.
+ * 
+ * @module components/layout/Layout.tsx
+ */
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {

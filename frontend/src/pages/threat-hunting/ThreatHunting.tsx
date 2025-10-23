@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Threat Hunting - ThreatHunting component. Component for Threat Hunting feature.
+ * 
+ * @module pages/threat-hunting/ThreatHunting.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

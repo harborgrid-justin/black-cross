@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Main dashboard page. Displays overview of security metrics and key indicators.
+ * 
+ * @module pages/Dashboard
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

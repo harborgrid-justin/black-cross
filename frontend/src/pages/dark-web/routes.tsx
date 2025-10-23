@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Route configuration for Dark Web. Defines routing structure and navigation.
+ * 
+ * @module pages/dark-web/routes.tsx
+ */
+
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import DarkWebMain from './DarkWebMain';

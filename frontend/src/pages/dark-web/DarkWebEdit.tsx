@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Dark Web edit page. Form for editing existing Dark Web entries.
+ * 
+ * @module pages/dark-web/DarkWebEdit.tsx
+ */
+
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Paper, Typography, Button } from '@mui/material';
 import { ArrowBack as BackIcon } from '@mui/icons-material';

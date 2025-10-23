@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Compliance - ComplianceManagement component. Component for Compliance feature.
+ * 
+ * @module pages/compliance/ComplianceManagement.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

@@ -1,4 +1,10 @@
 /**
+ * @fileoverview Threat Intelligence edit page. Form for editing existing Threat Intelligence entries.
+ * 
+ * @module pages/threat-intelligence/ThreatIntelligenceEdit.tsx
+ */
+
+/**
  * WF-COMP-003 | ThreatIntelligenceEdit.tsx - Edit threat intelligence page
  * Purpose: Form page for editing existing threat intelligence items
  * Last Updated: 2025-10-22 | File Type: .tsx

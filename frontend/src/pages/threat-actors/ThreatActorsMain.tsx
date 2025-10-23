@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Threat Actors main page. Primary landing page for the Threat Actors module.
+ * 
+ * @module pages/threat-actors/ThreatActorsMain.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

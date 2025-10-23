@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Reporting creation page. Form for creating new Reporting entries.
+ * 
+ * @module pages/reporting/ReportingCreate.tsx
+ */
+
 import { useNavigate } from 'react-router-dom';
 import { Box, Paper, Typography, Button } from '@mui/material';
 import { ArrowBack as BackIcon } from '@mui/icons-material';

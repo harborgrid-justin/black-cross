@@ -1,4 +1,10 @@
 /**
+ * @fileoverview Incident Response detail page. Shows detailed information for a single item.
+ * 
+ * @module pages/incident-response/IncidentResponseDetail.tsx
+ */
+
+/**
  * WF-COMP-007 | IncidentResponseDetail.tsx - Incident detail page
  * Purpose: Display detailed information about a specific incident
  * Last Updated: 2025-10-22 | File Type: .tsx

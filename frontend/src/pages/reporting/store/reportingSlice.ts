@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for Reporting page state. Manages local page state and interactions.
+ * 
+ * @module pages/reporting/store/reportingSlice.ts
+ */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { reportingService } from '@/services/reportingService';
 

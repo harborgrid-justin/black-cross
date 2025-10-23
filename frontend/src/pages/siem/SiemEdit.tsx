@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Siem edit page. Form for editing existing Siem entries.
+ * 
+ * @module pages/siem/SiemEdit.tsx
+ */
+
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Paper, Typography, Button } from '@mui/material';
 import { ArrowBack as BackIcon } from '@mui/icons-material';

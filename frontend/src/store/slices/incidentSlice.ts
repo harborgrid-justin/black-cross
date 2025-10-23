@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for managing incident state. Handles state management, reducers, and async thunks.
+ * 
+ * @module store/slices/incidentSlice
+ */
+
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { incidentService } from '@/services/incidentService';

@@ -1,4 +1,10 @@
 /**
+ * @fileoverview Route configuration for Incident Response. Defines routing structure and navigation.
+ * 
+ * @module pages/incident-response/routes.tsx
+ */
+
+/**
  * WF-COMP-010 | routes.tsx - Incident Response page routes
  * Purpose: Incident Response route configuration with role-based protection
  * Related: ProtectedRoute, incident response components

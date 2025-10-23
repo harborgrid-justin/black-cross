@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Incident Response list page. Displays paginated list of Incident Response items.
+ * 
+ * @module pages/incident-response/IncidentList.tsx
+ */
+
 import { useEffect } from 'react';
 import {
   Box,

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Module export point for Threat Hunting. Central export for all module components.
+ * 
+ * @module pages/threat-hunting/index.ts
+ */
+
 export * from './store';
 export { default as ThreatHuntingMain } from './ThreatHuntingMain';
 export { default as ThreatHuntingDetail } from './ThreatHuntingDetail';

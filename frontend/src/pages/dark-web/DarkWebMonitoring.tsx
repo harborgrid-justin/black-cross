@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Dark Web - DarkWebMonitoring component. Component for Dark Web feature.
+ * 
+ * @module pages/dark-web/DarkWebMonitoring.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

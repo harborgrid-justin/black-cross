@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Reporting - ReportingAnalytics component. Component for Reporting feature.
+ * 
+ * @module pages/reporting/ReportingAnalytics.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

@@ -1,4 +1,10 @@
 /**
+ * @fileoverview Incident Response edit page. Form for editing existing Incident Response entries.
+ * 
+ * @module pages/incident-response/IncidentResponseEdit.tsx
+ */
+
+/**
  * WF-COMP-009 | IncidentResponseEdit.tsx - Edit incident page
  * Purpose: Form page for editing existing incidents
  * Last Updated: 2025-10-22 | File Type: .tsx

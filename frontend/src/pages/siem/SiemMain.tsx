@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Siem main page. Primary landing page for the Siem module.
+ * 
+ * @module pages/siem/SiemMain.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

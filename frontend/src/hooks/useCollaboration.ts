@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Custom React hook for Collaboration feature. Provides state management and operations for Collaboration.
+ * 
+ * @module hooks/useCollaboration
+ */
+
 import { useState, useCallback } from 'react';
 import { collaborationService } from '@/services/collaborationService';
 import type { ApiResponse, PaginatedResponse, FilterOptions } from '@/types';

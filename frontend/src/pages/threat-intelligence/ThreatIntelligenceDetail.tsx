@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Threat Intelligence detail page. Shows detailed information for a single item.
+ * 
+ * @module pages/threat-intelligence/ThreatIntelligenceDetail.tsx
+ */
+
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {

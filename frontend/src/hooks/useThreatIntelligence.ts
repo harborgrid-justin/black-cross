@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Custom React hook for ThreatIntelligence feature. Provides state management and operations for ThreatIntelligence.
+ * 
+ * @module hooks/useThreatIntelligence
+ */
+
 import { useState, useCallback } from 'react';
 import { threatService } from '@/services/threatService';
 import type { Threat, FilterOptions, ApiResponse, PaginatedResponse } from '@/types';

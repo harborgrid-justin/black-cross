@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Risk Assessment - RiskAssessment component. Component for Risk Assessment feature.
+ * 
+ * @module pages/risk-assessment/RiskAssessment.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

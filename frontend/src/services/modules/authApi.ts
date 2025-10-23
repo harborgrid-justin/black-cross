@@ -1,4 +1,10 @@
 /**
+ * @fileoverview API module for auth. Provides type-safe API methods and request/response handling.
+ * 
+ * @module services/modules/authApi
+ */
+
+/**
  * WF-COMP-008 | authApi.ts - Authentication API service module
  * Purpose: Authentication and authorization operations with type safety and validation
  * Upstream: ../config/apiConfig, ../utils/apiUtils, ../types | Dependencies: axios, zod

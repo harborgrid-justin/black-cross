@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Ioc Management main page. Primary landing page for the Ioc Management module.
+ * 
+ * @module pages/ioc-management/IoCManagementMain.tsx
+ */
+
 import { useEffect } from 'react';
 import {
   Box,

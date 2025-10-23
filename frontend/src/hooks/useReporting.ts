@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Custom React hook for Reporting feature. Provides state management and operations for Reporting.
+ * 
+ * @module hooks/useReporting
+ */
+
 import { useState, useCallback } from 'react';
 import { reportingService } from '@/services/reportingService';
 import type { ApiResponse, PaginatedResponse, FilterOptions } from '@/types';

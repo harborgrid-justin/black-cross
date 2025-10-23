@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for Incident Response page state. Manages local page state and interactions.
+ * 
+ * @module pages/incident-response/store/incidentSlice.ts
+ */
+
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { incidentService } from '@/services/incidentService';

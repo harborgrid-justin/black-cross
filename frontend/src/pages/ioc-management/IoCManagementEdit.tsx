@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Ioc Management edit page. Form for editing existing Ioc Management entries.
+ * 
+ * @module pages/ioc-management/IoCManagementEdit.tsx
+ */
+
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Paper, Typography, Button } from '@mui/material';
 import { ArrowBack as BackIcon } from '@mui/icons-material';

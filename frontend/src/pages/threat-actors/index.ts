@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Module export point for Threat Actors. Central export for all module components.
+ * 
+ * @module pages/threat-actors/index.ts
+ */
+
 export * from './store';
 export { default as ThreatActorsMain } from './ThreatActorsMain';
 export { default as ThreatActorsDetail } from './ThreatActorsDetail';

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Route configuration for Compliance. Defines routing structure and navigation.
+ * 
+ * @module pages/compliance/routes.tsx
+ */
+
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ComplianceMain from './ComplianceMain';

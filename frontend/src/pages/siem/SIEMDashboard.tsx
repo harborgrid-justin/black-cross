@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Siem - SIEMDashboard component. Component for Siem feature.
+ * 
+ * @module pages/siem/SIEMDashboard.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Simplified dashboard page. Provides quick access to critical security information.
+ * 
+ * @module pages/SimpleDashboard
+ */
+
 import { useEffect } from 'react';
 import { Box, Typography, Alert, Grid, Paper, CircularProgress } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';

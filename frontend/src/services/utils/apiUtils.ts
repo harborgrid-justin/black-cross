@@ -1,4 +1,10 @@
 /**
+ * @fileoverview Utility functions for API operations. Provides helper methods for common API patterns.
+ * 
+ * @module services/utils/apiUtils
+ */
+
+/**
  * WF-COMP-002 | apiUtils.ts - API utility functions
  * Purpose: Common utility functions for API operations
  * Dependencies: axios

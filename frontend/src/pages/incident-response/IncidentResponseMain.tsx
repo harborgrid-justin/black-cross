@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Incident Response main page. Primary landing page for the Incident Response module.
+ * 
+ * @module pages/incident-response/IncidentResponseMain.tsx
+ */
+
 import { useEffect } from 'react';
 import {
   Box,

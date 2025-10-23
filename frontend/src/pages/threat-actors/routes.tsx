@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Route configuration for Threat Actors. Defines routing structure and navigation.
+ * 
+ * @module pages/threat-actors/routes.tsx
+ */
+
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ThreatActorsMain from './ThreatActorsMain';

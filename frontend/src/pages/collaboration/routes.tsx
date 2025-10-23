@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Route configuration for Collaboration. Defines routing structure and navigation.
+ * 
+ * @module pages/collaboration/routes.tsx
+ */
+
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import CollaborationMain from './CollaborationMain';

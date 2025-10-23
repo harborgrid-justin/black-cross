@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Automation creation page. Form for creating new Automation entries.
+ * 
+ * @module pages/automation/AutomationCreate.tsx
+ */
+
 import { useNavigate } from 'react-router-dom';
 import { Box, Paper, Typography, Button } from '@mui/material';
 import { ArrowBack as BackIcon } from '@mui/icons-material';

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for Ioc Management page state. Manages local page state and interactions.
+ * 
+ * @module pages/ioc-management/store/iocSlice.ts
+ */
+
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { iocService } from '@/services/iocService';

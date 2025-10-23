@@ -1,6 +1,10 @@
 /**
- * Route Constants
- * Centralized route paths for the application
+ * @fileoverview Route Constants
+ * 
+ * Centralized route paths for the application including public routes,
+ * protected routes, navigation items, and breadcrumb titles.
+ * 
+ * @module constants/routes
  */
 
 /**

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Threat Actors detail page. Shows detailed information for a single item.
+ * 
+ * @module pages/threat-actors/ThreatActorsDetail.tsx
+ */
+
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Paper, Typography, Button } from '@mui/material';
 import { ArrowBack as BackIcon } from '@mui/icons-material';

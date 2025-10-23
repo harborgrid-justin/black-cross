@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for Threat Intelligence page state. Manages local page state and interactions.
+ * 
+ * @module pages/threat-intelligence/store/threatSlice.ts
+ */
+
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { threatService } from '@/services/threatService';

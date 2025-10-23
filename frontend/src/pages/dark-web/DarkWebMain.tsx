@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Dark Web main page. Primary landing page for the Dark Web module.
+ * 
+ * @module pages/dark-web/DarkWebMain.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

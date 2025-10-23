@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Threat Feeds - ThreatFeeds component. Component for Threat Feeds feature.
+ * 
+ * @module pages/threat-feeds/ThreatFeeds.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

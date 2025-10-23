@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Threat Intelligence main page. Primary landing page for the Threat Intelligence module.
+ * 
+ * @module pages/threat-intelligence/ThreatIntelligenceMain.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {

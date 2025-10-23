@@ -1,4 +1,10 @@
 /**
+ * @fileoverview API module for iocManagement. Provides type-safe API methods and request/response handling.
+ * 
+ * @module services/modules/iocManagementApi
+ */
+
+/**
  * WF-COMP-007 | iocManagementApi.ts - IOC Management API service module
  * Purpose: IOC (Indicators of Compromise) Management domain API operations with type safety and validation
  * Upstream: ../config/apiConfig, ../utils/apiUtils, ../types | Dependencies: axios, zod

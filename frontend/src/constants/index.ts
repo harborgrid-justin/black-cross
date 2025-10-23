@@ -1,6 +1,10 @@
 /**
- * Constants Index
- * Central export point for all frontend constants
+ * @fileoverview Constants Index
+ * 
+ * Central export point for all frontend constants including API endpoints,
+ * application settings, routes, and user messages.
+ * 
+ * @module constants
  */
 
 // API constants

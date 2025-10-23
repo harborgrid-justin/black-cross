@@ -1,9 +1,13 @@
 /**
+ * @fileoverview Base API Service Abstract Class
+ * 
  * WF-COMP-003 | BaseApiService.ts - Base API service abstract class
  * Purpose: Provides reusable CRUD patterns for all API modules
  * Dependencies: ../config/apiConfig, ../utils/apiUtils, zod
  * Exports: BaseApiService class, interfaces
  * Last Updated: 2025-10-22 | File Type: .ts
+ * 
+ * @module services/core/BaseApiService
  */
 
 import { apiInstance } from '../config/apiConfig';

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for managing reporting state. Handles state management, reducers, and async thunks.
+ * 
+ * @module store/slices/reportingSlice
+ */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { reportingService } from '@/services/reportingService';
 

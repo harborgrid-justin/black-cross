@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Login component. React component for the Black-Cross platform.
+ * 
+ * @module components/auth/Login.tsx
+ */
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Threat Actors edit page. Form for editing existing Threat Actors entries.
+ * 
+ * @module pages/threat-actors/ThreatActorsEdit.tsx
+ */
+
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Paper, Typography, Button } from '@mui/material';
 import { ArrowBack as BackIcon } from '@mui/icons-material';

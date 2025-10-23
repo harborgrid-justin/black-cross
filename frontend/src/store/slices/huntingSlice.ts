@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for managing hunting state. Handles state management, reducers, and async thunks.
+ * 
+ * @module store/slices/huntingSlice
+ */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { huntingService } from '@/services/huntingService';
 

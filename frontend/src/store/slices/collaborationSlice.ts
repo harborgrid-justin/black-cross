@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for managing collaboration state. Handles state management, reducers, and async thunks.
+ * 
+ * @module store/slices/collaborationSlice
+ */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { collaborationService } from '@/services/collaborationService';
 

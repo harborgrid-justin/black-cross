@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Threat Actors - ThreatActors component. Component for Threat Actors feature.
+ * 
+ * @module pages/threat-actors/ThreatActors.tsx
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Box,

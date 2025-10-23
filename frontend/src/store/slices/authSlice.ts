@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Redux slice for managing auth state. Handles state management, reducers, and async thunks.
+ * 
+ * @module store/slices/authSlice
+ */
+
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { authService } from '@/services/authService';

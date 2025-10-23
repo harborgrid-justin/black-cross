@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Route configuration for Risk Assessment. Defines routing structure and navigation.
+ * 
+ * @module pages/risk-assessment/routes.tsx
+ */
+
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import RiskAssessmentMain from './RiskAssessmentMain';

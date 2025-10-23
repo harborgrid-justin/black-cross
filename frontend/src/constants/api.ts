@@ -1,6 +1,10 @@
 /**
- * API Constants
- * Centralized API endpoints and configuration
+ * @fileoverview API Constants
+ * 
+ * Centralized API endpoints and configuration including base URLs, endpoints,
+ * HTTP status codes, headers, and content types.
+ * 
+ * @module constants/api
  */
 
 /**
