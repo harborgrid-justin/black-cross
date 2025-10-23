@@ -9,7 +9,7 @@ The screenshot capture tool provides two ways to capture screenshots:
 1. **Standalone Script** (`scripts/capture-screenshots.ts`) - Simpler, direct execution
 2. **Playwright Tests** (`tests/screenshots/`) - Full test framework with reporting
 
-Both methods capture screenshots of all 37+ user-accessible pages across all 19 security modules.
+Both methods capture screenshots of all 37 user-accessible pages across 20 security modules, plus the login page (38 total screenshots).
 
 ## Prerequisites
 

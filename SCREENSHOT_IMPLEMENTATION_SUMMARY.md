@@ -24,7 +24,7 @@ npm run capture-screenshots
 **Features**:
 - Simple CLI execution with real-time progress display
 - Automatic authentication handling
-- Captures 37+ pages across 19 security modules
+- Captures 37 pages across 20 modules plus login page (38 total screenshots)
 - Robust error handling (continues on individual page failures)
 - Clear summary report with success/failure counts
 - No test framework overhead
@@ -75,7 +75,7 @@ npm run screenshots:headed  # With visible browser
 
 ## Pages Captured
 
-### Complete Module Coverage (19 Modules)
+### Complete Module Coverage (20 Modules)
 
 1. **Dashboard** - Main application dashboard
    - `/` - Main dashboard
@@ -154,7 +154,7 @@ npm run screenshots:headed  # With visible browser
 20. **Draft Workspace** - Draft content
     - `/draft-workspace` - Main page
 
-**Total**: 38 pages (including login page)
+**Total**: 38 screenshots (37 module pages + 1 login page)
 
 ## Technical Specifications
 
@@ -361,7 +361,8 @@ The screenshot tool itself is complete and functional - it only requires running
 
 ## Success Metrics
 
-- ✅ **38 pages mapped**: All user-accessible routes identified
+- ✅ **37 routes + login**: All user-accessible pages mapped (38 total screenshots)
+- ✅ **20 modules covered**: Complete coverage across all security modules
 - ✅ **2 methods provided**: Standalone script + Playwright tests
 - ✅ **Full documentation**: 24KB+ of guides and instructions
 - ✅ **Robust implementation**: Error handling, progress display
