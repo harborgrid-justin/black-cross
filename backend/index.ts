@@ -5,7 +5,9 @@
  * Main application entry point
  */
 
-import express, { type Request, type Response, type NextFunction, type Application } from 'express';
+import express, {
+  type Request, type Response, type NextFunction, type Application,
+} from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import swaggerUi from 'swagger-ui-express';
@@ -13,7 +15,27 @@ import swaggerSpec from './config/swagger';
 import { rateLimiter } from './middleware/rateLimiter';
 import correlationId from './middleware/correlationId';
 import requestLogger from './middleware/requestLogger';
-import { APP, PORTS, RATE_LIMIT, ROUTES, MODULE_ROUTES, FEATURES, STATUS, ENVIRONMENT, MODULES, SWAGGER } from './constants';
+import {
+  APP, PORTS, RATE_LIMIT, ROUTES, MODULE_ROUTES, FEATURES, STATUS, ENVIRONMENT, MODULES, SWAGGER,
+} from './constants';
+
+// Module routes
+import auth from './modules/auth';
+import threatIntelligence from './modules/threat-intelligence';
+import incidentResponse from './modules/incident-response';
+import threatHunting from './modules/threat-hunting';
+import vulnerabilityManagement from './modules/vulnerability-management';
+import siem from './modules/siem';
+import threatActors from './modules/threat-actors';
+import iocManagement from './modules/ioc-management';
+import threatFeeds from './modules/threat-feeds';
+import riskAssessment from './modules/risk-assessment';
+import collaboration from './modules/collaboration';
+import reporting from './modules/reporting';
+import malwareAnalysis from './modules/malware-analysis';
+import darkWeb from './modules/dark-web';
+import compliance from './modules/compliance';
+import automation from './modules/automation';
 
 const app: Application = express();
 const PORT: string | number = process.env.APP_PORT || PORTS.APP;
@@ -100,24 +122,6 @@ app.get(ROUTES.API_DOCS, swaggerUi.setup(swaggerSpec, {
   customCss: SWAGGER.CUSTOM_CSS,
 }));
 
-// Module routes
-import auth from './modules/auth';
-import threatIntelligence from './modules/threat-intelligence';
-import incidentResponse from './modules/incident-response';
-import threatHunting from './modules/threat-hunting';
-import vulnerabilityManagement from './modules/vulnerability-management';
-import siem from './modules/siem';
-import threatActors from './modules/threat-actors';
-import iocManagement from './modules/ioc-management';
-import threatFeeds from './modules/threat-feeds';
-import riskAssessment from './modules/risk-assessment';
-import collaboration from './modules/collaboration';
-import reporting from './modules/reporting';
-import malwareAnalysis from './modules/malware-analysis';
-import darkWeb from './modules/dark-web';
-import compliance from './modules/compliance';
-import automation from './modules/automation';
-
 app.use('/api/v1/auth', auth);
 app.use(MODULE_ROUTES.THREAT_INTELLIGENCE, threatIntelligence);
 app.use(MODULE_ROUTES.INCIDENT_RESPONSE, incidentResponse);
@@ -174,4 +178,3 @@ Environment: ${process.env.NODE_ENV || ENVIRONMENT.DEVELOPMENT}
 });
 
 export default app;
-

@@ -7,7 +7,8 @@
  * - User authentication
  */
 
-import express, { Router, Request, Response } from 'express';
+import type { Router, Request, Response } from 'express';
+import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { initializeSequelize } from '../../config/sequelize';
@@ -92,7 +93,7 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
         role: user.role,
       },
       jwtSecret,
-      { expiresIn: '24h' }
+      { expiresIn: '24h' },
     );
 
     // Update last login
@@ -136,7 +137,7 @@ router.get('/me', async (req: Request, res: Response): Promise<void> => {
   try {
     const authHeader = req.headers.authorization;
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!authHeader?.startsWith('Bearer ')) {
       res.status(401).json({
         success: false,
         error: 'No authentication token provided',

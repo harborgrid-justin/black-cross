@@ -1,7 +1,7 @@
 import express from 'express';
+import feedRoutes from './routes/feedRoutes';
 
 const router = express.Router();
-import feedRoutes from './routes/feedRoutes';
 
 // Health check route
 router.get('/health', (req, res) => {
@@ -23,4 +23,3 @@ router.get('/health', (req, res) => {
 
 router.use('/', feedRoutes);
 export default router;
-

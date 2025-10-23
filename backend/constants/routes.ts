@@ -6,7 +6,7 @@
 /**
  * API version prefix
  */
-export const API_VERSION = '/api/v1' as const;
+export const API_VERSION = '/api/v1';
 
 /**
  * Base routes

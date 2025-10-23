@@ -29,64 +29,64 @@ export default class ThreatActor extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column(DataType.UUID)
-  id!: string;
+    id!: string;
 
   @Unique
   @AllowNull(false)
   @Index
   @Column(DataType.STRING)
-  name!: string;
+    name!: string;
 
   @AllowNull(false)
   @Default([])
   @Column(DataType.ARRAY(DataType.STRING))
-  aliases!: string[];
+    aliases!: string[];
 
   @Column(DataType.TEXT)
-  description?: string;
+    description?: string;
 
   @Column(DataType.STRING)
-  sophistication?: string;
+    sophistication?: string;
 
   @AllowNull(false)
   @Default([])
   @Column(DataType.ARRAY(DataType.STRING))
-  motivation!: string[];
+    motivation!: string[];
 
   @Column({
     type: DataType.DATE,
     field: 'first_seen',
   })
-  firstSeen?: Date;
+    firstSeen?: Date;
 
   @Column({
     type: DataType.DATE,
     field: 'last_seen',
   })
-  lastSeen?: Date;
+    lastSeen?: Date;
 
   @Column(DataType.STRING)
-  country?: string;
+    country?: string;
 
   @AllowNull(false)
   @Default([])
   @Column(DataType.ARRAY(DataType.STRING))
-  tags!: string[];
+    tags!: string[];
 
   @Column(DataType.JSONB)
-  metadata?: any;
+    metadata?: any;
 
   @CreatedAt
   @Column({
     type: DataType.DATE,
     field: 'created_at',
   })
-  createdAt!: Date;
+    createdAt!: Date;
 
   @UpdatedAt
   @Column({
     type: DataType.DATE,
     field: 'updated_at',
   })
-  updatedAt!: Date;
+    updatedAt!: Date;
 }

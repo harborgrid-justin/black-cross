@@ -6,16 +6,16 @@
 /**
  * Supported IoC types
  */
-export type IoCType = 
-  | 'ip' 
-  | 'domain' 
-  | 'md5' 
-  | 'sha1' 
-  | 'sha256' 
-  | 'url' 
-  | 'email' 
-  | 'cve' 
-  | 'registry_key' 
+export type IoCType =
+  | 'ip'
+  | 'domain'
+  | 'md5'
+  | 'sha1'
+  | 'sha256'
+  | 'url'
+  | 'email'
+  | 'cve'
+  | 'registry_key'
   | 'file_path'
   | 'mutex'
   | 'user_agent';
@@ -23,11 +23,11 @@ export type IoCType =
 /**
  * IoC lifecycle status
  */
-export type IoCStatus = 
-  | 'active' 
-  | 'expired' 
-  | 'false_positive' 
-  | 'whitelisted' 
+export type IoCStatus =
+  | 'active'
+  | 'expired'
+  | 'false_positive'
+  | 'whitelisted'
   | 'reviewing'
   | 'archived';
 
@@ -242,8 +242,8 @@ export function isError(error: unknown): error is Error {
  */
 export function isValidIoCType(type: string): type is IoCType {
   const validTypes: readonly IoCType[] = [
-    'ip', 'domain', 'md5', 'sha1', 'sha256', 'url', 'email', 
-    'cve', 'registry_key', 'file_path', 'mutex', 'user_agent'
+    'ip', 'domain', 'md5', 'sha1', 'sha256', 'url', 'email',
+    'cve', 'registry_key', 'file_path', 'mutex', 'user_agent',
   ];
   return validTypes.includes(type as IoCType);
 }
@@ -253,7 +253,7 @@ export function isValidIoCType(type: string): type is IoCType {
  */
 export function isValidIoCStatus(status: string): status is IoCStatus {
   const validStatuses: readonly IoCStatus[] = [
-    'active', 'expired', 'false_positive', 'whitelisted', 'reviewing', 'archived'
+    'active', 'expired', 'false_positive', 'whitelisted', 'reviewing', 'archived',
   ];
   return validStatuses.includes(status as IoCStatus);
 }

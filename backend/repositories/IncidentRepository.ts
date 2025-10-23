@@ -128,7 +128,9 @@ class IncidentRepository extends BaseRepository<Incident> {
       this.count({ severity: 'low' }),
     ]);
 
-    return { total, open, resolved, critical, high, medium, low };
+    return {
+      total, open, resolved, critical, high, medium, low,
+    };
   }
 
   /**

@@ -31,7 +31,7 @@ export default class AuditLog extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column(DataType.UUID)
-  id!: string;
+    id!: string;
 
   @ForeignKey(() => User)
   @AllowNull(false)
@@ -40,44 +40,44 @@ export default class AuditLog extends Model {
     type: DataType.UUID,
     field: 'user_id',
   })
-  userId!: string;
+    userId!: string;
 
   @BelongsTo(() => User, 'userId')
-  user?: User;
+    user?: User;
 
   @AllowNull(false)
   @Index
   @Column(DataType.STRING)
-  action!: string;
+    action!: string;
 
   @AllowNull(false)
   @Column(DataType.STRING)
-  resource!: string;
+    resource!: string;
 
   @Column({
     type: DataType.STRING,
     field: 'resource_id',
   })
-  resourceId?: string;
+    resourceId?: string;
 
   @Column(DataType.JSONB)
-  details?: any;
+    details?: any;
 
   @Column({
     type: DataType.STRING,
     field: 'ip_address',
   })
-  ipAddress?: string;
+    ipAddress?: string;
 
   @Column({
     type: DataType.STRING,
     field: 'user_agent',
   })
-  userAgent?: string;
+    userAgent?: string;
 
   @Default(DataType.NOW)
   @AllowNull(false)
   @Index
   @Column(DataType.DATE)
-  timestamp!: Date;
+    timestamp!: Date;
 }

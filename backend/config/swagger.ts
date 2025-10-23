@@ -280,4 +280,3 @@ const options: Options = {
 const swaggerSpec = swaggerJsdoc(options);
 
 export default swaggerSpec;
-

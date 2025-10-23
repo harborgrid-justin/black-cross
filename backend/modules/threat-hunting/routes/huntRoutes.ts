@@ -1,9 +1,9 @@
 import express from 'express';
+import huntController from '../controllers/huntController';
+import { validate, commonSchemas } from '../../../middleware/validator';
+import huntValidator from '../validators/huntValidator';
 
 const router = express.Router();
-import huntController from '../controllers/huntController';
-import {  validate, commonSchemas  } from '../../../middleware/validator';
-import huntValidator from '../validators/huntValidator';
 
 const { huntSessionSchema, huntQuerySchema, huntFindingSchema } = huntValidator;
 
@@ -20,4 +20,3 @@ router.post('/sessions/:id/findings', validate({
 }), huntController.addFinding);
 
 export default router;
-

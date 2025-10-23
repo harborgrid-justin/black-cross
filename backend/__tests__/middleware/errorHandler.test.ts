@@ -3,14 +3,14 @@
  * Test enterprise error handling functionality
  */
 
-import { 
+import {
   AppError,
   ValidationError,
   AuthenticationError,
   NotFoundError,
   errorHandler,
   asyncHandler,
- } from '../../middleware/errorHandler';
+} from '../../middleware/errorHandler';
 
 describe('Error Classes', () => {
   describe('AppError', () => {
@@ -160,4 +160,3 @@ describe('asyncHandler', () => {
     expect(next).not.toHaveBeenCalled();
   });
 });
-

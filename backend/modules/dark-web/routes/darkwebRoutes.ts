@@ -1,9 +1,9 @@
 import express from 'express';
-
-const router = express.Router();
 import darkwebController from '../controllers/darkwebController';
 import { validate, commonSchemas, Joi } from '../../../middleware/validator';
 import validatorSchemas from '../validators/darkwebValidator';
+
+const router = express.Router();
 
 const { darkwebSchema, darkwebUpdateSchema } = validatorSchemas;
 
@@ -17,4 +17,3 @@ router.put('/:id', validate({
 router.delete('/:id', validate({ params: Joi.object({ id: commonSchemas.objectId.required() }) }), darkwebController.delete);
 
 export default router;
-

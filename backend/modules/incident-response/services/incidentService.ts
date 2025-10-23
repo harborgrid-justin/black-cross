@@ -108,10 +108,10 @@ class IncidentService {
       Object.assign(incident, updates);
 
       // Handle status changes
-      if (updates['status'] === 'resolved' && !incident.resolved_at) {
+      if (updates.status === 'resolved' && !incident.resolved_at) {
         incident.resolved_at = new Date();
       }
-      if (updates['status'] === 'closed' && !incident.closed_at) {
+      if (updates.status === 'closed' && !incident.closed_at) {
         incident.closed_at = new Date();
       }
 
@@ -349,7 +349,7 @@ class IncidentService {
       medium: { response_time: 240, resolution_time: 1440 },
       low: { response_time: 480, resolution_time: 2880 },
     };
-    return slaConfigs[priority] || slaConfigs['medium'];
+    return slaConfigs[priority] || slaConfigs.medium;
   }
 
   /**

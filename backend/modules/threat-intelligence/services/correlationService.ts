@@ -341,4 +341,3 @@ class CorrelationService {
 }
 
 export default new CorrelationService();
-

@@ -28,38 +28,38 @@ export default class User extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column(DataType.UUID)
-  id!: string;
+    id!: string;
 
   @Unique
   @AllowNull(false)
   @Column(DataType.STRING)
-  email!: string;
+    email!: string;
 
   @Unique
   @AllowNull(false)
   @Column(DataType.STRING)
-  username!: string;
+    username!: string;
 
   @AllowNull(false)
   @Column(DataType.STRING)
-  password!: string;
+    password!: string;
 
   @Column({
     type: DataType.STRING,
     field: 'first_name',
   })
-  firstName?: string;
+    firstName?: string;
 
   @Column({
     type: DataType.STRING,
     field: 'last_name',
   })
-  lastName?: string;
+    lastName?: string;
 
   @Default('analyst')
   @AllowNull(false)
   @Column(DataType.STRING)
-  role!: string;
+    role!: string;
 
   @Default(true)
   @AllowNull(false)
@@ -67,31 +67,31 @@ export default class User extends Model {
     type: DataType.BOOLEAN,
     field: 'is_active',
   })
-  isActive!: boolean;
+    isActive!: boolean;
 
   @Column({
     type: DataType.DATE,
     field: 'last_login',
   })
-  lastLogin?: Date;
+    lastLogin?: Date;
 
   @CreatedAt
   @Column({
     type: DataType.DATE,
     field: 'created_at',
   })
-  createdAt!: Date;
+    createdAt!: Date;
 
   @UpdatedAt
   @Column({
     type: DataType.DATE,
     field: 'updated_at',
   })
-  updatedAt!: Date;
+    updatedAt!: Date;
 
   @HasMany(() => Incident, 'assignedToId')
-  incidents?: Incident[];
+    incidents?: Incident[];
 
   @HasMany(() => AuditLog, 'userId')
-  auditLogs?: AuditLog[];
+    auditLogs?: AuditLog[];
 }

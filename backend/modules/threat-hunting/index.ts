@@ -1,7 +1,7 @@
 import express from 'express';
+import huntRoutes from './routes/huntRoutes';
 
 const router = express.Router();
-import huntRoutes from './routes/huntRoutes';
 
 // Health check route
 router.get('/health', (req, res) => {
@@ -23,4 +23,3 @@ router.get('/health', (req, res) => {
 
 router.use('/', huntRoutes);
 export default router;
-

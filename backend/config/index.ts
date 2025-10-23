@@ -11,7 +11,9 @@
 
 import 'dotenv/config';
 import Joi from 'joi';
-import { PORTS, BCRYPT, LOGGING, MONGODB, JWT, ENVIRONMENT } from '../constants';
+import {
+  PORTS, BCRYPT, LOGGING, MONGODB, JWT, ENVIRONMENT,
+} from '../constants';
 
 // TypeScript interfaces for configuration
 export interface AppConfig {

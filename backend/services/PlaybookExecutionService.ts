@@ -37,7 +37,7 @@ export class PlaybookExecutionService {
     playbookId: string,
     playbookName: string,
     triggeredBy: string,
-    metadata?: any
+    metadata?: any,
   ): Promise<PlaybookExecution> {
     return await this.create({
       playbookId,
@@ -126,7 +126,7 @@ export class PlaybookExecutionService {
     id: string,
     status: string,
     result?: any,
-    errorMessage?: string
+    errorMessage?: string,
   ): Promise<PlaybookExecution> {
     return await playbookExecutionRepository.updateStatus(id, status, result, errorMessage);
   }

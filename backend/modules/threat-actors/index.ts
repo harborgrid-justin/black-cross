@@ -1,7 +1,7 @@
 import express from 'express';
+import actorRoutes from './routes/actorRoutes';
 
 const router = express.Router();
-import actorRoutes from './routes/actorRoutes';
 
 // Health check route
 router.get('/health', (req, res) => {
@@ -23,4 +23,3 @@ router.get('/health', (req, res) => {
 
 router.use('/', actorRoutes);
 export default router;
-

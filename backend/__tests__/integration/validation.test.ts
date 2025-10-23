@@ -5,7 +5,7 @@
 
 import request from 'supertest';
 import express from 'express';
-import {  validate, Joi  } from '../../middleware/validator';
+import { validate, Joi } from '../../middleware/validator';
 import errorHandler from '../../middleware/errorHandler';
 
 describe('Validation Integration Tests', () => {
@@ -313,4 +313,3 @@ describe('Validation Integration Tests', () => {
     });
   });
 });
-

@@ -199,4 +199,3 @@ This is an automated notification from the Black-Cross Incident Response System.
 }
 
 export default new NotificationService();
-

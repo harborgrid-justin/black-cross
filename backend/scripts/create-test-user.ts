@@ -10,14 +10,14 @@ import User from '../models/User';
 async function createTestUser() {
   try {
     console.log('🔧 Creating test user for Cypress tests...\n');
-    
+
     // Initialize Sequelize
     initializeSequelize();
     console.log('✅ Sequelize initialized\n');
 
     // Check if user already exists
     const existingUser = await User.findOne({ where: { email: 'admin@blackcross.com' } });
-    
+
     if (existingUser) {
       console.log('✅ Test user already exists');
       console.log('   Email: admin@blackcross.com');
@@ -28,7 +28,7 @@ async function createTestUser() {
 
     // Create password hash
     const password = await bcrypt.hash('Admin123!', 10);
-    
+
     // Create user
     const user = await User.create({
       email: 'admin@blackcross.com',
@@ -40,7 +40,7 @@ async function createTestUser() {
       isActive: true,
       lastLogin: new Date(),
     });
-    
+
     console.log('✅ Test user created successfully');
     console.log('   Email: admin@blackcross.com');
     console.log('   Password: Admin123!');

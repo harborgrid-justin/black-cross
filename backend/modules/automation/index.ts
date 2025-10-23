@@ -12,11 +12,11 @@
  */
 
 import express from 'express';
-
-const router = express.Router();
 import playbookRoutes from './routes/playbookRoutes';
 import integrationRoutes from './routes/integrationRoutes';
-import {  isMongoConnected  } from '../../utils/database';
+import { isMongoConnected } from '../../utils/database';
+
+const router = express.Router();
 
 // Health check route
 router.get('/health', (req, res) => {
@@ -42,4 +42,3 @@ router.use('/playbooks', playbookRoutes);
 router.use('/integrations', integrationRoutes);
 
 export default router;
-

@@ -3,10 +3,10 @@
  */
 
 import express from 'express';
-
-const router = express.Router();
 import taxonomyController from '../controllers/taxonomyController';
 import taxonomyValidators from '../validators/taxonomyValidator';
+
+const router = express.Router();
 
 const { taxonomySchema, taxonomyUpdateSchema } = taxonomyValidators;
 

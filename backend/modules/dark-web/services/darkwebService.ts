@@ -114,7 +114,7 @@ class DarkwebService {
       };
 
       logger.info('Forum registered', { forumId: forum.id, name: forum.name });
-      
+
       return forum;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -163,7 +163,7 @@ class DarkwebService {
       ];
 
       logger.info('Forum scraping completed', { forumId, postCount: posts.length });
-      
+
       return posts;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -198,7 +198,7 @@ class DarkwebService {
       };
 
       logger.info('Thread monitored', { threadId, postCount: thread.postCount });
-      
+
       return thread;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -244,7 +244,7 @@ class DarkwebService {
       };
 
       logger.info('Forum actor analyzed', { actorUsername, threatLevel: actor.threatLevel });
-      
+
       return actor;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -298,7 +298,7 @@ class DarkwebService {
       ];
 
       logger.info('Credential leaks detected', { leakCount: leaks.length });
-      
+
       return leaks;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -337,7 +337,7 @@ class DarkwebService {
       }
 
       logger.info('Credential search completed', { resultCount: credentials.length });
-      
+
       return credentials;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -363,7 +363,7 @@ class DarkwebService {
       };
 
       logger.info('Credentials validated', { credentialId, status: result.status });
-      
+
       return result;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -416,7 +416,7 @@ class DarkwebService {
       };
 
       logger.info('Leak pattern analysis completed', { leakId });
-      
+
       return analysis;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -454,7 +454,7 @@ class DarkwebService {
       };
 
       logger.info('Brand monitor created', { monitorId: monitor.id });
-      
+
       return monitor;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -501,7 +501,7 @@ class DarkwebService {
       ];
 
       logger.info('Brand mentions detected', { monitorId, mentionCount: mentions.length });
-      
+
       return mentions;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -540,7 +540,7 @@ class DarkwebService {
       ];
 
       logger.info('Asset exposures tracked', { assetIdentifier, exposureCount: exposures.length });
-      
+
       return exposures;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -572,10 +572,10 @@ class DarkwebService {
           { keyword: 'data', count: 42 },
         ],
         threatContexts: {
-          'data_breach': 45,
-          'vulnerability': 32,
-          'service_disruption': 18,
-          'other': 50,
+          data_breach: 45,
+          vulnerability: 32,
+          service_disruption: 18,
+          other: 50,
         },
         trends: [
           { date: '2024-01', mentions: 25, sentiment: -45 },
@@ -585,7 +585,7 @@ class DarkwebService {
       };
 
       logger.info('Brand sentiment analyzed', { brandName, sentimentScore: analysis.sentimentScore });
-      
+
       return analysis;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -629,7 +629,7 @@ class DarkwebService {
       ];
 
       logger.info('Actor tracking completed', { actorIdentifier, activityCount: activities.length });
-      
+
       return activities;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -667,7 +667,7 @@ class DarkwebService {
       };
 
       logger.info('Actor identity correlation completed', { confidence: correlation.confidence });
-      
+
       return correlation;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -686,7 +686,7 @@ class DarkwebService {
   async generateAlert(
     intelligenceId: string,
     alertType: DarkWebAlert['type'],
-    severity: AlertSeverity
+    severity: AlertSeverity,
   ): Promise<DarkWebAlert> {
     try {
       logger.info('Generating alert', { intelligenceId, alertType, severity });
@@ -716,7 +716,7 @@ class DarkwebService {
       };
 
       logger.info('Alert generated', { alertId: alert.id, severity: alert.severity });
-      
+
       return alert;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -748,7 +748,7 @@ class DarkwebService {
       };
 
       logger.info('Alert rule created', { ruleId: rule.id });
-      
+
       return rule;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -772,13 +772,13 @@ class DarkwebService {
         const alert = await this.generateAlert(
           intelligence.id,
           'threat_intel',
-          'critical'
+          'critical',
         );
         triggeredAlerts.push(alert);
       }
 
       logger.info('Alert rules evaluated', { alertCount: triggeredAlerts.length });
-      
+
       return triggeredAlerts;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -837,7 +837,7 @@ class DarkwebService {
       };
 
       logger.info('Alert statistics retrieved');
-      
+
       return stats;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -886,7 +886,7 @@ class DarkwebService {
       };
 
       logger.info('Collection task created', { taskId: task.id });
-      
+
       return task;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -906,7 +906,7 @@ class DarkwebService {
       const collectedData: DarkWebIntelligence[] = [];
 
       logger.info('Collection task executed', { taskId, dataCount: collectedData.length });
-      
+
       return collectedData;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -943,7 +943,7 @@ class DarkwebService {
       };
 
       logger.info('Data source registered', { sourceId: source.id });
-      
+
       return source;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -988,7 +988,7 @@ class DarkwebService {
       };
 
       logger.info('Collection statistics retrieved');
-      
+
       return stats;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -1007,7 +1007,7 @@ class DarkwebService {
   async generateIntelligenceReport(
     reportType: IntelligenceReport['reportType'],
     startDate: Date,
-    endDate: Date
+    endDate: Date,
   ): Promise<IntelligenceReport> {
     try {
       logger.info('Generating intelligence report', { reportType, startDate, endDate });
@@ -1123,7 +1123,7 @@ class DarkwebService {
       };
 
       logger.info('Intelligence report generated', { reportId: report.id, reportType });
-      
+
       return report;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -1154,7 +1154,7 @@ class DarkwebService {
       };
 
       logger.info('Report template created', { templateId: template.id });
-      
+
       return template;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -1201,7 +1201,7 @@ class DarkwebService {
       };
 
       logger.info('Search completed', { resultCount: result.totalCount });
-      
+
       return result;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -1245,9 +1245,15 @@ class DarkwebService {
           other: 0,
         },
         severityTrends: [
-          { date: '2024-01', critical: 25, high: 85, medium: 180, low: 90 },
-          { date: '2024-02', critical: 32, high: 95, medium: 195, low: 98 },
-          { date: '2024-03', critical: 28, high: 90, medium: 205, low: 102 },
+          {
+            date: '2024-01', critical: 25, high: 85, medium: 180, low: 90,
+          },
+          {
+            date: '2024-02', critical: 32, high: 95, medium: 195, low: 98,
+          },
+          {
+            date: '2024-03', critical: 28, high: 90, medium: 205, low: 102,
+          },
         ],
         responseMetrics: {
           averageResponseTime: 45, // minutes
@@ -1258,7 +1264,7 @@ class DarkwebService {
       };
 
       logger.info('Dark web analytics retrieved');
-      
+
       return analytics;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -1269,4 +1275,3 @@ class DarkwebService {
 }
 
 export default new DarkwebService();
-

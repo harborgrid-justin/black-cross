@@ -3,7 +3,8 @@
  * Entry point for the module
  */
 
-import express, { Router, Request, Response } from 'express';
+import type { Router } from 'express';
+import express, { Request, Response } from 'express';
 import incidentRoutes from './routes/incidentRoutes';
 
 const router: Router = express.Router();
@@ -30,4 +31,3 @@ router.get('/health', (req, res) => {
 router.use('/', incidentRoutes);
 
 export default router;
-

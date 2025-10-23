@@ -530,4 +530,3 @@ class ContextService {
 }
 
 export default new ContextService();
-

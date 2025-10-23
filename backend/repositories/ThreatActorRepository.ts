@@ -142,10 +142,12 @@ class ThreatActorRepository extends BaseRepository<ThreatActor> {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
     const recentlyActive = allActors.filter(
-      (actor) => actor.lastSeen && actor.lastSeen >= thirtyDaysAgo
+      (actor) => actor.lastSeen && actor.lastSeen >= thirtyDaysAgo,
     ).length;
 
-    return { total, byCountry, bySophistication, recentlyActive };
+    return {
+      total, byCountry, bySophistication, recentlyActive,
+    };
   }
 
   /**

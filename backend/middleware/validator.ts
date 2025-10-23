@@ -10,8 +10,8 @@
  */
 
 import Joi from 'joi';
-import { ValidationError } from './errors';
 import type { Request, Response, NextFunction } from 'express';
+import { ValidationError } from './errors';
 
 // TypeScript interfaces
 interface ValidationSchemas {

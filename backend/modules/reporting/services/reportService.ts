@@ -93,7 +93,9 @@ class ReportService {
         layout: templateData.layout || {
           pageSize: 'A4',
           orientation: 'portrait',
-          margins: { top: 72, right: 72, bottom: 72, left: 72 },
+          margins: {
+            top: 72, right: 72, bottom: 72, left: 72,
+          },
           pageNumbers: true,
         },
         styling: templateData.styling || {
@@ -116,7 +118,7 @@ class ReportService {
       };
 
       logger.info('Report template created', { templateId: template.id });
-      
+
       return template;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -149,7 +151,7 @@ class ReportService {
       };
 
       logger.info('Section added to template', { templateId, sectionId: newSection.id });
-      
+
       return newSection;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -178,7 +180,7 @@ class ReportService {
       };
 
       logger.info('Template rendered', { templateId });
-      
+
       return content;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -201,7 +203,7 @@ class ReportService {
       const nextRun = this.calculateNextRun(
         scheduleData.frequency || 'daily',
         scheduleData.cronExpression,
-        scheduleData.timezone || 'UTC'
+        scheduleData.timezone || 'UTC',
       );
 
       const schedule: ReportSchedule = {
@@ -230,7 +232,7 @@ class ReportService {
       };
 
       logger.info('Report schedule created', { scheduleId: schedule.id });
-      
+
       return schedule;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -247,7 +249,7 @@ class ReportService {
       logger.info('Executing scheduled report', { scheduleId });
 
       const startTime = new Date();
-      
+
       // In production, this would generate the actual report
       const report = await this.generateReport({
         name: 'Scheduled Report',
@@ -262,12 +264,12 @@ class ReportService {
       const endTime = new Date();
       const duration = (endTime.getTime() - startTime.getTime()) / 1000;
 
-      logger.info('Scheduled report executed', { 
-        scheduleId, 
-        reportId: report.id, 
-        duration 
+      logger.info('Scheduled report executed', {
+        scheduleId,
+        reportId: report.id,
+        duration,
       });
-      
+
       return report;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -281,7 +283,7 @@ class ReportService {
    */
   private calculateNextRun(frequency: ScheduleFrequency, cronExpression?: string, timezone: string = 'UTC'): Date {
     const now = new Date();
-    let nextRun = new Date(now);
+    const nextRun = new Date(now);
 
     if (cronExpression) {
       // In production, use a proper cron parser
@@ -364,7 +366,7 @@ class ReportService {
       };
 
       logger.info('Dashboard created', { dashboardId: dashboard.id });
-      
+
       return dashboard;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -399,7 +401,7 @@ class ReportService {
       };
 
       logger.info('Widget added to dashboard', { dashboardId, widgetId: widget.id });
-      
+
       return widget;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -423,7 +425,7 @@ class ReportService {
       };
 
       logger.info('Dashboard refreshed', { dashboardId });
-      
+
       return refreshedData;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -443,21 +445,23 @@ class ReportService {
     metric: string,
     startDate: Date,
     endDate: Date,
-    granularity: 'hour' | 'day' | 'week' | 'month' = 'day'
+    granularity: 'hour' | 'day' | 'week' | 'month' = 'day',
   ): Promise<TrendAnalysis> {
     try {
-      logger.info('Analyzing threat trends', { metric, startDate, endDate, granularity });
+      logger.info('Analyzing threat trends', {
+        metric, startDate, endDate, granularity,
+      });
 
       // Generate sample data points
       const dataPoints: TrendDataPoint[] = this.generateSampleDataPoints(
         startDate,
         endDate,
-        granularity
+        granularity,
       );
 
       const statistics = this.calculateTrendStatistics(dataPoints);
       const anomalies = this.detectAnomalies(dataPoints, statistics);
-      
+
       const analysis: TrendAnalysis = {
         id: uuidv4(),
         name: `${metric} Trend Analysis`,
@@ -475,7 +479,7 @@ class ReportService {
       };
 
       logger.info('Trend analysis completed', { metric, dataPointCount: dataPoints.length });
-      
+
       return analysis;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -487,10 +491,10 @@ class ReportService {
   private generateSampleDataPoints(
     startDate: Date,
     endDate: Date,
-    granularity: string
+    granularity: string,
   ): TrendDataPoint[] {
     const dataPoints: TrendDataPoint[] = [];
-    let current = new Date(startDate);
+    const current = new Date(startDate);
     let baseValue = 100;
 
     while (current <= endDate) {
@@ -515,7 +519,7 @@ class ReportService {
           current.setMonth(current.getMonth() + 1);
           break;
       }
-      
+
       baseValue = value; // Slight trend continuation
     }
 
@@ -523,18 +527,18 @@ class ReportService {
   }
 
   private calculateTrendStatistics(dataPoints: TrendDataPoint[]): any {
-    const values = dataPoints.map(dp => dp.value);
+    const values = dataPoints.map((dp) => dp.value);
     const sum = values.reduce((a, b) => a + b, 0);
     const mean = sum / values.length;
-    
+
     const sortedValues = [...values].sort((a, b) => a - b);
     const median = sortedValues[Math.floor(sortedValues.length / 2)];
-    
-    const variance = values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length;
+
+    const variance = values.reduce((sum, val) => sum + (val - mean) ** 2, 0) / values.length;
     const stdDev = Math.sqrt(variance);
 
-    const growth = values.length > 1 
-      ? ((values[values.length - 1] - values[0]) / values[0]) * 100 
+    const growth = values.length > 1
+      ? ((values[values.length - 1] - values[0]) / values[0]) * 100
       : 0;
 
     return {
@@ -556,7 +560,7 @@ class ReportService {
     const anomalies: AnomalyDetection[] = [];
     const threshold = statistics.standardDeviation * 2;
 
-    dataPoints.forEach(dp => {
+    dataPoints.forEach((dp) => {
       const deviation = Math.abs(dp.value - statistics.mean);
       if (deviation > threshold) {
         anomalies.push({
@@ -578,7 +582,7 @@ class ReportService {
     // Simple linear regression forecast
     const predictions = [];
     const lastValue = dataPoints[dataPoints.length - 1].value;
-    
+
     for (let i = 1; i <= 7; i++) {
       const predictedValue = lastValue + (Math.random() * 10 - 5);
       predictions.push({
@@ -637,7 +641,7 @@ class ReportService {
       const status = this.calculateKPIStatus(
         kpiData.currentValue || 0,
         kpiData.target || 0,
-        kpiData.thresholds || []
+        kpiData.thresholds || [],
       );
 
       const kpi: KPI = {
@@ -670,7 +674,7 @@ class ReportService {
       };
 
       logger.info('KPI created', { kpiId: kpi.id, status: kpi.status.health });
-      
+
       return kpi;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -704,7 +708,7 @@ class ReportService {
 
       const tracking: MetricTracking = {
         id: uuidv4(),
-        metrics: metrics.map(metric => ({
+        metrics: metrics.map((metric) => ({
           id: uuidv4(),
           name: metric,
           value: Math.floor(Math.random() * 1000),
@@ -720,7 +724,7 @@ class ReportService {
       };
 
       logger.info('Metrics tracked', { trackingId: tracking.id });
-      
+
       return tracking;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -766,7 +770,7 @@ class ReportService {
       };
 
       logger.info('Visualization created', { vizId: visualization.id });
-      
+
       return visualization;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -808,7 +812,7 @@ class ReportService {
       }, 100);
 
       logger.info('Export request created', { exportId: exportRequest.id, format });
-      
+
       return exportRequest;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -855,7 +859,7 @@ class ReportService {
       };
 
       logger.info('Report generated', { reportId: report.id });
-      
+
       return report;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -914,7 +918,7 @@ class ReportService {
       };
 
       logger.info('Reporting statistics retrieved');
-      
+
       return stats;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -948,7 +952,7 @@ class ReportService {
       };
 
       logger.info('Dashboard statistics retrieved');
-      
+
       return stats;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -997,7 +1001,7 @@ class ReportService {
       };
 
       logger.info('Report search completed', { resultCount: result.totalCount });
-      
+
       return result;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -1008,4 +1012,3 @@ class ReportService {
 }
 
 export default new ReportService();
-

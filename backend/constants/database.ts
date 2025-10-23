@@ -61,10 +61,10 @@ export const CONNECTION_POOL = {
  * Database Timeout Values (in milliseconds)
  */
 export const DB_TIMEOUTS = {
-  CONNECT: 10000,      // 10 seconds
-  QUERY: 30000,        // 30 seconds
-  TRANSACTION: 60000,  // 1 minute
-  IDLE: 300000,        // 5 minutes
+  CONNECT: 10000, // 10 seconds
+  QUERY: 30000, // 30 seconds
+  TRANSACTION: 60000, // 1 minute
+  IDLE: 300000, // 5 minutes
 } as const;
 
 /**

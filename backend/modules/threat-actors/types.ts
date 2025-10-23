@@ -397,7 +397,7 @@ export interface ActorRelationship {
   metadata: Record<string, any>;
 }
 
-export type RelationshipType = 
+export type RelationshipType =
   | 'alias' // Same actor, different name
   | 'affiliated' // Working together
   | 'contractor' // One hired by the other

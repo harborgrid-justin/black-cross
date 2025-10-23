@@ -6,13 +6,16 @@
  *   description: Threat intelligence collection and management
  */
 
-import express, { Router, Request, Response, NextFunction } from 'express';
+import type { Router } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import threatController from '../controllers/threatController';
 import { validate, Joi } from '../../../middleware/validator';
 import { endpointRateLimiter } from '../../../middleware/rateLimiter';
 import threatValidators from '../validators/threatValidator';
 
-const { threatSchema, categorizationSchema, enrichmentSchema, archiveSchema, correlationSchema } = threatValidators;
+const {
+  threatSchema, categorizationSchema, enrichmentSchema, archiveSchema, correlationSchema,
+} = threatValidators;
 
 const router: Router = express.Router();
 

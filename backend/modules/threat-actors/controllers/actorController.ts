@@ -49,9 +49,9 @@ class ActorController {
   async getCampaigns(req, res) {
     try {
       const actorProfile = await actorService.getActorProfile(req.params.id);
-      res.json({ 
+      res.json({
         success: true,
-        data: actorProfile.campaigns || []
+        data: actorProfile.campaigns || [],
       });
     } catch (error) {
       res.status(404).json({ success: false, error: error.message });
@@ -61,9 +61,9 @@ class ActorController {
   async getTTPs(req, res) {
     try {
       const actorProfile = await actorService.getActorProfile(req.params.id);
-      res.json({ 
+      res.json({
         success: true,
-        data: actorProfile.ttps || []
+        data: actorProfile.ttps || [],
       });
     } catch (error) {
       res.status(404).json({ success: false, error: error.message });
@@ -72,4 +72,3 @@ class ActorController {
 }
 
 export default new ActorController();
-

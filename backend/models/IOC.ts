@@ -30,52 +30,52 @@ export default class IOC extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column(DataType.UUID)
-  id!: string;
+    id!: string;
 
   @AllowNull(false)
   @Index
   @Column(DataType.STRING)
-  type!: string;
+    type!: string;
 
   @AllowNull(false)
   @Index
   @Column(DataType.STRING)
-  value!: string;
+    value!: string;
 
   @Column(DataType.TEXT)
-  description?: string;
+    description?: string;
 
   @AllowNull(false)
   @Index
   @Column(DataType.STRING)
-  severity!: string;
+    severity!: string;
 
   @Default(50)
   @AllowNull(false)
   @Column(DataType.INTEGER)
-  confidence!: number;
+    confidence!: number;
 
   @AllowNull(false)
   @Column({
     type: DataType.DATE,
     field: 'first_seen',
   })
-  firstSeen!: Date;
+    firstSeen!: Date;
 
   @AllowNull(false)
   @Column({
     type: DataType.DATE,
     field: 'last_seen',
   })
-  lastSeen!: Date;
+    lastSeen!: Date;
 
   @AllowNull(false)
   @Default([])
   @Column(DataType.ARRAY(DataType.STRING))
-  tags!: string[];
+    tags!: string[];
 
   @Column(DataType.STRING)
-  source?: string;
+    source?: string;
 
   @Default(true)
   @AllowNull(false)
@@ -83,22 +83,22 @@ export default class IOC extends Model {
     type: DataType.BOOLEAN,
     field: 'is_active',
   })
-  isActive!: boolean;
+    isActive!: boolean;
 
   @Column(DataType.JSONB)
-  metadata?: any;
+    metadata?: any;
 
   @CreatedAt
   @Column({
     type: DataType.DATE,
     field: 'created_at',
   })
-  createdAt!: Date;
+    createdAt!: Date;
 
   @UpdatedAt
   @Column({
     type: DataType.DATE,
     field: 'updated_at',
   })
-  updatedAt!: Date;
+    updatedAt!: Date;
 }

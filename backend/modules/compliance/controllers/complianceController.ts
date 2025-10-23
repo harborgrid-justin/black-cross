@@ -62,7 +62,7 @@ class ComplianceController {
       const control = await complianceService.updateControlImplementation(
         req.params.frameworkId,
         req.params.controlId,
-        req.body
+        req.body,
       );
       res.json({ success: true, data: control });
     } catch (error) {
@@ -146,7 +146,7 @@ class ComplianceController {
         frameworkId,
         controlId,
         req.file,
-        req.body.description
+        req.body.description,
       );
       res.json({ success: true, data: evidence });
     } catch (error) {
@@ -212,4 +212,3 @@ class ComplianceController {
 }
 
 export default new ComplianceController();
-

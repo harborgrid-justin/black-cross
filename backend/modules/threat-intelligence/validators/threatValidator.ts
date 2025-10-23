@@ -80,4 +80,3 @@ export default {
   archiveSchema,
   correlationSchema,
 };
-

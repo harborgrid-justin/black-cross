@@ -11,8 +11,11 @@ import config from './index';
 
 class DatabaseManager {
   private mongoConnection: Connection | null = null;
+
   private isMongoConnected = false;
+
   private sequelizeInstance: Sequelize | null = null;
+
   private isSequelizeConnected = false;
 
   /**

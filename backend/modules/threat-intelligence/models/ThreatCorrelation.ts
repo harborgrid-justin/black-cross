@@ -78,4 +78,3 @@ ThreatCorrelationSchema.index({ similarity_score: -1 });
 ThreatCorrelationSchema.index({ created_at: -1 });
 
 export default mongoose.model('ThreatCorrelation', ThreatCorrelationSchema);
-

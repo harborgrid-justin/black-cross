@@ -216,4 +216,3 @@ export default {
   getMetricsJson,
   resetMetrics,
 };
-

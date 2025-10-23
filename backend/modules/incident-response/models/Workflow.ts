@@ -119,4 +119,3 @@ WorkflowSchema.index({ category: 1, is_active: 1 });
 WorkflowSchema.index({ 'trigger_conditions.auto_trigger': 1 });
 
 export default mongoose.model('Workflow', WorkflowSchema);
-

@@ -177,4 +177,3 @@ class IntegrationController {
 }
 
 export default new IntegrationController();
-

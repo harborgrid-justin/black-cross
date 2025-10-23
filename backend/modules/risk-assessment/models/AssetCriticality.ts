@@ -125,4 +125,3 @@ AssetCriticalitySchema.virtual('overall_business_impact').get(function getOveral
 });
 
 export default mongoose.model('AssetCriticality', AssetCriticalitySchema);
-

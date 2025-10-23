@@ -38,4 +38,3 @@ export default {
   feedSchema,
   feedUpdateSchema,
 };
-

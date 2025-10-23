@@ -9,8 +9,8 @@
  * - Structured logging format
  */
 
-import { logger } from '../utils/logger';
 import type { Request, Response, NextFunction } from 'express';
+import { logger } from '../utils/logger';
 
 /**
  * Request Logger Middleware

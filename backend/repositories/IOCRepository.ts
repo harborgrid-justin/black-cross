@@ -172,7 +172,9 @@ class IOCRepository extends BaseRepository<IOC> {
       byType[ioc.type] = (byType[ioc.type] || 0) + 1;
     });
 
-    return { total, active, inactive, critical, high, medium, low, byType };
+    return {
+      total, active, inactive, critical, high, medium, low, byType,
+    };
   }
 
   /**

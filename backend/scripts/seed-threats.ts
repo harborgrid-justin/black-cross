@@ -6,11 +6,11 @@ import { initializeSequelize, closeConnection, getSequelize } from '../config/se
 
 async function seedThreats() {
   console.log('🌱 Seeding threat intelligence data...');
-  
+
   try {
     await initializeSequelize();
     const sequelize = getSequelize();
-    
+
     // Insert threats directly using Sequelize raw query
     const threats = [
       {
@@ -25,7 +25,7 @@ async function seedThreats() {
         firstSeen: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
         lastSeen: new Date(),
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         id: '22222222-2222-2222-2222-222222222222',
@@ -39,7 +39,7 @@ async function seedThreats() {
         firstSeen: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
         lastSeen: new Date(),
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         id: '33333333-3333-3333-3333-333333333333',
@@ -53,7 +53,7 @@ async function seedThreats() {
         firstSeen: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000),
         lastSeen: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         id: '44444444-4444-4444-4444-444444444444',
@@ -67,7 +67,7 @@ async function seedThreats() {
         firstSeen: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
         lastSeen: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         id: '55555555-5555-5555-5555-555555555555',
@@ -81,23 +81,23 @@ async function seedThreats() {
         firstSeen: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
         lastSeen: new Date(),
         createdAt: new Date(),
-        updatedAt: new Date()
-      }
+        updatedAt: new Date(),
+      },
     ];
-    
+
     for (const threat of threats) {
       await sequelize.query(
         `INSERT INTO "Threats" (id, name, type, severity, status, confidence, description, source, "firstSeen", "lastSeen", "createdAt", "updatedAt")
          VALUES (:id, :name, :type, :severity, :status, :confidence, :description, :source, :firstSeen, :lastSeen, :createdAt, :updatedAt)
          ON CONFLICT (id) DO NOTHING`,
         {
-          replacements: threat
-        }
+          replacements: threat,
+        },
       );
     }
-    
+
     console.log(`✅ Seeded ${threats.length} threat intelligence records`);
-    
+
     await closeConnection();
     process.exit(0);
   } catch (error) {

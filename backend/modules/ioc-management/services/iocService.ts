@@ -91,12 +91,12 @@ class IocService {
       const normalizedValue = validation.normalizedValue || input.value;
 
       // Check for duplicates
-      const existing = await IoC.findOne({ 
-        normalizedValue, 
+      const existing = await IoC.findOne({
+        normalizedValue,
         type,
-        status: { $ne: 'archived' } 
+        status: { $ne: 'archived' },
       });
-      
+
       if (existing) {
         logger.info('Duplicate IoC found, updating instead', { id: existing.id });
         return this.addSource(existing.id, input.source);
@@ -298,12 +298,11 @@ class IocService {
     const ageDecay = this.calculateAgeDecay(factors.ageOfIoC);
     const sourceBonus = this.calculateSourceBonus(factors.numberOfSources);
 
-    const score =
-      factors.sourceReliability * weights.sourceReliability +
-      ageDecay * weights.ageDecay +
-      sourceBonus * weights.sourceCount +
-      factors.validationResults * weights.validation +
-      factors.falsePositiveHistory * weights.history;
+    const score = factors.sourceReliability * weights.sourceReliability
+      + ageDecay * weights.ageDecay
+      + sourceBonus * weights.sourceCount
+      + factors.validationResults * weights.validation
+      + factors.falsePositiveHistory * weights.history;
 
     return Math.min(100, Math.max(0, Math.round(score)));
   }
@@ -394,11 +393,11 @@ class IocService {
       // Update IoC with enrichment data
       const updated = await IoC.findOneAndUpdate(
         { id: iocId },
-        { 
+        {
           enrichment,
-          updatedAt: new Date() 
+          updatedAt: new Date(),
         },
-        { new: true }
+        { new: true },
       );
 
       if (!updated) {
@@ -422,9 +421,9 @@ class IocService {
    */
   async expireIoC(iocId: string, reason: string): Promise<any> {
     logger.info('Expiring IoC', { id: iocId, reason });
-    return this.update(iocId, { 
+    return this.update(iocId, {
       status: 'expired',
-      metadata: { expirationReason: reason, expiredAt: new Date() }
+      metadata: { expirationReason: reason, expiredAt: new Date() },
     });
   }
 
@@ -433,10 +432,10 @@ class IocService {
    */
   async markFalsePositive(iocId: string, reporter: string, reason: string): Promise<any> {
     logger.info('Marking IoC as false positive', { id: iocId, reporter });
-    return this.update(iocId, { 
+    return this.update(iocId, {
       status: 'false_positive',
       confidence: 0,
-      metadata: { falsePositiveReason: reason, reportedBy: reporter, reportedAt: new Date() }
+      metadata: { falsePositiveReason: reason, reportedBy: reporter, reportedAt: new Date() },
     });
   }
 
@@ -445,10 +444,10 @@ class IocService {
    */
   async whitelistIoC(iocId: string, reason: string, expiresAt?: Date): Promise<any> {
     logger.info('Whitelisting IoC', { id: iocId, reason });
-    return this.update(iocId, { 
+    return this.update(iocId, {
       status: 'whitelisted',
       expiresAt,
-      metadata: { whitelistReason: reason, whitelistedAt: new Date() }
+      metadata: { whitelistReason: reason, whitelistedAt: new Date() },
     });
   }
 
@@ -457,10 +456,10 @@ class IocService {
    */
   async reactivateIoC(iocId: string, reason: string): Promise<any> {
     logger.info('Reactivating IoC', { id: iocId, reason });
-    return this.update(iocId, { 
+    return this.update(iocId, {
       status: 'active',
       lastSeen: new Date(),
-      metadata: { reactivationReason: reason, reactivatedAt: new Date() }
+      metadata: { reactivationReason: reason, reactivatedAt: new Date() },
     });
   }
 
@@ -469,7 +468,7 @@ class IocService {
    */
   async addSource(iocId: string, source: IoCSource): Promise<any> {
     const ioc = await this.getById(iocId);
-    
+
     // Check if source already exists
     const sourceExists = ioc.sources.some((s: any) => s.name === source.name);
     if (sourceExists) {
@@ -479,12 +478,12 @@ class IocService {
 
     const updated = await IoC.findOneAndUpdate(
       { id: iocId },
-      { 
+      {
         $push: { sources: source },
         lastSeen: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
-      { new: true }
+      { new: true },
     );
 
     if (!updated) {
@@ -505,7 +504,7 @@ class IocService {
   async importFromCSV(csvData: string, source: IoCSource): Promise<ImportResult> {
     logger.info('Importing IoCs from CSV', { source: source.name });
 
-    const lines = csvData.split('\n').filter(line => line.trim());
+    const lines = csvData.split('\n').filter((line) => line.trim());
     const errors: ImportError[] = [];
     let successful = 0;
     let failed = 0;
@@ -516,14 +515,14 @@ class IocService {
 
     for (let i = startIndex; i < lines.length; i++) {
       const line = lines[i];
-      const parts = line.split(',').map(p => p.trim());
+      const parts = line.split(',').map((p) => p.trim());
 
       if (parts.length === 0 || !parts[0]) continue;
 
       const value = parts[0];
       const type = parts[1] as IoCType | undefined;
       const confidence = parts[2] ? parseInt(parts[2], 10) : undefined;
-      const tags = parts[3] ? parts[3].split(';').map(t => t.trim()) : [];
+      const tags = parts[3] ? parts[3].split(';').map((t) => t.trim()) : [];
 
       try {
         const input: CreateIoCInput = {
@@ -535,7 +534,7 @@ class IocService {
         };
 
         const result = await this.create(input);
-        
+
         if (result.sources.length > 1) {
           duplicates++;
         } else {
@@ -569,20 +568,18 @@ class IocService {
     logger.info('Exporting IoCs to CSV', { filters });
 
     const iocs = await this.search(filters);
-    
+
     const header = 'indicator,type,confidence,tags,first_seen,last_seen,status,severity\n';
-    const rows = iocs.map((ioc: any) => {
-      return [
-        ioc.value,
-        ioc.type,
-        ioc.confidence,
-        ioc.tags.join(';'),
-        ioc.firstSeen.toISOString(),
-        ioc.lastSeen.toISOString(),
-        ioc.status,
-        ioc.severity,
-      ].join(',');
-    }).join('\n');
+    const rows = iocs.map((ioc: any) => [
+      ioc.value,
+      ioc.type,
+      ioc.confidence,
+      ioc.tags.join(';'),
+      ioc.firstSeen.toISOString(),
+      ioc.lastSeen.toISOString(),
+      ioc.status,
+      ioc.severity,
+    ].join(',')).join('\n');
 
     return header + rows;
   }
@@ -674,7 +671,7 @@ class IocService {
   async getStatistics(): Promise<IoCStatistics> {
     try {
       const total = await IoC.countDocuments();
-      
+
       const byType = await IoC.aggregate([
         { $group: { _id: '$type', count: { $sum: 1 } } },
       ]);
@@ -692,7 +689,7 @@ class IocService {
       });
 
       const expiringSoon = await IoC.countDocuments({
-        expiresAt: { 
+        expiresAt: {
           $lte: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
           $gte: new Date(),
         },
@@ -729,11 +726,11 @@ class IocService {
   async update(id: string, updates: UpdateIoCInput): Promise<any> {
     const updated = await IoC.findOneAndUpdate(
       { id },
-      { 
+      {
         ...updates,
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
-      { new: true }
+      { new: true },
     );
 
     if (!updated) {
@@ -747,10 +744,10 @@ class IocService {
   async delete(id: string): Promise<{ deleted: true; id: string }> {
     const item = await IoC.findOne({ id });
     if (!item) throw new Error('IoC not found');
-    
+
     await item.deleteOne();
     logger.info('IoC deleted', { id });
-    
+
     return { deleted: true, id };
   }
 
@@ -763,7 +760,7 @@ class IocService {
     const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
     if (ipv4Regex.test(ip)) {
       const parts = ip.split('.');
-      return parts.every(part => {
+      return parts.every((part) => {
         const num = parseInt(part, 10);
         return num >= 0 && num <= 255;
       });
@@ -795,4 +792,3 @@ class IocService {
 }
 
 export default new IocService();
-

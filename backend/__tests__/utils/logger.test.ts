@@ -3,7 +3,7 @@
  * Test enterprise logging functionality
  */
 
-import {  logger, createModuleLogger, addCorrelationId  } from '../../utils/logger';
+import { logger, createModuleLogger, addCorrelationId } from '../../utils/logger';
 
 describe('Logger', () => {
   describe('base logger', () => {
@@ -45,4 +45,3 @@ describe('Logger', () => {
     });
   });
 });
-

@@ -151,4 +151,3 @@ ThreatSchema.virtual('age_days').get(function getAgeDays() {
 });
 
 export default mongoose.model('Threat', ThreatSchema);
-

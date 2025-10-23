@@ -162,6 +162,3 @@ class ThreatImpactService {
 }
 
 export default new ThreatImpactService();
-
-
-

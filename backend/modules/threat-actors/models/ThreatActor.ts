@@ -51,4 +51,3 @@ ThreatActorSchema.index({ type: 1, status: 1 });
 ThreatActorSchema.index({ target_sectors: 1 });
 
 export default mongoose.model('ThreatActor', ThreatActorSchema);
-

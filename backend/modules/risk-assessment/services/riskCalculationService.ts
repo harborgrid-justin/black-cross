@@ -144,7 +144,7 @@ class RiskCalculationService {
    * @returns {number} Likelihood score
    */
   getLikelihoodScore(likelihood: any, model: any) {
-    if (!model.likelihood_matrix || !model.likelihood_matrix[likelihood]) {
+    if (!model.likelihood_matrix?.[likelihood]) {
       const defaultValues = {
         very_low: 10,
         low: 30,
@@ -166,7 +166,7 @@ class RiskCalculationService {
    * @returns {number} Impact score
    */
   getImpactScore(impact: any, model: any) {
-    if (!model.impact_matrix || !model.impact_matrix[impact]) {
+    if (!model.impact_matrix?.[impact]) {
       const defaultValues = {
         negligible: 10,
         minor: 30,
@@ -212,7 +212,7 @@ class RiskCalculationService {
    * @returns {string} Risk level
    */
   determineRiskLevel(score: any, model: any) {
-    if (model && model.risk_levels) {
+    if (model?.risk_levels) {
       const levels = model.risk_levels;
       if (score >= levels.critical.min) return 'critical';
       if (score >= levels.high.min) return 'high';
@@ -294,6 +294,3 @@ class RiskCalculationService {
 }
 
 export default new RiskCalculationService();
-
-
-

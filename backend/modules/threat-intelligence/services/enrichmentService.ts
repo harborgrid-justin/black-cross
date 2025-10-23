@@ -273,4 +273,3 @@ class EnrichmentService {
 }
 
 export default new EnrichmentService();
-

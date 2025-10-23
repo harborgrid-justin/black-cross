@@ -115,4 +115,3 @@ ThreatImpactSchema.index({ impact_level: 1 });
 ThreatImpactSchema.index({ analyzed_by: 1 });
 
 export default mongoose.model('ThreatImpact', ThreatImpactSchema);
-

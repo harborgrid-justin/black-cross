@@ -37,7 +37,7 @@ export const sequelizeHelpers = {
    */
   async exists(
     Model: any,
-    id: string
+    id: string,
   ): Promise<boolean> {
     const count = await Model.count({
       where: { id },
@@ -50,7 +50,7 @@ export const sequelizeHelpers = {
    */
   async getByIdOrThrow(
     Model: any,
-    id: string
+    id: string,
   ): Promise<any> {
     const record = await Model.findByPk(id);
     if (!record) {
@@ -64,11 +64,11 @@ export const sequelizeHelpers = {
    */
   async softDelete(
     Model: any,
-    id: string
+    id: string,
   ): Promise<any> {
     return await Model.update(
       { isActive: false },
-      { where: { id } }
+      { where: { id } },
     );
   },
 
@@ -80,7 +80,7 @@ export const sequelizeHelpers = {
     page: number = 1,
     pageSize: number = 20,
     where: any = {},
-    order: any = [['createdAt', 'DESC']]
+    order: any = [['createdAt', 'DESC']],
   ): Promise<{
     data: any[];
     total: number;
@@ -112,12 +112,10 @@ export const sequelizeHelpers = {
  * Execute multiple operations in a transaction
  */
 export async function transaction<T>(
-  callback: (sequelize: Sequelize) => Promise<T>
+  callback: (sequelize: Sequelize) => Promise<T>,
 ): Promise<T> {
   const sequelize = getSequelize();
-  return await sequelize.transaction(async (t) => {
-    return await callback(sequelize);
-  });
+  return await sequelize.transaction(async (t) => await callback(sequelize));
 }
 
 /**
@@ -126,7 +124,7 @@ export async function transaction<T>(
  */
 export async function rawQuery<T = any>(
   query: string,
-  options?: any
+  options?: any,
 ): Promise<T[]> {
   const sequelize = getSequelize();
   const [results] = await sequelize.query(query, options);

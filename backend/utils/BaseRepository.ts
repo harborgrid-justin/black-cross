@@ -3,7 +3,9 @@
  * Provides common CRUD operations with type safety
  */
 
-import type { Model, ModelStatic, WhereOptions, FindOptions } from 'sequelize';
+import type {
+  Model, ModelStatic, WhereOptions, FindOptions,
+} from 'sequelize';
 import { getSequelize } from './sequelize';
 
 /**
@@ -180,12 +182,10 @@ export abstract class BaseRepository<TModel extends Model> {
    * Execute operation in transaction
    */
   async transaction<T>(
-    callback: (repo: this) => Promise<T>
+    callback: (repo: this) => Promise<T>,
   ): Promise<T> {
     const sequelize = getSequelize();
-    return await sequelize.transaction(async () => {
-      return await callback(this);
-    });
+    return await sequelize.transaction(async () => await callback(this));
   }
 }
 

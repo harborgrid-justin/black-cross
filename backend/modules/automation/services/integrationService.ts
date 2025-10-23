@@ -300,4 +300,3 @@ class IntegrationService {
 }
 
 export default new IntegrationService();
-

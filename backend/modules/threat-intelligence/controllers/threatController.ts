@@ -3,6 +3,7 @@
  * Handles HTTP requests for threat operations
  */
 
+import type { Request, Response } from 'express';
 import collectionService from '../services/collectionService';
 import categorizationService from '../services/categorizationService';
 import archivalService from '../services/archivalService';
@@ -11,7 +12,6 @@ import correlationService from '../services/correlationService';
 import contextService from '../services/contextService';
 import Threat from '../models/Threat';
 import logger from '../utils/logger';
-import type { Request, Response } from 'express';
 
 class ThreatController {
   /**
@@ -120,7 +120,7 @@ class ThreatController {
    */
   async deleteThreat(req: Request, res: Response): Promise<void> {
     try {
-      const threat = await Threat.findOneAndDelete({ id: req.params['id'] });
+      const threat = await Threat.findOneAndDelete({ id: req.params.id });
       if (!threat) {
         res.status(404).json({
           success: false,
@@ -168,10 +168,10 @@ class ThreatController {
   async streamThreats(req: Request, res: Response): Promise<void> {
     try {
       const filters: any = {
-        severity: req.query['severity'],
-        type: req.query['type'],
-        since: req.query['since'],
-        limit: parseInt(req.query['limit'] as string, 10) || 100,
+        severity: req.query.severity,
+        type: req.query.type,
+        since: req.query.since,
+        limit: parseInt(req.query.limit as string, 10) || 100,
       };
 
       const threats = await collectionService.streamThreats(filters);
@@ -264,11 +264,11 @@ class ThreatController {
   async getHistory(req: Request, res: Response): Promise<void> {
     try {
       const filters: any = {
-        from_date: req.query['from_date'],
-        to_date: req.query['to_date'],
-        type: req.query['type'],
-        severity: req.query['severity'],
-        limit: parseInt(req.query['limit'] as string, 10) || 1000,
+        from_date: req.query.from_date,
+        to_date: req.query.to_date,
+        type: req.query.type,
+        severity: req.query.severity,
+        limit: parseInt(req.query.limit as string, 10) || 1000,
       };
 
       const threats = await archivalService.getHistoricalThreats(filters);
@@ -313,7 +313,7 @@ class ThreatController {
    */
   async getEnrichedThreat(req: Request, res: Response): Promise<void> {
     try {
-      const threat = await enrichmentService.getEnrichedThreat(req.params['id']);
+      const threat = await enrichmentService.getEnrichedThreat(req.params.id);
       res.json({
         success: true,
         data: threat,
@@ -360,7 +360,7 @@ class ThreatController {
    */
   async getRelatedThreats(req: Request, res: Response): Promise<void> {
     try {
-      const threats = await correlationService.getRelatedThreats(req.params['id']);
+      const threats = await correlationService.getRelatedThreats(req.params.id);
       res.json({
         success: true,
         data: threats,
@@ -381,7 +381,7 @@ class ThreatController {
    */
   async getThreatContext(req: Request, res: Response): Promise<void> {
     try {
-      const context = await contextService.getThreatContext(req.params['id']);
+      const context = await contextService.getThreatContext(req.params.id);
       res.json({
         success: true,
         data: context,

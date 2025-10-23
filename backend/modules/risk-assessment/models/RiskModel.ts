@@ -97,4 +97,3 @@ RiskModelSchema.index({ industry_template: 1 });
 RiskModelSchema.index({ created_by: 1 });
 
 export default mongoose.model('RiskModel', RiskModelSchema);
-

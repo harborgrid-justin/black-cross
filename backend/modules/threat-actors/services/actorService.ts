@@ -189,7 +189,7 @@ class ActorService {
 
       // In production, save to database
       logger.info('Threat actor profile created', { actorId: profile.id, name: profile.name });
-      
+
       return profile;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -207,7 +207,7 @@ class ActorService {
 
       // In production, fetch existing profile from database
       const existingProfile = await this.getActorProfile(actorId);
-      
+
       const updatedProfile: ThreatActorProfile = {
         ...existingProfile,
         ...updates,
@@ -216,7 +216,7 @@ class ActorService {
       };
 
       logger.info('Threat actor profile updated', { actorId });
-      
+
       return updatedProfile;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -351,7 +351,7 @@ class ActorService {
       const actors: ThreatActorProfile[] = [];
 
       logger.info('Search completed', { resultCount: actors.length });
-      
+
       return actors;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -453,14 +453,14 @@ class ActorService {
         coveragePercentage: 15, // Percentage of MITRE ATT&CK covered
         heatMap: {
           'Initial Access': 25,
-          'Execution': 30,
-          'Persistence': 15,
+          Execution: 30,
+          Persistence: 15,
           'Privilege Escalation': 10,
         },
       };
 
       logger.info('MITRE ATT&CK mapping completed', { actorId, techniqueCount: mapping.totalTechniques });
-      
+
       return mapping;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -498,7 +498,7 @@ class ActorService {
       };
 
       logger.info('TTP added to actor', { actorId, ttpId: ttp.id });
-      
+
       return ttp;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -515,7 +515,7 @@ class ActorService {
       logger.info('Analyzing TTP patterns', { actorId });
 
       const actor = await this.getActorProfile(actorId);
-      
+
       const pattern: TTPPattern = {
         actorId,
         actorName: actor.name,
@@ -525,10 +525,10 @@ class ActorService {
           commonTechniques: ['Phishing', 'PowerShell', 'Credential Dumping'],
           tacticalPreferences: {
             'Initial Access': 30,
-            'Execution': 25,
-            'Persistence': 20,
+            Execution: 25,
+            Persistence: 20,
             'Credential Access': 15,
-            'Exfiltration': 10,
+            Exfiltration: 10,
           },
           toolPreferences: ['PowerShell', 'Mimikatz', 'Custom malware'],
         },
@@ -545,7 +545,7 @@ class ActorService {
       };
 
       logger.info('TTP pattern analysis completed', { actorId });
-      
+
       return pattern;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -570,15 +570,15 @@ class ActorService {
         similarityScore: 65, // Percentage
         tacticalOverlap: {
           'Initial Access': 80,
-          'Execution': 70,
-          'Persistence': 50,
+          Execution: 70,
+          Persistence: 50,
         },
         toolOverlap: ['PowerShell'],
         assessmentNotes: 'Significant overlap in initial access and execution techniques',
       };
 
       logger.info('TTP comparison completed', { similarityScore: comparison.similarityScore });
-      
+
       return comparison;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -654,14 +654,14 @@ class ActorService {
       // Calculate overall confidence
       const totalWeight = attribution.primaryIndicators.reduce((sum, ind) => sum + ind.weight, 0);
       const avgWeight = totalWeight / attribution.primaryIndicators.length;
-      
+
       if (avgWeight >= 80) attribution.confidence = 'confirmed';
       else if (avgWeight >= 60) attribution.confidence = 'high';
       else if (avgWeight >= 40) attribution.confidence = 'medium';
       else attribution.confidence = 'low';
 
       logger.info('Attribution analysis completed', { confidence: attribution.confidence });
-      
+
       return attribution;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -675,7 +675,7 @@ class ActorService {
    */
   async addAttributionIndicator(
     actorId: string,
-    indicator: Partial<AttributionIndicator>
+    indicator: Partial<AttributionIndicator>,
   ): Promise<AttributionIndicator> {
     try {
       logger.info('Adding attribution indicator', { actorId, indicatorType: indicator.type });
@@ -692,7 +692,7 @@ class ActorService {
       };
 
       logger.info('Attribution indicator added', { indicatorId: newIndicator.id });
-      
+
       return newIndicator;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -709,7 +709,7 @@ class ActorService {
       logger.info('Calculating attribution confidence', { actorId });
 
       const actor = await this.getActorProfile(actorId);
-      
+
       // Weighted scoring algorithm
       const technicalWeight = 0.4;
       const behavioralWeight = 0.3;
@@ -717,24 +717,23 @@ class ActorService {
 
       const indicators = actor.attribution.primaryIndicators;
       const technicalScore = indicators
-        .filter(i => i.type === 'technical')
-        .reduce((sum, i) => sum + i.weight, 0) / Math.max(indicators.filter(i => i.type === 'technical').length, 1);
-      
-      const behavioralScore = indicators
-        .filter(i => i.type === 'behavioral')
-        .reduce((sum, i) => sum + i.weight, 0) / Math.max(indicators.filter(i => i.type === 'behavioral').length, 1);
-      
-      const contextualScore = indicators
-        .filter(i => i.type === 'contextual')
-        .reduce((sum, i) => sum + i.weight, 0) / Math.max(indicators.filter(i => i.type === 'contextual').length, 1);
+        .filter((i) => i.type === 'technical')
+        .reduce((sum, i) => sum + i.weight, 0) / Math.max(indicators.filter((i) => i.type === 'technical').length, 1);
 
-      const overallScore = 
-        (technicalScore * technicalWeight) +
-        (behavioralScore * behavioralWeight) +
-        (contextualScore * contextualWeight);
+      const behavioralScore = indicators
+        .filter((i) => i.type === 'behavioral')
+        .reduce((sum, i) => sum + i.weight, 0) / Math.max(indicators.filter((i) => i.type === 'behavioral').length, 1);
+
+      const contextualScore = indicators
+        .filter((i) => i.type === 'contextual')
+        .reduce((sum, i) => sum + i.weight, 0) / Math.max(indicators.filter((i) => i.type === 'contextual').length, 1);
+
+      const overallScore = (technicalScore * technicalWeight)
+        + (behavioralScore * behavioralWeight)
+        + (contextualScore * contextualWeight);
 
       logger.info('Attribution confidence calculated', { actorId, score: overallScore });
-      
+
       return Math.round(overallScore);
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -790,7 +789,7 @@ class ActorService {
       };
 
       logger.info('Campaign created', { campaignId: campaign.id });
-      
+
       return campaign;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -832,7 +831,7 @@ class ActorService {
       const relatedCampaigns: Campaign[] = [];
 
       logger.info('Related campaigns detected', { count: relatedCampaigns.length });
-      
+
       return relatedCampaigns;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -860,7 +859,7 @@ class ActorService {
       };
 
       logger.info('Campaign event added', { campaignId, eventId: campaignEvent.id });
-      
+
       return campaignEvent;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -891,7 +890,7 @@ class ActorService {
       };
 
       logger.info('Campaign impact assessed', { campaignId, impact: assessment.overallImpact });
-      
+
       return assessment;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -912,7 +911,7 @@ class ActorService {
       logger.info('Assessing actor capabilities', { actorId });
 
       const actor = await this.getActorProfile(actorId);
-      
+
       const assessment: CapabilityAssessment = {
         assessmentDate: new Date(),
         assessedBy: 'system',
@@ -943,7 +942,7 @@ class ActorService {
       };
 
       logger.info('Actor capabilities assessed', { actorId, threatScore: assessment.threatScore });
-      
+
       return assessment;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -960,7 +959,7 @@ class ActorService {
       logger.info('Analyzing actor motivations', { actorId });
 
       const actor = await this.getActorProfile(actorId);
-      
+
       const analysis = {
         actorId,
         primaryMotivation: actor.motivations[0] || 'unknown',
@@ -982,7 +981,7 @@ class ActorService {
       };
 
       logger.info('Actor motivations analyzed', { actorId, primaryMotivation: analysis.primaryMotivation });
-      
+
       return analysis;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -999,7 +998,7 @@ class ActorService {
       logger.info('Calculating threat score', { actorId });
 
       const actor = await this.getActorProfile(actorId);
-      
+
       // Multi-factor threat scoring
       const sophisticationScore = this.sophisticationToScore(actor.sophisticationLevel);
       const resourceScore = this.resourceLevelToScore(actor.capabilities.resources.level);
@@ -1008,14 +1007,14 @@ class ActorService {
 
       const threatScore = Math.min(
         100,
-        (sophisticationScore * 0.3) +
-        (resourceScore * 0.25) +
-        (activityScore * 0.25) +
-        (targetingScore * 0.2)
+        (sophisticationScore * 0.3)
+        + (resourceScore * 0.25)
+        + (activityScore * 0.25)
+        + (targetingScore * 0.2),
       );
 
       logger.info('Threat score calculated', { actorId, score: Math.round(threatScore) });
-      
+
       return Math.round(threatScore);
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -1089,7 +1088,7 @@ class ActorService {
       ];
 
       logger.info('Sector targeting analysis completed', { actorId, sectorCount: sectorTargeting.length });
-      
+
       return sectorTargeting;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -1135,7 +1134,7 @@ class ActorService {
       ];
 
       logger.info('Geographic targeting analysis completed', { actorId, countryCount: geoTargeting.length });
-      
+
       return geoTargeting;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -1154,18 +1153,18 @@ class ActorService {
       const heatMap = {
         actorId,
         sectors: {
-          'Government': 90,
-          'Defense': 85,
-          'Technology': 70,
-          'Finance': 45,
-          'Healthcare': 30,
+          Government: 90,
+          Defense: 85,
+          Technology: 70,
+          Finance: 45,
+          Healthcare: 30,
         },
         countries: {
           'United States': 95,
           'United Kingdom': 75,
-          'Germany': 70,
-          'France': 65,
-          'Japan': 50,
+          Germany: 70,
+          France: 65,
+          Japan: 50,
         },
         timeline: [
           { date: '2023-01', intensity: 65 },
@@ -1177,7 +1176,7 @@ class ActorService {
       };
 
       logger.info('Targeting heat map generated', { actorId });
-      
+
       return heatMap;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -1196,7 +1195,7 @@ class ActorService {
   async createActorRelationship(
     actorId: string,
     relatedActorId: string,
-    relationshipData: Partial<ActorRelationship>
+    relationshipData: Partial<ActorRelationship>,
   ): Promise<ActorRelationship> {
     try {
       logger.info('Creating actor relationship', { actorId, relatedActorId, type: relationshipData.relationshipType });
@@ -1225,7 +1224,7 @@ class ActorService {
       };
 
       logger.info('Actor relationship created', { relationshipId: relationship.id });
-      
+
       return relationship;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -1242,7 +1241,7 @@ class ActorService {
       logger.info('Building relationship graph', { actorId, depth });
 
       const actor = await this.getActorProfile(actorId);
-      
+
       const graph: RelationshipGraph = {
         actorId,
         actorName: actor.name,
@@ -1271,7 +1270,7 @@ class ActorService {
               metadata: {},
             },
           ],
-          edges: actor.relationships.map(rel => ({
+          edges: actor.relationships.map((rel) => ({
             source: actorId,
             target: rel.relatedActorId,
             relationshipType: rel.relationshipType,
@@ -1282,7 +1281,7 @@ class ActorService {
       };
 
       logger.info('Relationship graph built', { actorId, connectionCount: graph.network.directConnections });
-      
+
       return graph;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -1323,7 +1322,7 @@ class ActorService {
       ];
 
       logger.info('Actor clusters identified', { clusterCount: clusters.length });
-      
+
       return clusters;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -1415,7 +1414,7 @@ class ActorService {
       };
 
       logger.info('Actor statistics generated');
-      
+
       return stats;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -1433,7 +1432,7 @@ class ActorService {
 
       const actor = await this.getActorProfile(actorId);
       const threatScore = await this.calculateThreatScore(actorId);
-      const relatedActors = actor.relationships.map(rel => ({
+      const relatedActors = actor.relationships.map((rel) => ({
         actorId: rel.relatedActorId,
         actorName: rel.relatedActorName,
         relationshipType: rel.relationshipType,
@@ -1467,7 +1466,7 @@ class ActorService {
       };
 
       logger.info('Actor analysis generated', { actorId, riskLevel: analysis.analysis.riskLevel });
-      
+
       return analysis;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -1478,4 +1477,3 @@ class ActorService {
 }
 
 export default new ActorService();
-

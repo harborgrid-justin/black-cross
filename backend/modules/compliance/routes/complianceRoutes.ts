@@ -1,9 +1,9 @@
 import express from 'express';
-
-const router = express.Router();
 import complianceController from '../controllers/complianceController';
 import { validate, commonSchemas, Joi } from '../../../middleware/validator';
 import validatorSchemas from '../validators/complianceValidator';
+
+const router = express.Router();
 
 const { complianceSchema, complianceUpdateSchema } = validatorSchemas;
 
@@ -46,4 +46,3 @@ router.put('/:id', validate({
 router.delete('/:id', validate({ params: Joi.object({ id: commonSchemas.objectId.required() }) }), complianceController.delete);
 
 export default router;
-

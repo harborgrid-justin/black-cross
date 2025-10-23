@@ -48,4 +48,3 @@ class DarkwebController {
 }
 
 export default new DarkwebController();
-

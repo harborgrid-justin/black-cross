@@ -64,4 +64,3 @@ class HuntingService {
 }
 
 export default new HuntingService();
-

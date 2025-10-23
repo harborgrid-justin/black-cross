@@ -1,7 +1,7 @@
 /**
  * Services Index
  * Central export point for all production-grade Sequelize-based services
- * 
+ *
  * These services demonstrate the proper pattern for CRUD operations using
  * Sequelize repositories with PostgreSQL database.
  */

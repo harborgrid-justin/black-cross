@@ -8,4 +8,3 @@ import { createModuleLogger } from '../../../utils/logger';
 const logger = createModuleLogger('threat-hunting');
 
 export default logger;
-
