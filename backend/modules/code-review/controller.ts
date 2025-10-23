@@ -18,9 +18,20 @@ export async function executeCodeReview(req: Request, res: Response): Promise<vo
     const { targetPath, includePatterns, excludePatterns, enabledAgents, minSeverity, parallel = true } = req.body;
 
     // Use absolute path or default to project root
+    const projectRoot = path.resolve(__dirname, '../../..');
     const absoluteTargetPath = targetPath 
-      ? path.resolve(targetPath)
-      : path.resolve(__dirname, '../../..');
+      ? path.resolve(projectRoot, targetPath)
+      : projectRoot;
+
+    // Security: Validate that the target path is within the project root
+    if (!absoluteTargetPath.startsWith(projectRoot)) {
+      res.status(400).json({
+        success: false,
+        error: 'Invalid path',
+        message: 'Target path must be within the project directory',
+      });
+      return;
+    }
 
     const config: ReviewConfig = {
       targetPath: absoluteTargetPath,
