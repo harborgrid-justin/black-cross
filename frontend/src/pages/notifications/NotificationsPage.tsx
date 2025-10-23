@@ -28,7 +28,7 @@ import {
   Delete as DeleteIcon,
   Refresh as RefreshIcon,
 } from '@mui/icons-material';
-import { notificationService, type Notification, NotificationSeverity } from '@/services/notificationService';
+import { notificationService, type Notification, NotificationSeverity, NotificationStatus } from '@/services/notificationService';
 
 /**
  * Notifications page component.
