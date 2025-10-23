@@ -9,7 +9,8 @@
  * @module services/config/apiConfig
  */
 
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
+import type { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
+import axios from 'axios';
 import { API_CONFIG, HTTP_STATUS, CONTENT_TYPE, STORAGE_KEYS, PUBLIC_ROUTES } from '../../constants';
 
 // ==========================================

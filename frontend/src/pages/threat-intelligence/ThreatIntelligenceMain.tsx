@@ -208,14 +208,14 @@ export default function ThreatIntelligenceMain() {
                     <TableCell>
                       <Chip
                         label={threat.severity}
-                        color={getSeverityColor(threat.severity) as 'error' | 'warning' | 'info' | 'success' | 'default'}
+                        color={getSeverityColor(threat.severity)}
                         size="small"
                       />
                     </TableCell>
                     <TableCell>
                       <Chip
                         label={threat.status}
-                        color={getStatusColor(threat.status) as 'error' | 'success' | 'default'}
+                        color={getStatusColor(threat.status)}
                         size="small"
                         variant="outlined"
                       />

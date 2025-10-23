@@ -427,7 +427,7 @@ export default function ThreatHuntingMain() {
                 <Select
                   value={queryLanguage}
                   label="Language"
-                  onChange={(e) => setQueryLanguage(e.target.value as 'kql' | 'spl' | 'sql' | 'lucene')}
+                  onChange={(e) => setQueryLanguage(e.target.value)}
                 >
                   <MenuItem value="kql">KQL</MenuItem>
                   <MenuItem value="spl">SPL</MenuItem>

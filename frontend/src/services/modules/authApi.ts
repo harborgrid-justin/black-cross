@@ -17,8 +17,9 @@
  */
 
 import { apiInstance, tokenUtils } from '../config/apiConfig';
+import type { 
+  ApiResponse} from '../utils/apiUtils';
 import { 
-  ApiResponse, 
   handleApiError,
   extractApiData
 } from '../utils/apiUtils';
