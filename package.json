@@ -24,6 +24,8 @@
     "test:e2e": "cd frontend && npm run test:e2e",
     "cypress": "cd frontend && npm run cypress",
     "cypress:headless": "cd frontend && npm run cypress:headless",
+    "screenshots": "playwright test --config=playwright-ui.config.ts",
+    "screenshots:headed": "playwright test --config=playwright-ui.config.ts --headed",
     "lint": "npm run lint:backend && npm run lint:frontend",
     "lint:backend": "cd backend && npm run lint",
     "lint:frontend": "cd frontend && npm run lint",
