@@ -168,17 +168,18 @@ export const ROLE_TEMPLATES = {
  * Get capabilities for a role template
  */
 export const getCapabilitiesForRole = (role: keyof typeof ROLE_TEMPLATES): Capability[] => {
-  return ROLE_TEMPLATES[role] || [];
+  const roleCapabilities = ROLE_TEMPLATES[role];
+  return roleCapabilities ? [...roleCapabilities] : [];
 };
 
 /**
  * Check if a capability is a special/privileged capability
  */
 export const isPrivilegedCapability = (capability: Capability): boolean => {
-  return [
-    CAPABILITIES.BYPASS_ENTERPRISE,
-    CAPABILITIES.VIRTUAL_ORGANIZATION_ADMIN,
-    CAPABILITIES.SYSTEM_USER,
-    CAPABILITIES.SETTINGS_SET_ACCESSES
-  ].includes(capability);
+  return (
+    capability === CAPABILITIES.BYPASS_ENTERPRISE ||
+    capability === CAPABILITIES.VIRTUAL_ORGANIZATION_ADMIN ||
+    capability === CAPABILITIES.SYSTEM_USER ||
+    capability === CAPABILITIES.SETTINGS_SET_ACCESSES
+  );
 };

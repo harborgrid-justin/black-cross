@@ -8,7 +8,7 @@
  * @module store/slices/authSlice
  */
 
-import type { PayloadAction } from '@reduxjs/toolkit';
+import type { PayloadAction, ActionReducerMapBuilder } from '@reduxjs/toolkit';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { authService } from '@/services/authService';
 import type { AuthState, User } from '@/types';
@@ -183,7 +183,7 @@ const authSlice = createSlice({
      * }
      * ```
      */
-    logout: (state) => {
+    logout: (state: AuthState) => {
       authService.logout();
       state.user = null;
       state.token = null;
@@ -240,7 +240,7 @@ const authSlice = createSlice({
      * }
      * ```
      */
-    hydrate: (state) => {
+    hydrate: (state: AuthState) => {
       // Hydrate auth state from localStorage when client is ready
       if (typeof window !== 'undefined') {
         const token = authService.getToken();
@@ -259,26 +259,26 @@ const authSlice = createSlice({
       }
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: (builder: ActionReducerMapBuilder<AuthState>) => {
     builder
       // Login lifecycle
-      .addCase(login.pending, (state) => {
+      .addCase(login.pending, (state: AuthState) => {
         state.loading = true;
       })
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(login.fulfilled, (state: AuthState, action: PayloadAction<{ user: User; token: string }>) => {
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
         state.isAuthenticated = true;
       })
-      .addCase(login.rejected, (state) => {
+      .addCase(login.rejected, (state: AuthState) => {
         state.loading = false;
         state.user = null;
         state.token = null;
         state.isAuthenticated = false;
       })
       // Get current user lifecycle
-      .addCase(getCurrentUser.fulfilled, (state, action) => {
+      .addCase(getCurrentUser.fulfilled, (state: AuthState, action: PayloadAction<User>) => {
         state.user = action.payload;
       });
   },

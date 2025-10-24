@@ -314,6 +314,73 @@ export default class User extends Model {
     isActive!: boolean;
 
   /**
+   * User capabilities for fine-grained access control.
+   *
+   * Array of capability strings that define specific permissions the user has.
+   * Used for capability-based access control (CBAC) providing more granular
+   * permissions than role-based access alone.
+   *
+   * @type {string[] | undefined}
+   * @optional
+   *
+   * @remarks
+   * - Database column: `capabilities` (JSONB array)
+   * - Can be null or empty array for users with no special capabilities
+   * - Works in conjunction with role-based permissions
+   * - Capabilities are defined in utils/access/capabilities.ts
+   *
+   * @example
+   * ```typescript
+   * // Assign capabilities to user
+   * await user.update({
+   *   capabilities: ['KNOWLEDGE:CREATE', 'INCIDENT:UPDATE', 'AI:USE']
+   * });
+   *
+   * // Check if user has specific capability
+   * if (user.capabilities?.includes('BYPASS:ENTERPRISE')) {
+   *   // Admin operations
+   * }
+   * ```
+   */
+  @Column({
+    type: DataType.JSONB,
+    field: 'capabilities',
+  })
+    capabilities?: string[];
+
+  /**
+   * Organization identifier for multi-tenant support.
+   *
+   * Links the user to a specific organization for resource isolation
+   * and access control in multi-tenant deployments.
+   *
+   * @type {string | undefined}
+   * @optional
+   *
+   * @remarks
+   * - Database column: `organization_id`
+   * - Can be null for users not assigned to an organization
+   * - Used for organization-level access control
+   * - Should match organization UUID format
+   *
+   * @example
+   * ```typescript
+   * // Assign user to organization
+   * await user.update({ organization_id: 'org-uuid-here' });
+   *
+   * // Find users in same organization
+   * const orgUsers = await User.findAll({
+   *   where: { organization_id: currentUser.organization_id }
+   * });
+   * ```
+   */
+  @Column({
+    type: DataType.STRING,
+    field: 'organization_id',
+  })
+    organization_id?: string;
+
+  /**
    * Timestamp of the user's most recent successful login.
    *
    * Tracks when the user last authenticated to the system. Useful for

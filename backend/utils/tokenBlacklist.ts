@@ -159,7 +159,7 @@ export class TokenBlacklist {
       const key = `${this.userPrefix}${userId}`;
       const invalidatedAt = await client.get(key);
 
-      if (!invalidatedAt) {
+      if (!invalidatedAt || typeof invalidatedAt !== 'string') {
         return false;
       }
 

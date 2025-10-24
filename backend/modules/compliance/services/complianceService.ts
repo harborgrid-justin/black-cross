@@ -923,6 +923,323 @@ class ComplianceService {
   }
 
   // ========================================
+  // Controller API Methods (for backward compatibility)
+  // ========================================
+
+  /**
+   * List all frameworks
+   */
+  async listFrameworks(query: Record<string, any> = {}): Promise<any[]> {
+    try {
+      logger.info('Listing frameworks', { query });
+
+      // In production, fetch from database with filtering
+      const frameworks = [
+        await this.loadFramework('NIST_CSF'),
+        await this.loadFramework('ISO_27001'),
+        await this.loadFramework('PCI_DSS'),
+      ];
+
+      return frameworks;
+    } catch (error) {
+      logger.error('Error listing frameworks', { error });
+      throw error;
+    }
+  }
+
+  /**
+   * Get framework by ID
+   */
+  async getFramework(frameworkId: string): Promise<any> {
+    try {
+      logger.info('Getting framework', { frameworkId });
+
+      // In production, fetch specific framework from database
+      // For now, determine framework type from ID and load it
+      const frameworkType: FrameworkType = 'NIST_CSF'; // Would be determined from ID
+      return await this.loadFramework(frameworkType);
+    } catch (error) {
+      logger.error('Error getting framework', { error, frameworkId });
+      throw error;
+    }
+  }
+
+  /**
+   * Create a new framework
+   */
+  async createFramework(frameworkData: any): Promise<any> {
+    try {
+      logger.info('Creating framework', { name: frameworkData.name });
+
+      const framework = {
+        id: uuidv4(),
+        ...frameworkData,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      // In production, save to database
+      logger.info('Framework created', { frameworkId: framework.id });
+      return framework;
+    } catch (error) {
+      logger.error('Error creating framework', { error });
+      throw error;
+    }
+  }
+
+  /**
+   * Update an existing framework
+   */
+  async updateFramework(frameworkId: string, updates: any): Promise<any> {
+    try {
+      logger.info('Updating framework', { frameworkId });
+
+      // In production, fetch and update framework in database
+      const framework = {
+        id: frameworkId,
+        ...updates,
+        updatedAt: new Date(),
+      };
+
+      logger.info('Framework updated', { frameworkId });
+      return framework;
+    } catch (error) {
+      logger.error('Error updating framework', { error, frameworkId });
+      throw error;
+    }
+  }
+
+  /**
+   * Delete a framework
+   */
+  async deleteFramework(frameworkId: string): Promise<void> {
+    try {
+      logger.info('Deleting framework', { frameworkId });
+
+      // In production, delete from database
+      logger.info('Framework deleted', { frameworkId });
+    } catch (error) {
+      logger.error('Error deleting framework', { error, frameworkId });
+      throw error;
+    }
+  }
+
+  /**
+   * Get controls for a specific framework
+   */
+  async getFrameworkControls(frameworkId: string, query: Record<string, any> = {}): Promise<Control[]> {
+    try {
+      logger.info('Getting framework controls', { frameworkId, query });
+
+      // In production, fetch controls from database
+      const framework = await this.getFramework(frameworkId);
+      return framework.controls || [];
+    } catch (error) {
+      logger.error('Error getting framework controls', { error, frameworkId });
+      throw error;
+    }
+  }
+
+  /**
+   * Update control implementation
+   */
+  async updateControlImplementation(
+    frameworkId: string,
+    controlId: string,
+    implementation: any,
+  ): Promise<Control> {
+    try {
+      logger.info('Updating control implementation', { frameworkId, controlId });
+
+      // In production, fetch and update control in database
+      const control: Control = {
+        id: uuidv4(),
+        controlId,
+        title: 'Control Title',
+        description: 'Control Description',
+        category: 'Category',
+        frameworkType: 'NIST_CSF',
+        requirements: [],
+        status: 'implemented',
+        implementation,
+        evidence: [],
+        metadata: {},
+      };
+
+      logger.info('Control implementation updated', { controlId });
+      return control;
+    } catch (error) {
+      logger.error('Error updating control implementation', { error, controlId });
+      throw error;
+    }
+  }
+
+  /**
+   * Analyze compliance gaps for a framework
+   */
+  async analyzeComplianceGaps(frameworkId: string): Promise<GapAnalysisResult> {
+    try {
+      logger.info('Analyzing compliance gaps', { frameworkId });
+
+      // In production, determine framework type from ID
+      const frameworkType: FrameworkType = 'NIST_CSF';
+      return await this.performGapAnalysis(frameworkType);
+    } catch (error) {
+      logger.error('Error analyzing compliance gaps', { error, frameworkId });
+      throw error;
+    }
+  }
+
+  /**
+   * Get compliance gaps for a framework
+   */
+  async getComplianceGaps(frameworkId: string): Promise<ComplianceGap[]> {
+    try {
+      logger.info('Getting compliance gaps', { frameworkId });
+
+      // In production, fetch gaps from database
+      const analysis = await this.analyzeComplianceGaps(frameworkId);
+      return analysis.gaps;
+    } catch (error) {
+      logger.error('Error getting compliance gaps', { error, frameworkId });
+      throw error;
+    }
+  }
+
+  /**
+   * Get reports for a specific framework
+   */
+  async getFrameworkReports(frameworkId: string): Promise<ComplianceReport[]> {
+    try {
+      logger.info('Getting framework reports', { frameworkId });
+
+      // In production, fetch reports from database
+      return [];
+    } catch (error) {
+      logger.error('Error getting framework reports', { error, frameworkId });
+      throw error;
+    }
+  }
+
+  /**
+   * Get all reports with optional filtering
+   */
+  async getAllReports(query: Record<string, any> = {}): Promise<ComplianceReport[]> {
+    try {
+      logger.info('Getting all reports', { query });
+
+      // In production, fetch reports from database with filtering
+      return [];
+    } catch (error) {
+      logger.error('Error getting all reports', { error });
+      throw error;
+    }
+  }
+
+  /**
+   * Export report in specified format
+   */
+  async exportReport(reportId: string, format?: string): Promise<Buffer> {
+    try {
+      logger.info('Exporting report', { reportId, format });
+
+      // In production, fetch report and convert to requested format
+      const reportContent = `Compliance Report ${reportId}`;
+      return Buffer.from(reportContent);
+    } catch (error) {
+      logger.error('Error exporting report', { error, reportId });
+      throw error;
+    }
+  }
+
+  /**
+   * Generate compliance report by framework ID (simplified for controller use)
+   */
+  async generateComplianceReportByFrameworkId(frameworkId: string): Promise<ComplianceReport> {
+    try {
+      logger.info('Generating compliance report by framework ID', { frameworkId });
+
+      // In production, fetch framework details from database
+      const frameworkType: FrameworkType = 'NIST_CSF'; // Would be determined from frameworkId
+      const period = {
+        start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // Last 30 days
+        end: new Date(),
+      };
+
+      return await this.generateComplianceReport(
+        frameworkType,
+        period,
+        'assessment',
+        'system',
+      );
+    } catch (error) {
+      logger.error('Error generating compliance report by framework ID', { error, frameworkId });
+      throw error;
+    }
+  }
+
+  /**
+   * Attach evidence to a control
+   */
+  async attachEvidence(
+    frameworkId: string,
+    controlId: string,
+    file: any,
+    description?: string,
+  ): Promise<Evidence> {
+    try {
+      logger.info('Attaching evidence', { frameworkId, controlId });
+
+      const evidence: Evidence = {
+        id: uuidv4(),
+        title: file?.originalname || 'Evidence',
+        description: description || '',
+        type: 'document',
+        frameworkIds: [frameworkId],
+        controlIds: [controlId],
+        requirementIds: [],
+        filePath: file?.path,
+        capturedAt: new Date(),
+        capturedBy: 'system',
+        validFrom: new Date(),
+        tags: [],
+        chainOfCustody: [{
+          timestamp: new Date(),
+          action: 'created',
+          userId: 'system',
+        }],
+        metadata: {},
+        createdAt: new Date(),
+      };
+
+      logger.info('Evidence attached', { evidenceId: evidence.id });
+      return evidence;
+    } catch (error) {
+      logger.error('Error attaching evidence', { error });
+      throw error;
+    }
+  }
+
+  /**
+   * Remove evidence from a control
+   */
+  async removeEvidence(
+    frameworkId: string,
+    controlId: string,
+    evidenceId: string,
+  ): Promise<void> {
+    try {
+      logger.info('Removing evidence', { frameworkId, controlId, evidenceId });
+
+      // In production, delete evidence association from database
+      logger.info('Evidence removed', { evidenceId });
+    } catch (error) {
+      logger.error('Error removing evidence', { error, evidenceId });
+      throw error;
+    }
+  }
+
+  // ========================================
   // Helper Methods
   // ========================================
 

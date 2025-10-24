@@ -36,12 +36,12 @@ router.post('/tasks', async (req: Request, res: Response, next: NextFunction) =>
       metadata: metadata || {}
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       data: task
     });
   } catch (error: any) {
-    next(error);
+    return next(error);
   }
 });
 
@@ -75,12 +75,12 @@ router.get('/tasks/:id', async (req: Request, res: Response, next: NextFunction)
       });
     }
 
-    res.json({
+    return res.json({
       success: true,
       data: task
     });
   } catch (error: any) {
-    next(error);
+    return next(error);
   }
 });
 
@@ -105,13 +105,13 @@ router.get('/tasks', async (req: Request, res: Response, next: NextFunction) => 
       ? tasks.filter(t => t.status === status)
       : tasks;
 
-    res.json({
+    return res.json({
       success: true,
       data: filteredTasks,
       count: filteredTasks.length
     });
   } catch (error: any) {
-    next(error);
+    return next(error);
   }
 });
 
@@ -147,12 +147,12 @@ router.delete('/tasks/:id', async (req: Request, res: Response, next: NextFuncti
 
     await taskManager.cancelTask(req.params.id);
 
-    res.json({
+    return res.json({
       success: true,
       message: 'Task cancelled successfully'
     });
   } catch (error: any) {
-    next(error);
+    return next(error);
   }
 });
 
@@ -182,12 +182,12 @@ router.get('/tasks/stats', async (req: Request, res: Response, next: NextFunctio
       system_running: runningCount
     };
 
-    res.json({
+    return res.json({
       success: true,
       data: stats
     });
   } catch (error: any) {
-    next(error);
+    return next(error);
   }
 });
 

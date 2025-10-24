@@ -80,7 +80,7 @@ export interface HealthCheckResponse {
 export function createHealthCheckHandler(config: HealthCheckConfig): RequestHandler {
   return async (req: Request, res: Response): Promise<void> => {
     try {
-      const response: HealthCheckResponse = {
+      let response: HealthCheckResponse = {
         module: config.moduleName,
         status: 'operational',
         version: config.version ?? '1.0.0',
@@ -91,33 +91,47 @@ export function createHealthCheckHandler(config: HealthCheckConfig): RequestHand
       // Check database status if configured
       if (config.getDatabaseStatus) {
         try {
-          response.database = await config.getDatabaseStatus();
-          if (response.database === 'error') {
-            response.status = 'degraded';
-          }
+          const databaseStatus = await config.getDatabaseStatus();
+          response = {
+            ...response,
+            database: databaseStatus,
+            status: databaseStatus === 'error' ? 'degraded' : response.status,
+          };
         } catch (error) {
-          response.database = 'error';
-          response.status = 'degraded';
+          response = {
+            ...response,
+            database: 'error',
+            status: 'degraded',
+          };
         }
       }
 
       // Check dependencies if configured
       if (config.getDependenciesStatus) {
         try {
-          response.dependencies = await config.getDependenciesStatus();
-          const allHealthy = Object.values(response.dependencies).every(status => status);
-          if (!allHealthy && response.status === 'operational') {
-            response.status = 'degraded';
-          }
+          const dependencies = await config.getDependenciesStatus();
+          const allHealthy = Object.values(dependencies).every(status => status);
+          response = {
+            ...response,
+            dependencies,
+            status: !allHealthy && response.status === 'operational' ? 'degraded' : response.status,
+          };
         } catch (error) {
-          response.status = 'degraded';
+          response = {
+            ...response,
+            status: 'degraded',
+          };
         }
       }
 
       // Get metrics if configured
       if (config.getMetrics) {
         try {
-          response.metrics = await config.getMetrics();
+          const metrics = await config.getMetrics();
+          response = {
+            ...response,
+            metrics,
+          };
         } catch (error) {
           // Metrics failure doesn't affect overall status
         }

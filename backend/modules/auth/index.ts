@@ -15,7 +15,7 @@ import { initializeSequelize } from '../../config/sequelize';
 import User from '../../models/User';
 import config from '../../config';
 import { tokenBlacklist, getTokenTTL } from '../../utils/tokenBlacklist';
-import { authenticate } from '../../middleware/auth';
+import authenticate from '../../middleware/auth';
 
 // Initialize Sequelize to load models
 initializeSequelize();

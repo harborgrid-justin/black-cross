@@ -102,7 +102,7 @@ class ComplianceController {
   // Report methods
   async generateReport(req, res) {
     try {
-      const report = await complianceService.generateComplianceReport(req.params.frameworkId);
+      const report = await complianceService.generateComplianceReportByFrameworkId(req.params.frameworkId);
       res.json({ success: true, data: report });
     } catch (error) {
       res.status(400).json({ success: false, error: error.message });

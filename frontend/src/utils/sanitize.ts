@@ -109,7 +109,7 @@ export function sanitizeInput(value: string): string {
  * b, i, em, strong, a, p, br, ul, ol, li
  *
  * @param {string} value - HTML string to sanitize
- * @param {string[]} [allowedTags] - Optional array of allowed HTML tag names
+ * @param {string[]} [_allowedTags] - Optional array of allowed HTML tag names (reserved for future DOMPurify integration)
  * @returns {string} Sanitized HTML string safe for rendering
  *
  * @example
@@ -130,12 +130,12 @@ export function sanitizeInput(value: string): string {
  * Current implementation falls back to sanitizeInput() until DOMPurify is installed.
  * Install DOMPurify for production-ready HTML sanitization.
  */
-export function sanitizeHTML(value: string, allowedTags?: string[]): string {
+export function sanitizeHTML(value: string, _allowedTags?: string[]): string {
   if (!value) return '';
 
   // TODO: Replace with DOMPurify after installation
   // return DOMPurify.sanitize(value, {
-  //   ALLOWED_TAGS: allowedTags || ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'ol', 'li'],
+  //   ALLOWED_TAGS: _allowedTags || ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'ol', 'li'],
   //   ALLOWED_ATTR: ['href', 'target', 'rel'],
   // });
 

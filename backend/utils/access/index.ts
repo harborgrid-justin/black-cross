@@ -1,7 +1,7 @@
 /**
  * Enterprise Access Control System
  * Adapted from OpenCTI Platform
- * 
+ *
  * Implements capability-based access control with:
  * - Fine-grained permissions
  * - Organization-level access
@@ -9,7 +9,7 @@
  * - Admin bypass mechanisms
  */
 
-import type { User } from '../../models/User';
+import type User from '../../models/User';
 import { CAPABILITIES, type Capability, isPrivilegedCapability } from './capabilities';
 
 /**
@@ -50,14 +50,14 @@ export const isUserHasCapability = (
   if (!user || !user.capabilities) {
     return false;
   }
-  
+
   // System bypass
-  if (user.capabilities.includes(CAPABILITIES.BYPASS_ENTERPRISE)) {
+  if (user.capabilities.indexOf(CAPABILITIES.BYPASS_ENTERPRISE) !== -1) {
     return true;
   }
-  
+
   // Check for specific capability
-  return user.capabilities.includes(capability);
+  return user.capabilities.indexOf(capability) !== -1;
 };
 
 /**
@@ -140,22 +140,30 @@ export const getUserAccessRight = (
   if (isUserAdmin(user)) {
     return MemberAccessRight.ADMIN;
   }
-  
+
   // Check if user is the creator
   if (entity.created_by && entity.created_by === user.id) {
     return MemberAccessRight.ADMIN;
   }
-  
+
   // Check authorized members
   if (!entity.authorized_members || entity.authorized_members.length === 0) {
     return MemberAccessRight.NONE;
   }
-  
-  const member = entity.authorized_members.find(m => m.id === user.id);
+
+  // Find member using traditional loop
+  let member: AuthorizedMember | undefined;
+  for (let i = 0; i < entity.authorized_members.length; i++) {
+    if (entity.authorized_members[i].id === user.id) {
+      member = entity.authorized_members[i];
+      break;
+    }
+  }
+
   if (!member) {
     return MemberAccessRight.NONE;
   }
-  
+
   return member.access_right as MemberAccessRight;
 };
 
@@ -262,16 +270,29 @@ export const addAuthorizedMember = (
   accessRight: MemberAccessRight
 ): AuthorizedMember[] => {
   const members = entity.authorized_members || [];
-  
-  // Check if user already has access
-  const existing = members.find(m => m.id === userId);
-  if (existing) {
-    // Update access right
-    return members.map(m => 
-      m.id === userId ? { ...m, access_right: accessRight } : m
-    );
+
+  // Check if user already has access using traditional loop
+  let existingIndex = -1;
+  for (let i = 0; i < members.length; i++) {
+    if (members[i].id === userId) {
+      existingIndex = i;
+      break;
+    }
   }
-  
+
+  if (existingIndex !== -1) {
+    // Update access right
+    const updatedMembers: AuthorizedMember[] = [];
+    for (let i = 0; i < members.length; i++) {
+      if (i === existingIndex) {
+        updatedMembers.push({ ...members[i], access_right: accessRight });
+      } else {
+        updatedMembers.push(members[i]);
+      }
+    }
+    return updatedMembers;
+  }
+
   // Add new member
   return [...members, { id: userId, access_right: accessRight }];
 };

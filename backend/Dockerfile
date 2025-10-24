@@ -7,16 +7,15 @@ WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
-COPY ../prisma ./prisma
 
-# Install dependencies
-RUN npm ci --only=production
-
-# Generate Prisma Client
-RUN npm run prisma:generate
+# Install dependencies (including dev dependencies for build)
+RUN npm install
 
 # Copy application code
 COPY . .
+
+# Build TypeScript
+RUN npm run build || npx tsc
 
 # Create logs directory
 RUN mkdir -p logs

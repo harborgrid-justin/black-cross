@@ -12,7 +12,12 @@
       "Bash(cat:*)",
       "Bash(pwsh:*)",
       "Bash(npx prisma generate:*)",
-      "Bash(npm run prisma:generate:*)"
+      "Bash(npm run prisma:generate:*)",
+      "mcp__ide__getDiagnostics",
+      "WebSearch",
+      "Bash(npm install)",
+      "Bash(powershell.exe -Command \"if (Test-Path ''node_modules'') { Remove-Item -Path ''node_modules'' -Recurse -Force -ErrorAction SilentlyContinue }\")",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []

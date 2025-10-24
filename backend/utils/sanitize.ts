@@ -11,10 +11,8 @@
  * @see https://owasp.org/www-community/attacks/xss/
  */
 
-import createDOMPurify from 'isomorphic-dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 import type { Request, Response, NextFunction } from 'express';
-
-const DOMPurify = createDOMPurify();
 
 /**
  * Sanitization configuration
@@ -151,7 +149,8 @@ export function sanitizeObject<T extends Record<string, any>>(
     return obj;
   }
 
-  const sanitized = { ...obj };
+  // Create a mutable copy with proper typing
+  const sanitized: Record<string, any> = { ...obj };
 
   for (const field of fieldsToSanitize) {
     if (field in sanitized && typeof sanitized[field] === 'string') {
@@ -170,7 +169,7 @@ export function sanitizeObject<T extends Record<string, any>>(
     }
   }
 
-  return sanitized;
+  return sanitized as T;
 }
 
 /**

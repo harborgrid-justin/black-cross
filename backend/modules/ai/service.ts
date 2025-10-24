@@ -11,8 +11,9 @@
  */
 
 import { LLMClient, createLLMClientFromEnv } from './llm-client';
-import type { ContentFormat, ContentTone, AIOperation, AIUsageLog } from './types';
-import type { User } from '../../models/User';
+import { ContentFormat, ContentTone, AIOperation } from './types';
+import type { AIUsageLog } from './types';
+import User from '../../models/User';
 
 /**
  * System prompt that establishes the AI assistant's role and expertise domain.

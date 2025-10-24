@@ -209,7 +209,7 @@ export function strictAuthRateLimiter(options: RateLimitOptions = {}): (req: Req
     },
     failOpen: false, // Fail closed for auth endpoints
     onLimitReached: (req: Request) => {
-      logger.security('Login rate limit exceeded', {
+      logger.warn('Login rate limit exceeded', {
         ip: req.ip,
         email: req.body?.email,
         correlationId: req.correlationId,
@@ -239,11 +239,11 @@ export async function getRateLimitStatus(key: string): Promise<{
     const client = redisClient.getClient();
     if (!client) return null;
 
-    const count = await client.get(key);
+    const countValue = await client.get(key);
     const ttl = await client.pTTL(key);
 
     return {
-      count: count ? parseInt(count, 10) : 0,
+      count: countValue ? parseInt(countValue, 10) : 0,
       ttl: ttl > 0 ? ttl : 0,
       exceeded: false, // Would need maxRequests to determine
     };

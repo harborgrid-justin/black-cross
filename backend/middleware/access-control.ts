@@ -34,8 +34,8 @@ export const requireCapability = (capability: Capability, message?: string) => {
         required_capability: capability
       });
     }
-    
-    next();
+
+    return next();
   };
 };
 
@@ -62,8 +62,8 @@ export const requireAnyCapability = (...capabilities: Capability[]) => {
         required_capabilities: capabilities
       });
     }
-    
-    next();
+
+    return next();
   };
 };
 
@@ -92,8 +92,8 @@ export const requireAllCapabilities = (...capabilities: Capability[]) => {
         missing_capabilities: missingCapabilities
       });
     }
-    
-    next();
+
+    return next();
   };
 };
 
@@ -133,10 +133,10 @@ export const requireEntityAccess = (
           required_level: requiredLevel
         });
       }
-      
+
       // Attach entity to request for use in handler
       req.entity = entity;
-      next();
+      return next();
     } catch (error: any) {
       next(error);
     }
@@ -175,9 +175,9 @@ export const requireCreator = (
           error: 'Only the creator can perform this action'
         });
       }
-      
+
       req.entity = entity;
-      next();
+      return next();
     } catch (error: any) {
       next(error);
     }
