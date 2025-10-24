@@ -1,0 +1,1042 @@
+{
+  "agentId": "api-architect",
+  "analysisId": "A7X9K2",
+  "referencedWork": [],
+  "generatedAt": "2025-10-24T00:00:00Z",
+  "modules": [
+    {
+      "name": "threat-intelligence",
+      "path": "/api/v1/threat-intelligence",
+      "status": "complete-crud",
+      "endpoints": [
+        {
+          "path": "/threats",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "authentication": "required",
+          "rateLimit": "100 req/15min",
+          "validation": "query parameters",
+          "controller": "threatController.listThreats"
+        },
+        {
+          "path": "/threats",
+          "method": "POST",
+          "operation": "CREATE",
+          "authentication": "required",
+          "rateLimit": "100 req/15min",
+          "validation": "threatSchema",
+          "controller": "threatController.collectThreat",
+          "responseCode": 201
+        },
+        {
+          "path": "/threats/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "authentication": "required",
+          "validation": "id parameter",
+          "controller": "threatController.getThreat"
+        },
+        {
+          "path": "/threats/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "authentication": "required",
+          "validation": "id + threatSchema",
+          "controller": "threatController.updateThreat"
+        },
+        {
+          "path": "/threats/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "authentication": "required",
+          "validation": "id parameter",
+          "controller": "threatController.deleteThreat"
+        }
+      ],
+      "subResources": ["taxonomies"],
+      "specialEndpoints": ["stream", "categorize", "archive", "enrich", "correlate", "analyze"]
+    },
+    {
+      "name": "incident-response",
+      "path": "/api/v1/incident-response",
+      "status": "complete-crud",
+      "endpoints": [
+        {
+          "path": "/incidents",
+          "method": "POST",
+          "operation": "CREATE",
+          "controller": "incidentController.createIncident"
+        },
+        {
+          "path": "/incidents",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "incidentController.listIncidents"
+        },
+        {
+          "path": "/incidents/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "controller": "incidentController.getIncident"
+        },
+        {
+          "path": "/incidents/:id",
+          "method": "PATCH",
+          "operation": "UPDATE",
+          "controller": "incidentController.updateIncident"
+        },
+        {
+          "path": "/incidents/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "controller": "incidentController.deleteIncident"
+        }
+      ],
+      "specialEndpoints": ["prioritize", "execute-workflow", "post-mortem", "timeline", "evidence", "notify"]
+    },
+    {
+      "name": "vulnerability-management",
+      "path": "/api/v1/vulnerability-management",
+      "status": "complete-crud",
+      "endpoints": [
+        {
+          "path": "/",
+          "method": "POST",
+          "operation": "CREATE",
+          "validation": "vulnerabilitySchema",
+          "controller": "vulnerabilityController.create"
+        },
+        {
+          "path": "/",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "vulnerabilityController.list"
+        },
+        {
+          "path": "/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "validation": "objectId",
+          "controller": "vulnerabilityController.getById"
+        },
+        {
+          "path": "/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "validation": "objectId + vulnerabilityUpdateSchema",
+          "controller": "vulnerabilityController.update"
+        },
+        {
+          "path": "/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "validation": "objectId",
+          "controller": "vulnerabilityController.delete"
+        }
+      ],
+      "specialEndpoints": ["/:id/status (PATCH)", "/scan", "/scans/:scanId"]
+    },
+    {
+      "name": "ioc-management",
+      "path": "/api/v1/ioc-management",
+      "status": "complete-crud",
+      "endpoints": [
+        {
+          "path": "/",
+          "method": "POST",
+          "operation": "CREATE",
+          "validation": "iocSchema",
+          "controller": "iocController.create"
+        },
+        {
+          "path": "/",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "iocController.list"
+        },
+        {
+          "path": "/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "validation": "objectId",
+          "controller": "iocController.getById"
+        },
+        {
+          "path": "/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "validation": "objectId + iocUpdateSchema",
+          "controller": "iocController.update"
+        },
+        {
+          "path": "/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "validation": "objectId",
+          "controller": "iocController.delete"
+        }
+      ],
+      "specialEndpoints": ["/bulk", "/export", "/check"]
+    },
+    {
+      "name": "threat-actors",
+      "path": "/api/v1/threat-actors",
+      "status": "complete-crud",
+      "endpoints": [
+        {
+          "path": "/",
+          "method": "POST",
+          "operation": "CREATE",
+          "validation": "actorSchema",
+          "controller": "actorController.create"
+        },
+        {
+          "path": "/",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "actorController.list"
+        },
+        {
+          "path": "/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "validation": "objectId",
+          "controller": "actorController.getById"
+        },
+        {
+          "path": "/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "validation": "objectId + actorUpdateSchema",
+          "controller": "actorController.update"
+        },
+        {
+          "path": "/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "validation": "objectId",
+          "controller": "actorController.delete"
+        }
+      ],
+      "specialEndpoints": ["/:id/campaigns", "/:id/ttps"]
+    },
+    {
+      "name": "siem",
+      "path": "/api/v1/siem",
+      "status": "complete-crud",
+      "endpoints": [
+        {
+          "path": "/",
+          "method": "POST",
+          "operation": "CREATE",
+          "validation": "siemSchema",
+          "controller": "siemController.create"
+        },
+        {
+          "path": "/",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "siemController.list"
+        },
+        {
+          "path": "/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "validation": "objectId",
+          "controller": "siemController.getById"
+        },
+        {
+          "path": "/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "validation": "objectId + siemUpdateSchema",
+          "controller": "siemController.update"
+        },
+        {
+          "path": "/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "validation": "objectId",
+          "controller": "siemController.delete"
+        }
+      ]
+    },
+    {
+      "name": "automation",
+      "path": "/api/v1/automation",
+      "status": "complete-crud",
+      "subResources": ["playbooks", "integrations"],
+      "endpoints": [
+        {
+          "path": "/playbooks",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "playbookController.listPlaybooks"
+        },
+        {
+          "path": "/playbooks",
+          "method": "POST",
+          "operation": "CREATE",
+          "validation": "playbookSchema",
+          "controller": "playbookController.createPlaybook"
+        },
+        {
+          "path": "/playbooks/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "controller": "playbookController.getPlaybook"
+        },
+        {
+          "path": "/playbooks/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "validation": "playbookUpdateSchema",
+          "controller": "playbookController.updatePlaybook"
+        },
+        {
+          "path": "/playbooks/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "controller": "playbookController.deletePlaybook"
+        },
+        {
+          "path": "/integrations",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "integrationController.listIntegrations"
+        },
+        {
+          "path": "/integrations",
+          "method": "POST",
+          "operation": "CREATE",
+          "validation": "integrationSchema",
+          "controller": "integrationController.createIntegration"
+        },
+        {
+          "path": "/integrations/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "controller": "integrationController.getIntegration"
+        },
+        {
+          "path": "/integrations/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "validation": "integrationUpdateSchema",
+          "controller": "integrationController.updateIntegration"
+        },
+        {
+          "path": "/integrations/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "controller": "integrationController.deleteIntegration"
+        }
+      ]
+    },
+    {
+      "name": "threat-hunting",
+      "path": "/api/v1/threat-hunting",
+      "status": "incomplete-crud",
+      "missingOperations": ["UPDATE", "DELETE"],
+      "endpoints": [
+        {
+          "path": "/sessions",
+          "method": "POST",
+          "operation": "CREATE",
+          "validation": "huntSessionSchema",
+          "controller": "huntController.createSession"
+        },
+        {
+          "path": "/sessions",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "huntController.listSessions"
+        },
+        {
+          "path": "/sessions/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "validation": "objectId",
+          "controller": "huntController.getSession"
+        }
+      ],
+      "specialEndpoints": ["/sessions/:id/query", "/sessions/:id/findings"]
+    },
+    {
+      "name": "risk-assessment",
+      "path": "/api/v1/risk-assessment",
+      "status": "partial-crud",
+      "missingOperations": ["DELETE for models"],
+      "endpoints": [
+        {
+          "path": "/models",
+          "method": "POST",
+          "operation": "CREATE",
+          "validation": "riskModelSchema",
+          "controller": "riskController.createModel"
+        },
+        {
+          "path": "/models/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "controller": "riskController.updateModel"
+        }
+      ],
+      "specialEndpoints": [
+        "/assets/assess",
+        "/threats/:id/impact",
+        "/calculate",
+        "/scores",
+        "/priorities",
+        "/trends",
+        "/reports/executive"
+      ]
+    },
+    {
+      "name": "malware-analysis",
+      "path": "/api/v1/malware-analysis",
+      "status": "complete-crud",
+      "endpoints": [
+        {
+          "path": "/",
+          "method": "POST",
+          "operation": "CREATE",
+          "validation": "malwareSchema",
+          "controller": "malwareController.create"
+        },
+        {
+          "path": "/",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "malwareController.list"
+        },
+        {
+          "path": "/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "validation": "objectId",
+          "controller": "malwareController.getById"
+        },
+        {
+          "path": "/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "validation": "objectId + malwareUpdateSchema",
+          "controller": "malwareController.update"
+        },
+        {
+          "path": "/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "validation": "objectId",
+          "controller": "malwareController.delete"
+        }
+      ]
+    },
+    {
+      "name": "dark-web",
+      "path": "/api/v1/dark-web",
+      "status": "complete-crud",
+      "endpoints": [
+        {
+          "path": "/",
+          "method": "POST",
+          "operation": "CREATE",
+          "validation": "darkwebSchema",
+          "controller": "darkwebController.create"
+        },
+        {
+          "path": "/",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "darkwebController.list"
+        },
+        {
+          "path": "/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "validation": "objectId",
+          "controller": "darkwebController.getById"
+        },
+        {
+          "path": "/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "validation": "objectId + darkwebUpdateSchema",
+          "controller": "darkwebController.update"
+        },
+        {
+          "path": "/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "validation": "objectId",
+          "controller": "darkwebController.delete"
+        }
+      ]
+    },
+    {
+      "name": "compliance",
+      "path": "/api/v1/compliance",
+      "status": "complete-crud",
+      "endpoints": [
+        {
+          "path": "/",
+          "method": "POST",
+          "operation": "CREATE",
+          "validation": "complianceSchema",
+          "controller": "complianceController.create"
+        },
+        {
+          "path": "/",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "complianceController.list"
+        },
+        {
+          "path": "/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "validation": "objectId",
+          "controller": "complianceController.getById"
+        },
+        {
+          "path": "/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "validation": "objectId + complianceUpdateSchema",
+          "controller": "complianceController.update"
+        },
+        {
+          "path": "/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "validation": "objectId",
+          "controller": "complianceController.delete"
+        }
+      ],
+      "specialEndpoints": [
+        "/frameworks",
+        "/frameworks/:frameworkId/controls",
+        "/frameworks/:frameworkId/analyze-gaps",
+        "/audit-logs",
+        "/reports"
+      ]
+    },
+    {
+      "name": "collaboration",
+      "path": "/api/v1/collaboration",
+      "status": "complete-crud",
+      "endpoints": [
+        {
+          "path": "/",
+          "method": "POST",
+          "operation": "CREATE",
+          "validation": "collaborationSchema",
+          "controller": "collaborationController.create"
+        },
+        {
+          "path": "/",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "collaborationController.list"
+        },
+        {
+          "path": "/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "validation": "objectId",
+          "controller": "collaborationController.getById"
+        },
+        {
+          "path": "/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "validation": "objectId + collaborationUpdateSchema",
+          "controller": "collaborationController.update"
+        },
+        {
+          "path": "/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "validation": "objectId",
+          "controller": "collaborationController.delete"
+        }
+      ]
+    },
+    {
+      "name": "reporting",
+      "path": "/api/v1/reporting",
+      "status": "complete-crud",
+      "endpoints": [
+        {
+          "path": "/",
+          "method": "POST",
+          "operation": "CREATE",
+          "validation": "reportSchema",
+          "controller": "reportController.create"
+        },
+        {
+          "path": "/",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "reportController.list"
+        },
+        {
+          "path": "/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "validation": "objectId",
+          "controller": "reportController.getById"
+        },
+        {
+          "path": "/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "validation": "objectId + reportUpdateSchema",
+          "controller": "reportController.update"
+        },
+        {
+          "path": "/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "validation": "objectId",
+          "controller": "reportController.delete"
+        }
+      ]
+    },
+    {
+      "name": "threat-feeds",
+      "path": "/api/v1/threat-feeds",
+      "status": "complete-crud",
+      "endpoints": [
+        {
+          "path": "/",
+          "method": "POST",
+          "operation": "CREATE",
+          "validation": "feedSchema",
+          "controller": "feedController.create"
+        },
+        {
+          "path": "/",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "feedController.list"
+        },
+        {
+          "path": "/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "validation": "objectId",
+          "controller": "feedController.getById"
+        },
+        {
+          "path": "/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "validation": "objectId + feedUpdateSchema",
+          "controller": "feedController.update"
+        },
+        {
+          "path": "/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "validation": "objectId",
+          "controller": "feedController.delete"
+        }
+      ],
+      "specialEndpoints": ["/:id/toggle (PATCH)", "/:id/refresh", "/:id/stats"]
+    },
+    {
+      "name": "playbooks",
+      "path": "/api/v1/playbooks",
+      "status": "complete-crud",
+      "authentication": "capability-based",
+      "endpoints": [
+        {
+          "path": "/",
+          "method": "POST",
+          "operation": "CREATE",
+          "capability": "PLAYBOOK_CREATE",
+          "controller": "playbookController.create"
+        },
+        {
+          "path": "/",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "capability": "PLAYBOOK_READ",
+          "controller": "playbookController.list"
+        },
+        {
+          "path": "/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "capability": "PLAYBOOK_READ",
+          "controller": "playbookController.get"
+        },
+        {
+          "path": "/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "capability": "PLAYBOOK_UPDATE",
+          "controller": "playbookController.update"
+        },
+        {
+          "path": "/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "capability": "PLAYBOOK_DELETE",
+          "controller": "playbookController.delete"
+        }
+      ],
+      "specialEndpoints": ["/:id/execute", "/executions/:executionId", "/executions/:executionId/cancel"]
+    },
+    {
+      "name": "case-management",
+      "path": "/api/v1/case-management",
+      "status": "complete-crud",
+      "endpoints": [
+        {
+          "path": "/cases",
+          "method": "POST",
+          "operation": "CREATE",
+          "controller": "controller.createCase"
+        },
+        {
+          "path": "/cases",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "controller.getCases"
+        },
+        {
+          "path": "/cases/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "controller": "controller.getCase"
+        },
+        {
+          "path": "/cases/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "controller": "controller.updateCase"
+        },
+        {
+          "path": "/cases/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "controller": "controller.deleteCase"
+        }
+      ],
+      "specialEndpoints": [
+        "/cases/:id/tasks",
+        "/cases/:id/comments",
+        "/cases/:id/timeline",
+        "/cases/templates"
+      ]
+    },
+    {
+      "name": "notifications",
+      "path": "/api/v1/notifications",
+      "status": "partial-crud",
+      "note": "No single GET /:id endpoint",
+      "endpoints": [
+        {
+          "path": "/notifications",
+          "method": "POST",
+          "operation": "CREATE",
+          "controller": "controller.createNotification"
+        },
+        {
+          "path": "/notifications",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "controller.getUserNotifications"
+        },
+        {
+          "path": "/notifications/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "note": "Only mark as read",
+          "controller": "controller.markAsRead"
+        },
+        {
+          "path": "/notifications/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "controller": "controller.deleteNotification"
+        }
+      ],
+      "specialEndpoints": ["/preferences", "/rules"]
+    },
+    {
+      "name": "metrics",
+      "path": "/api/v1/metrics",
+      "status": "specialized",
+      "pattern": "telemetry-focused",
+      "endpoints": [
+        {
+          "path": "/metrics",
+          "method": "POST",
+          "operation": "RECORD",
+          "controller": "controller.recordMetric"
+        },
+        {
+          "path": "/metrics/query",
+          "method": "POST",
+          "operation": "QUERY",
+          "controller": "controller.queryMetrics"
+        },
+        {
+          "path": "/metrics/security",
+          "method": "GET",
+          "operation": "READ",
+          "controller": "controller.getSecurityMetrics"
+        },
+        {
+          "path": "/dashboards",
+          "method": "POST",
+          "operation": "CREATE",
+          "controller": "controller.createDashboard"
+        },
+        {
+          "path": "/dashboards",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "controller.getDashboards"
+        }
+      ]
+    },
+    {
+      "name": "draft-workspace",
+      "path": "/api/v1/draft-workspace",
+      "status": "complete-crud",
+      "endpoints": [
+        {
+          "path": "/drafts",
+          "method": "POST",
+          "operation": "CREATE",
+          "controller": "controller.createDraft"
+        },
+        {
+          "path": "/drafts",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "controller.getUserDrafts"
+        },
+        {
+          "path": "/drafts/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "controller": "controller.getDraft"
+        },
+        {
+          "path": "/drafts/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "controller": "controller.updateDraft"
+        },
+        {
+          "path": "/drafts/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "controller": "controller.deleteDraft"
+        }
+      ],
+      "specialEndpoints": ["/drafts/:id/submit", "/drafts/:id/discard", "/drafts/:id/revisions"]
+    },
+    {
+      "name": "auth",
+      "path": "/api/v1/auth",
+      "status": "specialized",
+      "pattern": "authentication",
+      "endpoints": [
+        {
+          "path": "/login",
+          "method": "POST",
+          "operation": "AUTHENTICATE",
+          "public": true
+        },
+        {
+          "path": "/logout",
+          "method": "POST",
+          "operation": "LOGOUT",
+          "authentication": "required"
+        },
+        {
+          "path": "/me",
+          "method": "GET",
+          "operation": "GET_CURRENT_USER",
+          "authentication": "required"
+        }
+      ]
+    },
+    {
+      "name": "dashboard",
+      "path": "/api/v1/dashboard",
+      "status": "specialized",
+      "pattern": "read-only-aggregation",
+      "endpoints": [
+        {
+          "path": "/stats",
+          "method": "GET",
+          "operation": "GET_STATISTICS",
+          "controller": "dashboardController.getStats"
+        }
+      ]
+    },
+    {
+      "name": "ai",
+      "path": "/api/v1/ai",
+      "status": "specialized",
+      "pattern": "functional-operations",
+      "authentication": "capability-based",
+      "endpoints": [
+        {
+          "path": "/status",
+          "method": "GET",
+          "operation": "GET_STATUS",
+          "public": true
+        },
+        {
+          "path": "/fix-spelling",
+          "method": "POST",
+          "operation": "TRANSFORM",
+          "capability": "AI_USE"
+        },
+        {
+          "path": "/summarize",
+          "method": "POST",
+          "operation": "TRANSFORM",
+          "capability": "AI_USE"
+        },
+        {
+          "path": "/generate-report",
+          "method": "POST",
+          "operation": "GENERATE",
+          "capability": "REPORT_CREATE"
+        },
+        {
+          "path": "/analyze-threat",
+          "method": "POST",
+          "operation": "ANALYZE",
+          "capability": "AI_USE"
+        },
+        {
+          "path": "/extract-iocs",
+          "method": "POST",
+          "operation": "EXTRACT",
+          "capability": "AI_USE"
+        }
+      ]
+    },
+    {
+      "name": "code-review",
+      "path": "/api/v1/code-review",
+      "status": "specialized",
+      "pattern": "execution-service",
+      "endpoints": [
+        {
+          "path": "/execute",
+          "method": "POST",
+          "operation": "EXECUTE_REVIEW",
+          "controller": "controller.executeCodeReview"
+        },
+        {
+          "path": "/agents",
+          "method": "GET",
+          "operation": "GET_AGENTS",
+          "controller": "controller.getAvailableAgents"
+        },
+        {
+          "path": "/health",
+          "method": "GET",
+          "operation": "HEALTH_CHECK",
+          "controller": "controller.getHealthStatus"
+        }
+      ]
+    },
+    {
+      "name": "stix",
+      "path": "/api/v1/stix",
+      "status": "specialized",
+      "pattern": "import-export",
+      "authentication": "capability-based",
+      "endpoints": [
+        {
+          "path": "/export",
+          "method": "POST",
+          "operation": "EXPORT",
+          "capability": "KNOWLEDGE_EXPORT",
+          "controller": "stixController.exportBundle"
+        },
+        {
+          "path": "/import",
+          "method": "POST",
+          "operation": "IMPORT",
+          "capability": "KNOWLEDGE_IMPORT",
+          "controller": "stixController.importBundle"
+        },
+        {
+          "path": "/convert",
+          "method": "POST",
+          "operation": "CONVERT",
+          "capability": "KNOWLEDGE_READ",
+          "controller": "stixController.convertToSTIX"
+        },
+        {
+          "path": "/parse-pattern",
+          "method": "POST",
+          "operation": "PARSE",
+          "capability": "KNOWLEDGE_READ",
+          "controller": "stixController.parsePattern"
+        }
+      ]
+    },
+    {
+      "name": "example-typescript",
+      "path": "/api/v1/example-typescript",
+      "status": "reference-implementation",
+      "endpoints": [
+        {
+          "path": "/",
+          "method": "POST",
+          "operation": "CREATE",
+          "controller": "controller.create"
+        },
+        {
+          "path": "/",
+          "method": "GET",
+          "operation": "READ_LIST",
+          "controller": "controller.list"
+        },
+        {
+          "path": "/:id",
+          "method": "GET",
+          "operation": "READ_SINGLE",
+          "controller": "controller.getById"
+        },
+        {
+          "path": "/:id",
+          "method": "PUT",
+          "operation": "UPDATE",
+          "controller": "controller.update"
+        },
+        {
+          "path": "/:id",
+          "method": "DELETE",
+          "operation": "DELETE",
+          "controller": "controller.deleteById"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "totalModules": 26,
+    "completeCrudModules": 18,
+    "incompleteCrudModules": 2,
+    "specializedModules": 6,
+    "missingOperations": {
+      "threat-hunting": ["UPDATE /sessions/:id", "DELETE /sessions/:id"],
+      "risk-assessment": ["DELETE /models/:id"]
+    }
+  }
+}
