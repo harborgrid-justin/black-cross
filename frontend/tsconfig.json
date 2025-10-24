@@ -14,23 +14,23 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    /* Strict Type-Checking Options - Relaxed for debugging */
-    "strict": false,
-    "noImplicitAny": false,
-    "strictNullChecks": false,
-    "strictFunctionTypes": false,
-    "strictBindCallApply": false,
-    "strictPropertyInitialization": false,
-    "noImplicitThis": false,
-    "alwaysStrict": false,
+    /* Strict Type-Checking Options - ENABLED FOR PRODUCTION */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
 
-    /* Additional Checks - Disabled for debugging */
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": false,
-    "noImplicitReturns": false,
-    "noUncheckedIndexedAccess": false,
-    "noImplicitOverride": false,
+    /* Additional Checks - ENABLED FOR CODE QUALITY */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": false,
     
     /* Other Options */
