@@ -13,6 +13,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { initializeSequelize } from '../../config/sequelize';
 import User from '../../models/User';
+import config from '../../config';
 
 // Initialize Sequelize to load models
 initializeSequelize();
@@ -84,16 +85,19 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    // Generate JWT token
-    const jwtSecret = process.env.JWT_SECRET || 'your_jwt_secret_change_in_production';
+    // Generate JWT token using centralized config (validates secret on startup)
     const token = jwt.sign(
       {
         id: user.id,
         email: user.email,
         role: user.role,
       },
-      jwtSecret,
-      { expiresIn: '24h' },
+      config.security.jwt.secret,
+      {
+        expiresIn: '24h',
+        issuer: 'black-cross',
+        audience: 'black-cross-api',
+      },
     );
 
     // Update last login
@@ -146,10 +150,12 @@ router.get('/me', async (req: Request, res: Response): Promise<void> => {
     }
 
     const token = authHeader.substring(7);
-    const jwtSecret = process.env.JWT_SECRET || 'your_jwt_secret_change_in_production';
 
     try {
-      const decoded = jwt.verify(token, jwtSecret) as { id: number };
+      const decoded = jwt.verify(token, config.security.jwt.secret, {
+        issuer: 'black-cross',
+        audience: 'black-cross-api',
+      }) as { id: number };
       const user = await User.findByPk(decoded.id);
 
       if (!user) {
