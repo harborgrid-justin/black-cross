@@ -71,6 +71,7 @@ import notifications from './modules/notifications';
 import caseManagement from './modules/case-management';
 import metrics from './modules/metrics';
 import draftWorkspace from './modules/draft-workspace';
+import dashboard from './modules/dashboard';
 
 /**
  * Express Application Instance
@@ -398,24 +399,7 @@ app.use('/api/v1', caseManagement);
 /** Metrics - Performance and usage metrics */
 app.use('/api/v1', metrics);
 
-/** Dashboard - Dashboard statistics and overview */
-app.get('/api/v1/dashboard/stats', async (req: Request, res: Response) => {
-  try {
-    // Return sample stats based on seeded data
-    const stats = {
-      activeThreats: 15,
-      openIncidents: 7,
-      vulnerabilities: 5,
-      riskScore: 75,
-      threatTrend: 5,
-      lastUpdated: new Date().toISOString()
-    };
-    res.json({ success: true, data: stats });
-  } catch (error) {
-    console.error('Dashboard stats error:', error);
-    res.status(500).json({ success: false, error: 'Failed to get dashboard stats' });
-  }
-});
+app.use('/api/v1/dashboard', dashboard);
 
 /** Draft Workspace - Temporary workspace for drafts and work-in-progress */
 app.use('/api/v1', draftWorkspace);

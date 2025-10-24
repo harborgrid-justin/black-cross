@@ -22,7 +22,7 @@ import {
   Security,
   BugReport,
 } from '@mui/icons-material';
-import { dashboardService } from '@/services/dashboardService';
+import { dashboardService } from '../services/dashboardService';
 
 /**
  * Props for the StatCard component.
@@ -327,12 +327,12 @@ export default function Dashboard() {
 
       <Grid container spacing={3}>
         {stats.map((stat) => (
-          <Grid size={{ xs: 12, sm: 6, md: 3 }} key={stat.title}>
+          <Grid item xs={12} sm={6} md={3} key={stat.title}>
             <StatCard {...stat} />
           </Grid>
         ))}
 
-        <Grid size={{ xs: 12, md: 8 }}>
+        <Grid item xs={12} md={8}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
               Threat Activity (Last 7 Days)
@@ -345,7 +345,7 @@ export default function Dashboard() {
           </Paper>
         </Grid>
 
-        <Grid size={{ xs: 12, md: 4 }}>
+        <Grid item xs={12} md={4}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
               Recent Threats
