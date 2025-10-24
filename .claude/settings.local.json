@@ -18,7 +18,8 @@
       "Bash(npm install)",
       "Bash(powershell.exe -Command \"if (Test-Path ''node_modules'') { Remove-Item -Path ''node_modules'' -Recurse -Force -ErrorAction SilentlyContinue }\")",
       "Bash(npm install:*)",
-      "Bash(dir /B:*)"
+      "Bash(dir /B:*)",
+      "Bash(npx tsx:*)"
     ],
     "deny": [],
     "ask": []

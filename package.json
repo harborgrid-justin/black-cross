@@ -41,6 +41,7 @@
     "db:sync": "npm run db:sync --workspace=backend",
     "db:seed": "npm run db:seed --workspace=backend",
     "db:drop": "npm run db:drop --workspace=backend",
+    "db:validate": "npm run db:validate --workspace=backend",
     "create-admin": "npm run create-admin --workspace=backend",
     "docker:build": "docker-compose build",
     "docker:up": "docker-compose up -d",

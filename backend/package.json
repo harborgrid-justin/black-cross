@@ -27,6 +27,7 @@
     "db:sync": "tsx scripts/sync-database.ts",
     "db:seed": "tsx scripts/seed-database.ts",
     "db:drop": "tsx scripts/drop-database.ts",
+    "db:validate": "tsx scripts/validate-db.ts",
     "create-admin": "tsx scripts/create-admin.ts",
     "generate:types": "tsx scripts/generate-types.ts",
     "docs": "typedoc --out docs index.ts",
