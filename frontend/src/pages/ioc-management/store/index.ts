@@ -1,7 +1,10 @@
 /**
- * @fileoverview Module export point for Ioc Management. Central export for all module components.
- * 
- * @module pages/ioc-management/store/index.ts
+ * @fileoverview Store exports for IoC Management module.
+ *
+ * Central export point for all Redux store-related items including
+ * the reducer, async thunks, and action creators for IoC Management.
+ *
+ * @module pages/ioc-management/store
  */
 
 export * from './iocSlice';

@@ -24,19 +24,72 @@ import {
 } from '@mui/icons-material';
 import { dashboardService } from '@/services/dashboardService';
 
+/**
+ * Props for the StatCard component.
+ *
+ * @interface StatCardProps
+ */
+interface StatCardProps {
+  /**
+   * The title/label for the statistic being displayed.
+   * @type {string}
+   */
+  title: string;
+
+  /**
+   * The numerical or textual value of the statistic.
+   * @type {string | number}
+   */
+  value: string | number;
+
+  /**
+   * Icon element to display alongside the stat.
+   * @type {React.ReactNode}
+   */
+  icon: React.ReactNode;
+
+  /**
+   * Color theme for the card icon background (hex or CSS color).
+   * @type {string}
+   */
+  color: string;
+
+  /**
+   * Optional trend indicator text (e.g., "+12% from last week").
+   * @type {string}
+   * @optional
+   */
+  trend?: string;
+}
+
+/**
+ * StatCard component displays a single dashboard statistic with icon and optional trend.
+ *
+ * Provides a visual card layout for key metrics with color-coded icons and
+ * trend indicators to show changes over time.
+ *
+ * @component
+ * @param {StatCardProps} props - Component props
+ * @returns {JSX.Element} Rendered stat card
+ *
+ * @example
+ * ```tsx
+ * <StatCard
+ *   title="Active Threats"
+ *   value={42}
+ *   icon={<BugReport />}
+ *   color="#f44336"
+ *   trend="+12% from last week"
+ * />
+ * ```
+ */
 const StatCard = ({
   title,
   value,
   icon,
   color,
   trend,
-}: {
-  title: string;
-  value: string | number;
-  icon: React.ReactNode;
-  color: string;
-  trend?: string;
-}) => (
+}: StatCardProps) => (
   <Card sx={{ height: '100%' }}>
     <CardContent>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -68,6 +121,41 @@ const StatCard = ({
   </Card>
 );
 
+/**
+ * Main Dashboard page component for the Black-Cross cybersecurity platform.
+ *
+ * Displays comprehensive security metrics including active threats, open incidents,
+ * vulnerabilities, and risk scores. Features real-time data fetching from the backend
+ * with automatic fallback to mock data for development and error scenarios.
+ *
+ * **Features:**
+ * - Real-time security statistics with trend indicators
+ * - Recent threat activity feed
+ * - System health monitoring across modules
+ * - Quick stats overview (IoCs, threat actors, playbooks, integrations)
+ * - Threat activity visualization placeholder (for Recharts integration)
+ *
+ * **Data Sources:**
+ * - Uses dashboardService for API calls
+ * - Falls back to mock data if API calls fail
+ * - Updates on component mount via useEffect
+ *
+ * **State Management:**
+ * - Local state for loading, errors, and dashboard data
+ * - No Redux integration (standalone page)
+ *
+ * @component
+ * @returns {JSX.Element} Rendered dashboard page
+ *
+ * @example
+ * ```tsx
+ * import Dashboard from './pages/Dashboard';
+ *
+ * function App() {
+ *   return <Dashboard />;
+ * }
+ * ```
+ */
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -184,6 +272,20 @@ export default function Dashboard() {
     fetchDashboardData();
   }, []);
 
+  /**
+   * Maps threat severity level to a corresponding color code.
+   *
+   * Used for visual indicators in the threat activity feed to quickly
+   * identify threat priority levels.
+   *
+   * @param {string} severity - Severity level ('critical', 'high', 'medium', 'low')
+   * @returns {string} Hex color code for the severity level
+   *
+   * @example
+   * ```ts
+   * const color = getSeverityColor('critical'); // Returns '#d32f2f' (red)
+   * ```
+   */
   const getSeverityColor = (severity: string) => {
     switch (severity) {
       case 'critical':

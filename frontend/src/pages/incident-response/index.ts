@@ -1,23 +1,22 @@
 /**
- * @fileoverview Module export point for Incident Response. Central export for all module components.
- * 
- * @module pages/incident-response/index.ts
+ * @fileoverview Module export point for Incident Response feature.
+ *
+ * Provides centralized exports for all Incident Response module components, routes,
+ * and Redux store functionality. This barrel file simplifies imports throughout the
+ * application by providing a single import location for all incident response-related
+ * functionality.
+ *
+ * @module pages/incident-response
  */
 
-/**
- * WF-COMP-011 | index.ts - Incident Response page exports
- * Purpose: Centralized exports for incident response page module
- * Last Updated: 2025-10-22 | File Type: .ts
- */
-
-// Store exports
+// Export all Redux store functionality (actions, reducers, thunks)
 export * from './store';
 
-// Component exports
+// Export page components
 export { default as IncidentResponseMain } from './IncidentResponseMain';
 export { default as IncidentResponseDetail } from './IncidentResponseDetail';
 export { default as IncidentResponseCreate } from './IncidentResponseCreate';
 export { default as IncidentResponseEdit } from './IncidentResponseEdit';
 
-// Route exports
+// Export route configuration
 export { default as IncidentResponseRoutes } from './routes';

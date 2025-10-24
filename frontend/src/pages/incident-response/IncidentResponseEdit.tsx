@@ -1,13 +1,11 @@
 /**
- * @fileoverview Incident Response edit page. Form for editing existing Incident Response entries.
- * 
- * @module pages/incident-response/IncidentResponseEdit.tsx
- */
-
-/**
- * WF-COMP-009 | IncidentResponseEdit.tsx - Edit incident page
- * Purpose: Form page for editing existing incidents
- * Last Updated: 2025-10-22 | File Type: .tsx
+ * @fileoverview Incident Response edit page component for modifying existing incidents.
+ *
+ * This component provides a pre-populated form interface for editing existing security
+ * incidents. Fetches the current incident data, allows modifications to severity, status,
+ * description, and assignment, and handles form submission with Redux integration.
+ *
+ * @module pages/incident-response/IncidentResponseEdit
  */
 
 import { useState, useEffect } from 'react';
@@ -29,6 +27,53 @@ import { ArrowBack as BackIcon, Save as SaveIcon } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchIncidentById } from './store';
 
+/**
+ * Incident Response edit page component.
+ *
+ * Provides a form interface for editing existing security incidents with pre-populated
+ * fields. Fetches incident data on mount, allows modifications to key fields, and
+ * handles update submission through Redux integration.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The rendered incident edit form
+ *
+ * @remarks
+ * Form fields (editable):
+ * - Title: Required text field for incident summary
+ * - Severity: Dropdown (critical, high, medium, low)
+ * - Status: Dropdown (open, investigating, contained, resolved, closed)
+ * - Description: Multi-line text area for detailed information
+ * - Assigned To: Text field for assignee name or email
+ *
+ * Component lifecycle:
+ * 1. Fetch incident data on mount using ID from URL params
+ * 2. Populate form fields when incident data loads
+ * 3. Allow user to modify fields
+ * 4. Submit updates via Redux (TODO: implement updateIncident action)
+ * 5. Navigate back to detail view on success
+ *
+ * Current limitations:
+ * - Update action not yet implemented (TODO in handleSubmit)
+ * - No unsaved changes warning
+ * - No validation beyond required field
+ *
+ * @security
+ * - Validate user permissions before allowing edits
+ * - Sanitize all input before submission
+ * - Maintain audit trail of all changes
+ * - Consider approval workflow for critical incidents
+ *
+ * @example
+ * ```tsx
+ * // Used in routing configuration
+ * <Route path="/incident-response/:id/edit" element={<IncidentResponseEdit />} />
+ * ```
+ *
+ * @see {@link fetchIncidentById} for data loading
+ * @see {@link updateIncident} for the update action (to be implemented)
+ * @see {@link IncidentResponseDetail} for the detail view
+ */
 export default function IncidentResponseEdit() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();

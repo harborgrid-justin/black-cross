@@ -1,7 +1,23 @@
 /**
- * @fileoverview Risk Assessment main page. Primary landing page for the Risk Assessment module.
- * 
- * @module pages/risk-assessment/RiskAssessmentMain.tsx
+ * @fileoverview Risk Assessment Main Dashboard page component.
+ *
+ * Primary landing page for the Risk Assessment module. This component serves as
+ * the default route for /risk-assessment and displays the same content as RiskAssessment.
+ *
+ * Features:
+ * - Comprehensive risk metrics dashboard
+ * - High-risk asset visualization
+ * - Risk scoring with color-coded indicators
+ * - Real-time risk data from API
+ *
+ * Risk Metrics:
+ * - Overall Risk Score (0-10 scale)
+ * - Threat Level (0-10 scale)
+ * - Vulnerability Exposure (0-10 scale)
+ * - Security Posture (0-10 scale, inversely calculated)
+ *
+ * @module pages/risk-assessment/RiskAssessmentMain
+ * @see {@link RiskAssessment} for the base dashboard component
  */
 
 import { useEffect, useState } from 'react';
@@ -19,6 +35,23 @@ import {
 import { TrendingUp, Warning, Security } from '@mui/icons-material';
 import { riskService } from '@/services/riskService';
 
+/**
+ * Risk Assessment Main Dashboard component.
+ *
+ * Primary risk assessment interface displaying metrics, assets, and risk analysis.
+ * Integrates with riskService API for real-time risk scoring data.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered risk assessment main dashboard
+ *
+ * @example
+ * ```tsx
+ * import RiskAssessmentMain from './RiskAssessmentMain';
+ *
+ * // Rendered via React Router at /risk-assessment
+ * <Route path="/risk-assessment" element={<RiskAssessmentMain />} />
+ * ```
+ */
 export default function RiskAssessmentMain() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

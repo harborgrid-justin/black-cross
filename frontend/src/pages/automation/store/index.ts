@@ -1,13 +1,33 @@
 /**
- * @fileoverview Module export point for Automation. Central export for all module components.
- * 
- * @module pages/automation/store/index.ts
- */
-
-/**
- * WF-COMP-013 | index.ts - Automation store exports
- * Purpose: Centralized exports for automation store module
- * Last Updated: 2025-10-22 | File Type: .ts
+ * @fileoverview Automation store module exports.
+ *
+ * Central export point for all automation Redux slice elements including
+ * actions, thunks, reducer, and TypeScript types.
+ *
+ * **Exported Actions:**
+ * - clearSelectedPlaybook: Clear selected playbook
+ * - clearError: Clear error state
+ *
+ * **Exported Thunks:**
+ * - fetchPlaybooks: Fetch all playbooks
+ * - executePlaybook: Execute specific playbook
+ *
+ * **Exported Reducer:**
+ * - automationReducer: Main reducer function for Redux store integration
+ *
+ * **Exported Types:**
+ * - All interfaces and types from automationSlice
+ *
+ * @module pages/automation/store
+ *
+ * @example
+ * ```tsx
+ * import {
+ *   automationReducer,
+ *   fetchPlaybooks,
+ *   clearError
+ * } from '@/pages/automation/store';
+ * ```
  */
 
 export * from './automationSlice';

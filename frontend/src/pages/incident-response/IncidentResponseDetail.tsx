@@ -1,13 +1,12 @@
 /**
- * @fileoverview Incident Response detail page. Shows detailed information for a single item.
- * 
- * @module pages/incident-response/IncidentResponseDetail.tsx
- */
-
-/**
- * WF-COMP-007 | IncidentResponseDetail.tsx - Incident detail page
- * Purpose: Display detailed information about a specific incident
- * Last Updated: 2025-10-22 | File Type: .tsx
+ * @fileoverview Incident Response detail page component for viewing individual incidents.
+ *
+ * This component displays comprehensive details about a specific security incident
+ * including severity, status, description, assignment, and timestamps. Provides
+ * navigation to edit mode and back to the incident list with proper loading and
+ * error handling.
+ *
+ * @module pages/incident-response/IncidentResponseDetail
  */
 
 import { useEffect } from 'react';
@@ -26,6 +25,49 @@ import { ArrowBack as BackIcon, Edit as EditIcon } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchIncidentById, clearSelectedIncident } from './store';
 
+/**
+ * Incident Response detail page component.
+ *
+ * Displays comprehensive information about a specific security incident identified
+ * by its unique ID from the URL parameters. Fetches incident data on mount using
+ * Redux thunks and provides navigation to edit mode and the incident list.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The rendered incident detail page
+ *
+ * @remarks
+ * Component features:
+ * - Fetches incident details via Redux on mount
+ * - Displays loading spinner during data fetch
+ * - Shows error alert if fetch fails
+ * - Displays "not found" message if incident doesn't exist
+ * - Back button to return to incident list
+ * - Edit button to navigate to edit mode
+ * - Cleans up selected incident state on unmount
+ *
+ * Displayed information:
+ * - Title as page heading
+ * - Severity with color-coded chip (critical/high = error, others = warning)
+ * - Status with outlined chip
+ * - Description or "No description available" fallback
+ * - Assigned user or "Unassigned" fallback
+ * - Created timestamp in localized format
+ *
+ * @security
+ * - Incident data may contain sensitive security information
+ * - Implement access controls based on user permissions
+ * - Audit views of critical incidents
+ *
+ * @example
+ * ```tsx
+ * // Used in routing configuration
+ * <Route path="/incident-response/:id" element={<IncidentResponseDetail />} />
+ * ```
+ *
+ * @see {@link fetchIncidentById} for the data fetching Redux action
+ * @see {@link IncidentResponseEdit} for editing incidents
+ */
 export default function IncidentResponseDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();

@@ -1,9 +1,33 @@
 /**
  * @fileoverview Notifications page component.
- * 
+ *
  * Displays user notifications with filtering, real-time updates,
- * and preference management.
- * 
+ * and action management (mark as read, delete). Provides a comprehensive
+ * view of system, security, and user-generated notifications.
+ *
+ * ## Features
+ * - Notification list with severity-based color coding
+ * - Category badges (incident, vulnerability, threat, system, etc.)
+ * - Mark individual notifications as read
+ * - Mark all notifications as read (bulk action)
+ * - Delete individual notifications
+ * - Refresh functionality to fetch latest notifications
+ * - Loading states and error handling
+ * - Visual distinction between read and unread notifications
+ * - Timestamp display with localized formatting
+ *
+ * ## Notification Types
+ * Supports multiple severity levels:
+ * - CRITICAL: High-priority security events requiring immediate action
+ * - ERROR: System or security errors
+ * - WARNING: Potential issues or concerns
+ * - SUCCESS: Successful operations or resolved issues
+ * - INFO: General informational notifications
+ *
+ * ## Real-time Updates
+ * While not currently implemented, this component is designed to support
+ * real-time notification updates via WebSocket or polling mechanisms.
+ *
  * @module pages/notifications/NotificationsPage
  */
 
@@ -32,14 +56,33 @@ import { notificationService, type Notification, NotificationSeverity, Notificat
 
 /**
  * Notifications page component.
- * 
+ *
+ * Displays a list of user notifications with actions to mark as read or delete.
+ * Automatically loads notifications on component mount and provides refresh capability.
+ *
  * @component
+ * @returns {JSX.Element} The notifications page
+ *
+ * @example
+ * ```tsx
+ * <Route path="/notifications" element={<NotificationsPage />} />
+ * ```
  */
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  /**
+   * Loads notifications from the backend API.
+   *
+   * Fetches all notifications for the current user and updates state.
+   * Sets error state if the request fails.
+   *
+   * @async
+   * @function loadNotifications
+   * @returns {Promise<void>}
+   */
   const loadNotifications = async () => {
     try {
       setLoading(true);
@@ -58,6 +101,17 @@ export default function NotificationsPage() {
     loadNotifications();
   }, []);
 
+  /**
+   * Marks a single notification as read.
+   *
+   * Updates the notification's status in the backend and reloads
+   * the notification list to reflect the change.
+   *
+   * @async
+   * @function handleMarkAsRead
+   * @param {string} id - Unique identifier of the notification to mark as read
+   * @returns {Promise<void>}
+   */
   const handleMarkAsRead = async (id: string) => {
     try {
       await notificationService.markAsRead(id);
@@ -67,6 +121,16 @@ export default function NotificationsPage() {
     }
   };
 
+  /**
+   * Marks all notifications as read (bulk action).
+   *
+   * Updates all unread notifications to read status in a single operation
+   * and reloads the notification list.
+   *
+   * @async
+   * @function handleMarkAllAsRead
+   * @returns {Promise<void>}
+   */
   const handleMarkAllAsRead = async () => {
     try {
       await notificationService.markAllAsRead();
@@ -76,6 +140,17 @@ export default function NotificationsPage() {
     }
   };
 
+  /**
+   * Deletes a notification.
+   *
+   * Permanently removes the notification from the system and reloads
+   * the notification list to reflect the deletion.
+   *
+   * @async
+   * @function handleDelete
+   * @param {string} id - Unique identifier of the notification to delete
+   * @returns {Promise<void>}
+   */
   const handleDelete = async (id: string) => {
     try {
       await notificationService.deleteNotification(id);
@@ -85,6 +160,16 @@ export default function NotificationsPage() {
     }
   };
 
+  /**
+   * Maps notification severity to Material-UI color variant.
+   *
+   * Returns appropriate color for Chip components based on the severity
+   * level (CRITICAL, ERROR, WARNING, SUCCESS, INFO).
+   *
+   * @function getSeverityColor
+   * @param {NotificationSeverity} severity - Notification severity level
+   * @returns {('error'|'warning'|'success'|'info')} MUI color variant
+   */
   const getSeverityColor = (severity: NotificationSeverity) => {
     switch (severity) {
       case NotificationSeverity.CRITICAL:

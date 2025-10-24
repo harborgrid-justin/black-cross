@@ -1,12 +1,45 @@
 /**
- * Input sanitization utilities for XSS protection
+ * @fileoverview Input sanitization utilities for XSS and injection attack prevention.
  *
- * IMPORTANT: Install DOMPurify first:
+ * Provides comprehensive input sanitization functions to protect against
+ * Cross-Site Scripting (XSS), path traversal, and various injection attacks.
+ * Implements defense-in-depth security for user-provided input.
+ *
+ * Security Strategies:
+ * - HTML entity encoding for plain text
+ * - HTML tag sanitization for rich content (TODO: DOMPurify integration)
+ * - URL protocol validation
+ * - Email address validation and normalization
+ * - Filename sanitization against path traversal
+ *
+ * Usage Guidelines:
+ * - Use sanitizeInput() for plain text (names, titles, simple fields)
+ * - Use sanitizeHTML() for rich text content (descriptions, comments)
+ * - Use sanitizeURL() before rendering user-provided URLs
+ * - Use sanitizeEmail() for email validation and normalization
+ * - Use sanitizeFilename() for file upload handling
+ *
+ * @module utils/sanitize
+ *
+ * @remarks
+ * TODO: Install DOMPurify for production-grade HTML sanitization:
+ * ```bash
  * npm install dompurify @types/dompurify
+ * ```
  *
  * @example
- * import { sanitizeInput, sanitizeHTML } from '@/utils/sanitize';
- * const safe = sanitizeInput(userInput);
+ * ```typescript
+ * import { sanitizeInput, sanitizeHTML, sanitizeURL } from '@/utils/sanitize';
+ *
+ * // Plain text sanitization
+ * const safeName = sanitizeInput(userInput);
+ *
+ * // HTML sanitization (with DOMPurify installed)
+ * const safeHTML = sanitizeHTML(richTextContent);
+ *
+ * // URL validation
+ * const safeURL = sanitizeURL(userProvidedLink);
+ * ```
  */
 
 // Temporary basic sanitization until DOMPurify is installed
@@ -14,8 +47,38 @@
 // import DOMPurify from 'dompurify';
 
 /**
- * Basic HTML entity encoding for text that should have NO HTML
- * Use this for plain text fields (names, titles, etc.)
+ * Sanitizes plain text input by encoding HTML entities.
+ *
+ * Converts HTML special characters to their entity equivalents to prevent
+ * XSS attacks. Use this for fields that should contain NO HTML markup,
+ * such as names, titles, and other simple text inputs.
+ *
+ * Encoded characters:
+ * - & → &amp;
+ * - < → &lt;
+ * - > → &gt;
+ * - " → &quot;
+ * - ' → &#x27;
+ * - / → &#x2F;
+ *
+ * @param {string} value - The input string to sanitize
+ * @returns {string} HTML entity-encoded safe string
+ *
+ * @example
+ * ```typescript
+ * const userInput = '<script>alert("XSS")</script>';
+ * const safe = sanitizeInput(userInput);
+ * // Returns: '&lt;script&gt;alert(&quot;XSS&quot;)&lt;&#x2F;script&gt;'
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Sanitizing user profile data
+ * const sanitizedProfile = {
+ *   name: sanitizeInput(profile.name),
+ *   title: sanitizeInput(profile.title),
+ * };
+ * ```
  */
 export function sanitizeInput(value: string): string {
   if (!value) return '';
@@ -30,11 +93,42 @@ export function sanitizeInput(value: string): string {
 }
 
 /**
- * Sanitize HTML content allowing safe tags
- * Use this for rich text fields (descriptions, comments)
+ * Sanitizes HTML content allowing only safe tags.
  *
- * @param value - HTML string to sanitize
- * @param allowedTags - Optional array of allowed HTML tags
+ * Intended for rich text fields that allow HTML markup (descriptions, comments).
+ * Currently uses basic sanitization; should be replaced with DOMPurify for
+ * production use.
+ *
+ * When DOMPurify is installed, this will:
+ * - Remove dangerous tags (script, iframe, object, embed, etc.)
+ * - Strip JavaScript event handlers
+ * - Validate and sanitize attributes
+ * - Allow only specified safe tags
+ *
+ * Default allowed tags (when DOMPurify is enabled):
+ * b, i, em, strong, a, p, br, ul, ol, li
+ *
+ * @param {string} value - HTML string to sanitize
+ * @param {string[]} [allowedTags] - Optional array of allowed HTML tag names
+ * @returns {string} Sanitized HTML string safe for rendering
+ *
+ * @example
+ * ```typescript
+ * const userComment = '<p>Good article!</p><script>alert("xss")</script>';
+ * const safe = sanitizeHTML(userComment);
+ * // With DOMPurify: Returns '<p>Good article!</p>'
+ * // Currently: Returns entity-encoded string
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // With custom allowed tags
+ * const safeContent = sanitizeHTML(richText, ['p', 'strong', 'em', 'a']);
+ * ```
+ *
+ * @remarks
+ * Current implementation falls back to sanitizeInput() until DOMPurify is installed.
+ * Install DOMPurify for production-ready HTML sanitization.
  */
 export function sanitizeHTML(value: string, allowedTags?: string[]): string {
   if (!value) return '';
@@ -50,7 +144,41 @@ export function sanitizeHTML(value: string, allowedTags?: string[]): string {
 }
 
 /**
- * Sanitize URL to prevent javascript: protocol attacks
+ * Sanitizes URLs to prevent JavaScript protocol and other injection attacks.
+ *
+ * Validates that URLs use safe protocols (http, https) and blocks dangerous
+ * protocols that could execute JavaScript or access local files.
+ *
+ * Blocked protocols:
+ * - javascript: - Executes JavaScript
+ * - data: - Can contain encoded scripts
+ * - vbscript: - Executes VBScript (IE legacy)
+ * - file: - Accesses local file system
+ *
+ * @param {string} url - URL string to sanitize
+ * @returns {string} Sanitized URL or '#' if dangerous protocol detected
+ *
+ * @example
+ * ```typescript
+ * const userURL = 'javascript:alert("XSS")';
+ * const safe = sanitizeURL(userURL);
+ * // Returns: '#'
+ * ```
+ *
+ * @example
+ * ```typescript
+ * const validURL = 'https://example.com/page';
+ * const safe = sanitizeURL(validURL);
+ * // Returns: 'https://example.com/page'
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // In JSX
+ * <a href={sanitizeURL(userProvidedLink)} target="_blank" rel="noopener noreferrer">
+ *   Link
+ * </a>
+ * ```
  */
 export function sanitizeURL(url: string): string {
   if (!url) return '';
@@ -71,7 +199,48 @@ export function sanitizeURL(url: string): string {
 }
 
 /**
- * Validate and sanitize email address
+ * Validates and sanitizes email addresses.
+ *
+ * Performs basic email validation using regex pattern matching and normalizes
+ * the email by trimming whitespace and converting to lowercase. Returns empty
+ * string if the email format is invalid.
+ *
+ * Validation rules:
+ * - Must contain @ symbol
+ * - Must have characters before and after @
+ * - Must have domain extension (.)
+ * - Trims whitespace
+ * - Converts to lowercase
+ *
+ * @param {string} email - Email address to validate and sanitize
+ * @returns {string} Normalized email address or empty string if invalid
+ *
+ * @example
+ * ```typescript
+ * const userEmail = '  USER@Example.COM  ';
+ * const safe = sanitizeEmail(userEmail);
+ * // Returns: 'user@example.com'
+ * ```
+ *
+ * @example
+ * ```typescript
+ * const invalidEmail = 'not-an-email';
+ * const safe = sanitizeEmail(invalidEmail);
+ * // Returns: ''
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Email validation in form
+ * const handleSubmit = (formData) => {
+ *   const email = sanitizeEmail(formData.email);
+ *   if (!email) {
+ *     showError('Please enter a valid email address');
+ *     return;
+ *   }
+ *   // Proceed with valid email
+ * };
+ * ```
  */
 export function sanitizeEmail(email: string): string {
   if (!email) return '';
@@ -83,7 +252,48 @@ export function sanitizeEmail(email: string): string {
 }
 
 /**
- * Sanitize filename to prevent path traversal
+ * Sanitizes filenames to prevent path traversal and injection attacks.
+ *
+ * Removes potentially dangerous characters and patterns from filenames that
+ * could be used for directory traversal attacks or to create invalid filenames.
+ *
+ * Removed patterns:
+ * - .. (parent directory references)
+ * - / and \ (path separators)
+ * - <, >, :, ", |, ?, * (invalid Windows filename characters)
+ * - Leading/trailing whitespace
+ *
+ * @param {string} filename - Filename to sanitize
+ * @returns {string} Sanitized filename safe for file system operations
+ *
+ * @example
+ * ```typescript
+ * const userFilename = '../../etc/passwd';
+ * const safe = sanitizeFilename(userFilename);
+ * // Returns: 'etcpasswd'
+ * ```
+ *
+ * @example
+ * ```typescript
+ * const filename = 'my file<>:"|?.txt';
+ * const safe = sanitizeFilename(filename);
+ * // Returns: 'my file.txt'
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // File upload handling
+ * const handleFileUpload = (file: File) => {
+ *   const safeName = sanitizeFilename(file.name);
+ *   const formData = new FormData();
+ *   formData.append('file', file, safeName);
+ *   // Upload with sanitized filename
+ * };
+ * ```
+ *
+ * @remarks
+ * Always sanitize user-provided filenames before storing or processing files
+ * to prevent directory traversal and file system injection attacks.
  */
 export function sanitizeFilename(filename: string): string {
   if (!filename) return '';
@@ -95,6 +305,17 @@ export function sanitizeFilename(filename: string): string {
     .trim();
 }
 
+/**
+ * Default export containing all sanitization functions.
+ *
+ * @constant
+ * @type {Object}
+ * @property {Function} sanitizeInput - HTML entity encoding for plain text
+ * @property {Function} sanitizeHTML - HTML tag sanitization for rich content
+ * @property {Function} sanitizeURL - URL protocol validation
+ * @property {Function} sanitizeEmail - Email validation and normalization
+ * @property {Function} sanitizeFilename - Filename path traversal prevention
+ */
 export default {
   sanitizeInput,
   sanitizeHTML,

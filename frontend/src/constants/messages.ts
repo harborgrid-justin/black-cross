@@ -1,14 +1,41 @@
 /**
- * @fileoverview Message Constants
- * 
- * Centralized user-facing messages including success, error, warning, info,
- * confirmation messages, placeholders, and button labels.
- * 
+ * @fileoverview User-facing message constants for the Black-Cross platform.
+ *
+ * Provides centralized, consistent messaging throughout the application for:
+ * - Success notifications
+ * - Error messages
+ * - Warning dialogs
+ * - Informational messages
+ * - Confirmation prompts
+ * - Placeholder text
+ * - Button labels
+ *
+ * Benefits of centralized messages:
+ * - Consistency across the application
+ * - Easy internationalization (i18n) support
+ * - Single source of truth for user-facing text
+ * - Simplified testing and validation
+ * - Easy updates and maintenance
+ *
  * @module constants/messages
+ *
+ * @example
+ * ```typescript
+ * import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '@/constants/messages';
+ *
+ * showNotification(SUCCESS_MESSAGES.LOGIN_SUCCESS);
+ * showError(ERROR_MESSAGES.NETWORK_ERROR);
+ * ```
  */
 
 /**
- * Success Messages
+ * Success notification messages for completed operations.
+ *
+ * Used for toast notifications, alerts, and success feedback to users
+ * after successful completion of actions.
+ *
+ * @constant
+ * @type {Object}
  */
 export const SUCCESS_MESSAGES = {
   // Authentication
@@ -54,7 +81,22 @@ export const SUCCESS_MESSAGES = {
 } as const;
 
 /**
- * Error Messages
+ * Error messages for failed operations and validation errors.
+ *
+ * Used for error notifications, validation feedback, and exception handling.
+ * Messages should be clear, actionable, and help users understand what went wrong.
+ *
+ * @constant
+ * @type {Object}
+ *
+ * @example
+ * ```typescript
+ * import { ERROR_MESSAGES } from '@/constants/messages';
+ *
+ * if (!isValid) {
+ *   throw new Error(ERROR_MESSAGES.INVALID_EMAIL);
+ * }
+ * ```
  */
 export const ERROR_MESSAGES = {
   // Generic Errors
@@ -117,7 +159,22 @@ export const ERROR_MESSAGES = {
 } as const;
 
 /**
- * Warning Messages
+ * Warning messages for potentially dangerous or irreversible actions.
+ *
+ * Used for confirmation dialogs, cautionary notices, and important alerts
+ * that require user attention before proceeding.
+ *
+ * @constant
+ * @type {Object}
+ *
+ * @example
+ * ```typescript
+ * import { WARNING_MESSAGES } from '@/constants/messages';
+ *
+ * if (hasUnsavedChanges) {
+ *   confirm(WARNING_MESSAGES.UNSAVED_CHANGES);
+ * }
+ * ```
  */
 export const WARNING_MESSAGES = {
   UNSAVED_CHANGES: 'You have unsaved changes. Are you sure you want to leave?',
@@ -130,7 +187,13 @@ export const WARNING_MESSAGES = {
 } as const;
 
 /**
- * Info Messages
+ * Informational messages for status updates and loading states.
+ *
+ * Used for loading indicators, empty states, and informational notices
+ * that keep users informed about application state.
+ *
+ * @constant
+ * @type {Object}
  */
 export const INFO_MESSAGES = {
   LOADING: 'Loading...',
@@ -148,7 +211,23 @@ export const INFO_MESSAGES = {
 } as const;
 
 /**
- * Confirmation Messages
+ * Confirmation dialog messages for user actions requiring explicit consent.
+ *
+ * Used for confirm/cancel dialogs before destructive or significant actions.
+ * Supports template strings with placeholders (e.g., {count}).
+ *
+ * @constant
+ * @type {Object}
+ *
+ * @example
+ * ```typescript
+ * import { CONFIRMATION_MESSAGES } from '@/constants/messages';
+ *
+ * const message = CONFIRMATION_MESSAGES.DELETE_MULTIPLE.replace('{count}', '5');
+ * if (confirm(message)) {
+ *   deleteItems();
+ * }
+ * ```
  */
 export const CONFIRMATION_MESSAGES = {
   DELETE: 'Are you sure you want to delete this?',
@@ -161,7 +240,19 @@ export const CONFIRMATION_MESSAGES = {
 } as const;
 
 /**
- * Placeholder Text
+ * Placeholder text for form inputs and search fields.
+ *
+ * Provides helpful hints to users about expected input format or content.
+ *
+ * @constant
+ * @type {Object}
+ *
+ * @example
+ * ```typescript
+ * import { PLACEHOLDERS } from '@/constants/messages';
+ *
+ * <TextField placeholder={PLACEHOLDERS.EMAIL} />
+ * ```
  */
 export const PLACEHOLDERS = {
   SEARCH: 'Search...',
@@ -180,7 +271,21 @@ export const PLACEHOLDERS = {
 } as const;
 
 /**
- * Button Labels
+ * Standard button labels for consistent UI element text.
+ *
+ * Used for buttons, links, and action elements throughout the application.
+ * Ensures consistent terminology and reduces duplication.
+ *
+ * @constant
+ * @type {Object}
+ *
+ * @example
+ * ```typescript
+ * import { BUTTON_LABELS } from '@/constants/messages';
+ *
+ * <Button>{BUTTON_LABELS.SAVE}</Button>
+ * <Button>{BUTTON_LABELS.CANCEL}</Button>
+ * ```
  */
 export const BUTTON_LABELS = {
   SAVE: 'Save',

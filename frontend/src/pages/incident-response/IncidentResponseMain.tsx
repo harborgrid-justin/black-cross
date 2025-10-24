@@ -1,7 +1,12 @@
 /**
- * @fileoverview Incident Response main page. Primary landing page for the Incident Response module.
- * 
- * @module pages/incident-response/IncidentResponseMain.tsx
+ * @fileoverview Incident Response main dashboard component for security incident management.
+ *
+ * This component serves as the primary interface for the incident response module,
+ * displaying a comprehensive table of all security incidents with severity indicators,
+ * status tracking, assignment information, and creation timestamps. Provides quick
+ * access to create new incidents and navigate to incident details.
+ *
+ * @module pages/incident-response/IncidentResponseMain
  */
 
 import { useEffect } from 'react';
@@ -24,6 +29,53 @@ import { Add as AddIcon } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchIncidents } from './store';
 
+/**
+ * Incident Response main dashboard component.
+ *
+ * Provides the primary interface for incident response operations with a comprehensive
+ * incident table, filtering capabilities, and quick actions. This component is
+ * functionally identical to IncidentList but serves as the main landing page.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The rendered incident response dashboard
+ *
+ * @remarks
+ * Dashboard features:
+ * - Automatic incident fetching on mount via Redux
+ * - Loading state with spinner
+ * - Error display with informational alert
+ * - New Incident button for quick access to creation form
+ * - Comprehensive incident table with:
+ *   - Title column
+ *   - Severity badges with color coding (critical/high = error, others = warning)
+ *   - Status badges with outlined style
+ *   - Assignment information with unassigned fallback
+ *   - Creation date in localized format
+ * - Clickable table rows for navigation (to be implemented)
+ * - Empty state when no incidents exist
+ *
+ * Redux integration:
+ * - Pulls incident data from global state
+ * - Dispatches fetchIncidents on component mount
+ * - Reacts to loading and error state changes
+ *
+ * @security
+ * - Incident data contains sensitive security information
+ * - Implement row-level access controls
+ * - Consider data masking for sensitive fields in list view
+ * - Audit all access to incident dashboard
+ *
+ * @example
+ * ```tsx
+ * // Used in routing configuration
+ * <Route path="/incident-response" element={<IncidentResponseMain />} />
+ * ```
+ *
+ * @see {@link IncidentList} for similar functionality
+ * @see {@link IncidentResponseCreate} for creating new incidents
+ * @see {@link fetchIncidents} for the Redux data fetching action
+ */
 export default function IncidentResponseMain() {
   const dispatch = useAppDispatch();
   const { incidents, loading, error } = useAppSelector((state) => state.incidents);

@@ -1,9 +1,26 @@
 /**
  * @fileoverview Metrics & Analytics page component.
- * 
- * Displays security, performance, and usage metrics with
- * trend analysis and dashboards.
- * 
+ *
+ * Displays comprehensive security, performance, and usage metrics with
+ * trend analysis and interactive dashboards. Provides tabbed navigation
+ * for different metric categories.
+ *
+ * ## Features
+ * - Three metric categories: Security, Performance, Usage
+ * - Real-time metric loading from backend API
+ * - Security metrics: threats, incidents, vulnerabilities, compliance
+ * - Performance metrics: API response times, cache hit rate, error rate
+ * - Usage metrics: active users, sessions, session duration
+ * - Loading states and error handling
+ * - Responsive grid layout for metric cards
+ *
+ * ## Data Visualization
+ * - Metric cards with primary values
+ * - Color-coded indicators
+ * - Time-based metrics (MTTD, MTTR, MTTR)
+ * - Percentage-based metrics (compliance score, cache hit rate)
+ * - Count-based metrics (users, sessions, threats)
+ *
  * @module pages/metrics/MetricsPage
  */
 
@@ -26,12 +43,29 @@ import {
   type UsageMetrics,
 } from '@/services/metricsService';
 
+/**
+ * Props for tab panel component.
+ *
+ * @interface TabPanelProps
+ * @property {React.ReactNode} [children] - Content to display in the tab panel
+ * @property {number} index - Zero-based index of this tab panel
+ * @property {number} value - Currently selected tab index
+ */
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
 
+/**
+ * Tab panel component for metrics tabs.
+ *
+ * Conditionally renders children based on whether the tab is active.
+ * Includes proper ARIA attributes for accessibility.
+ *
+ * @param {TabPanelProps} props - Component props
+ * @returns {JSX.Element} Tab panel wrapper with ARIA attributes
+ */
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -50,8 +84,17 @@ function TabPanel(props: TabPanelProps) {
 
 /**
  * Metrics & Analytics page component.
- * 
+ *
+ * Displays security, performance, and usage metrics in a tabbed interface.
+ * Automatically loads all metric categories on component mount.
+ *
  * @component
+ * @returns {JSX.Element} The metrics and analytics page
+ *
+ * @example
+ * ```tsx
+ * <Route path="/metrics" element={<MetricsPage />} />
+ * ```
  */
 export default function MetricsPage() {
   const [tabValue, setTabValue] = useState(0);
@@ -61,11 +104,21 @@ export default function MetricsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  /**
+   * Loads all metric categories from the backend API.
+   *
+   * Fetches security, performance, and usage metrics in parallel using
+   * Promise.all for optimal performance. Sets error state if any request fails.
+   *
+   * @async
+   * @function loadMetrics
+   * @returns {Promise<void>}
+   */
   const loadMetrics = async () => {
     try {
       setLoading(true);
       setError(null);
-      
+
       const [security, performance, usage] = await Promise.all([
         metricsService.getSecurityMetrics(),
         metricsService.getPerformanceMetrics(),
@@ -87,6 +140,14 @@ export default function MetricsPage() {
     loadMetrics();
   }, []);
 
+  /**
+   * Handles tab change in the metrics interface.
+   *
+   * @function handleTabChange
+   * @param {React.SyntheticEvent} _event - Tab change event (unused)
+   * @param {number} newValue - Zero-based index of the newly selected tab
+   * @returns {void}
+   */
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };

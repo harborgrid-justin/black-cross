@@ -1,7 +1,12 @@
 /**
- * @fileoverview Incident Response list page. Displays paginated list of Incident Response items.
- * 
- * @module pages/incident-response/IncidentList.tsx
+ * @fileoverview Incident Response list page component for viewing security incidents.
+ *
+ * This component displays a paginated, filterable table of security incidents with
+ * severity indicators, status tracking, and assignment information. Integrates with
+ * Redux for state management and provides the primary interface for incident triage
+ * and response workflows.
+ *
+ * @module pages/incident-response/IncidentList
  */
 
 import { useEffect } from 'react';
@@ -24,6 +29,49 @@ import { Add as AddIcon } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchIncidents } from '@/store/slices/incidentSlice';
 
+/**
+ * Incident Response list component.
+ *
+ * Displays a comprehensive table of security incidents with filtering, sorting,
+ * and navigation capabilities. Provides at-a-glance visibility into active incidents
+ * with severity-based color coding and status indicators.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The rendered incident list page with table
+ *
+ * @remarks
+ * Component features:
+ * - Automatic data fetching on mount via Redux thunks
+ * - Loading spinner during data fetch
+ * - Error display with informational alert
+ * - Empty state when no incidents exist
+ * - Clickable table rows for navigation (to be implemented)
+ * - Severity badges with semantic colors (critical/high = error, others = warning)
+ * - Status badges with outlined style
+ * - Assigned user display with unassigned fallback
+ * - Formatted date display
+ *
+ * Redux integration:
+ * - Fetches incidents from global state
+ * - Dispatches `fetchIncidents` action on mount
+ * - Reacts to loading and error state changes
+ *
+ * @security
+ * - Incident data may contain sensitive security information
+ * - Implement row-level access controls based on user permissions
+ * - Consider masking sensitive fields in list view
+ *
+ * @example
+ * ```tsx
+ * // Used in routing configuration
+ * <Route path="/incident-response/list" element={<IncidentList />} />
+ * ```
+ *
+ * @see {@link IncidentResponseMain} for the main dashboard view
+ * @see {@link IncidentResponseDetail} for detailed incident view
+ * @see {@link fetchIncidents} for the Redux action
+ */
 export default function IncidentList() {
   const dispatch = useAppDispatch();
   const { incidents, loading, error } = useAppSelector((state) => state.incidents);

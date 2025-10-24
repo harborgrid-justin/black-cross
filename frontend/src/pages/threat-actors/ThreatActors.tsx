@@ -1,7 +1,42 @@
 /**
- * @fileoverview Threat Actors - ThreatActors component. Component for Threat Actors feature.
- * 
- * @module pages/threat-actors/ThreatActors.tsx
+ * @fileoverview Threat Actor Profiling Component - Main interface for managing threat actor intelligence.
+ *
+ * This component provides a comprehensive interface for security analysts to track, profile,
+ * and analyze threat actors including APT groups, cybercrime organizations, and nation-state
+ * actors. Features include sophisticated filtering, tabbed views by activity status, detailed
+ * actor profiles with TTPs (Tactics, Techniques, and Procedures), and campaign tracking.
+ *
+ * Key features:
+ * - Real-time threat actor data with automatic refresh
+ * - Multi-tab interface (Active/Inactive/All actors)
+ * - Advanced search across names, aliases, and descriptions
+ * - Sophistication level indicators (advanced/high/medium/low)
+ * - Target sector and motivation tracking
+ * - Campaign and TTP cataloging
+ * - Interactive statistics dashboard
+ * - Detailed actor profile modal with full attribution data
+ *
+ * Data model includes:
+ * - Actor identity (name, aliases, description)
+ * - Sophistication and motivation classifications
+ * - Target sectors and industries
+ * - TTPs aligned with MITRE ATT&CK framework
+ * - Historical campaigns and operations
+ * - Activity status tracking
+ *
+ * @module pages/threat-actors/ThreatActors
+ * @requires @mui/material - Material-UI components for interface
+ * @requires @/services/actorService - API service for threat actor operations
+ * @requires @/types - TypeScript type definitions for ThreatActor
+ *
+ * @example
+ * ```tsx
+ * import ThreatActors from './pages/threat-actors/ThreatActors';
+ *
+ * function SecurityDashboard() {
+ *   return <ThreatActors />;
+ * }
+ * ```
  */
 
 import { useEffect, useState } from 'react';
@@ -48,12 +83,29 @@ import {
 import { actorService } from '@/services/actorService';
 import type { ThreatActor } from '@/types';
 
+/**
+ * Props for the TabPanel component used in threat actor filtering interface.
+ *
+ * @interface TabPanelProps
+ * @property {React.ReactNode} [children] - Content to display within the tab panel
+ * @property {number} index - Zero-based index of this tab panel
+ * @property {number} value - Currently active tab index for conditional rendering
+ */
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
 
+/**
+ * TabPanel component for conditional rendering of tabbed content.
+ *
+ * Implements Material-UI tab panel pattern with accessibility attributes
+ * and conditional visibility based on active tab selection.
+ *
+ * @param {TabPanelProps} props - Component props
+ * @returns {JSX.Element} Tab panel with conditional content rendering
+ */
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
   return (
@@ -63,6 +115,46 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
+/**
+ * Threat Actors Component - Main page for threat actor intelligence management.
+ *
+ * Comprehensive React component for displaying, filtering, and managing threat actor
+ * profiles in a cyber threat intelligence platform. Provides tabbed interface for
+ * viewing active, inactive, and all threat actors with real-time search, statistics
+ * dashboard, and detailed actor information modals.
+ *
+ * Component lifecycle:
+ * 1. Mounts and initiates data fetch via useEffect
+ * 2. Fetches threat actors from backend API
+ * 3. Falls back to mock data if API unavailable
+ * 4. Renders interactive table with filtering and search
+ * 5. Handles user interactions (search, tab changes, view details)
+ *
+ * State management:
+ * - loading: Boolean flag for data fetch status
+ * - error: Error message for API failures (with mock data fallback)
+ * - actors: Array of ThreatActor objects from API or mock data
+ * - selectedActor: Currently selected actor for detail modal
+ * - searchTerm: Filter string for name/alias/description search
+ * - tabValue: Active tab index (0=Active, 1=Inactive, 2=All)
+ * - openDialog: Boolean for create actor modal visibility
+ * - openDetailsDialog: Boolean for actor details modal visibility
+ *
+ * Mock data includes realistic threat actors:
+ * - APT28 (Fancy Bear) - Russian military intelligence
+ * - Lazarus Group - North Korean state-sponsored
+ * - APT29 (Cozy Bear) - Russian intelligence
+ * - APT41 (Double Dragon) - Chinese state-sponsored
+ * - FIN7 (Carbanak) - Financially motivated cybercrime
+ *
+ * @returns {JSX.Element} Complete threat actor management interface
+ *
+ * @example
+ * ```tsx
+ * // Basic usage in routing
+ * <Route path="/threat-actors" element={<ThreatActors />} />
+ * ```
+ */
 export default function ThreatActors() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -77,6 +169,24 @@ export default function ThreatActors() {
     fetchActors();
   }, []);
 
+  /**
+   * Fetches threat actor data from the backend API with fallback to mock data.
+   *
+   * Async function that retrieves threat actor profiles from the actorService API.
+   * If the API call fails (network error, service unavailable), automatically falls
+   * back to realistic mock data representing well-known threat actors. This ensures
+   * the UI remains functional for demonstration and development purposes.
+   *
+   * Mock data represents real-world threat actors including:
+   * - APT groups (APT28, APT29, APT41)
+   * - Nation-state actors (Lazarus Group)
+   * - Cybercrime organizations (FIN7)
+   *
+   * @async
+   * @function fetchActors
+   * @returns {Promise<void>} Resolves when data is loaded and state updated
+   * @throws {Error} Catches and handles API errors with mock data fallback
+   */
   const fetchActors = async () => {
     try {
       setLoading(true);
@@ -166,15 +276,52 @@ export default function ThreatActors() {
     }
   };
 
+  /**
+   * Handles tab change events in the threat actor filtering interface.
+   *
+   * Updates the active tab state to switch between Active, Inactive, and All views.
+   * Tab indices: 0 = Active actors, 1 = Inactive actors, 2 = All actors.
+   *
+   * @param {React.SyntheticEvent} _event - Tab change event (unused)
+   * @param {number} newValue - New tab index (0-2)
+   * @returns {void}
+   */
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
 
+  /**
+   * Opens detailed view modal for a selected threat actor.
+   *
+   * Sets the selected actor in state and triggers the details dialog to open,
+   * displaying comprehensive information including aliases, TTPs, campaigns,
+   * target sectors, motivation, and sophistication level.
+   *
+   * @param {ThreatActor} actor - The threat actor object to display
+   * @returns {void}
+   */
   const handleViewDetails = (actor: ThreatActor) => {
     setSelectedActor(actor);
     setOpenDetailsDialog(true);
   };
 
+  /**
+   * Maps threat actor sophistication level to Material-UI color scheme.
+   *
+   * Provides visual indicators for threat actor capabilities using color-coded
+   * severity levels. Sophistication levels represent technical capability and
+   * operational maturity of threat actors.
+   *
+   * Color mappings:
+   * - 'advanced': error (red) - Nation-state level capabilities
+   * - 'high': warning (orange) - Professional criminal organizations
+   * - 'medium': info (blue) - Moderate capabilities
+   * - 'low': success (green) - Basic capabilities
+   * - default: default (grey) - Unknown sophistication
+   *
+   * @param {string} level - Sophistication level ('advanced' | 'high' | 'medium' | 'low')
+   * @returns {'error' | 'warning' | 'info' | 'success' | 'default'} MUI color theme
+   */
   const getSophisticationColor = (level: string) => {
     switch (level) {
       case 'advanced':

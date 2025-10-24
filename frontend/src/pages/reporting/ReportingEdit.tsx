@@ -1,13 +1,39 @@
 /**
- * @fileoverview Reporting edit page. Form for editing existing Reporting entries.
- * 
- * @module pages/reporting/ReportingEdit.tsx
+ * @fileoverview Report editing page component.
+ *
+ * Provides a form interface for editing existing security reports.
+ * Allows modification of report configuration such as:
+ * - Report title and description
+ * - Report type and format
+ * - Scheduling settings
+ * - Time range and filters
+ *
+ * Currently displays a placeholder with report ID from route parameters.
+ *
+ * @module pages/reporting/ReportingEdit
  */
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Paper, Typography, Button } from '@mui/material';
 import { ArrowBack as BackIcon } from '@mui/icons-material';
 
+/**
+ * Report editing page component.
+ *
+ * Form for editing existing report configurations.
+ * Extracts report ID from route parameters and navigates back to detail view.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered report editing form
+ *
+ * @example
+ * ```tsx
+ * import ReportingEdit from './ReportingEdit';
+ *
+ * // Rendered via React Router with dynamic ID
+ * <Route path="/reporting/:id/edit" element={<ReportingEdit />} />
+ * ```
+ */
 export default function ReportingEdit() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();

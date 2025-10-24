@@ -1,9 +1,32 @@
 /**
- * @fileoverview Case Management page component.
- * 
- * Displays security cases with filtering, status tracking,
- * and case lifecycle management.
- * 
+ * @fileoverview Case Management page component for security case tracking.
+ *
+ * Provides comprehensive case management functionality including case listing,
+ * status tracking, priority management, and lifecycle operations. Displays
+ * security cases in a table format with color-coded status and priority indicators.
+ *
+ * **Features:**
+ * - Case listing with status, priority, and category
+ * - Color-coded chips for visual status identification
+ * - Refresh and create new case actions
+ * - Integration with case management service
+ * - Loading and error state handling
+ *
+ * **Case Statuses:**
+ * - DRAFT: Initial case creation state
+ * - OPEN: Active case requiring attention
+ * - IN_PROGRESS: Case being worked on
+ * - PENDING_REVIEW: Awaiting review
+ * - RESOLVED: Case resolution complete
+ * - CLOSED: Case finalized and archived
+ * - ARCHIVED: Long-term storage state
+ *
+ * **Case Priorities:**
+ * - CRITICAL: Immediate action required
+ * - HIGH: Urgent attention needed
+ * - MEDIUM: Standard priority
+ * - LOW: Lower priority cases
+ *
  * @module pages/case-management/CaseManagementPage
  */
 
@@ -33,15 +56,50 @@ import {
 import { caseManagementService, type Case, CaseStatus, CasePriority } from '@/services/caseManagementService';
 
 /**
- * Case Management page component.
- * 
+ * CaseManagementPage component displaying security case management dashboard.
+ *
+ * Main page component for managing security cases including viewing, filtering,
+ * and performing case operations. Uses local state for data management and
+ * integrates with case management service for backend operations.
+ *
+ * **State Management:**
+ * - Local state for cases array, loading, and error
+ * - No Redux integration (standalone service-based approach)
+ * - Fetches cases on component mount
+ *
+ * **Helper Functions:**
+ * - getStatusColor: Maps case status to Material-UI color
+ * - getPriorityColor: Maps priority level to Material-UI color
+ * - loadCases: Async function to fetch cases from backend
+ *
  * @component
+ * @returns {JSX.Element} Rendered case management page with cases table
+ *
+ * @example
+ * ```tsx
+ * <Route path="/case-management" element={<CaseManagementPage />} />
+ * ```
  */
 export default function CaseManagementPage() {
   const [cases, setCases] = useState<Case[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  /**
+   * Loads cases from the backend service.
+   *
+   * Fetches all security cases and updates component state. Handles loading
+   * and error states appropriately.
+   *
+   * @async
+   * @function loadCases
+   * @returns {Promise<void>}
+   *
+   * @example
+   * ```tsx
+   * <Button onClick={loadCases}>Refresh</Button>
+   * ```
+   */
   const loadCases = async () => {
     try {
       setLoading(true);
@@ -60,6 +118,20 @@ export default function CaseManagementPage() {
     loadCases();
   }, []);
 
+  /**
+   * Maps case status to Material-UI Chip color.
+   *
+   * Provides visual distinction between different case statuses using
+   * color-coded chips for quick identification.
+   *
+   * @param {CaseStatus} status - The case status enum value
+   * @returns {string} Material-UI color name ('default', 'info', 'warning', etc.)
+   *
+   * @example
+   * ```tsx
+   * <Chip color={getStatusColor(CaseStatus.OPEN)} label="OPEN" />
+   * ```
+   */
   const getStatusColor = (status: CaseStatus) => {
     switch (status) {
       case CaseStatus.DRAFT:
@@ -81,6 +153,20 @@ export default function CaseManagementPage() {
     }
   };
 
+  /**
+   * Maps case priority to Material-UI Chip color.
+   *
+   * Provides visual indication of case urgency using color-coded chips.
+   * Higher priority cases use more prominent colors (red for critical).
+   *
+   * @param {CasePriority} priority - The case priority enum value
+   * @returns {string} Material-UI color name ('error', 'warning', 'info', 'success')
+   *
+   * @example
+   * ```tsx
+   * <Chip color={getPriorityColor(CasePriority.CRITICAL)} label="CRITICAL" />
+   * ```
+   */
   const getPriorityColor = (priority: CasePriority) => {
     switch (priority) {
       case CasePriority.CRITICAL:

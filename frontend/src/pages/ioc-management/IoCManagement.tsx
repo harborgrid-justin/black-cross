@@ -1,7 +1,21 @@
 /**
- * @fileoverview Ioc Management - IoCManagement component. Component for Ioc Management feature.
- * 
- * @module pages/ioc-management/IoCManagement.tsx
+ * @fileoverview IoC Management legacy component.
+ *
+ * Legacy component for IoC Management that duplicates IoCManagementMain functionality.
+ * This component provides the same table view of Indicators of Compromise as
+ * IoCManagementMain. Consider consolidating with IoCManagementMain to avoid duplication.
+ *
+ * ## Features
+ * - Fetches IoCs from global Redux store on mount
+ * - Displays loading spinner during data fetch
+ * - Shows error alerts when data loading fails
+ * - Table with type, value, confidence, and status columns
+ * - Add IoC button (currently non-functional navigation)
+ *
+ * ## State Management
+ * Uses global Redux store (@/store/slices/iocSlice) instead of local module store.
+ *
+ * @module pages/ioc-management/IoCManagement
  */
 
 import { useEffect } from 'react';
@@ -24,6 +38,23 @@ import { Add as AddIcon } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchIoCs } from '@/store/slices/iocSlice';
 
+/**
+ * IoC Management component (legacy version).
+ *
+ * Displays a table of Indicators of Compromise with their type, value,
+ * confidence level, and status. Fetches data from global Redux store.
+ *
+ * Note: This component duplicates IoCManagementMain functionality. Consider
+ * consolidating to a single implementation.
+ *
+ * @component
+ * @returns {JSX.Element} The IoC Management table view
+ *
+ * @example
+ * ```tsx
+ * <IoCManagement />
+ * ```
+ */
 export default function IoCManagement() {
   const dispatch = useAppDispatch();
   const { iocs, loading, error } = useAppSelector((state) => state.iocs);

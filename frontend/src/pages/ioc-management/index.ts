@@ -1,7 +1,15 @@
 /**
- * @fileoverview Module export point for Ioc Management. Central export for all module components.
- * 
- * @module pages/ioc-management/index.ts
+ * @fileoverview Module exports for IoC Management.
+ *
+ * Central export point for all IoC Management module components, routes,
+ * and store-related items. Provides a clean public API for the module.
+ *
+ * ## Exports
+ * - Store: Redux slice, reducers, actions, and async thunks
+ * - Components: Main, Detail, Create, Edit pages
+ * - Routes: Router configuration for the module
+ *
+ * @module pages/ioc-management
  */
 
 export * from './store';

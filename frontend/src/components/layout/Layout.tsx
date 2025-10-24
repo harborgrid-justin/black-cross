@@ -1,7 +1,17 @@
 /**
- * @fileoverview Layout component. React component for the Black-Cross platform.
- * 
- * @module components/layout/Layout.tsx
+ * @fileoverview Main application layout component with navigation and app bar.
+ *
+ * Provides the primary layout structure for the Black-Cross platform including:
+ * - Top application bar with branding and user menu
+ * - Collapsible side navigation drawer with all platform modules
+ * - Responsive design supporting mobile and desktop viewports
+ * - User authentication state display
+ * - Logout functionality
+ *
+ * The layout uses Material-UI's responsive drawer pattern with permanent drawer
+ * on desktop (>= sm breakpoint) and temporary drawer on mobile (< sm breakpoint).
+ *
+ * @module components/layout/Layout
  */
 
 import { useState } from 'react';
@@ -50,8 +60,31 @@ import {
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { logout } from '@/store/slices/authSlice';
 
+/**
+ * Width of the navigation drawer in pixels.
+ *
+ * @constant
+ * @type {number}
+ */
 const drawerWidth = 260;
 
+/**
+ * Navigation menu item configuration.
+ *
+ * @interface MenuItem
+ * @property {string} text - Display text for the menu item
+ * @property {React.ComponentType} icon - Material-UI icon component
+ * @property {string} path - Route path for navigation
+ */
+/**
+ * Main navigation menu items for all platform modules.
+ *
+ * Contains all 15+ security feature modules including threat intelligence,
+ * incident response, SIEM, compliance, automation, and more.
+ *
+ * @constant
+ * @type {Array<{text: string, icon: React.ComponentType, path: string}>}
+ */
 const menuItems = [
   { text: 'Dashboard', icon: DashboardIcon, path: '/dashboard' },
   { text: 'Notifications', icon: NotificationsIcon, path: '/notifications' },
@@ -75,10 +108,45 @@ const menuItems = [
   { text: 'Automation', icon: AutomationIcon, path: '/automation' },
 ];
 
+/**
+ * Props for the Layout component.
+ *
+ * @interface LayoutProps
+ * @property {React.ReactNode} children - Page content to render in the main content area
+ */
 interface LayoutProps {
   children: React.ReactNode;
 }
 
+/**
+ * Main application layout component with navigation and header.
+ *
+ * Provides the structural layout for all authenticated pages in the application.
+ * Includes a responsive navigation drawer, top app bar, user menu, and main
+ * content area. Handles navigation to all platform modules and user logout.
+ *
+ * Layout Structure:
+ * - Top app bar: Platform title, menu toggle (mobile), user avatar/menu
+ * - Side drawer: Navigation menu with all module links
+ * - Main content: Renders children with proper spacing and styling
+ *
+ * Responsive Behavior:
+ * - Desktop (>= 600px): Permanent drawer, full-width app bar
+ * - Mobile (< 600px): Temporary drawer, hamburger menu button
+ *
+ * @component
+ * @param {LayoutProps} props - Component props
+ * @param {React.ReactNode} props.children - Content to display in main area
+ * @returns {JSX.Element} Complete application layout with navigation
+ *
+ * @example
+ * ```tsx
+ * // Wrapping a page component
+ * <Layout>
+ *   <DashboardPage />
+ * </Layout>
+ * ```
+ */
 export default function Layout({ children }: LayoutProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -86,23 +154,54 @@ export default function Layout({ children }: LayoutProps) {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
 
-  const handleDrawerToggle = () => {
+  /**
+   * Toggles the mobile navigation drawer open/closed.
+   *
+   * @returns {void}
+   */
+  const handleDrawerToggle = (): void => {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  /**
+   * Opens the user account menu.
+   *
+   * @param {React.MouseEvent<HTMLElement>} event - Click event from the avatar button
+   * @returns {void}
+   */
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>): void => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMenuClose = () => {
+  /**
+   * Closes the user account menu.
+   *
+   * @returns {void}
+   */
+  const handleMenuClose = (): void => {
     setAnchorEl(null);
   };
 
-  const handleLogout = () => {
+  /**
+   * Handles user logout action.
+   *
+   * Dispatches logout action to clear authentication state and navigates
+   * to the login page.
+   *
+   * @returns {void}
+   */
+  const handleLogout = (): void => {
     dispatch(logout());
     navigate('/login');
   };
 
+  /**
+   * Navigation drawer content component.
+   *
+   * Contains the platform branding and navigation menu items.
+   *
+   * @constant
+   */
   const drawer = (
     <Box role="navigation" aria-label="main navigation">
       <Toolbar sx={{ background: 'linear-gradient(135deg, #1976d2 0%, #1565c0 100%)' }}>
