@@ -15,6 +15,7 @@ import { AuthenticationError, AuthorizationError } from './errorHandler';
 import { logger } from '../utils/logger';
 import config from '../config';
 import { JWT } from '../constants';
+import { tokenBlacklist } from '../utils/tokenBlacklist';
 
 interface DecodedToken extends JwtPayload {
   id?: string;
@@ -27,7 +28,7 @@ interface DecodedToken extends JwtPayload {
  * Verify JWT token and attach user to request
  * @throws {AuthenticationError} If token is missing or invalid
  */
-function authenticate(req: Request, res: Response, next: NextFunction): void {
+async function authenticate(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     // Extract token from Authorization header
     const authHeader = req.headers.authorization;
@@ -37,12 +38,32 @@ function authenticate(req: Request, res: Response, next: NextFunction): void {
 
     const token = authHeader.substring(7);
 
-    // Verify token
+    // Verify token signature and expiration
     const decoded = jwt.verify(token, config.security.jwt.secret) as DecodedToken;
+
+    // Check if token is blacklisted
+    if (await tokenBlacklist.isBlacklisted(token)) {
+      logger.warn('Blacklisted token used', {
+        userId: decoded.id || decoded.sub,
+        correlationId: req.correlationId,
+      });
+      throw new AuthenticationError('Token has been revoked');
+    }
+
+    // Check if all user tokens were invalidated
+    const userId = decoded.id || decoded.sub || '';
+    const tokenIssuedAt = decoded.iat || 0;
+    if (await tokenBlacklist.isUserBlacklisted(userId, tokenIssuedAt)) {
+      logger.warn('User tokens invalidated', {
+        userId,
+        correlationId: req.correlationId,
+      });
+      throw new AuthenticationError('Token invalidated due to security update');
+    }
 
     // Attach user to request
     req.user = {
-      id: decoded.id || decoded.sub || '',
+      id: userId,
       email: decoded.email,
       role: decoded.role || 'viewer',
     };
