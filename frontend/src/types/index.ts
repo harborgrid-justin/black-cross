@@ -480,3 +480,77 @@ export interface FilterOptions {
   sortBy?: string;
   sortOrder?: 'asc' | 'desc';
 }
+
+/**
+ * ======================================================
+ * SHARED CRUD, FORM, AND REDUX TYPE DEFINITIONS
+ * ======================================================
+ *
+ * The following exports provide standardized types for CRUD operations,
+ * form handling, and Redux state management across all modules.
+ *
+ * Import these types to ensure consistency and type safety.
+ */
+
+// CRUD types and utilities
+export type {
+  ErrorCode,
+  ErrorDetail,
+  SuccessResponse,
+  ErrorResponse,
+  CRUDResponse,
+  Pagination,
+  PaginatedSuccessResponse,
+  PaginatedCRUDResponse,
+  EntityState,
+} from './crud';
+
+export {
+  isSuccessResponse,
+  isErrorResponse,
+  createErrorResponse,
+  mapStatusCodeToErrorCode,
+  convertErrorToErrorDetail,
+} from './crud';
+
+// Form types and utilities
+export type {
+  FormSubmissionState,
+  FormState,
+  FormSubmissionSuccess,
+  FormSubmissionFailure,
+  FormSubmissionResult,
+  CreateFormData,
+  EditFormData,
+  EntityFormProps,
+  ValidationRule,
+  FieldValidation,
+  ValidationSchema,
+} from './forms';
+
+export {
+  isFormSubmissionSuccess,
+  isFormSubmissionFailure,
+  createValidationSchema,
+  validateField,
+  validateForm,
+  hasFormErrors,
+} from './forms';
+
+// Redux types and utilities
+export type {
+  AsyncThunkConfig,
+  BlackCrossAsyncThunk,
+  ThunkPendingState,
+  ThunkFulfilledState,
+  ThunkRejectedState,
+} from './redux';
+
+export {
+  createThunkRejection,
+  getErrorMessage,
+  isRetryableError,
+  createPendingState,
+  createFulfilledState,
+  createRejectedState,
+} from './redux';
