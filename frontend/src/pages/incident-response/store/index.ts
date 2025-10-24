@@ -1,14 +1,15 @@
 /**
- * @fileoverview Module export point for Incident Response. Central export for all module components.
- * 
- * @module pages/incident-response/store/index.ts
+ * @fileoverview Incident Response store exports.
+ *
+ * Provides centralized exports for the Incident Response Redux slice, including the
+ * reducer, actions, and async thunks. This barrel file simplifies imports of store-related
+ * functionality throughout the application.
+ *
+ * @module pages/incident-response/store
  */
 
-/**
- * WF-COMP-006 | index.ts - Incident Response store exports
- * Purpose: Centralized exports for incident response store module
- * Last Updated: 2025-10-22 | File Type: .ts
- */
-
+// Export all actions and thunks from the slice
 export * from './incidentSlice';
+
+// Export the reducer as a named export for store configuration
 export { default as incidentReducer } from './incidentSlice';

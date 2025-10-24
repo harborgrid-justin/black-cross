@@ -1,7 +1,19 @@
 /**
- * @fileoverview Login component. React component for the Black-Cross platform.
- * 
- * @module components/auth/Login.tsx
+ * @fileoverview Login authentication component for the Black-Cross platform.
+ *
+ * Provides user authentication interface with email/password credentials.
+ * Integrates with Redux for authentication state management and React Router
+ * for post-login navigation.
+ *
+ * Features:
+ * - Email and password authentication
+ * - Form validation
+ * - Error display
+ * - Loading states
+ * - Automatic redirect after successful login
+ * - Accessible form controls with ARIA labels
+ *
+ * @module components/auth/Login
  */
 
 import { useState } from 'react';
@@ -18,6 +30,25 @@ import {
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { login } from '@/store/slices/authSlice';
 
+/**
+ * Login component that handles user authentication.
+ *
+ * Displays a login form with email and password fields, validates credentials,
+ * and manages the authentication flow. On successful login, redirects to the
+ * dashboard. On failure, displays error messages to the user.
+ *
+ * Uses Redux Toolkit for state management and dispatches the login action
+ * to authenticate users against the backend API.
+ *
+ * @component
+ * @returns {JSX.Element} Login form with authentication controls
+ *
+ * @example
+ * ```tsx
+ * // Used in routing configuration
+ * <Route path="/login" element={<Login />} />
+ * ```
+ */
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -26,7 +57,18 @@ export default function Login() {
   const dispatch = useAppDispatch();
   const { loading } = useAppSelector((state) => state.auth);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  /**
+   * Handles form submission for user authentication.
+   *
+   * Prevents default form submission, dispatches the login action with
+   * credentials, and handles success/error cases. On success, navigates
+   * to the dashboard. On failure, displays error message.
+   *
+   * @async
+   * @param {React.FormEvent} e - Form submission event
+   * @returns {Promise<void>}
+   */
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setError('');
 

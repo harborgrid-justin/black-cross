@@ -144,14 +144,43 @@ export interface HuntingStatistics {
 
 /**
  * Service for handling hunting API operations.
- * 
- * Provides methods for CRUD operations and specialized functionality.
- * All methods return promises and handle errors appropriately.
- * 
+ *
+ * Provides comprehensive methods for managing threat hunting hypotheses, queries,
+ * findings, campaigns, playbooks, and data sources. All methods return promises
+ * and handle errors appropriately.
+ *
  * @namespace huntingService
+ * @example
+ * ```typescript
+ * // Get all hunting hypotheses with filters
+ * const hypotheses = await huntingService.getHypotheses({
+ *   status: 'active',
+ *   priority: 'high'
+ * });
+ *
+ * // Execute a hunting query
+ * const result = await huntingService.executeQuery('hypothesis-id', 'query-id');
+ * ```
  */
 export const huntingService = {
-  // Hypotheses
+  /**
+   * Retrieves all hunting hypotheses with optional filtering and pagination.
+   *
+   * @async
+   * @param {FilterOptions} [filters] - Optional filter criteria including status, priority, category
+   * @returns {Promise<PaginatedResponse<HuntingHypothesis>>} Paginated list of hunting hypotheses
+   * @throws {Error} When the API request fails or network error occurs
+   *
+   * @example
+   * ```typescript
+   * const hypotheses = await huntingService.getHypotheses({
+   *   status: 'active',
+   *   priority: 'critical',
+   *   page: 1,
+   *   perPage: 20
+   * });
+   * ```
+   */
   async getHypotheses(filters?: FilterOptions): Promise<PaginatedResponse<HuntingHypothesis>> {
     const params = new URLSearchParams();
     if (filters) {
@@ -166,23 +195,102 @@ export const huntingService = {
     );
   },
 
+  /**
+   * Retrieves a single hunting hypothesis by its unique identifier.
+   *
+   * @async
+   * @param {string} id - The hypothesis ID
+   * @returns {Promise<ApiResponse<HuntingHypothesis>>} The hypothesis data with queries and findings
+   * @throws {Error} When the hypothesis is not found or request fails
+   *
+   * @example
+   * ```typescript
+   * const hypothesis = await huntingService.getHypothesis('hyp-123');
+   * ```
+   */
   async getHypothesis(id: string): Promise<ApiResponse<HuntingHypothesis>> {
     return apiClient.get<ApiResponse<HuntingHypothesis>>(`/threat-hunting/hypotheses/${id}`);
   },
 
+  /**
+   * Creates a new hunting hypothesis.
+   *
+   * @async
+   * @param {Partial<HuntingHypothesis>} data - The hypothesis data including title, description, category, priority
+   * @returns {Promise<ApiResponse<HuntingHypothesis>>} The created hypothesis
+   * @throws {Error} When hypothesis creation fails or validation errors occur
+   *
+   * @example
+   * ```typescript
+   * const hypothesis = await huntingService.createHypothesis({
+   *   title: 'Suspicious lateral movement',
+   *   description: 'Detecting potential lateral movement patterns',
+   *   category: 'lateral-movement',
+   *   priority: 'high',
+   *   mitreTactics: ['TA0008']
+   * });
+   * ```
+   */
   async createHypothesis(data: Partial<HuntingHypothesis>): Promise<ApiResponse<HuntingHypothesis>> {
     return apiClient.post<ApiResponse<HuntingHypothesis>>('/threat-hunting/hypotheses', data);
   },
 
+  /**
+   * Updates an existing hunting hypothesis.
+   *
+   * @async
+   * @param {string} id - The hypothesis ID
+   * @param {Partial<HuntingHypothesis>} data - Fields to update
+   * @returns {Promise<ApiResponse<HuntingHypothesis>>} The updated hypothesis
+   * @throws {Error} When update fails or hypothesis not found
+   *
+   * @example
+   * ```typescript
+   * await huntingService.updateHypothesis('hyp-123', {
+   *   status: 'validated',
+   *   priority: 'critical'
+   * });
+   * ```
+   */
   async updateHypothesis(id: string, data: Partial<HuntingHypothesis>): Promise<ApiResponse<HuntingHypothesis>> {
     return apiClient.put<ApiResponse<HuntingHypothesis>>(`/threat-hunting/hypotheses/${id}`, data);
   },
 
+  /**
+   * Deletes a hunting hypothesis permanently.
+   *
+   * @async
+   * @param {string} id - The hypothesis ID
+   * @returns {Promise<ApiResponse<void>>} Empty response on success
+   * @throws {Error} When deletion fails or hypothesis is referenced by active campaigns
+   *
+   * @example
+   * ```typescript
+   * await huntingService.deleteHypothesis('hyp-123');
+   * ```
+   */
   async deleteHypothesis(id: string): Promise<ApiResponse<void>> {
     return apiClient.delete<ApiResponse<void>>(`/threat-hunting/hypotheses/${id}`);
   },
 
   // Queries
+  /**
+   * Retrieves hunting queries for a hypothesis or all queries.
+   *
+   * @async
+   * @param {string} [hypothesisId] - Optional hypothesis ID to filter queries
+   * @returns {Promise<ApiResponse<HuntingQuery[]>>} List of hunting queries
+   * @throws {Error} When the API request fails
+   *
+   * @example
+   * ```typescript
+   * // Get all queries for a specific hypothesis
+   * const queries = await huntingService.getQueries('hyp-123');
+   *
+   * // Get all queries across all hypotheses
+   * const allQueries = await huntingService.getQueries();
+   * ```
+   */
   async getQueries(hypothesisId?: string): Promise<ApiResponse<HuntingQuery[]>> {
     const url = hypothesisId
       ? `/threat-hunting/hypotheses/${hypothesisId}/queries`
@@ -190,12 +298,45 @@ export const huntingService = {
     return apiClient.get<ApiResponse<HuntingQuery[]>>(url);
   },
 
+  /**
+   * Retrieves a single hunting query by ID.
+   *
+   * @async
+   * @param {string} hypothesisId - The hypothesis ID
+   * @param {string} queryId - The query ID
+   * @returns {Promise<ApiResponse<HuntingQuery>>} The query data with results
+   * @throws {Error} When query not found or request fails
+   *
+   * @example
+   * ```typescript
+   * const query = await huntingService.getQuery('hyp-123', 'qry-456');
+   * ```
+   */
   async getQuery(hypothesisId: string, queryId: string): Promise<ApiResponse<HuntingQuery>> {
     return apiClient.get<ApiResponse<HuntingQuery>>(
       `/threat-hunting/hypotheses/${hypothesisId}/queries/${queryId}`
     );
   },
 
+  /**
+   * Creates a new hunting query for a hypothesis.
+   *
+   * @async
+   * @param {string} hypothesisId - The hypothesis ID
+   * @param {Partial<HuntingQuery>} data - Query data including query language, query string, data source
+   * @returns {Promise<ApiResponse<HuntingQuery>>} The created query
+   * @throws {Error} When query creation fails or validation errors occur
+   *
+   * @example
+   * ```typescript
+   * const query = await huntingService.createQuery('hyp-123', {
+   *   name: 'Check failed logins',
+   *   queryLanguage: 'kql',
+   *   query: 'SecurityEvent | where EventID == 4625',
+   *   dataSource: 'windows-security-logs'
+   * });
+   * ```
+   */
   async createQuery(hypothesisId: string, data: Partial<HuntingQuery>): Promise<ApiResponse<HuntingQuery>> {
     return apiClient.post<ApiResponse<HuntingQuery>>(
       `/threat-hunting/hypotheses/${hypothesisId}/queries`,
@@ -203,6 +344,24 @@ export const huntingService = {
     );
   },
 
+  /**
+   * Updates an existing hunting query.
+   *
+   * @async
+   * @param {string} hypothesisId - The hypothesis ID
+   * @param {string} queryId - The query ID
+   * @param {Partial<HuntingQuery>} data - Fields to update
+   * @returns {Promise<ApiResponse<HuntingQuery>>} The updated query
+   * @throws {Error} When update fails
+   *
+   * @example
+   * ```typescript
+   * await huntingService.updateQuery('hyp-123', 'qry-456', {
+   *   status: 'executed',
+   *   description: 'Updated query description'
+   * });
+   * ```
+   */
   async updateQuery(hypothesisId: string, queryId: string, data: Partial<HuntingQuery>): Promise<ApiResponse<HuntingQuery>> {
     return apiClient.put<ApiResponse<HuntingQuery>>(
       `/threat-hunting/hypotheses/${hypothesisId}/queries/${queryId}`,
@@ -210,23 +369,80 @@ export const huntingService = {
     );
   },
 
+  /**
+   * Deletes a hunting query permanently.
+   *
+   * @async
+   * @param {string} hypothesisId - The hypothesis ID
+   * @param {string} queryId - The query ID
+   * @returns {Promise<ApiResponse<void>>} Empty response on success
+   * @throws {Error} When deletion fails
+   *
+   * @example
+   * ```typescript
+   * await huntingService.deleteQuery('hyp-123', 'qry-456');
+   * ```
+   */
   async deleteQuery(hypothesisId: string, queryId: string): Promise<ApiResponse<void>> {
     return apiClient.delete<ApiResponse<void>>(
       `/threat-hunting/hypotheses/${hypothesisId}/queries/${queryId}`
     );
   },
 
+  /**
+   * Executes a hunting query against its configured data source.
+   *
+   * @async
+   * @param {string} hypothesisId - The hypothesis ID
+   * @param {string} queryId - The query ID
+   * @returns {Promise<ApiResponse<QueryResult>>} Query execution results with events and aggregations
+   * @throws {Error} When query execution fails or data source is unavailable
+   *
+   * @example
+   * ```typescript
+   * const result = await huntingService.executeQuery('hyp-123', 'qry-456');
+   * console.log(`Found ${result.data.totalHits} events in ${result.data.executionTime}ms`);
+   * ```
+   */
   async executeQuery(hypothesisId: string, queryId: string): Promise<ApiResponse<QueryResult>> {
     return apiClient.post<ApiResponse<QueryResult>>(
       `/threat-hunting/hypotheses/${hypothesisId}/queries/${queryId}/execute`
     );
   },
 
+  /**
+   * Executes an ad-hoc hunting query without saving it.
+   *
+   * Useful for testing queries before creating a formal hypothesis query.
+   *
+   * @async
+   * @param {Partial<HuntingQuery>} query - Query specification including query language and string
+   * @returns {Promise<ApiResponse<QueryResult>>} Query execution results
+   * @throws {Error} When query execution fails or syntax is invalid
+   *
+   * @example
+   * ```typescript
+   * const result = await huntingService.executeAdHocQuery({
+   *   queryLanguage: 'kql',
+   *   query: 'SecurityEvent | where EventID == 4625 | take 100',
+   *   dataSource: 'windows-security-logs'
+   * });
+   * ```
+   */
   async executeAdHocQuery(query: Partial<HuntingQuery>): Promise<ApiResponse<QueryResult>> {
     return apiClient.post<ApiResponse<QueryResult>>('/threat-hunting/queries/execute', query);
   },
 
   // Findings
+  /**
+   * Retrieves hunting findings with optional filtering.
+   *
+   * @async
+   * @param {string} [hypothesisId] - Optional hypothesis ID to filter findings
+   * @param {FilterOptions} [filters] - Optional filter criteria
+   * @returns {Promise<PaginatedResponse<HuntingFinding>>} Paginated list of findings
+   * @throws {Error} When the API request fails
+   */
   async getFindings(hypothesisId?: string, filters?: FilterOptions): Promise<PaginatedResponse<HuntingFinding>> {
     const params = new URLSearchParams();
     if (filters) {
@@ -242,12 +458,30 @@ export const huntingService = {
     return apiClient.get<PaginatedResponse<HuntingFinding>>(url);
   },
 
+  /**
+   * Retrieves a single finding by ID.
+   *
+   * @async
+   * @param {string} hypothesisId - The hypothesis ID
+   * @param {string} findingId - The finding ID
+   * @returns {Promise<ApiResponse<HuntingFinding>>} The finding data
+   * @throws {Error} When finding not found
+   */
   async getFinding(hypothesisId: string, findingId: string): Promise<ApiResponse<HuntingFinding>> {
     return apiClient.get<ApiResponse<HuntingFinding>>(
       `/threat-hunting/hypotheses/${hypothesisId}/findings/${findingId}`
     );
   },
 
+  /**
+   * Creates a new hunting finding.
+   *
+   * @async
+   * @param {string} hypothesisId - The hypothesis ID
+   * @param {Partial<HuntingFinding>} data - Finding data
+   * @returns {Promise<ApiResponse<HuntingFinding>>} The created finding
+   * @throws {Error} When finding creation fails
+   */
   async createFinding(hypothesisId: string, data: Partial<HuntingFinding>): Promise<ApiResponse<HuntingFinding>> {
     return apiClient.post<ApiResponse<HuntingFinding>>(
       `/threat-hunting/hypotheses/${hypothesisId}/findings`,
@@ -255,6 +489,16 @@ export const huntingService = {
     );
   },
 
+  /**
+   * Updates an existing finding.
+   *
+   * @async
+   * @param {string} hypothesisId - The hypothesis ID
+   * @param {string} findingId - The finding ID
+   * @param {Partial<HuntingFinding>} data - Fields to update
+   * @returns {Promise<ApiResponse<HuntingFinding>>} The updated finding
+   * @throws {Error} When update fails
+   */
   async updateFinding(hypothesisId: string, findingId: string, data: Partial<HuntingFinding>): Promise<ApiResponse<HuntingFinding>> {
     return apiClient.put<ApiResponse<HuntingFinding>>(
       `/threat-hunting/hypotheses/${hypothesisId}/findings/${findingId}`,
@@ -262,12 +506,31 @@ export const huntingService = {
     );
   },
 
+  /**
+   * Deletes a finding permanently.
+   *
+   * @async
+   * @param {string} hypothesisId - The hypothesis ID
+   * @param {string} findingId - The finding ID
+   * @returns {Promise<ApiResponse<void>>} Empty response on success
+   * @throws {Error} When deletion fails
+   */
   async deleteFinding(hypothesisId: string, findingId: string): Promise<ApiResponse<void>> {
     return apiClient.delete<ApiResponse<void>>(
       `/threat-hunting/hypotheses/${hypothesisId}/findings/${findingId}`
     );
   },
 
+  /**
+   * Adds evidence to a finding.
+   *
+   * @async
+   * @param {string} hypothesisId - The hypothesis ID
+   * @param {string} findingId - The finding ID
+   * @param {Partial<Evidence>} evidence - Evidence data
+   * @returns {Promise<ApiResponse<Evidence>>} The created evidence
+   * @throws {Error} When adding evidence fails
+   */
   async addEvidence(hypothesisId: string, findingId: string, evidence: Partial<Evidence>): Promise<ApiResponse<Evidence>> {
     return apiClient.post<ApiResponse<Evidence>>(
       `/threat-hunting/hypotheses/${hypothesisId}/findings/${findingId}/evidence`,
@@ -276,6 +539,14 @@ export const huntingService = {
   },
 
   // Campaigns
+  /**
+   * Retrieves all hunting campaigns with optional filtering.
+   *
+   * @async
+   * @param {FilterOptions} [filters] - Optional filter criteria
+   * @returns {Promise<PaginatedResponse<HuntingCampaign>>} Paginated list of campaigns
+   * @throws {Error} When the API request fails
+   */
   async getCampaigns(filters?: FilterOptions): Promise<PaginatedResponse<HuntingCampaign>> {
     const params = new URLSearchParams();
     if (filters) {

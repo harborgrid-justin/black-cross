@@ -1,7 +1,28 @@
 /**
- * @fileoverview Threat Actors main page. Primary landing page for the Threat Actors module.
- * 
- * @module pages/threat-actors/ThreatActorsMain.tsx
+ * @fileoverview Threat Actors Main Page - Primary landing and management interface.
+ *
+ * This is the main entry point component for the Threat Actors module, providing
+ * a comprehensive interface for threat actor intelligence management. Functionally
+ * identical to ThreatActors.tsx, serving as the default route handler for the
+ * threat actors section.
+ *
+ * Features include:
+ * - Tabbed interface for active/inactive/all actors
+ * - Real-time search and filtering
+ * - Statistics dashboard with key metrics
+ * - Detailed actor profiles with TTPs and campaigns
+ * - Mock data fallback for development
+ * - Responsive Material-UI design
+ *
+ * Note: This component is a duplicate of ThreatActors.tsx and may be consolidated
+ * in future refactoring to reduce code duplication.
+ *
+ * @module pages/threat-actors/ThreatActorsMain
+ * @requires @mui/material - Material-UI components
+ * @requires @/services/actorService - API service for threat actor operations
+ * @requires @/types - TypeScript type definitions
+ *
+ * @see {@link ThreatActors} for detailed component documentation
  */
 
 import { useEffect, useState } from 'react';

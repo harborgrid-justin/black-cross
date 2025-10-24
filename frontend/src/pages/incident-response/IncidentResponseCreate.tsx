@@ -1,13 +1,12 @@
 /**
- * @fileoverview Incident Response creation page. Form for creating new Incident Response entries.
- * 
- * @module pages/incident-response/IncidentResponseCreate.tsx
- */
-
-/**
- * WF-COMP-008 | IncidentResponseCreate.tsx - Create incident page
- * Purpose: Form page for creating new incidents
- * Last Updated: 2025-10-22 | File Type: .tsx
+ * @fileoverview Incident Response creation page component for reporting new security incidents.
+ *
+ * This component provides a comprehensive form interface for creating new security
+ * incidents with fields for severity, status, assignment, and detailed description.
+ * Integrates with Redux for state management and navigates to the incident list
+ * upon successful creation.
+ *
+ * @module pages/incident-response/IncidentResponseCreate
  */
 
 import { useState } from 'react';
@@ -28,6 +27,51 @@ import { ArrowBack as BackIcon, Save as SaveIcon } from '@mui/icons-material';
 import { useAppDispatch } from '@/store/hooks';
 import { createIncident } from './store';
 
+/**
+ * Incident Response creation page component.
+ *
+ * Provides a form interface for creating new security incidents. The form includes
+ * fields for title, severity, status, description, and assignment with proper
+ * validation and error handling through Redux integration.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The rendered incident creation form
+ *
+ * @remarks
+ * Form fields:
+ * - Title: Required text field for incident summary
+ * - Severity: Dropdown with options (critical, high, medium, low)
+ * - Status: Dropdown with options (open, investigating, contained, resolved, closed)
+ * - Description: Multi-line text area for detailed incident information
+ * - Assigned To: Text field for assignee name or email
+ *
+ * Form behavior:
+ * - Local state management for form data
+ * - Validation on submit (title is required)
+ * - Redux thunk dispatch for API call
+ * - Navigation to incident list on success
+ * - Error logging to console on failure
+ *
+ * Navigation:
+ * - Back button returns to incident list
+ * - Cancel button also returns to incident list
+ * - Successful submission navigates to incident list
+ *
+ * @security
+ * - Validate user has permissions to create incidents
+ * - Sanitize all input before submission
+ * - Consider implementing draft autosave for data protection
+ *
+ * @example
+ * ```tsx
+ * // Used in routing configuration
+ * <Route path="/incident-response/create" element={<IncidentResponseCreate />} />
+ * ```
+ *
+ * @see {@link createIncident} for the Redux action
+ * @see {@link IncidentResponseEdit} for editing existing incidents
+ */
 export default function IncidentResponseCreate() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -45,6 +89,19 @@ export default function IncidentResponseCreate() {
     assignedTo: '',
   });
 
+  /**
+   * Handles form submission for creating a new incident.
+   *
+   * Prevents default form submission, dispatches the Redux create action with
+   * form data, and navigates to the incident list on success. Logs errors to
+   * console on failure.
+   *
+   * @async
+   * @param {React.FormEvent} e - Form submission event
+   * @returns {Promise<void>}
+   *
+   * @throws {Error} Logs error to console if creation fails
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -55,6 +112,16 @@ export default function IncidentResponseCreate() {
     }
   };
 
+  /**
+   * Handles form field changes.
+   *
+   * Updates the form data state with the new value for the specified field.
+   * Uses functional state update to preserve other field values.
+   *
+   * @param {string} field - The form field name to update
+   * @param {any} value - The new value for the field
+   * @returns {void}
+   */
   const handleChange = (field: string, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };

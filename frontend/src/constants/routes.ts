@@ -1,14 +1,61 @@
 /**
- * @fileoverview Route Constants
- * 
- * Centralized route paths for the application including public routes,
- * protected routes, navigation items, and breadcrumb titles.
- * 
+ * @fileoverview Application route constants and navigation configuration.
+ *
+ * Provides centralized route path definitions for:
+ * - Public routes (accessible without authentication)
+ * - Protected routes (require authentication)
+ * - Dynamic route factory functions
+ * - Navigation menu items
+ * - Breadcrumb titles
+ *
+ * Benefits:
+ * - Type-safe route references throughout the application
+ * - Single source of truth for all route paths
+ * - Easy route refactoring and updates
+ * - Consistent navigation structure
+ * - Prevents typos in route paths
+ *
+ * Route Patterns:
+ * - Static routes: Simple string paths
+ * - Dynamic routes: Factory functions that accept parameters
+ *
  * @module constants/routes
+ *
+ * @example
+ * ```typescript
+ * import { PUBLIC_ROUTES, PROTECTED_ROUTES } from '@/constants/routes';
+ *
+ * // Static route
+ * navigate(PUBLIC_ROUTES.LOGIN);
+ *
+ * // Dynamic route with parameter
+ * navigate(PROTECTED_ROUTES.THREAT_INTELLIGENCE_DETAIL('123'));
+ * ```
  */
 
 /**
- * Public Routes
+ * Public routes accessible without authentication.
+ *
+ * These routes are available to all users and typically include login,
+ * registration, password reset, and error pages.
+ *
+ * @constant
+ * @type {Object}
+ * @property {string} HOME - Home/landing page
+ * @property {string} LOGIN - User login page
+ * @property {string} REGISTER - User registration page
+ * @property {string} FORGOT_PASSWORD - Password reset request page
+ * @property {string} RESET_PASSWORD - Password reset completion page
+ * @property {string} NOT_FOUND - 404 error page
+ * @property {string} UNAUTHORIZED - 401 unauthorized access page
+ * @property {string} SERVER_ERROR - 500 server error page
+ *
+ * @example
+ * ```typescript
+ * import { PUBLIC_ROUTES } from '@/constants/routes';
+ *
+ * <Route path={PUBLIC_ROUTES.LOGIN} element={<Login />} />
+ * ```
  */
 export const PUBLIC_ROUTES = {
   HOME: '/',
@@ -22,7 +69,27 @@ export const PUBLIC_ROUTES = {
 } as const;
 
 /**
- * Protected Routes
+ * Protected routes requiring authentication.
+ *
+ * These routes are only accessible to authenticated users and cover all
+ * platform features and modules. Includes both static paths and dynamic
+ * route factory functions for parameterized URLs.
+ *
+ * Factory functions follow the pattern: (id: string) => string
+ *
+ * @constant
+ * @type {Object}
+ *
+ * @example
+ * ```typescript
+ * import { PROTECTED_ROUTES } from '@/constants/routes';
+ *
+ * // Static route
+ * navigate(PROTECTED_ROUTES.DASHBOARD);
+ *
+ * // Dynamic route
+ * navigate(PROTECTED_ROUTES.INCIDENTS_DETAIL('incident-123'));
+ * ```
  */
 export const PROTECTED_ROUTES = {
   DASHBOARD: '/dashboard',
@@ -133,7 +200,20 @@ export const PROTECTED_ROUTES = {
 } as const;
 
 /**
- * All Routes
+ * Combined route object containing both public and protected routes.
+ *
+ * Provides a single import point for accessing any application route.
+ *
+ * @constant
+ * @type {Object}
+ *
+ * @example
+ * ```typescript
+ * import { ROUTES } from '@/constants/routes';
+ *
+ * navigate(ROUTES.LOGIN);
+ * navigate(ROUTES.DASHBOARD);
+ * ```
  */
 export const ROUTES = {
   ...PUBLIC_ROUTES,
@@ -141,7 +221,24 @@ export const ROUTES = {
 } as const;
 
 /**
- * Navigation Menu Items
+ * Navigation menu item configuration for the application sidebar.
+ *
+ * Defines the structure and content of the main navigation menu including
+ * labels, paths, and icon identifiers for all platform modules.
+ *
+ * @constant
+ * @type {ReadonlyArray<{label: string, path: string, icon: string}>}
+ *
+ * @example
+ * ```typescript
+ * import { NAV_ITEMS } from '@/constants/routes';
+ *
+ * {NAV_ITEMS.map(item => (
+ *   <MenuItem key={item.path} onClick={() => navigate(item.path)}>
+ *     {item.label}
+ *   </MenuItem>
+ * ))}
+ * ```
  */
 export const NAV_ITEMS = [
   { label: 'Dashboard', path: PROTECTED_ROUTES.DASHBOARD, icon: 'dashboard' },
@@ -163,7 +260,22 @@ export const NAV_ITEMS = [
 ] as const;
 
 /**
- * Breadcrumb Titles
+ * Breadcrumb title mapping for navigation paths.
+ *
+ * Maps route paths to human-readable titles for breadcrumb navigation.
+ * Used to generate breadcrumb trails showing the user's current location
+ * in the application hierarchy.
+ *
+ * @constant
+ * @type {Record<string, string>}
+ *
+ * @example
+ * ```typescript
+ * import { BREADCRUMB_TITLES } from '@/constants/routes';
+ *
+ * const title = BREADCRUMB_TITLES[currentPath];
+ * <Breadcrumb>{title}</Breadcrumb>
+ * ```
  */
 export const BREADCRUMB_TITLES: Record<string, string> = {
   [PROTECTED_ROUTES.DASHBOARD]: 'Dashboard',

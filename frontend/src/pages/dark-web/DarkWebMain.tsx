@@ -1,7 +1,12 @@
 /**
- * @fileoverview Dark Web main page. Primary landing page for the Dark Web module.
- * 
- * @module pages/dark-web/DarkWebMain.tsx
+ * @fileoverview Dark Web main dashboard component for monitoring dark web threats.
+ *
+ * This component serves as the primary interface for the dark web monitoring module,
+ * providing comprehensive visibility into credential leaks, data breaches, brand mentions,
+ * and other threats discovered on dark web sources. Features include real-time statistics,
+ * tabbed views, search/filter capabilities, and management of monitoring keywords.
+ *
+ * @module pages/dark-web/DarkWebMain
  */
 
 import { useEffect, useState } from 'react';
@@ -50,12 +55,36 @@ import {
   type MonitoringKeyword,
 } from '@/services/darkWebService';
 
+/**
+ * Props interface for the TabPanel component.
+ *
+ * @interface TabPanelProps
+ * @property {React.ReactNode} [children] - Content to display when the tab is active
+ * @property {number} index - Zero-based index identifying this specific tab panel
+ * @property {number} value - Currently selected tab index from parent state
+ */
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
 
+/**
+ * Tab panel component for conditionally rendering tab content.
+ *
+ * Displays its children only when the tab is active (value === index), following
+ * Material-UI tabs accessibility patterns with proper ARIA attributes.
+ *
+ * @param {TabPanelProps} props - Component props
+ * @returns {JSX.Element} The tab panel with conditional content rendering
+ *
+ * @example
+ * ```tsx
+ * <TabPanel value={tabValue} index={0}>
+ *   <FindingsTable findings={findings} />
+ * </TabPanel>
+ * ```
+ */
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
   return (
@@ -65,6 +94,49 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
+/**
+ * Dark Web main dashboard component.
+ *
+ * Provides a comprehensive interface for monitoring dark web threats with three main views:
+ * 1. Findings - All dark web discoveries including credential leaks, brand mentions, data breaches
+ * 2. Credential Leaks - Specific view of compromised credentials with validation status
+ * 3. Keywords - Management of monitoring keywords and their configuration
+ *
+ * Features real-time statistics dashboard, search/filter capabilities, and dialogs for
+ * managing keywords and viewing finding details. Implements graceful fallback to mock data
+ * when the backend service is unavailable.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The rendered dark web monitoring dashboard
+ *
+ * @remarks
+ * Component manages multiple state slices:
+ * - Loading and error states for API operations
+ * - Collections: findings, credential leaks, keywords
+ * - Statistics aggregated from findings
+ * - UI state: active tab, search term, dialog visibility
+ * - Selected finding for detail dialog
+ *
+ * Data is fetched on component mount and can be refreshed via the Refresh button.
+ * Falls back to mock data if the dark web service is unavailable.
+ *
+ * @security
+ * - All displayed content from dark web sources should be treated as potentially malicious
+ * - URLs from findings should not be directly clickable to prevent accidental navigation
+ * - Credential leak emails should be partially masked in the UI
+ * - Access to this component should be restricted to authorized security personnel
+ * - Audit all views of critical findings for compliance
+ *
+ * @example
+ * ```tsx
+ * // Used in routing configuration
+ * <Route path="/dark-web" element={<DarkWebMain />} />
+ * ```
+ *
+ * @see {@link darkWebService} for API integration
+ * @see {@link DarkWebMonitoring} for the monitoring-specific view
+ */
 export default function DarkWebMain() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -89,6 +161,33 @@ export default function DarkWebMain() {
     fetchData();
   }, []);
 
+  /**
+   * Fetches all dark web monitoring data from the backend service.
+   *
+   * Loads statistics, findings, credential leaks, and keywords in parallel. Implements
+   * graceful error handling with fallback to mock data if the service is unavailable.
+   * Updates all relevant state with the fetched data or mock data on error.
+   *
+   * @async
+   * @returns {Promise<void>}
+   *
+   * @throws {Error} Logs error to console but does not propagate - shows mock data instead
+   *
+   * @remarks
+   * Data loading sequence:
+   * 1. Set loading state and clear errors
+   * 2. Fetch statistics summary
+   * 3. Fetch recent findings (limited to 20)
+   * 4. Fetch credential leaks (limited to 10)
+   * 5. Fetch active monitoring keywords
+   * 6. On error, populate with representative mock data
+   *
+   * The mock data includes:
+   * - Realistic statistics for 127 findings
+   * - 3 sample findings with various types and severities
+   * - 1 sample credential leak
+   * - 2 sample monitoring keywords
+   */
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -212,15 +311,50 @@ export default function DarkWebMain() {
     }
   };
 
+  /**
+   * Handles tab selection change in the dashboard.
+   *
+   * Updates the active tab index to switch between Findings, Credential Leaks,
+   * and Keywords views. The event parameter is prefixed with underscore as it's
+   * not used in the implementation.
+   *
+   * @param {React.SyntheticEvent} _event - The tab change event (unused)
+   * @param {number} newValue - Zero-based index of the newly selected tab
+   * @returns {void}
+   */
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
 
+  /**
+   * Opens the finding details dialog for a specific finding.
+   *
+   * Sets the selected finding and opens the modal dialog to display comprehensive
+   * information about the finding including its content, metadata, and actions.
+   *
+   * @param {DarkWebFinding} finding - The finding to display in detail view
+   * @returns {void}
+   */
   const handleViewFinding = (finding: DarkWebFinding) => {
     setSelectedFinding(finding);
     setOpenFindingDialog(true);
   };
 
+  /**
+   * Maps finding severity levels to Material-UI color variants.
+   *
+   * Determines the appropriate color scheme for displaying severity chips,
+   * badges, and indicators throughout the UI. Uses semantic colors that align
+   * with standard security severity conventions.
+   *
+   * @param {string} severity - The severity level (critical, high, medium, low)
+   * @returns {'error' | 'warning' | 'info' | 'success' | 'default'} Material-UI color variant
+   *
+   * @example
+   * ```tsx
+   * <Chip color={getSeverityColor(finding.severity)} label={finding.severity} />
+   * ```
+   */
   const getSeverityColor = (severity: string) => {
     switch (severity) {
       case 'critical':
@@ -236,6 +370,24 @@ export default function DarkWebMain() {
     }
   };
 
+  /**
+   * Returns the appropriate icon component for a finding type.
+   *
+   * Maps finding type to a visually appropriate Material-UI icon to help users
+   * quickly identify the nature of the threat. Each type has a semantic icon
+   * that represents its security significance.
+   *
+   * @param {string} type - The finding type (credential-leak, data-breach, etc.)
+   * @returns {JSX.Element} Material-UI icon component
+   *
+   * @example
+   * ```tsx
+   * <Box sx={{ display: 'flex', alignItems: 'center' }}>
+   *   {getTypeIcon(finding.type)}
+   *   <Typography>{finding.type}</Typography>
+   * </Box>
+   * ```
+   */
   const getTypeIcon = (type: string) => {
     switch (type) {
       case 'credential-leak':
@@ -247,6 +399,14 @@ export default function DarkWebMain() {
     }
   };
 
+  /**
+   * Filtered findings based on the current search term.
+   *
+   * Performs case-insensitive search across finding titles and descriptions.
+   * Updates reactively when searchTerm or findings array changes.
+   *
+   * @type {DarkWebFinding[]}
+   */
   const filteredFindings = findings.filter(
     (finding) =>
       finding.title.toLowerCase().includes(searchTerm.toLowerCase()) ||

@@ -1,7 +1,21 @@
 /**
- * @fileoverview Risk Assessment - RiskAssessment component. Component for Risk Assessment feature.
- * 
- * @module pages/risk-assessment/RiskAssessment.tsx
+ * @fileoverview Risk Assessment Dashboard component.
+ *
+ * Displays comprehensive risk assessment analytics and scoring for organizational assets.
+ * Features include:
+ * - Risk metrics visualization with linear progress indicators
+ * - Overall risk score, threat level, vulnerability exposure, and security posture
+ * - High-risk assets cards showing threat and vulnerability counts
+ * - Risk distribution and trend charts (placeholders for future Recharts integration)
+ * - Real-time API integration for fetching risk scores and assessments
+ *
+ * Risk Scoring Algorithm:
+ * - Overall Risk Score: Calculated from combined threat and vulnerability data
+ * - Threat Level: Measures active threats targeting assets
+ * - Vulnerability Exposure: Quantifies known vulnerabilities
+ * - Security Posture: Inverse metric showing defensive capabilities (10 - riskScore)
+ *
+ * @module pages/risk-assessment/RiskAssessment
  */
 
 import { useEffect, useState } from 'react';
@@ -19,6 +33,34 @@ import {
 import { TrendingUp, Warning, Security } from '@mui/icons-material';
 import { riskService } from '@/services/riskService';
 
+/**
+ * Risk Assessment Dashboard component.
+ *
+ * Displays risk metrics, high-risk assets, and trends for security risk management.
+ * Fetches risk data from the API and provides fallback to mock data on failure.
+ *
+ * Features:
+ * - Real-time risk metrics with color-coded linear progress bars
+ * - High-risk asset cards with threat and vulnerability counts
+ * - Risk distribution and trend visualizations
+ * - API integration with graceful error handling
+ *
+ * State Management:
+ * - Uses local component state for risk metrics and UI state
+ * - Fetches data via riskService.getRiskScores() on component mount
+ *
+ * @component
+ * @returns {JSX.Element} The rendered risk assessment dashboard
+ *
+ * @example
+ * ```tsx
+ * import RiskAssessment from './RiskAssessment';
+ *
+ * function App() {
+ *   return <RiskAssessment />;
+ * }
+ * ```
+ */
 export default function RiskAssessment() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

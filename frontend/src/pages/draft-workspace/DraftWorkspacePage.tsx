@@ -1,9 +1,11 @@
 /**
- * @fileoverview Draft Workspace page component.
- * 
- * Displays user drafts with filtering, autosave management,
- * and version control.
- * 
+ * @fileoverview Draft Workspace page component for managing work-in-progress items.
+ *
+ * This component provides a centralized interface for viewing and managing draft
+ * items across all modules in the application. Supports filtering, version control,
+ * and status tracking for incomplete work items including incidents, vulnerabilities,
+ * reports, and other security entities.
+ *
  * @module pages/draft-workspace/DraftWorkspacePage
  */
 
@@ -34,14 +36,63 @@ import { draftWorkspaceService, type Draft, DraftStatus } from '@/services/draft
 
 /**
  * Draft Workspace page component.
- * 
+ *
+ * Provides a unified interface for managing draft items from across the application.
+ * Users can view all their work-in-progress items, filter by entity type and status,
+ * and take action on drafts such as resuming work, discarding, or submitting.
+ *
  * @component
+ *
+ * @returns {JSX.Element} The rendered draft workspace page with draft listing
+ *
+ * @remarks
+ * Component state management:
+ * - `drafts` - Array of all draft items for the current user
+ * - `loading` - Loading state during async operations
+ * - `error` - Error message if draft loading fails
+ *
+ * Features:
+ * - Table view of all drafts with key metadata
+ * - Status badges with semantic colors
+ * - Version number display
+ * - Last modified timestamps
+ * - Refresh functionality to reload drafts
+ * - Empty state when no drafts exist
+ *
+ * Draft entity types supported:
+ * - Incidents
+ * - Vulnerabilities
+ * - Threat Intelligence
+ * - Reports
+ * - Risk Assessments
+ * - And other security entities
+ *
+ * @example
+ * ```tsx
+ * // Used in routing configuration
+ * <Route path="/draft-workspace" element={<DraftWorkspacePage />} />
+ * ```
+ *
+ * @see {@link draftWorkspaceService} for API integration
+ * @see {@link Draft} for the draft data model
+ * @see {@link DraftStatus} for available status values
  */
 export default function DraftWorkspacePage() {
   const [drafts, setDrafts] = useState<Draft[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  /**
+   * Loads all drafts for the current user from the backend.
+   *
+   * Fetches draft items via the draft workspace service and updates component state
+   * with the results. Handles loading and error states appropriately.
+   *
+   * @async
+   * @returns {Promise<void>}
+   *
+   * @throws {Error} Logs error to console and displays user-friendly error message
+   */
   const loadDrafts = async () => {
     try {
       setLoading(true);
@@ -60,6 +111,23 @@ export default function DraftWorkspacePage() {
     loadDrafts();
   }, []);
 
+  /**
+   * Maps draft status to Material-UI color variants.
+   *
+   * Determines the appropriate color scheme for status chips based on the
+   * draft's current state. Uses semantic colors that convey status meaning.
+   *
+   * @param {DraftStatus} status - The draft status to map
+   * @returns {'info' | 'success' | 'primary' | 'error' | 'default'} Material-UI color variant
+   *
+   * @example
+   * ```tsx
+   * <Chip
+   *   label={draft.status}
+   *   color={getStatusColor(draft.status)}
+   * />
+   * ```
+   */
   const getStatusColor = (status: DraftStatus) => {
     switch (status) {
       case DraftStatus.ACTIVE:

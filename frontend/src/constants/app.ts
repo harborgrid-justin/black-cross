@@ -1,14 +1,44 @@
 /**
- * @fileoverview Application Constants
- * 
- * Centralized application-wide constants including app metadata, storage keys,
- * timeouts, pagination settings, colors, and validation rules.
- * 
+ * @fileoverview Application-wide constants and configuration for Black-Cross.
+ *
+ * Provides centralized constant definitions for:
+ * - Application metadata and branding
+ * - Storage keys for browser storage (localStorage, sessionStorage, cookies)
+ * - Timeout and delay configurations
+ * - Pagination defaults
+ * - Date and time formatting
+ * - UI colors and themes
+ * - Severity and priority levels
+ * - User roles and permissions
+ * - File upload limits
+ * - Validation rules
+ * - Animation durations
+ * - Z-index layer management
+ *
+ * All constants use `as const` assertion for strict type safety and
+ * to prevent accidental modifications.
+ *
  * @module constants/app
+ *
+ * @example
+ * ```typescript
+ * import { APP, STORAGE_KEYS, PAGINATION } from '@/constants/app';
+ *
+ * console.log(APP.NAME); // 'Black-Cross'
+ * localStorage.setItem(STORAGE_KEYS.TOKEN, token);
+ * const pageSize = PAGINATION.DEFAULT_PAGE_SIZE; // 20
+ * ```
  */
 
 /**
- * Application Metadata
+ * Application metadata and branding information.
+ *
+ * @constant
+ * @type {Object}
+ * @property {string} NAME - Application name
+ * @property {string} TITLE - Full application title
+ * @property {string} VERSION - Current version number (SemVer)
+ * @property {string} DESCRIPTION - Application description
  */
 export const APP = {
   NAME: 'Black-Cross',
@@ -18,7 +48,26 @@ export const APP = {
 } as const;
 
 /**
- * Local Storage Keys
+ * LocalStorage keys for persisting application state.
+ *
+ * @constant
+ * @type {Object}
+ * @property {string} TOKEN - JWT authentication token
+ * @property {string} USER - Serialized user object
+ * @property {string} THEME - Selected UI theme (light/dark)
+ * @property {string} LANGUAGE - Selected language code
+ * @property {string} SIDEBAR_STATE - Sidebar collapsed/expanded state
+ * @property {string} RECENT_SEARCHES - Array of recent search queries
+ * @property {string} PREFERENCES - User preferences object
+ * @property {string} DASHBOARD_LAYOUT - Dashboard widget layout configuration
+ *
+ * @example
+ * ```typescript
+ * import { STORAGE_KEYS } from '@/constants/app';
+ *
+ * localStorage.setItem(STORAGE_KEYS.TOKEN, authToken);
+ * const user = JSON.parse(localStorage.getItem(STORAGE_KEYS.USER));
+ * ```
  */
 export const STORAGE_KEYS = {
   TOKEN: 'token',
@@ -32,7 +81,21 @@ export const STORAGE_KEYS = {
 } as const;
 
 /**
- * Session Storage Keys
+ * SessionStorage keys for temporary data that persists across page reloads
+ * but is cleared when the browser tab is closed.
+ *
+ * @constant
+ * @type {Object}
+ * @property {string} REDIRECT_URL - URL to redirect to after authentication
+ * @property {string} TEMP_DATA - Temporary application data
+ * @property {string} FORM_STATE - In-progress form data for recovery
+ *
+ * @example
+ * ```typescript
+ * import { SESSION_KEYS } from '@/constants/app';
+ *
+ * sessionStorage.setItem(SESSION_KEYS.REDIRECT_URL, location.pathname);
+ * ```
  */
 export const SESSION_KEYS = {
   REDIRECT_URL: 'redirectUrl',
@@ -41,7 +104,13 @@ export const SESSION_KEYS = {
 } as const;
 
 /**
- * Cookie Names
+ * Cookie names for HTTP cookies.
+ *
+ * @constant
+ * @type {Object}
+ * @property {string} SESSION_ID - Session identifier cookie
+ * @property {string} CSRF_TOKEN - CSRF protection token
+ * @property {string} REMEMBER_ME - Remember me preference
  */
 export const COOKIE_NAMES = {
   SESSION_ID: 'sessionId',
@@ -212,7 +281,26 @@ export const FILE_UPLOAD = {
 } as const;
 
 /**
- * Validation Rules
+ * Form validation rules and constraints.
+ *
+ * @constant
+ * @type {Object}
+ * @property {number} PASSWORD_MIN_LENGTH - Minimum password length (8 characters)
+ * @property {number} PASSWORD_MAX_LENGTH - Maximum password length (128 characters)
+ * @property {number} USERNAME_MIN_LENGTH - Minimum username length (3 characters)
+ * @property {number} USERNAME_MAX_LENGTH - Maximum username length (50 characters)
+ * @property {number} EMAIL_MAX_LENGTH - Maximum email length (255 characters)
+ * @property {number} SEARCH_MIN_LENGTH - Minimum search query length (2 characters)
+ * @property {number} SEARCH_MAX_LENGTH - Maximum search query length (100 characters)
+ *
+ * @example
+ * ```typescript
+ * import { VALIDATION } from '@/constants/app';
+ *
+ * if (password.length < VALIDATION.PASSWORD_MIN_LENGTH) {
+ *   throw new Error('Password too short');
+ * }
+ * ```
  */
 export const VALIDATION = {
   PASSWORD_MIN_LENGTH: 8,

@@ -1,7 +1,17 @@
 /**
- * @fileoverview Reporting - ReportingAnalytics component. Component for Reporting feature.
- * 
- * @module pages/reporting/ReportingAnalytics.tsx
+ * @fileoverview Reporting Analytics Dashboard component.
+ *
+ * Provides comprehensive analytics and visualization for security reports including:
+ * - Executive summary metrics (total reports, scheduled reports, generation time)
+ * - Key Performance Indicators (KPIs) for security operations (MTTD, MTTR, detection rates)
+ * - Interactive charts (line, bar, pie) for threat trends and severity distribution
+ * - Saved reports table with download capabilities in multiple formats (PDF, CSV, JSON)
+ * - Time range and report type filtering
+ *
+ * The component uses Recharts for data visualization and Material-UI for the interface.
+ * Data is currently mocked but designed to integrate with the reportingService API.
+ *
+ * @module pages/reporting/ReportingAnalytics
  */
 
 import { useEffect, useState } from 'react';
@@ -38,6 +48,17 @@ import {
 } from '@mui/icons-material';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
+/**
+ * Represents a saved security report with scheduling and execution metadata.
+ *
+ * @interface Report
+ * @property {string} id - Unique identifier for the report
+ * @property {string} name - Human-readable report name
+ * @property {string} type - Report classification (Executive, Technical, Operational, Compliance)
+ * @property {string} schedule - Report generation frequency (Weekly, Daily, Monthly, Quarterly)
+ * @property {string} lastRun - ISO timestamp of last report execution
+ * @property {string} status - Current report status (completed, pending, failed)
+ */
 interface Report {
   id: string;
   name: string;
@@ -47,6 +68,38 @@ interface Report {
   status: string;
 }
 
+/**
+ * Reporting Analytics Dashboard component.
+ *
+ * Displays comprehensive reporting analytics including KPIs, charts, and saved reports.
+ * Provides filtering by report type and time range, with export capabilities in multiple formats.
+ *
+ * Features:
+ * - Real-time metrics dashboard with 4 summary cards
+ * - KPI tracking with trend indicators (MTTD, MTTR, detection rates, false positives)
+ * - Threat trends line chart showing weekly progression
+ * - Threat type distribution pie chart
+ * - Severity distribution bar chart
+ * - Saved reports table with download options
+ * - Report type filter (executive, technical, operational, compliance)
+ * - Time range filter (7d, 30d, 90d, 1y)
+ *
+ * State Management:
+ * - Uses local component state for UI interactions and data
+ * - Mock data provided for demonstration (ready for API integration)
+ *
+ * @component
+ * @returns {JSX.Element} The rendered analytics dashboard
+ *
+ * @example
+ * ```tsx
+ * import ReportingAnalytics from './ReportingAnalytics';
+ *
+ * function App() {
+ *   return <ReportingAnalytics />;
+ * }
+ * ```
+ */
 export default function ReportingAnalytics() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -147,14 +200,55 @@ export default function ReportingAnalytics() {
     fetchData();
   }, []);
 
+  /**
+   * Formats an ISO timestamp string to a localized date/time string.
+   *
+   * @param {string} timestamp - ISO 8601 timestamp string
+   * @returns {string} Localized date and time string
+   *
+   * @example
+   * ```ts
+   * formatTimestamp('2025-10-24T10:30:00.000Z');
+   * // Returns: "10/24/2025, 10:30:00 AM" (varies by locale)
+   * ```
+   */
   const formatTimestamp = (timestamp: string) => {
     return new Date(timestamp).toLocaleString();
   };
 
+  /**
+   * Returns an arrow icon character based on trend direction.
+   *
+   * @param {string} trend - Trend direction ('up' or 'down')
+   * @returns {string} Unicode arrow character (↑ or ↓)
+   *
+   * @example
+   * ```ts
+   * getTrendIcon('up');    // Returns: '↑'
+   * getTrendIcon('down');  // Returns: '↓'
+   * ```
+   */
   const getTrendIcon = (trend: string) => {
     return trend === 'up' ? '↑' : '↓';
   };
 
+  /**
+   * Determines the appropriate color for a metric trend based on metric type.
+   *
+   * For some metrics (time-based, false positives), downward trends are positive.
+   * For others (detection rates), upward trends are positive.
+   *
+   * @param {string} trend - Trend direction ('up' or 'down')
+   * @param {string} metricType - Type of metric (e.g., 'Mean Time to Detect', 'Detection Rate')
+   * @returns {string} Material-UI color token ('success.main' or 'error.main')
+   *
+   * @example
+   * ```ts
+   * getTrendColor('down', 'Mean Time to Detect (MTTD)');  // 'success.main' (down is good)
+   * getTrendColor('up', 'Threat Detection Rate');         // 'success.main' (up is good)
+   * getTrendColor('up', 'False Positive Rate');           // 'error.main' (up is bad)
+   * ```
+   */
   const getTrendColor = (trend: string, metricType: string) => {
     // For some metrics, down is good (like MTTD, MTTR, False Positive Rate)
     const downIsGood = metricType.includes('Time') || metricType.includes('False');

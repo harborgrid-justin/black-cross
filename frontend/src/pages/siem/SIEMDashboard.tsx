@@ -1,7 +1,21 @@
 /**
- * @fileoverview Siem - SIEMDashboard component. Component for Siem feature.
- * 
- * @module pages/siem/SIEMDashboard.tsx
+ * @fileoverview SIEM Dashboard component for Security Information and Event Management.
+ *
+ * Comprehensive SIEM dashboard displaying real-time security events, alerts, and monitoring data.
+ * Features include:
+ * - Real-time statistics (total events, active alerts, correlations, active rules)
+ * - Active security alerts table with severity indicators
+ * - Recent security events log with search functionality
+ * - Event correlation and rule-based alerting visualization
+ * - Severity-based color coding and iconography
+ *
+ * SIEM Integration:
+ * - Log aggregation from multiple sources (firewall, web-server, auth-system, IDS)
+ * - Event correlation for security pattern detection
+ * - Alert management with status tracking (active, investigating, resolved)
+ * - Real-time security event feed with filtering capabilities
+ *
+ * @module pages/siem/SIEMDashboard
  */
 
 import { useEffect, useState } from 'react';
@@ -32,6 +46,17 @@ import {
   Error as ErrorIcon,
 } from '@mui/icons-material';
 
+/**
+ * Represents a security log entry from various sources.
+ *
+ * @interface LogEntry
+ * @property {string} id - Unique log entry identifier
+ * @property {string} timestamp - ISO timestamp when event occurred
+ * @property {string} source - Source system (firewall, web-server, auth-system, ids)
+ * @property {string} severity - Event severity level (critical, high, medium, low)
+ * @property {string} event - Event type or classification
+ * @property {string} message - Detailed event message
+ */
 interface LogEntry {
   id: string;
   timestamp: string;
@@ -41,6 +66,17 @@ interface LogEntry {
   message: string;
 }
 
+/**
+ * Represents a correlated security alert from multiple events.
+ *
+ * @interface Alert
+ * @property {string} id - Unique alert identifier
+ * @property {string} title - Alert title/summary
+ * @property {string} severity - Alert severity (critical, high, medium, low)
+ * @property {string} status - Current alert status (active, investigating, resolved, false-positive)
+ * @property {string} timestamp - ISO timestamp when alert was triggered
+ * @property {number} count - Number of correlated events in this alert
+ */
 interface Alert {
   id: string;
   title: string;
@@ -50,6 +86,32 @@ interface Alert {
   count: number;
 }
 
+/**
+ * SIEM Dashboard component.
+ *
+ * Real-time security monitoring dashboard displaying events, alerts, and correlation data.
+ * Provides security analysts with comprehensive visibility into security events across
+ * all monitored systems and infrastructure.
+ *
+ * Features:
+ * - Real-time event statistics with metric cards
+ * - Active alerts table with severity indicators and status
+ * - Security event log with search and filtering
+ * - Severity-based color coding for quick visual assessment
+ * - Mock data with graceful API integration support
+ *
+ * @component
+ * @returns {JSX.Element} The rendered SIEM dashboard
+ *
+ * @example
+ * ```tsx
+ * import SIEMDashboard from './SIEMDashboard';
+ *
+ * function App() {
+ *   return <SIEMDashboard />;
+ * }
+ * ```
+ */
 export default function SIEMDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -142,6 +204,20 @@ export default function SIEMDashboard() {
     fetchData();
   }, []);
 
+  /**
+   * Maps severity level to Material-UI color token for consistent visual representation.
+   *
+   * @param {string} severity - Severity level (critical, high, medium, low)
+   * @returns {'error'|'warning'|'info'|'success'|'default'} Material-UI color token
+   *
+   * @example
+   * ```ts
+   * getSeverityColor('critical');  // 'error' (red)
+   * getSeverityColor('high');      // 'warning' (orange)
+   * getSeverityColor('medium');    // 'info' (blue)
+   * getSeverityColor('low');       // 'success' (green)
+   * ```
+   */
   const getSeverityColor = (severity: string): 'error' | 'warning' | 'info' | 'success' | 'default' => {
     switch (severity) {
       case 'critical':
@@ -157,6 +233,18 @@ export default function SIEMDashboard() {
     }
   };
 
+  /**
+   * Returns the appropriate icon component for a given severity level.
+   *
+   * @param {string} severity - Severity level
+   * @returns {JSX.Element} Material-UI icon component
+   *
+   * @example
+   * ```tsx
+   * getSeverityIcon('critical');  // <ErrorIcon />
+   * getSeverityIcon('high');      // <WarningIcon />
+   * ```
+   */
   const getSeverityIcon = (severity: string) => {
     switch (severity) {
       case 'critical':
@@ -172,6 +260,18 @@ export default function SIEMDashboard() {
     }
   };
 
+  /**
+   * Formats an ISO timestamp string to a localized date/time string.
+   *
+   * @param {string} timestamp - ISO 8601 timestamp string
+   * @returns {string} Localized date and time string
+   *
+   * @example
+   * ```ts
+   * formatTimestamp('2025-10-24T10:30:00.000Z');
+   * // Returns: "10/24/2025, 10:30:00 AM" (varies by locale)
+   * ```
+   */
   const formatTimestamp = (timestamp: string) => {
     return new Date(timestamp).toLocaleString();
   };

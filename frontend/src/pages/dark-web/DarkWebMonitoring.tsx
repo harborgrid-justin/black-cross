@@ -1,7 +1,12 @@
 /**
- * @fileoverview Dark Web - DarkWebMonitoring component. Component for Dark Web feature.
- * 
- * @module pages/dark-web/DarkWebMonitoring.tsx
+ * @fileoverview Dark Web monitoring component for active threat surveillance.
+ *
+ * This component provides a focused monitoring view for dark web threats, featuring
+ * real-time statistics, tabbed interfaces for findings/leaks/keywords, and management
+ * capabilities. It mirrors the functionality of DarkWebMain with emphasis on active
+ * monitoring and alerting.
+ *
+ * @module pages/dark-web/DarkWebMonitoring
  */
 
 import { useEffect, useState } from 'react';
@@ -50,12 +55,26 @@ import {
   type MonitoringKeyword,
 } from '@/services/darkWebService';
 
+/**
+ * Props interface for the TabPanel component.
+ *
+ * @interface TabPanelProps
+ * @property {React.ReactNode} [children] - Content to display when the tab is active
+ * @property {number} index - Zero-based index identifying this specific tab panel
+ * @property {number} value - Currently selected tab index from parent state
+ */
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
 
+/**
+ * Tab panel component for conditionally rendering tab content.
+ *
+ * @param {TabPanelProps} props - Component props
+ * @returns {JSX.Element} The tab panel with conditional content rendering
+ */
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
   return (
@@ -65,6 +84,42 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
+/**
+ * Dark Web monitoring component for active threat surveillance.
+ *
+ * Provides real-time monitoring interface for dark web threats with comprehensive
+ * statistics, searchable findings tables, credential leak tracking, and keyword
+ * management. This component focuses on active monitoring workflows with emphasis
+ * on alerting and rapid triage.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The rendered dark web monitoring interface
+ *
+ * @remarks
+ * This component is functionally similar to DarkWebMain but may be customized for
+ * specific monitoring workflows. It maintains the same three-tab structure:
+ * - Findings tab with search and filtering
+ * - Credential Leaks tab with validation tracking
+ * - Keywords tab for monitoring configuration
+ *
+ * Implements graceful degradation with mock data fallback when services are unavailable.
+ *
+ * @security
+ * - All dark web content should be treated as potentially malicious
+ * - Implement proper access controls for viewing sensitive findings
+ * - Audit all interactions with critical findings
+ * - Sanitize and escape all displayed content from dark web sources
+ *
+ * @example
+ * ```tsx
+ * // Used in routing or as embedded monitoring widget
+ * <DarkWebMonitoring />
+ * ```
+ *
+ * @see {@link DarkWebMain} for the main dashboard view
+ * @see {@link darkWebService} for API integration
+ */
 export default function DarkWebMonitoring() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

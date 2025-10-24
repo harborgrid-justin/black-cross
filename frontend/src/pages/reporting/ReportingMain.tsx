@@ -1,7 +1,19 @@
 /**
- * @fileoverview Reporting main page. Primary landing page for the Reporting module.
- * 
- * @module pages/reporting/ReportingMain.tsx
+ * @fileoverview Reporting Main Dashboard page component.
+ *
+ * Primary landing page for the Reporting module, displaying comprehensive analytics
+ * and report management interface. This is essentially the same as ReportingAnalytics
+ * but serves as the default route for the /reporting path.
+ *
+ * Features:
+ * - Real-time statistics cards (total reports, scheduled reports, monthly reports, avg generation time)
+ * - Key Performance Indicators with trend visualization
+ * - Interactive charts (line chart for trends, pie chart for distribution, bar chart for severity)
+ * - Saved reports table with filtering and export options
+ * - Report type and time range filtering
+ *
+ * @module pages/reporting/ReportingMain
+ * @see {@link ReportingAnalytics} for detailed analytics component
  */
 
 import { useEffect, useState } from 'react';
@@ -38,6 +50,17 @@ import {
 } from '@mui/icons-material';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
+/**
+ * Represents a saved report with scheduling metadata.
+ *
+ * @interface Report
+ * @property {string} id - Unique report identifier
+ * @property {string} name - Human-readable report name
+ * @property {string} type - Report classification
+ * @property {string} schedule - Report generation frequency
+ * @property {string} lastRun - ISO timestamp of last execution
+ * @property {string} status - Current report status
+ */
 interface Report {
   id: string;
   name: string;
@@ -47,6 +70,23 @@ interface Report {
   status: string;
 }
 
+/**
+ * Reporting Main Dashboard component.
+ *
+ * Displays the primary reporting interface with analytics, charts, and report management.
+ * Provides comprehensive reporting dashboard with KPIs, charts, and saved reports table.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered reporting main dashboard
+ *
+ * @example
+ * ```tsx
+ * import ReportingMain from './ReportingMain';
+ *
+ * // Rendered via React Router at /reporting
+ * <Route path="/reporting" element={<ReportingMain />} />
+ * ```
+ */
 export default function ReportingMain() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

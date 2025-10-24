@@ -1,7 +1,18 @@
 /**
- * @fileoverview Siem main page. Primary landing page for the Siem module.
- * 
- * @module pages/siem/SiemMain.tsx
+ * @fileoverview SIEM Main Dashboard page component.
+ *
+ * Primary landing page for the SIEM module serving as the default route for /siem.
+ * Displays the same comprehensive security monitoring interface as SIEMDashboard.
+ *
+ * Features:
+ * - Real-time security event monitoring
+ * - Active alert management and tracking
+ * - Event correlation and pattern detection
+ * - Multi-source log aggregation
+ * - Search and filter capabilities for security events
+ *
+ * @module pages/siem/SiemMain
+ * @see {@link SIEMDashboard} for the base dashboard component
  */
 
 import { useEffect, useState } from 'react';
@@ -32,6 +43,11 @@ import {
   Error as ErrorIcon,
 } from '@mui/icons-material';
 
+/**
+ * Represents a security log entry.
+ * @interface LogEntry
+ * @see SIEMDashboard for full interface documentation
+ */
 interface LogEntry {
   id: string;
   timestamp: string;
@@ -41,6 +57,11 @@ interface LogEntry {
   message: string;
 }
 
+/**
+ * Represents a security alert.
+ * @interface Alert
+ * @see SIEMDashboard for full interface documentation
+ */
 interface Alert {
   id: string;
   title: string;
@@ -50,6 +71,23 @@ interface Alert {
   count: number;
 }
 
+/**
+ * SIEM Main Dashboard component.
+ *
+ * Primary SIEM monitoring interface with real-time event and alert visualization.
+ * Provides comprehensive security operations center (SOC) dashboard functionality.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered SIEM main dashboard
+ *
+ * @example
+ * ```tsx
+ * import SiemMain from './SiemMain';
+ *
+ * // Rendered via React Router at /siem
+ * <Route path="/siem" element={<SiemMain />} />
+ * ```
+ */
 export default function SiemMain() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

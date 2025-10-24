@@ -9,6 +9,41 @@ import { Box, Typography, Alert, Grid, Paper, CircularProgress } from '@mui/mate
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchDashboardStats } from '@/store/slices/dashboardSlice';
 
+/**
+ * SimpleDashboard page component providing a streamlined view of key security metrics.
+ *
+ * A lightweight alternative to the full Dashboard component, focusing on essential
+ * statistics without additional visualizations. Integrated with Redux for state
+ * management and fetches data via dashboard slice thunks.
+ *
+ * **Features:**
+ * - Displays 4 core metrics: active threats, open incidents, vulnerabilities, risk score
+ * - Redux-managed state with automatic data fetching
+ * - Loading and error state handling
+ * - Material-UI Grid layout with responsive design
+ *
+ * **State Management:**
+ * - Uses Redux store via useAppSelector for data access
+ * - Dispatches fetchDashboardStats thunk on mount
+ * - No local state (fully Redux-driven)
+ *
+ * **Data Flow:**
+ * 1. Component mounts → dispatch fetchDashboardStats()
+ * 2. Redux slice handles API call and state updates
+ * 3. Component renders stats from Redux store
+ *
+ * @component
+ * @returns {JSX.Element} Rendered simplified dashboard page
+ *
+ * @example
+ * ```tsx
+ * import SimpleDashboard from './pages/SimpleDashboard';
+ *
+ * function App() {
+ *   return <SimpleDashboard />;
+ * }
+ * ```
+ */
 export default function SimpleDashboard() {
   const dispatch = useAppDispatch();
   const { stats, loading, error } = useAppSelector((state) => state.dashboard);
