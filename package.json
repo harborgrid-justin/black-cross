@@ -7,37 +7,56 @@
     "frontend",
     "backend"
   ],
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=9.0.0"
+  },
   "scripts": {
-    "setup": "node setup.ts",
-    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "dev:backend": "cd backend && npm run dev",
-    "dev:frontend": "cd frontend && npm run dev",
+    "setup": "tsx setup.ts",
+    "dev": "concurrently --names \"BACKEND,FRONTEND\" --prefix-colors \"blue,green\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "npm run dev --workspace=backend",
+    "dev:frontend": "npm run dev --workspace=frontend",
     "start": "npm run start:backend",
-    "start:backend": "cd backend && npm start",
-    "start:frontend": "cd frontend && npm start",
+    "start:backend": "npm run start --workspace=backend",
+    "start:frontend": "npm run start --workspace=frontend",
     "build": "npm run build:backend && npm run build:frontend",
-    "build:backend": "cd backend && npm run build",
-    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "npm run build --workspace=backend",
+    "build:frontend": "npm run build --workspace=frontend",
     "test": "npm run test:backend && npm run test:frontend",
-    "test:backend": "cd backend && npm test",
-    "test:frontend": "cd frontend && npm test",
-    "test:e2e": "cd frontend && npm run test:e2e",
-    "cypress": "cd frontend && npm run cypress",
-    "cypress:headless": "cd frontend && npm run cypress:headless",
+    "test:backend": "npm run test --workspace=backend",
+    "test:frontend": "npm run test --workspace=frontend",
+    "test:e2e": "npm run test:e2e --workspace=frontend",
+    "cypress": "npm run cypress --workspace=frontend",
+    "cypress:headless": "npm run cypress:headless --workspace=frontend",
     "screenshots": "playwright test --config=playwright-ui.config.ts",
     "screenshots:headed": "playwright test --config=playwright-ui.config.ts --headed",
-    "capture-screenshots": "ts-node scripts/capture-screenshots.ts",
+    "capture-screenshots": "tsx scripts/capture-screenshots.ts",
     "lint": "npm run lint:backend && npm run lint:frontend",
-    "lint:backend": "cd backend && npm run lint",
-    "lint:frontend": "cd frontend && npm run lint",
-    "db:sync": "cd backend && npm run db:sync",
+    "lint:backend": "npm run lint --workspace=backend",
+    "lint:frontend": "npm run lint --workspace=frontend",
+    "lint:fix": "npm run lint:fix --workspace=backend && npm run lint:fix --workspace=frontend",
+    "type-check": "npm run type-check --workspace=backend && npm run type-check --workspace=frontend",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "db:sync": "npm run db:sync --workspace=backend",
+    "db:seed": "npm run db:seed --workspace=backend",
+    "db:drop": "npm run db:drop --workspace=backend",
+    "create-admin": "npm run create-admin --workspace=backend",
     "docker:build": "docker-compose build",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
-    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
-    "clean": "rm -rf node_modules backend/node_modules frontend/node_modules",
-    "verify": "node verify-setup.ts",
-    "verify:structure": "bash verify-structure.sh"
+    "docker:logs": "docker-compose logs -f",
+    "docker:restart": "docker-compose restart",
+    "docker:clean": "docker-compose down -v --remove-orphans",
+    "install:all": "npm install && npm install --workspaces",
+    "clean": "rm -rf node_modules backend/node_modules frontend/node_modules backend/dist frontend/dist",
+    "clean:build": "npm run clean && npm install && npm run build",
+    "verify": "tsx verify-setup.ts",
+    "verify:structure": "bash verify-structure.sh",
+    "security:audit": "npm audit --workspaces",
+    "security:fix": "npm audit fix --workspaces",
+    "validate": "npm run lint && npm run type-check && npm run test",
+    "postinstall": "npm run setup --if-present"
   },
   "keywords": [
     "threat-intelligence",
@@ -46,22 +65,36 @@
     "soar",
     "incident-response",
     "vulnerability-management",
-    "security-operations"
+    "security-operations",
+    "enterprise-security",
+    "threat-hunting",
+    "ioc-management",
+    "threat-actors",
+    "malware-analysis",
+    "dark-web-monitoring",
+    "compliance-management",
+    "security-automation"
   ],
   "author": "Black-Cross Team",
   "license": "MIT",
-  "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=7.0.0"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/harborgrid-justin/black-cross.git"
   },
+  "bugs": {
+    "url": "https://github.com/harborgrid-justin/black-cross/issues"
+  },
   "homepage": "https://github.com/harborgrid-justin/black-cross#readme",
   "devDependencies": {
-    "@playwright/test": "^1.56.1",
+    "@playwright/test": "^1.49.1",
+    "@types/node": "^22.10.5",
     "concurrently": "^9.2.1",
-    "playwright": "^1.56.1"
+    "playwright": "^1.49.1",
+    "prettier": "^3.4.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.3"
   }
 }

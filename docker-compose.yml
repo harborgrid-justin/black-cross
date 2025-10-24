@@ -13,24 +13,40 @@ services:
       - NODE_ENV=production
       - DATABASE_URL=postgresql://blackcross:blackcross_secure_password@postgres:5432/blackcross?schema=public
       - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=blackcross
+      - POSTGRES_PASSWORD=blackcross_secure_password
+      - POSTGRES_DB=blackcross
       - MONGODB_URI=mongodb://mongodb:27017/blackcross
       - REDIS_URL=redis://redis:6379
       - ELASTICSEARCH_URL=http://elasticsearch:9200
       - RABBITMQ_URL=amqp://rabbitmq:5672
+      - JWT_SECRET=change_this_in_production_to_secure_random_string
+      - JWT_EXPIRATION=24h
     depends_on:
-      - postgres
-      - mongodb
-      - redis
-      - elasticsearch
-      - rabbitmq
+      postgres:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
+      redis:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     volumes:
       - ./backend:/app
-      - ./prisma:/app/prisma
       - ./logs:/app/logs
       - /app/node_modules
     networks:
       - blackcross-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:8080/health', (res) => process.exit(res.statusCode === 200 ? 0 : 1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   # Frontend
   frontend:
@@ -42,6 +58,7 @@ services:
       - "3000:3000"
     environment:
       - VITE_API_URL=http://localhost:8080/api/v1
+      - VITE_WS_URL=ws://localhost:8080
     depends_on:
       - backend
     volumes:
@@ -50,40 +67,79 @@ services:
     networks:
       - blackcross-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
 
-  # PostgreSQL Database
+  # PostgreSQL Database (Required - Primary Database)
   postgres:
-    image: postgres:15-alpine
+    image: postgres:17-alpine
     container_name: blackcross-postgres
     environment:
       - POSTGRES_DB=blackcross
       - POSTGRES_USER=blackcross
       - POSTGRES_PASSWORD=blackcross_secure_password
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+      - PGDATA=/var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - ./backend/scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
       - blackcross-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U blackcross -d blackcross"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    command: >
+      postgres
+      -c max_connections=200
+      -c shared_buffers=256MB
+      -c effective_cache_size=1GB
+      -c maintenance_work_mem=64MB
+      -c checkpoint_completion_target=0.9
+      -c wal_buffers=16MB
+      -c default_statistics_target=100
+      -c random_page_cost=1.1
+      -c effective_io_concurrency=200
+      -c work_mem=2621kB
+      -c min_wal_size=1GB
+      -c max_wal_size=4GB
 
-  # MongoDB
+  # MongoDB (Optional - Unstructured Data & Logs)
   mongodb:
-    image: mongo:6
+    image: mongo:8
     container_name: blackcross-mongodb
     environment:
       - MONGO_INITDB_DATABASE=blackcross
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=blackcross_mongo_password
     ports:
       - "27017:27017"
     volumes:
       - mongodb-data:/data/db
+      - mongodb-config:/data/configdb
     networks:
       - blackcross-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    command: ["--wiredTigerCacheSizeGB", "1.5"]
 
-  # Redis Cache
+  # Redis Cache (Optional - Caching & Session Management)
   redis:
-    image: redis:7-alpine
+    image: redis:7.4-alpine
     container_name: blackcross-redis
     ports:
       - "6379:6379"
@@ -92,15 +148,35 @@ services:
     networks:
       - blackcross-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    command: >
+      redis-server
+      --appendonly yes
+      --appendfsync everysec
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+      --save 60 1000
+      --save 300 100
+      --save 900 1
 
-  # Elasticsearch
+  # Elasticsearch (Optional - Full-Text Search & Analytics)
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.8.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.16.2
     container_name: blackcross-elasticsearch
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - xpack.ml.enabled=false
       - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+      - bootstrap.memory_lock=true
+      - cluster.name=blackcross-cluster
+      - node.name=blackcross-node-1
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -109,26 +185,48 @@ services:
     networks:
       - blackcross-network
     restart: unless-stopped
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
 
-  # RabbitMQ Message Queue
+  # RabbitMQ Message Queue (Optional - Async Task Processing)
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:4-management-alpine
     container_name: blackcross-rabbitmq
     environment:
       - RABBITMQ_DEFAULT_USER=blackcross
       - RABBITMQ_DEFAULT_PASS=blackcross_secure_password
+      - RABBITMQ_DEFAULT_VHOST=/
+      - RABBITMQ_VM_MEMORY_HIGH_WATERMARK=512MB
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "5672:5672"   # AMQP protocol
+      - "15672:15672" # Management UI
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
+      - rabbitmq-logs:/var/log/rabbitmq
     networks:
       - blackcross-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
 
-  # NGINX Reverse Proxy
+  # NGINX Reverse Proxy (Optional - Production Load Balancing)
   nginx:
-    image: nginx:alpine
+    image: nginx:1.27-alpine
     container_name: blackcross-nginx
     ports:
       - "80:80"
@@ -136,20 +234,44 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/ssl:/etc/nginx/ssl:ro
+      - nginx-logs:/var/log/nginx
     depends_on:
-      - backend
-      - frontend
+      backend:
+        condition: service_healthy
+      frontend:
+        condition: service_healthy
     networks:
       - blackcross-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
 volumes:
   postgres-data:
+    driver: local
   mongodb-data:
+    driver: local
+  mongodb-config:
+    driver: local
   redis-data:
+    driver: local
   elasticsearch-data:
+    driver: local
   rabbitmq-data:
+    driver: local
+  rabbitmq-logs:
+    driver: local
+  nginx-logs:
+    driver: local
 
 networks:
   blackcross-network:
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
