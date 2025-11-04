@@ -63,4 +63,6 @@ Environment: ${configService.app.env}
 Status: Operational
   `);
 }
-bootstrap();
+
+// Start the application
+void bootstrap();

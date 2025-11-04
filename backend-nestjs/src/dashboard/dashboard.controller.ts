@@ -24,7 +24,14 @@ export class DashboardController extends BaseController<any> {
       module: 'dashboard',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['overview', 'widgets', 'customization', 'real-time-updates', 'charts', 'statistics'],
+      subFeatures: [
+        'overview',
+        'widgets',
+        'customization',
+        'real-time-updates',
+        'charts',
+        'statistics',
+      ],
     };
   }
 }

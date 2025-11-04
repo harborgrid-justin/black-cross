@@ -24,7 +24,14 @@ export class CaseManagementController extends BaseController<any> {
       module: 'case-management',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['case-creation', 'investigation-tracking', 'evidence-management', 'workflow', 'collaboration', 'reporting'],
+      subFeatures: [
+        'case-creation',
+        'investigation-tracking',
+        'evidence-management',
+        'workflow',
+        'collaboration',
+        'reporting',
+      ],
     };
   }
 }

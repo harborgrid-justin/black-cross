@@ -24,7 +24,14 @@ export class AutomationController extends BaseController<any> {
       module: 'automation',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['playbook-execution', 'workflow-automation', 'orchestration', 'api-integration', 'scheduling', 'event-triggers'],
+      subFeatures: [
+        'playbook-execution',
+        'workflow-automation',
+        'orchestration',
+        'api-integration',
+        'scheduling',
+        'event-triggers',
+      ],
     };
   }
 }

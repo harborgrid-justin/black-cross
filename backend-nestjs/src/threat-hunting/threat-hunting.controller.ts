@@ -24,7 +24,14 @@ export class ThreatHuntingController extends BaseController<any> {
       module: 'threat-hunting',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['hypothesis-testing', 'data-analysis', 'ioc-extraction', 'threat-detection', 'hunting-queries', 'report-generation'],
+      subFeatures: [
+        'hypothesis-testing',
+        'data-analysis',
+        'ioc-extraction',
+        'threat-detection',
+        'hunting-queries',
+        'report-generation',
+      ],
     };
   }
 }

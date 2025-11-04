@@ -4,6 +4,6 @@ import { DraftWorkspaceService } from './draft-workspace.service';
 
 @Module({
   controllers: [DraftWorkspaceController],
-  providers: [DraftWorkspaceService]
+  providers: [DraftWorkspaceService],
 })
 export class DraftWorkspaceModule {}

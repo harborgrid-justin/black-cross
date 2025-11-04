@@ -4,6 +4,6 @@ import { IncidentResponseService } from './incident-response.service';
 
 @Module({
   controllers: [IncidentResponseController],
-  providers: [IncidentResponseService]
+  providers: [IncidentResponseService],
 })
 export class IncidentResponseModule {}

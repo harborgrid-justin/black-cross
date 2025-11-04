@@ -4,6 +4,6 @@ import { ThreatActorsService } from './threat-actors.service';
 
 @Module({
   controllers: [ThreatActorsController],
-  providers: [ThreatActorsService]
+  providers: [ThreatActorsService],
 })
 export class ThreatActorsModule {}

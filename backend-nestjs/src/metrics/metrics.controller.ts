@@ -24,7 +24,14 @@ export class MetricsController extends BaseController<any> {
       module: 'metrics',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['performance-metrics', 'usage-analytics', 'kpi-tracking', 'trend-analysis', 'dashboards', 'export'],
+      subFeatures: [
+        'performance-metrics',
+        'usage-analytics',
+        'kpi-tracking',
+        'trend-analysis',
+        'dashboards',
+        'export',
+      ],
     };
   }
 }

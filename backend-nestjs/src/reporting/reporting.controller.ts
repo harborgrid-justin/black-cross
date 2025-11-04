@@ -24,7 +24,14 @@ export class ReportingController extends BaseController<any> {
       module: 'reporting',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['report-generation', 'templates', 'scheduling', 'export', 'visualizations', 'executive-summaries'],
+      subFeatures: [
+        'report-generation',
+        'templates',
+        'scheduling',
+        'export',
+        'visualizations',
+        'executive-summaries',
+      ],
     };
   }
 }

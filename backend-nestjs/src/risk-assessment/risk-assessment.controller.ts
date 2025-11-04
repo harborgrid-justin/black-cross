@@ -24,7 +24,14 @@ export class RiskAssessmentController extends BaseController<any> {
       module: 'risk-assessment',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['risk-scoring', 'impact-analysis', 'likelihood-assessment', 'risk-matrix', 'mitigation-planning', 'reporting'],
+      subFeatures: [
+        'risk-scoring',
+        'impact-analysis',
+        'likelihood-assessment',
+        'risk-matrix',
+        'mitigation-planning',
+        'reporting',
+      ],
     };
   }
 }

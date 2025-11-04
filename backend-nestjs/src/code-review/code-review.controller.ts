@@ -24,7 +24,14 @@ export class CodeReviewController extends BaseController<any> {
       module: 'code-review',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['static-analysis', 'security-scanning', 'vulnerability-detection', 'code-quality', 'recommendations', 'reporting'],
+      subFeatures: [
+        'static-analysis',
+        'security-scanning',
+        'vulnerability-detection',
+        'code-quality',
+        'recommendations',
+        'reporting',
+      ],
     };
   }
 }

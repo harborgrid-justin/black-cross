@@ -4,6 +4,6 @@ import { ThreatFeedsService } from './threat-feeds.service';
 
 @Module({
   controllers: [ThreatFeedsController],
-  providers: [ThreatFeedsService]
+  providers: [ThreatFeedsService],
 })
 export class ThreatFeedsModule {}

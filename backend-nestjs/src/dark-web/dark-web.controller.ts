@@ -24,7 +24,14 @@ export class DarkWebController extends BaseController<any> {
       module: 'dark-web',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['monitoring', 'data-collection', 'threat-detection', 'brand-monitoring', 'credential-tracking', 'marketplace-tracking'],
+      subFeatures: [
+        'monitoring',
+        'data-collection',
+        'threat-detection',
+        'brand-monitoring',
+        'credential-tracking',
+        'marketplace-tracking',
+      ],
     };
   }
 }

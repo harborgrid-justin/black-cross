@@ -4,6 +4,6 @@ import { CaseManagementService } from './case-management.service';
 
 @Module({
   controllers: [CaseManagementController],
-  providers: [CaseManagementService]
+  providers: [CaseManagementService],
 })
 export class CaseManagementModule {}

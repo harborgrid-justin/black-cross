@@ -4,6 +4,6 @@ import { DarkWebService } from './dark-web.service';
 
 @Module({
   controllers: [DarkWebController],
-  providers: [DarkWebService]
+  providers: [DarkWebService],
 })
 export class DarkWebModule {}

@@ -24,7 +24,14 @@ export class ComplianceController extends BaseController<any> {
       module: 'compliance',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['framework-mapping', 'control-tracking', 'audit-management', 'evidence-collection', 'gap-analysis', 'reporting'],
+      subFeatures: [
+        'framework-mapping',
+        'control-tracking',
+        'audit-management',
+        'evidence-collection',
+        'gap-analysis',
+        'reporting',
+      ],
     };
   }
 }

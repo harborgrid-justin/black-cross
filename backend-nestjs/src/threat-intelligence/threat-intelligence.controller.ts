@@ -9,7 +9,9 @@ import { BaseController } from '../common/base.controller';
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class ThreatIntelligenceController extends BaseController<any> {
-  constructor(private readonly threatIntelligenceService: ThreatIntelligenceService) {
+  constructor(
+    private readonly threatIntelligenceService: ThreatIntelligenceService,
+  ) {
     super();
   }
 

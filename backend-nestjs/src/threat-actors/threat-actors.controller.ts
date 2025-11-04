@@ -24,7 +24,14 @@ export class ThreatActorsController extends BaseController<any> {
       module: 'threat-actors',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['actor-profiling', 'ttp-tracking', 'campaign-analysis', 'attribution', 'intelligence-gathering', 'relationship-mapping'],
+      subFeatures: [
+        'actor-profiling',
+        'ttp-tracking',
+        'campaign-analysis',
+        'attribution',
+        'intelligence-gathering',
+        'relationship-mapping',
+      ],
     };
   }
 }

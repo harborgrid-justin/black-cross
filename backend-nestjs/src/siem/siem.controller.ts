@@ -24,7 +24,14 @@ export class SiemController extends BaseController<any> {
       module: 'siem',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['log-collection', 'event-correlation', 'alert-generation', 'dashboard', 'search', 'real-time-monitoring'],
+      subFeatures: [
+        'log-collection',
+        'event-correlation',
+        'alert-generation',
+        'dashboard',
+        'search',
+        'real-time-monitoring',
+      ],
     };
   }
 }

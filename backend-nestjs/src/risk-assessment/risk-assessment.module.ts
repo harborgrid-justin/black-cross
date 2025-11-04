@@ -4,6 +4,6 @@ import { RiskAssessmentService } from './risk-assessment.service';
 
 @Module({
   controllers: [RiskAssessmentController],
-  providers: [RiskAssessmentService]
+  providers: [RiskAssessmentService],
 })
 export class RiskAssessmentModule {}

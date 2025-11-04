@@ -24,7 +24,14 @@ export class NotificationsController extends BaseController<any> {
       module: 'notifications',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['email-notifications', 'webhook-integration', 'alert-routing', 'escalation', 'notification-templates', 'delivery-tracking'],
+      subFeatures: [
+        'email-notifications',
+        'webhook-integration',
+        'alert-routing',
+        'escalation',
+        'notification-templates',
+        'delivery-tracking',
+      ],
     };
   }
 }

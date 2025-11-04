@@ -24,7 +24,14 @@ export class CollaborationController extends BaseController<any> {
       module: 'collaboration',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['team-chat', 'task-assignment', 'file-sharing', 'notifications', 'workflow-management', 'audit-trail'],
+      subFeatures: [
+        'team-chat',
+        'task-assignment',
+        'file-sharing',
+        'notifications',
+        'workflow-management',
+        'audit-trail',
+      ],
     };
   }
 }

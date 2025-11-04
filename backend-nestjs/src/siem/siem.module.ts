@@ -4,6 +4,6 @@ import { SiemService } from './siem.service';
 
 @Module({
   controllers: [SiemController],
-  providers: [SiemService]
+  providers: [SiemService],
 })
 export class SiemModule {}

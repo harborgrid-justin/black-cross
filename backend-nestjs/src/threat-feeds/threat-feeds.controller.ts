@@ -24,7 +24,14 @@ export class ThreatFeedsController extends BaseController<any> {
       module: 'threat-feeds',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['feed-integration', 'data-ingestion', 'normalization', 'filtering', 'scheduling', 'feed-health-monitoring'],
+      subFeatures: [
+        'feed-integration',
+        'data-ingestion',
+        'normalization',
+        'filtering',
+        'scheduling',
+        'feed-health-monitoring',
+      ],
     };
   }
 }

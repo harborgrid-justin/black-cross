@@ -24,7 +24,14 @@ export class IocManagementController extends BaseController<any> {
       module: 'ioc-management',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['ioc-collection', 'validation', 'enrichment', 'deduplication', 'expiration-tracking', 'bulk-operations'],
+      subFeatures: [
+        'ioc-collection',
+        'validation',
+        'enrichment',
+        'deduplication',
+        'expiration-tracking',
+        'bulk-operations',
+      ],
     };
   }
 }

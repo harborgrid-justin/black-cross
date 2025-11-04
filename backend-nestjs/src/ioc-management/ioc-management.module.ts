@@ -4,6 +4,6 @@ import { IocManagementService } from './ioc-management.service';
 
 @Module({
   controllers: [IocManagementController],
-  providers: [IocManagementService]
+  providers: [IocManagementService],
 })
 export class IocManagementModule {}

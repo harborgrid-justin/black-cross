@@ -4,6 +4,6 @@ import { ThreatHuntingService } from './threat-hunting.service';
 
 @Module({
   controllers: [ThreatHuntingController],
-  providers: [ThreatHuntingService]
+  providers: [ThreatHuntingService],
 })
 export class ThreatHuntingModule {}

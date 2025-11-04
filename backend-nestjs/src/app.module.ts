@@ -27,7 +27,32 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { DraftWorkspaceModule } from './draft-workspace/draft-workspace.module';
 
 @Module({
-  imports: [ConfigModule, AuthModule, DatabaseModule, ThreatIntelligenceModule, IncidentResponseModule, ThreatHuntingModule, VulnerabilityManagementModule, SiemModule, ThreatActorsModule, IocManagementModule, ThreatFeedsModule, RiskAssessmentModule, CollaborationModule, ReportingModule, MalwareAnalysisModule, DarkWebModule, ComplianceModule, AutomationModule, CodeReviewModule, NotificationsModule, CaseManagementModule, MetricsModule, DashboardModule, DraftWorkspaceModule],
+  imports: [
+    ConfigModule,
+    AuthModule,
+    DatabaseModule,
+    ThreatIntelligenceModule,
+    IncidentResponseModule,
+    ThreatHuntingModule,
+    VulnerabilityManagementModule,
+    SiemModule,
+    ThreatActorsModule,
+    IocManagementModule,
+    ThreatFeedsModule,
+    RiskAssessmentModule,
+    CollaborationModule,
+    ReportingModule,
+    MalwareAnalysisModule,
+    DarkWebModule,
+    ComplianceModule,
+    AutomationModule,
+    CodeReviewModule,
+    NotificationsModule,
+    CaseManagementModule,
+    MetricsModule,
+    DashboardModule,
+    DraftWorkspaceModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

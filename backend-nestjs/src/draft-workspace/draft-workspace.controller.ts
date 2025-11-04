@@ -24,7 +24,14 @@ export class DraftWorkspaceController extends BaseController<any> {
       module: 'draft-workspace',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['draft-management', 'auto-save', 'versioning', 'collaboration', 'publishing', 'preview'],
+      subFeatures: [
+        'draft-management',
+        'auto-save',
+        'versioning',
+        'collaboration',
+        'publishing',
+        'preview',
+      ],
     };
   }
 }

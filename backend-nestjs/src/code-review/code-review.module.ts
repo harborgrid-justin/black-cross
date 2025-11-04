@@ -4,6 +4,6 @@ import { CodeReviewService } from './code-review.service';
 
 @Module({
   controllers: [CodeReviewController],
-  providers: [CodeReviewService]
+  providers: [CodeReviewService],
 })
 export class CodeReviewModule {}

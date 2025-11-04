@@ -9,7 +9,9 @@ import { BaseController } from '../common/base.controller';
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class IncidentResponseController extends BaseController<any> {
-  constructor(private readonly incidentresponseService: IncidentResponseService) {
+  constructor(
+    private readonly incidentresponseService: IncidentResponseService,
+  ) {
     super();
   }
 
@@ -24,7 +26,15 @@ export class IncidentResponseController extends BaseController<any> {
       module: 'incident-response',
       status: 'operational',
       version: '1.0.0',
-      subFeatures: ['incident-tracking', 'response-workflow', 'escalation', 'timeline', 'collaboration', 'evidence-management', 'status-tracking'],
+      subFeatures: [
+        'incident-tracking',
+        'response-workflow',
+        'escalation',
+        'timeline',
+        'collaboration',
+        'evidence-management',
+        'status-tracking',
+      ],
     };
   }
 }
